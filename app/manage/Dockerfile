@@ -5,7 +5,7 @@ COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
 COPY . .
 RUN pnpm install --frozen-lockfile
 RUN pnpm --filter @app/manage build
-RUN pnpm --filter @app/manage deploy --prod /deploy
+RUN pnpm --filter @app/manage deploy --prod --legacy /deploy
 
 FROM node:24-alpine AS runner
 WORKDIR /app
