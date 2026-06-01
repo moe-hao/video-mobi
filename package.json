@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.33.1",
   "scripts": {
     "dev:mobi": "pnpm --filter @app/mobi dev",
     "dev:mobi-web": "pnpm --filter @app/mobi-web dev",
