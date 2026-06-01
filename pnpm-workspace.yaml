@@ -1,3 +1,5 @@
+inject-workspace-packages: true
+
 packages:
   - 'app/*'
   - 'lib/*'
@@ -6,3 +8,4 @@ allowBuilds:
   bcrypt: true
   protobufjs: true
   tos-crc64-js: true
+
