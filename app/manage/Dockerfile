@@ -1,11 +1,10 @@
 FROM node:24-alpine AS builder
 WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@latest --activate
-COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
 COPY . .
 RUN pnpm install --frozen-lockfile
 RUN pnpm --filter @app/manage build
-RUN pnpm --filter @app/manage deploy --prod --legacy /deploy
+RUN pnpm --filter @app/manage deploy --prod /deploy
 
 FROM node:24-alpine AS runner
 WORKDIR /app
