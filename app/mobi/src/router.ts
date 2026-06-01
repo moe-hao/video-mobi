@@ -10,7 +10,6 @@ import feedback from "./controllers/feedback";
 import subscription from "./controllers/subscription";
 import { userAuthInfoMiddleware } from "./middlewares/user-middleware";
 
-
 const router = new Hono();
 router.use(userAuthInfoMiddleware);
 
