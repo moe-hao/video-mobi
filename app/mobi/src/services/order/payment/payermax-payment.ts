@@ -1,4 +1,5 @@
-import { OrderStatus, PaymentChannel } from "@lib/common/consts/payment";
+import { OrderStatus } from "@lib/common/consts/order";
+import { PaymentChannel } from "@lib/common/consts/payment";
 import type { Payment, PaymentApproveInfo, PaymentInfo, PaymentOrder } from "./payment";
 import { uuid } from "@lib/common/utils/uuid";
 import { payermaxProxy } from "@lib/repo/proxy/payment";

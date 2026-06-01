@@ -1,4 +1,5 @@
-import { OrderStatus, PaymentChannel } from "@lib/common/consts/payment";
+import { OrderStatus } from "@lib/common/consts/order";
+import { PaymentChannel } from "@lib/common/consts/payment";
 import type { Payment, PaymentApproveInfo, PaymentInfo, PaymentOrder } from "./payment";
 import { CheckoutPaymentIntent, Client, OrdersController, SubscriptionsController } from "@paypal/paypal-server-sdk";
 import config from "@lib/internal/config";

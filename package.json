@@ -7,7 +7,15 @@
     "dev:mobi": "pnpm --filter @app/mobi dev",
     "dev:mobi-web": "pnpm --filter @app/mobi-web dev",
     "dev:manage": "pnpm --filter @app/manage dev",
-    "dev:manage-web": "pnpm --filter @app/manage-web dev"
+    "dev:manage-web": "pnpm --filter @app/manage-web dev",
+    "build:mobi": "pnpm --filter @app/mobi build",
+    "build:mobi-web": "pnpm --filter @app/mobi-web build",
+    "build:manage": "pnpm --filter @app/manage build",
+    "build:manage-web": "pnpm --filter @app/manage-web build",
+    "start:mobi": "pnpm --filter @app/mobi start",
+    "start:mobi-web": "pnpm --filter @app/mobi-web start",
+    "start:manage": "pnpm --filter @app/manage start",
+    "start:manage-web": "pnpm --filter @app/manage-web start"
   },
   "devDependencies": {
     "typescript": "~6.0.2"
