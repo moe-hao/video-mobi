@@ -1,0 +1,9 @@
+{
+  "name": "@app/order",
+  "type": "module",
+  "dependencies": {
+    "@lib/common": "workspace:*",
+    "@lib/repo": "workspace:*",
+    "date-fns": "^4.4.0"
+  }
+}

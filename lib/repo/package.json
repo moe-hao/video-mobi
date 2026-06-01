@@ -1,0 +1,15 @@
+{
+  "name": "@lib/repo",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.ts",
+  "dependencies": {
+    "@lib/common": "workspace:*",
+    "@lib/internal": "workspace:*",
+    "drizzle-orm": "^0.45.2",
+    "mysql2": "^3.22.4"
+  },
+  "exports": {
+    "./*": "./src/*"
+  }
+}

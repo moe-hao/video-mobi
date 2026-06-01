@@ -1,0 +1,17 @@
+{
+  "name": "@lib/common",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@lib/internal": "workspace:*",
+    "@types/bcrypt": "^6.0.0",
+    "bcrypt": "^6.0.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.12.2"
+  },
+  "exports": {
+    "./*": "./src/*"
+  }
+}

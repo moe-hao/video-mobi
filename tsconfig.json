@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "strictFunctionTypes": true,
+    "noUnusedLocals": true,
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@app/manage/*": ["./app/manage/src/*"],
+      "@app/manage-web/*": ["./app/manage-web/src/*"],
+      "@app/mobi/*": ["./app/mobi/src/*"],
+      "@app/mobi-web/*": ["./app/mobi-web/src/*"],
+      "@app/order/*": ["./app/order/src/*"],
+      "@lib/common/*": ["./lib/common/src/*"],
+      "@lib/internal/*": ["./lib/internal/src/*"],
+      "@lib/middleware/*": ["./lib/middleware/src/*"],
+      "@lib/repo/*": ["./lib/repo/src/*"],
+    }
+  },
+  "exclude": [
+    "dist",
+    "node_modules",
+    "**/dist",
+    "**/node_modules"
+  ]
+}

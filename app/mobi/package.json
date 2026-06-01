@@ -1,0 +1,25 @@
+{
+  "name": "@app/mobi",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --env-file ../../.env src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@app/order": "workspace:*",
+    "@hono/node-server": "^1.19.14",
+    "@hono/zod-validator": "^0.8.0",
+    "@lib/common": "workspace:*",
+    "@lib/internal": "workspace:*",
+    "@lib/middleware": "workspace:*",
+    "@lib/repo": "workspace:*",
+    "@paypal/paypal-server-sdk": "^2.3.0",
+    "hono": "^4.12.23"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "tsx": "^4.7.1",
+    "typescript": "~6.0.2"
+  }
+}

@@ -1,0 +1,8 @@
+packages:
+  - 'app/*'
+  - 'lib/*'
+allowBuilds:
+  esbuild: true
+  bcrypt: true
+  protobufjs: true
+  tos-crc64-js: true

@@ -1,0 +1,15 @@
+{
+  "name": "video-mobi",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:mobi": "pnpm --filter @app/mobi dev",
+    "dev:mobi-web": "pnpm --filter @app/mobi-web dev",
+    "dev:manage": "pnpm --filter @app/manage dev",
+    "dev:manage-web": "pnpm --filter @app/manage-web dev"
+  },
+  "devDependencies": {
+    "typescript": "~6.0.2"
+  }
+}

@@ -1,0 +1,129 @@
+
+import { and, count, desc, eq, inArray, like, or } from "drizzle-orm";
+import { collectionTable, type CollectionInsert, type CollectionSelect } from "../models/collection";
+import { database, type DatabaseConn } from "@lib/internal/database";
+import { DeleteStatus } from "@lib/common/consts/common-status";
+import { currentTime } from "@lib/common/utils/time";
+import type { Language } from "@lib/common/consts/region";
+
+
+type SearchPageParam = {
+    page: number,
+    size: number,
+    search?: string,
+    language?: Language
+}
+
+class CollectionDao {
+    constructor(private readonly conn: DatabaseConn = database) { }
+
+    async getCollectionListSearch(search: SearchPageParam): Promise<CollectionSelect[]> {
+        const conditions = [];
+        if (search.search) {
+            const searchConditions = [];
+            if (!isNaN(Number(search.search))) {
+                searchConditions.push(eq(collectionTable.id, Number(search.search)));
+            }
+
+            searchConditions.push(eq(collectionTable.bizId, search.search));
+            searchConditions.push(like(collectionTable.name, `%${search.search}%`));
+            searchConditions.push(like(collectionTable.sourceName, `%${search.search}%`));
+            conditions.push(or(...searchConditions));
+        }
+
+        if (search.language) {
+            conditions.push(eq(collectionTable.language, search.language));
+        }
+
+        conditions.push(eq(collectionTable.isDeleted, DeleteStatus.NotDeleted));
+        return await this.conn.select().from(collectionTable).where(and(...conditions)).orderBy(desc(collectionTable.id)).offset((search.page - 1) * search.size).limit(search.size);
+    }
+
+    async getCollectionTotalSearch(search: SearchPageParam): Promise<number> {
+        const conditions = [];
+        if (search.search) {
+            const searchConditions = [];
+            if (!isNaN(Number(search.search))) {
+                searchConditions.push(eq(collectionTable.id, Number(search.search)));
+            }
+
+            searchConditions.push(eq(collectionTable.bizId, search.search));
+            searchConditions.push(like(collectionTable.name, `%${search.search}%`));
+            searchConditions.push(like(collectionTable.sourceName, `%${search.search}%`));
+            conditions.push(or(...searchConditions));
+        }
+
+        if (search.language) {
+            conditions.push(eq(collectionTable.language, search.language));
+        }
+
+        conditions.push(eq(collectionTable.isDeleted, DeleteStatus.NotDeleted));
+        const result = await this.conn.select({ count: count() }).from(collectionTable).where(and(...conditions));
+        return result[0].count;
+    }
+
+    async getCollectionListBySearch(search: string): Promise<CollectionSelect[]> {
+        const conditions = [];
+        if (search) {
+            const searchConditions = [];
+            if (!isNaN(Number(search))) {
+                searchConditions.push(eq(collectionTable.id, Number(search)));
+            }
+
+            searchConditions.push(eq(collectionTable.bizId, search));
+            searchConditions.push(like(collectionTable.name, `%${search}%`));
+            searchConditions.push(like(collectionTable.sourceName, `%${search}%`));
+            conditions.push(or(...searchConditions));
+        }
+
+        conditions.push(eq(collectionTable.isDeleted, DeleteStatus.NotDeleted));
+        return await this.conn.select().from(collectionTable).where(and(...conditions));
+    }
+
+    async getCollectionPage(page: number, size: number): Promise<CollectionSelect[]> {
+        const collections = await this.conn.select().from(collectionTable)
+            .where(
+                eq(collectionTable.isDeleted, DeleteStatus.NotDeleted)
+            )
+            .orderBy(desc(collectionTable.id))
+            .offset((page - 1) * size)
+            .limit(size);
+        return collections;
+    }
+
+    async getCollectionTotal(): Promise<number> {
+        const result = await this.conn.select({ count: count() }).from(collectionTable).where(
+            eq(collectionTable.isDeleted, DeleteStatus.NotDeleted)
+        );
+        return result?.[0]?.count || 0;
+    }
+
+    async getCollectionById(id: number): Promise<CollectionSelect> {
+        const [result] = await this.conn.select().from(collectionTable).where(eq(collectionTable.id, id));
+        return result;
+    }
+
+    async getCollectionInIds(ids: number[]): Promise<CollectionSelect[]> {
+        const collections = await this.conn.select().from(collectionTable).where(
+            inArray(collectionTable.id, ids)
+        )
+        return collections;
+    }
+
+    async getCollectionByBizId(bizId: string): Promise<CollectionSelect> {
+        const [collection] = await this.conn.select().from(collectionTable).where(
+            eq(collectionTable.bizId, bizId)
+        );
+        return collection;
+    }
+
+    async addCollection(data: CollectionInsert) {
+        await this.conn.insert(collectionTable).values({ ...data, createTime: currentTime(), updateTime: currentTime() });
+    }
+
+    async updateCollectionById(id: number, data: CollectionInsert) {
+        await this.conn.update(collectionTable).set({ ...data, updateTime: currentTime() }).where(eq(collectionTable.id, id));
+    }
+}
+
+export const collectionDao = new CollectionDao();

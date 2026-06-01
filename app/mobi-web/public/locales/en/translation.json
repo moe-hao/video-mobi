@@ -1,0 +1,55 @@
+{
+    "collection-list": {
+        "all-collections": "All Collections",
+        "episodes": "Episodes"
+    },
+    "navigation": {
+        "home": "Home",
+        "profile": "Profile"
+    },
+    "payment": {
+        "weekly-vip": "VIP Week",
+        "weekly-vip-amount": "{{amount}} / week",
+        "monthly-vip": "VIP Month",
+        "monthly-vip-amount": "{{amount}} / month",
+        "yearly-vip": "VIP Year",
+        "yearly-vip-amount": "{{amount}} / year",
+        "payment-title": "Payment",
+        "credit-debit-card": "Credit / Debit Card",
+        "google-pay": "Google Pay"
+    },
+    "user-info": {
+        "id": "ID",
+        "user": "User",
+        "profile": "Profile",
+        "expiration-time": "Expiration Time",
+        "subscribe": "Subscribe",
+        "login-now": "Login Now"
+    },
+    "user-login": {
+        "welcome": "Bem-vindo",
+        "enter-to-blue-arc": "Entrar no Blue Arc",
+        "email-login": "Email Login"
+    },
+    "user-login-email": {
+        "email-login": "Email Login",
+        "email-address": "Email Address",
+        "enter": "Enter"
+    },
+    "user-login-verify": {
+        "verify-code": "Verify Code",
+        "verify-account": "Verify Account",
+        "verify-code-sent-to": "We've sent a code to {{email}}",
+        "enter": "Enter"
+    },
+    "user-store": {
+        "subscribe": "Subscribe"
+    },
+    "video-with-id": {
+        "episode-num": "Ep. {{currentEpisode}}",
+        "episode-select": "Episodes",
+        "completed": "Completed",
+        "total-episodes": "{{totalEpisodes}} Episodes",
+        "become-vip": "Become VIP"
+    }
+}

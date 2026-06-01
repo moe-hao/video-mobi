@@ -1,0 +1,423 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { Avatar, Badge, Button } from '@heroui/react';
+import { ChevronLeft, LockFill, PlayFill, Video } from '@gravity-ui/icons';
+import { useNavigate, useSearchParams } from 'react-router';
+import { useTranslation } from 'react-i18next';
+import Loading from '@app/mobi-web/components/loading';
+import Payment from '@app/mobi-web/components/payment';
+import { useCollectionVideo } from '@app/mobi-web/hooks/video';
+
+export default function VideoWatch() {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { t } = useTranslation('', { keyPrefix: 'video-with-id' });
+
+  const collectionId = searchParams.get('collectionId') || '';
+  const episode = parseInt(searchParams.get('episode') || '1');
+
+  const { videoPlayInfoResp, fetchVideoPlayInfo } = useCollectionVideo();
+
+  const [currentURL, setCurrentURL] = useState('');
+  const [currentEpisode, setCurrentEpisode] = useState(episode);
+  const [isEpisodeModalOpen, setIsEpisodeModalOpen] = useState(false);
+  const [isUnlockModalOpen, setIsUnlockModalOpen] = useState(false);
+  const [_videoReady, setVideoReady] = useState(false);
+  const [videoLoading, setVideoLoading] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const swipeContainerRef = useRef<HTMLDivElement>(null);
+  const touchStartY = useRef(0);
+  const touchCurrentY = useRef(0);
+  const isSwiping = useRef(false);
+  const shouldPreventClick = useRef(false);
+
+  const collectionVideoEpisodes = videoPlayInfoResp.videoList?.map((item) => item.epNum) || [];
+  const maxEpisode = Math.max(...collectionVideoEpisodes, 0);
+  const minEpisode = Math.min(...collectionVideoEpisodes, 1);
+
+  const changeEpisode = (newEpisode: number) => {
+    if (newEpisode >= minEpisode && newEpisode <= maxEpisode) {
+      setCurrentURL('');
+      setCurrentEpisode(newEpisode);
+      setVideoLoading(true);
+      navigate(`/video/watch?collectionId=${collectionId}&episode=${newEpisode}`, { replace: true });
+      setCurrentTime(0);
+    }
+  };
+
+  const player = useRef<HTMLVideoElement>(null);
+  const [isPlay, setIsPlay] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  useEffect(() => {
+    setCurrentURL(videoPlayInfoResp.playURL || '');
+  }, [videoPlayInfoResp.playURL]);
+
+  useEffect(() => {
+    fetchVideoPlayInfo(collectionId, currentEpisode);
+  }, [fetchVideoPlayInfo, collectionId, currentEpisode]);
+
+  useEffect(() => {
+    const video = player.current;
+    if (!video || !videoPlayInfoResp.videoList) return;
+
+    const handleLoadedMetadata = () => {
+      setDuration(video.duration);
+      setVideoReady(true);
+    };
+
+    const handleCanPlay = () => {
+      setVideoLoading(false);
+    };
+
+    const handleWaiting = () => {
+      setVideoLoading(true);
+    };
+
+    const handlePlaying = () => {
+      setVideoLoading(false);
+      setIsPlay(true);
+    };
+
+    const handlePause = () => {
+      setIsPlay(false);
+    };
+
+    const handleTimeUpdate = () => {
+      setCurrentTime(video.currentTime)
+    };
+
+    const handleEnded = () => {
+      if (currentEpisode < maxEpisode) {
+        const nextVideo = videoPlayInfoResp.videoList?.find((item) => item.epNum === currentEpisode + 1);
+        if (!nextVideo?.isLock) {
+          applyTransform(-window.innerHeight, true);
+          setTimeout(() => {
+            changeEpisode(currentEpisode + 1);
+          }, 200);
+        }
+      }
+    };
+
+    video.addEventListener('loadedmetadata', handleLoadedMetadata);
+    video.addEventListener('canplay', handleCanPlay);
+    video.addEventListener('waiting', handleWaiting);
+    video.addEventListener('playing', handlePlaying);
+    video.addEventListener('pause', handlePause);
+    video.addEventListener('timeupdate', handleTimeUpdate);
+    video.addEventListener('ended', handleEnded);
+
+    video.play().catch(() => {
+      setVideoLoading(false);
+    });
+
+    return () => {
+      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      video.removeEventListener('canplay', handleCanPlay);
+      video.removeEventListener('waiting', handleWaiting);
+      video.removeEventListener('playing', handlePlaying);
+      video.removeEventListener('pause', handlePause);
+      video.removeEventListener('timeupdate', handleTimeUpdate);
+      video.removeEventListener('ended', handleEnded);
+    };
+  }, [videoPlayInfoResp.videoList, currentEpisode, maxEpisode, currentURL]);
+
+  useEffect(() => {
+    const el = swipeContainerRef.current;
+    if (el) {
+      el.style.transition = 'none';
+      el.style.transform = 'translateY(0px)';
+    }
+  }, [currentEpisode]);
+
+  useEffect(() => {
+    const el = swipeContainerRef.current;
+    if (!el) return;
+
+    const preventTouchMove = (e: TouchEvent) => {
+      if (isSwiping.current) {
+        e.preventDefault();
+      }
+    };
+
+    el.addEventListener('touchmove', preventTouchMove, { passive: false });
+
+    return () => {
+      el.removeEventListener('touchmove', preventTouchMove);
+    };
+  }, []);
+
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const time = parseFloat(e.target.value);
+    if (player.current) {
+      player.current.currentTime = time;
+      setCurrentTime(time);
+    }
+  };
+
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  const handleTogglePlay = async () => {
+    if (shouldPreventClick.current) {
+      shouldPreventClick.current = false;
+      return;
+    }
+    if (player.current?.paused) {
+      await navigator.wakeLock?.request('screen')
+      player.current.play();
+      setIsPlay(true);
+    } else {
+      player.current?.pause();
+      setIsPlay(false);
+    }
+  };
+
+  const handleEpisodeButton = (episode: number, isLock: boolean) => {
+    if (!isLock) {
+      changeEpisode(episode);
+    } else {
+      setIsUnlockModalOpen(true);
+    }
+    setIsEpisodeModalOpen(false);
+  };
+
+
+  const swipeThreshold = typeof window !== 'undefined' ? window.innerHeight * 0.2 : 200;
+
+  const applyTransform = (offset: number, animated: boolean) => {
+    const el = swipeContainerRef.current;
+    if (!el) return;
+    el.style.transition = animated ? 'transform 0.2s ease-out' : 'none';
+    el.style.transform = `translateY(${offset}px)`;
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (isTransitioning) return;
+    touchStartY.current = e.touches[0].clientY;
+    touchCurrentY.current = e.touches[0].clientY;
+    isSwiping.current = false;
+    shouldPreventClick.current = false;
+    setIsTransitioning(false);
+    applyTransform(0, false);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (isTransitioning) return;
+    touchCurrentY.current = e.touches[0].clientY;
+    const diff = touchCurrentY.current - touchStartY.current;
+
+    if (!isSwiping.current && Math.abs(diff) > 10) {
+      isSwiping.current = true;
+      shouldPreventClick.current = true;
+    }
+
+    if (isSwiping.current) {
+      applyTransform(diff, false);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (!isSwiping.current) {
+      applyTransform(0, false);
+      return;
+    }
+
+    const diff = touchCurrentY.current - touchStartY.current;
+    setIsTransitioning(true);
+
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff < 0 && currentEpisode < maxEpisode) {
+        const nextVideo = videoPlayInfoResp.videoList?.find((item) => item.epNum === currentEpisode + 1);
+        if (nextVideo?.isLock) {
+          applyTransform(0, true);
+          setTimeout(() => {
+            setIsUnlockModalOpen(true);
+            setIsTransitioning(false);
+          }, 200);
+        } else {
+          applyTransform(-window.innerHeight, true);
+          setTimeout(() => {
+            changeEpisode(currentEpisode + 1);
+            setIsTransitioning(false);
+          }, 200);
+        }
+      } else if (diff > 0 && currentEpisode > minEpisode) {
+        const prevVideo = videoPlayInfoResp.videoList?.find((item) => item.epNum === currentEpisode - 1);
+        if (prevVideo?.isLock) {
+          applyTransform(0, true);
+          setTimeout(() => {
+            setIsUnlockModalOpen(true);
+            setIsTransitioning(false);
+          }, 200);
+        } else {
+          applyTransform(window.innerHeight, true);
+          setTimeout(() => {
+            changeEpisode(currentEpisode - 1);
+            setIsTransitioning(false);
+          }, 200);
+        }
+      } else {
+        applyTransform(0, true);
+        setTimeout(() => setIsTransitioning(false), 200);
+      }
+    } else {
+      applyTransform(0, true);
+      setTimeout(() => setIsTransitioning(false), 200);
+    }
+
+    isSwiping.current = false;
+    touchStartY.current = 0;
+    touchCurrentY.current = 0;
+  };
+
+  return (
+    <div
+      className="fixed inset-0 bg-black overflow-hidden"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div ref={swipeContainerRef} className="absolute inset-0 touch-none">
+        <div className="absolute inset-0" onClick={handleTogglePlay}>
+          {currentURL && (
+            <video
+              key={currentEpisode}
+              ref={player}
+              className="w-full h-full object-contain"
+              src={currentURL}
+              playsInline
+            />
+          )}
+        </div>
+      </div>
+      {(!videoLoading && currentURL) ? (
+        !isPlay && (
+          <Button
+            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            onPress={handleTogglePlay}
+          >
+            <PlayFill className="text-2xl" />
+          </Button>
+        )
+      ) : (
+        <Loading />
+      )}
+
+      <div
+        className="absolute top-0 left-0 right-0 p-4 flex items-center justify-between bg-linear-to-b from-black/70 to-transparent"
+        onTouchStart={(e) => e.stopPropagation()}
+        onTouchMove={(e) => e.stopPropagation()}
+        onTouchEnd={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center space-x-2">
+          <Button variant="ghost" onPress={() => navigate('/')}>
+            <ChevronLeft />
+          </Button>
+          <h2 className="text-md font-bold">{t('episode-num', { currentEpisode })}</h2>
+        </div>
+        <Button variant="danger" size="sm" onPress={() => setIsEpisodeModalOpen(true)}>
+          {t('episode-select')}
+        </Button>
+      </div>
+
+      <div
+        className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-b from-black/0 to-black/100"
+        onTouchStart={(e) => e.stopPropagation()}
+        onTouchMove={(e) => e.stopPropagation()}
+        onTouchEnd={(e) => e.stopPropagation()}
+      >
+        <h2 className="text-md font-bold">{videoPlayInfoResp.collectionName}</h2>
+        <div className="flex items-center gap-2">
+          <Video />
+          <h2 className="text-sm">{t('completed')} | {t('total-episodes', { totalEpisodes: videoPlayInfoResp.collectionEpisodes })}</h2>
+        </div>
+        <div className="mb-4 text-white">
+          <input
+            type="range"
+            min={0}
+            max={duration || 100}
+            value={currentTime}
+            onChange={handleSeek}
+            onClick={(e) => e.stopPropagation()}
+            className="w-full h-1 bg-white/30 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer"
+          />
+          <div className="flex justify-between text-xs mt-1">
+            <span>{formatTime(currentTime)}</span>
+            <span>{formatTime(duration)}</span>
+          </div>
+        </div>
+      </div>
+
+      {isEpisodeModalOpen && (
+        <div
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchEnd={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
+        >
+          <div
+            className="fixed inset-0 bg-black/50 z-40"
+            onClick={() => setIsEpisodeModalOpen(false)}
+          />
+          <div
+            className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white rounded-t-2xl p-4 z-50 max-h-[50vh] overflow-y-auto"
+            style={{
+              animation: 'slideUp 0.3s ease-out'
+            }}
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-bold">{t('episode-select')}</h3>
+            </div>
+            <div className="grid grid-cols-5 gap-3">
+              {videoPlayInfoResp.videoList?.map((video) => (
+                <Badge.Anchor key={video.epNum} className="w-10 h-10 flex items-center justify-center">
+                  <Avatar className="w-10 h-10 rounded-lg">
+                    <Avatar.Fallback
+                      className={video.epNum === currentEpisode ? "w-10 h-10 rounded-lg bg-danger" : "w-10 h-10 rounded-lg border-white/30 text-white bg-transparent"}
+                      onClick={() => handleEpisodeButton(video.epNum, video.isLock)}
+                    >
+                      {video.epNum}
+                    </Avatar.Fallback>
+                  </Avatar>
+                  {video.isLock && (
+                    <Badge color="accent" size="sm" placement="top-right" className="w-3 h-3 bg-danger">
+                      <LockFill className="w-2 h-2" />
+                    </Badge>
+                  )}
+                </Badge.Anchor>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isUnlockModalOpen && (
+        <div
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchEnd={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
+        >
+          <div
+            className="fixed inset-0 bg-black/50 z-40"
+            onClick={() => setIsUnlockModalOpen(false)}
+          />
+          <div
+            className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white rounded-t-2xl p-4 z-50 max-h-[50vh] overflow-y-auto"
+            style={{
+              animation: 'slideUp 0.3s ease-out'
+            }}
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-bold">{t('become-vip')}</h3>
+            </div>
+            <Payment />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
