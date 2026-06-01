@@ -3,7 +3,6 @@ WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@latest --activate
 COPY . .
 COPY ./pnpm-workspace.yaml .
-RUN pnpm config set inject-workspace-packages true
 RUN pnpm install --frozen-lockfile
 RUN pnpm --filter @app/mobi build
 RUN pnpm --filter @app/mobi deploy --prod /deploy
