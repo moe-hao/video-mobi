@@ -8,7 +8,7 @@ COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
 COPY app/*/package.json ./app/
 COPY lib/*/package.json ./lib/
 COPY app/mobi/esbuild.config.js ./app/mobi/esbuild.config.js
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --no-frozen-lockfile
 COPY . .
 RUN pnpm --filter @app/mobi build
 
