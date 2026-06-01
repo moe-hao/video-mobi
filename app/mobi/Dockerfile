@@ -1,13 +1,12 @@
 FROM node:24-alpine AS builder
 
-ENV PNPM_INJECT_WORKSPACE_PACKAGES=true
-
 RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /app
-COPY .npmrc pnpm-lock.yaml pnpm-workspace.yaml package.json ./
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
 COPY app/*/package.json ./app/
 COPY lib/*/package.json ./lib/
 COPY app/mobi/esbuild.config.js ./app/mobi/esbuild.config.js
+RUN echo "inject-workspace-packages=true" > .npmrc
 RUN pnpm install --frozen-lockfile
 COPY . .
 RUN pnpm --filter @app/mobi build
@@ -15,13 +14,12 @@ RUN pnpm --filter @app/mobi build
 FROM node:24-alpine AS runner
 WORKDIR /app
 
-ENV PNPM_INJECT_WORKSPACE_PACKAGES=true
-
-COPY --from=builder /app/.npmrc /app/pnpm-lock.yaml /app/pnpm-workspace.yaml /app/package.json ./
+COPY --from=builder /app/pnpm-lock.yaml /app/pnpm-workspace.yaml /app/package.json ./
 COPY --from=builder /app/app/*/package.json ./app/
 COPY --from=builder /app/lib/*/package.json ./lib/
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN echo "inject-workspace-packages=true" > .npmrc
 RUN pnpm install --frozen-lockfile --prod
 
 COPY --from=builder /app/app/mobi/dist ./app/mobi/dist
