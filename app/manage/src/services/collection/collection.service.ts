@@ -15,8 +15,8 @@ import { vod } from "@lib/internal/vod";
 class CollectionService {
     async getCollectionList(req: CollectionTableListReq): Promise<CollectionTableListResp> {
         const [collectionList, collectionTotal] = await Promise.all([
-            collectionDao.getCollectionListSearch({ ...req }),
-            collectionDao.getCollectionTotalSearch({ ...req }),
+            collectionDao.getCollectionListSearch({ ...req, language: req.language || undefined }),
+            collectionDao.getCollectionTotalSearch({ ...req, language: req.language || undefined }),
         ]);
 
         return {
