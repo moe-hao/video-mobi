@@ -3,9 +3,9 @@ WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
 COPY . .
-RUN pnpm install --no-frozen-lockfile
+RUN pnpm install --frozen-lockfile
 RUN pnpm --filter @app/mobi build
-RUN pnpm --filter @app/mobi deploy --prod /deploy
+RUN pnpm --filter @app/mobi deploy --prod --legacy /deploy
 
 FROM node:24-alpine AS runner
 WORKDIR /app
