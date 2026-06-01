@@ -1,8 +1,7 @@
-inject-workspace-packages: true
-
 packages:
   - 'app/*'
   - 'lib/*'
+
 allowBuilds:
   esbuild: true
   bcrypt: true
