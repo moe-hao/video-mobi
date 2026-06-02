@@ -89,8 +89,6 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - name: Build App
         run: |
@@ -124,8 +122,6 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
-        with:
-          version: 10
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
