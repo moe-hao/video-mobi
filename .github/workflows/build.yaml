@@ -143,3 +143,36 @@ jobs:
           tags: ghcr.io/${{ github.repository_owner }}/video-mobi/manage:${{ steps.build.outputs.branch }}-${{ steps.build.outputs.timestamp }}-${{ steps.build.outputs.short_sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  build-manage-web:
+    needs: changes
+    if: ${{ needs.changes.outputs.manage-web == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Build App
+        run: |
+          pnpm install
+          pnpm build:manage-web
+
+      - name: Get Build Value
+        id: build
+        run: |
+          echo "short_sha=${GITHUB_SHA:0:7}" >> $GITHUB_OUTPUT
+          echo "timestamp=$(date +%Y%m%d%H%M%S)" >> $GITHUB_OUTPUT
+          echo "branch=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+      
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: video-manage-web-${{ steps.build.outputs.branch }}-${{ steps.build.outputs.timestamp }}-${{ steps.build.outputs.short_sha }}
+          path: app/manage-web/dist
+          retention-days: 7
