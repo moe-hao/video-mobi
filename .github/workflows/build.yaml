@@ -93,7 +93,7 @@ jobs:
       - name: Build App
         run: |
           pnpm install
-          pnpm build
+          pnpm build:mobi-web
 
       - name: Get Build Value
         id: build
@@ -106,7 +106,7 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: video-mobi-web-${{ steps.build.outputs.branch }}-${{ steps.build.outputs.timestamp }}-${{ steps.build.outputs.short_sha }}
-          path: dist
+          path: mobi-web/dist
           retention-days: 7
 
   build-manage:
