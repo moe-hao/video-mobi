@@ -14,4 +14,3 @@ COPY --from=builder /deploy/node_modules ./node_modules
 
 EXPOSE 3000
 CMD ["node", "--enable-source-maps", "./dist/index.js"]
-

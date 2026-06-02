@@ -8,6 +8,7 @@ jobs:
   changes:
     runs-on: ubuntu-latest
     outputs:
+      openapi: ${{ steps.filter.outputs.openapi }}
       mobi: ${{ steps.filter.outputs.mobi }}
       mobi-web: ${{ steps.filter.outputs.mobi-web }}
       manage: ${{ steps.filter.outputs.manage }}
