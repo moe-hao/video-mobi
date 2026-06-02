@@ -29,4 +29,3 @@ lerna-debug.log*
 
 dist/
 secret/
-vite.config.ts
