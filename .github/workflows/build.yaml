@@ -9,7 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       mobi: ${{ steps.filter.outputs.mobi }}
+      mobi-web: ${{ steps.filter.outputs.mobi-web }}
       manage: ${{ steps.filter.outputs.manage }}
+      manage-web: ${{ steps.filter.outputs.manage-web }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -21,12 +23,17 @@ jobs:
           filters: |
             mobi:
               - 'app/mobi/**'
-              - 'app/mobi-web/**'
               - 'lib/**'
+            mobi-web:
+              - 'app/mobi-web/**'
+              - 'lib/common/**'
             manage:
               - 'app/manage/**'
-              - 'app/manage-web/**'
               - 'lib/**'
+            manage-web:
+              - 'app/manage-web/**'
+              - 'lib/common/**'
+            
 
   build-mobi:
     needs: changes
@@ -70,6 +77,41 @@ jobs:
           tags: ghcr.io/${{ github.repository_owner }}/video-mobi/mobi:${{ steps.build.outputs.branch }}-${{ steps.build.outputs.timestamp }}-${{ steps.build.outputs.short_sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  build-mobi-web:
+    needs: changes
+    if: ${{ needs.changes.outputs.mobi-web == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Build App
+        run: |
+          pnpm install
+          pnpm build
+
+      - name: Get Build Value
+        id: build
+        run: |
+          echo "short_sha=${GITHUB_SHA:0:7}" >> $GITHUB_OUTPUT
+          echo "timestamp=$(date +%Y%m%d%H%M%S)" >> $GITHUB_OUTPUT
+          echo "branch=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+      
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v5
+        with:
+          name: video-mobi-web-${{ steps.build.outputs.branch }}-${{ steps.build.outputs.timestamp }}-${{ steps.build.outputs.short_sha }}
+          path: dist
+          retention-days: 7
 
   build-manage:
     needs: changes

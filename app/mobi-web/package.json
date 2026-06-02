@@ -9,10 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@lib/common": "workspace:*",
     "@gravity-ui/icons": "^2.18.0",
     "@heroui/react": "^3.0.3",
     "@heroui/styles": "^3.0.3",
-    "@lib/common": "workspace:*",
     "@loadable/component": "^5.16.7",
     "@paypal/react-paypal-js": "9.2.0",
     "@paypal/sdk-constants": "1.0.157",
