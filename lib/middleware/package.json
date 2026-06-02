@@ -2,7 +2,6 @@
   "name": "@lib/middleware",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.ts",
   "dependencies": {
     "@hono/zod-validator": "^0.8.0",
     "@lib/common": "workspace:*",

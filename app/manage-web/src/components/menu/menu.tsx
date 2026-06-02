@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Disclosure, DisclosureGroup } from "@heroui/react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router";
 import { routers, type RouterItem } from "@app/manage-web/routers";
 
 function getActiveParent(pathname: string): string | null {

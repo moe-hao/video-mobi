@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Xmark } from "@gravity-ui/icons";
 import EditModalButton from "./edit-modal-button";
 import CreateModalButton from "./create-modal-button";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router";
 import type { CollectionPublishReq, CollectionTableListReq } from "@lib/common/dto/collection";
 import type { Language } from "@lib/common/consts/region";
 import { PublishStatus } from "@lib/common/consts/collection";

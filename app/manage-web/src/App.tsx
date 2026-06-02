@@ -1,6 +1,6 @@
 import { Avatar, Button, Link } from "@heroui/react";
 import { ArrowRightFromSquare, Gear } from '@gravity-ui/icons';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 import Menu from "./components/menu";
 import ViewRouter from "./routers";
 import { useAuthCheck, AuthContext, useAuthLogout } from "./hooks/user";

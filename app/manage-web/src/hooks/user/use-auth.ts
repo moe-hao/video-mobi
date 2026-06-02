@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useEffect, useState, createContext, useContext } from "react";
 import { request } from "@lib/common/utils/request-manage";
 import type { AdminInfoResp } from "@lib/common/dto/admin";

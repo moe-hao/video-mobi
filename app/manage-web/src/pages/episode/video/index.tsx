@@ -1,6 +1,6 @@
 import { Button, Spinner, Table } from "@heroui/react";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import SyncButton from "./sync-button";
 import DownloadButton from "./download-button";
 import type { VideoListReq } from "@lib/common/dto/video";

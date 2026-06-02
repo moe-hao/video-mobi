@@ -1,6 +1,13 @@
 {
   "name": "@app/order",
+  "version": "1.0.0",
   "type": "module",
+  "exports": {
+    "./*": "./src/*"
+  },
+  "scripts": {
+    "build": "tsc --noEmit && node esbuild.config.js"
+  },
   "dependencies": {
     "@lib/common": "workspace:*",
     "@lib/repo": "workspace:*",

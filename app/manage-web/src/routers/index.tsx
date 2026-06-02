@@ -1,6 +1,6 @@
 import { Archive, CirclePlay, FileCheck, House, Person } from '@gravity-ui/icons';
 import loadable from '@loadable/component';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router';
 import type { ReactElement, ComponentType } from 'react';
 
 export interface RouterItem {

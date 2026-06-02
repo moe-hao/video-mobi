@@ -10,7 +10,7 @@ import CreateModalButton from "./create-modal-button";
 import type { CollectionFeatureListReq } from "@lib/common/dto/collection";
 import { CollectionFeatureSortStatus } from "@lib/common/consts/collection-feature";
 import type { Language } from "@lib/common/consts/region";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 
 export default function EpisodeFeature() {
   const [searchParams, setSearchParams] = useSearchParams();

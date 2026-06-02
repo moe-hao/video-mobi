@@ -1,7 +1,7 @@
 import { useUserLoginState } from "@app/manage-web/hooks/user";
 import { Button, Input } from "@heroui/react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export default function UserLogin() {
   const { fetchUserLogin } = useUserLoginState();

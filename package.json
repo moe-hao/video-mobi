@@ -18,6 +18,7 @@
     "start:manage-web": "pnpm --filter @app/manage-web start"
   },
   "devDependencies": {
+    "esbuild": "^0.28.0",
     "typescript": "~6.0.2"
   }
 }
