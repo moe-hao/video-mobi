@@ -1,3 +1,5 @@
+import { OrderStatus } from "./order";
+
 export enum PayermaxResponseCode {
     Success = 'SUCCESS',
     ApplySuccess = 'APPLY_SUCCESS'
@@ -8,6 +10,13 @@ export enum PayermaxOrderStatus {
     Success = 'SUCCESS',
     Failed = 'FAILED',
     Closed = 'CLOSED',
+}
+
+export const PayermaxResultToStatus: Record<PayermaxOrderStatus, OrderStatus> = {
+    [PayermaxOrderStatus.Pending]: OrderStatus.Pending,
+    [PayermaxOrderStatus.Success]: OrderStatus.Paid,
+    [PayermaxOrderStatus.Failed]: OrderStatus.Failed,
+    [PayermaxOrderStatus.Closed]: OrderStatus.Closed,
 }
 
 export enum PayermaxNotifyType {

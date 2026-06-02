@@ -5,10 +5,13 @@ import { errorHandler } from '@lib/middleware/error-handler';
 import router from './router';
 import config from '@lib/internal/config';
 import { logger } from '@lib/internal/logger';
+import { requestLogger } from '@lib/middleware/request-logger';
 
 await bootstrap();
 const app = new Hono()
 app.onError(errorHandler);
+app.use(requestLogger);
+
 app.route('/api', router);
 
 const server = {

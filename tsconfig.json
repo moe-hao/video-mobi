@@ -18,6 +18,7 @@
       "@app/manage-web/*": ["./app/manage-web/src/*"],
       "@app/mobi/*": ["./app/mobi/src/*"],
       "@app/mobi-web/*": ["./app/mobi-web/src/*"],
+      "@app/openapi/*": ["./app/openapi/src/*"],
       "@app/order/*": ["./app/order/src/*"],
       "@lib/common/*": ["./lib/common/src/*"],
       "@lib/internal/*": ["./lib/internal/src/*"],

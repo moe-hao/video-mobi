@@ -350,6 +350,82 @@ importers:
         specifier: ^8.0.10
         version: 8.0.16(@types/node@20.19.41)(esbuild@0.28.0)(jiti@2.7.0)(tsx@4.22.4)
 
+  app/openapi:
+    dependencies:
+      '@app/order':
+        specifier: workspace:*
+        version: link:../order
+      '@hono/node-server':
+        specifier: ^1.19.14
+        version: 1.19.14(hono@4.12.23)
+      '@hono/zod-validator':
+        specifier: ^0.8.0
+        version: 0.8.0(hono@4.12.23)(zod@4.4.3)
+      '@lib/common':
+        specifier: workspace:*
+        version: link:../../lib/common
+      '@lib/internal':
+        specifier: workspace:*
+        version: link:../../lib/internal
+      '@lib/middleware':
+        specifier: workspace:*
+        version: link:../../lib/middleware
+      '@lib/repo':
+        specifier: workspace:*
+        version: link:../../lib/repo
+      '@paypal/paypal-server-sdk':
+        specifier: 2.0.0
+        version: 2.0.0
+      '@volcengine/openapi':
+        specifier: ^1.36.2
+        version: 1.36.2
+      '@volcengine/tos-sdk':
+        specifier: ^2.9.1
+        version: 2.9.1
+      bcrypt:
+        specifier: ^6.0.0
+        version: 6.0.0
+      date-fns:
+        specifier: ^4.3.0
+        version: 4.4.0
+      dotenv:
+        specifier: ^17.4.2
+        version: 17.4.2
+      drizzle-orm:
+        specifier: ^0.45.2
+        version: 0.45.2(mysql2@3.22.4(@types/node@20.19.41))
+      hono:
+        specifier: ^4.12.18
+        version: 4.12.23
+      ioredis:
+        specifier: ^5.10.1
+        version: 5.11.0
+      mysql2:
+        specifier: ^3.22.3
+        version: 3.22.4(@types/node@20.19.41)
+      pino:
+        specifier: ^10.3.1
+        version: 10.3.1
+      zod:
+        specifier: ^4.4.3
+        version: 4.4.3
+    devDependencies:
+      '@types/bcrypt':
+        specifier: ^6.0.0
+        version: 6.0.0
+      '@types/node':
+        specifier: ^20.19.41
+        version: 20.19.41
+      esbuild:
+        specifier: ^0.28.0
+        version: 0.28.0
+      tsx:
+        specifier: ^4.7.1
+        version: 4.22.4
+      typescript:
+        specifier: ~6.0.2
+        version: 6.0.3
+
   app/order:
     dependencies:
       '@lib/common':

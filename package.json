@@ -9,14 +9,17 @@
     "dev:mobi-web": "pnpm --filter @app/mobi-web dev",
     "dev:manage": "pnpm --filter @app/manage dev",
     "dev:manage-web": "pnpm --filter @app/manage-web dev",
+    "dev:openapi": "pnpm --filter @app/openapi dev",
     "build:mobi": "pnpm --filter @app/mobi build",
     "build:mobi-web": "pnpm --filter @app/mobi-web build",
     "build:manage": "pnpm --filter @app/manage build",
     "build:manage-web": "pnpm --filter @app/manage-web build",
+    "build:openapi": "pnpm --filter @app/openapi build",
     "start:mobi": "pnpm --filter @app/mobi start",
     "start:mobi-web": "pnpm --filter @app/mobi-web start",
     "start:manage": "pnpm --filter @app/manage start",
-    "start:manage-web": "pnpm --filter @app/manage-web start"
+    "start:manage-web": "pnpm --filter @app/manage-web start",
+    "start:openapi": "pnpm --filter @app/openapi start"
   },
   "devDependencies": {
     "esbuild": "^0.28.0",
