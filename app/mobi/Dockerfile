@@ -5,7 +5,7 @@ ENV PNPM_CONFIRM_MODULES_PURGE=false
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
 COPY . .
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
 RUN pnpm build:mobi
 RUN pnpm deploy --prod --filter mobi /deploy --config.node-linker=hoisted
 
