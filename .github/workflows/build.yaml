@@ -106,7 +106,7 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: video-mobi-web-${{ steps.build.outputs.branch }}-${{ steps.build.outputs.timestamp }}-${{ steps.build.outputs.short_sha }}
-          path: mobi-web/dist
+          path: app/mobi-web/dist
           retention-days: 7
 
   build-manage:
