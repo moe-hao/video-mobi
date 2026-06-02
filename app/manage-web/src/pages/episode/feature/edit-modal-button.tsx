@@ -5,6 +5,7 @@ import LanguageSelect from "@app/manage-web/components/language-select";
 import { EpisodeSearchSelect } from "./episode-search-select";
 import { useEditFeatureState } from "@app/manage-web/hooks/episode/use-feature-state";
 import type { CollectionFeatureListRespItem, CollectionTableListRespItem } from "@lib/common/dto/collection";
+import type { Language } from "@lib/common/consts/region";
 
 type SearchEpisode = {
   search: string;
@@ -100,7 +101,7 @@ export default function EditModalButton({ item, onSuccess }: { item: CollectionF
                 <Label className="w-12 shrink-0">语言</Label>
                 <LanguageSelect
                   className="w-full"
-                  language={searchEpisode.languageCode}
+                  language={searchEpisode.languageCode as Language}
                   onChange={(value) => {
                     setSearchEpisode(prev => ({ ...prev, languageCode: value }));
                   }}
