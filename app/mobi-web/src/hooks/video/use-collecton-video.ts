@@ -1,4 +1,5 @@
-import type { VideoPlayInfoResp } from "@lib/common/dto/video";
+import type { VideoLikeReq, VideoLikeResp, VideoPlayInfoResp } from "@lib/common/dto/video";
+import { convertURLSearchParams } from "@lib/common/utils/param";
 import { request } from "@lib/common/utils/request-mobi";
 import { useCallback, useState } from "react";
 
@@ -18,5 +19,37 @@ export function useCollectionVideo(): {
   return {
     videoPlayInfoResp,
     fetchVideoPlayInfo,
+  }
+}
+
+export function useLike(): {
+  fetchLike: (req: VideoLikeReq) => Promise<void>
+} {
+  const fetchLike = useCallback(async (req: VideoLikeReq) => {
+    const url = `/api/video/like?${convertURLSearchParams(req)}`
+    await request<void>(url, 'GET');
+  }, [])
+
+  return {
+    fetchLike,
+  }
+}
+
+export function useLikeStatus(): {
+  likeResp: VideoLikeResp;
+  fetchLikeStatus: (req: VideoLikeReq) => Promise<VideoLikeResp>
+} {
+  const [likeResp, setLikeResp] = useState<VideoLikeResp>({} as VideoLikeResp);
+
+  const fetchLikeStatus = useCallback(async (req: VideoLikeReq) => {
+    const url = `/api/video/like_status?${convertURLSearchParams(req)}`
+    const data = await request<VideoLikeResp>(url, 'GET');
+    setLikeResp(data);
+    return data;
+  }, [])
+
+  return {
+    likeResp,
+    fetchLikeStatus,
   }
 }

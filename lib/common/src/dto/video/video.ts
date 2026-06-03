@@ -4,8 +4,8 @@ export interface VideoPlayInfoResp {
     collectionBizId: string;
     collectionName: string;
     collectionEpisodes: number;
-    videoList: VideoPlayInfoListItem[];
     playURL: string;
+    videoList: VideoPlayInfoListItem[];
 }
 
 export interface VideoPlayInfoListItem {
@@ -29,4 +29,9 @@ export interface VideoListRespItem {
     epNum: number;
     createTime: string;
     updateTime: string;
+}
+
+export interface VideoLikeResp {
+    isLike: boolean;
+    likeTotal: number;
 }

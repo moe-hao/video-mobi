@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import LanguageSelect from "@app/manage-web/components/language-select";
 import type { ProductListRespItem } from "@lib/common/dto/product";
 import type { Language, Region } from "@lib/common/consts/region";
+import RegionSelect from "@app/manage-web/components/region-select";
 
 export default function EditModalButton({ product, onSuccess }: { product: ProductListRespItem, onSuccess?: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,9 +37,14 @@ export default function EditModalButton({ product, onSuccess }: { product: Produ
                 <Label className="w-14 shrink-0">域名</Label>
                 <Input variant="secondary" className="flex-1" value={productState.host} onChange={(e) => setProductState({ ...productState, host: e.target.value })} />
               </div>
+
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-14 shrink-0">地区</Label>
-                <Input variant="secondary" className="flex-1" value={productState.region} onChange={(e) => setProductState({ ...productState, region: e.target.value as Region })} />
+                <RegionSelect
+                  className="w-full"
+                  value={productState.region}
+                  onChange={(e) => setProductState({ ...productState, region: e as Region })}
+                />
               </div>
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-14 shrink-0">语言</Label>

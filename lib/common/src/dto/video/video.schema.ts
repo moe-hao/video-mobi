@@ -14,6 +14,11 @@ export const videoDownloadReqSchema = z.object({
     collectionId: z.int({ error: "Param Invalid: collectionId" }),
 });
 
+export const videoLikeReqSchema = z.object({
+    collectionBizId: z.string().default(''),
+});
+
 export type VideoListReq = z.infer<typeof videoListReqSchema>;
 export type VideoSyncReq = z.infer<typeof videoSyncReqSchema>;
 export type VideoDownloadReq = z.infer<typeof videoDownloadReqSchema>;
+export type VideoLikeReq = z.infer<typeof videoLikeReqSchema>;

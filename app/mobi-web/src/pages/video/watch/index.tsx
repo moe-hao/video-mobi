@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Avatar, Badge, Button } from '@heroui/react';
-import { ChevronLeft, LockFill, PlayFill, Video } from '@gravity-ui/icons';
+import { ArrowShapeTurnUpRight, ChevronLeft, Heart, HeartFill, LockFill, PlayFill, TextAlignJustify, Video } from '@gravity-ui/icons';
 import { useNavigate, useSearchParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import Loading from '@app/mobi-web/components/loading';
 import Payment from '@app/mobi-web/components/payment';
-import { useCollectionVideo } from '@app/mobi-web/hooks/video';
+import { useCollectionVideo, useLike, useLikeStatus } from '@app/mobi-web/hooks/video';
+import { useToast } from '@app/mobi-web/contexts/toast-context';
 
 export default function VideoWatch() {
   const [searchParams] = useSearchParams();
@@ -14,8 +15,11 @@ export default function VideoWatch() {
 
   const collectionId = searchParams.get('collectionId') || '';
   const episode = parseInt(searchParams.get('episode') || '1');
+  const toastQueue = useToast();
 
   const { videoPlayInfoResp, fetchVideoPlayInfo } = useCollectionVideo();
+  const { fetchLike } = useLike();
+  const { likeResp, fetchLikeStatus } = useLikeStatus();
 
   const [currentURL, setCurrentURL] = useState('');
   const [currentEpisode, setCurrentEpisode] = useState(episode);
@@ -24,6 +28,10 @@ export default function VideoWatch() {
   const [_videoReady, setVideoReady] = useState(false);
   const [videoLoading, setVideoLoading] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [episodePage, setEpisodePage] = useState(0);
+  const [modalOffsetY, setModalOffsetY] = useState(0);
+  const modalTouchStartY = useRef(0);
+  const modalTouchOffsetY = useRef(0);
 
   const swipeContainerRef = useRef<HTMLDivElement>(null);
   const touchStartY = useRef(0);
@@ -56,7 +64,8 @@ export default function VideoWatch() {
 
   useEffect(() => {
     fetchVideoPlayInfo(collectionId, currentEpisode);
-  }, [fetchVideoPlayInfo, collectionId, currentEpisode]);
+    fetchLikeStatus({ collectionBizId: collectionId });
+  }, [fetchVideoPlayInfo, fetchLikeStatus, collectionId, currentEpisode]);
 
   useEffect(() => {
     const video = player.current;
@@ -320,9 +329,50 @@ export default function VideoWatch() {
           </Button>
           <h2 className="text-md font-bold">{t('episode-num', { currentEpisode })}</h2>
         </div>
-        <Button variant="danger" size="sm" onPress={() => setIsEpisodeModalOpen(true)}>
-          {t('episode-select')}
-        </Button>
+
+      </div>
+      <div
+        className="fixed right-0 top-2/3 -translate-y-1/2 z-30"
+        onTouchStart={(e) => e.stopPropagation()}
+        onTouchMove={(e) => e.stopPropagation()}
+        onTouchEnd={(e) => e.stopPropagation()}
+      >
+        <button
+          className="flex flex-col items-center p-2 m-1 bg-transparent border-none cursor-pointer w-16"
+          onClick={async () => {
+            await fetchLike({ collectionBizId: collectionId });
+            await fetchLikeStatus({ collectionBizId: collectionId });
+          }}
+        >
+          {likeResp.isLike ? (
+            <HeartFill width={28} height={28} className="text-white" />
+          ) : (
+            <Heart width={28} height={28} className="text-white" />
+          )}
+          <span className="text-white mt-1" style={{ fontSize: 10 }}>{likeResp.likeTotal}</span>
+        </button>
+        <button
+          className="flex flex-col items-center p-2 m-1 bg-transparent border-none cursor-pointer w-16"
+          onClick={() => setIsEpisodeModalOpen(true)}
+        >
+          <TextAlignJustify width={28} height={28} className="text-white" />
+          <span className="text-white mt-1" style={{ fontSize: 10 }}>{t('episode-select')}</span>
+        </button>
+        <button
+          className="flex flex-col items-center p-2 m-1 bg-transparent border-none cursor-pointer w-16"
+          onClick={() => {
+            const url = `${window.location.origin}${window.location.pathname}?collectionId=${collectionId}&episode=${currentEpisode}`;
+            navigator.clipboard.writeText(url);
+            toastQueue.add({
+              title: "Copy URL Success!",
+              variant: "success",
+              timeout: 1000,
+            })
+          }}
+        >
+          <ArrowShapeTurnUpRight width={28} height={28} className="text-white" />
+          <span className="text-white mt-1" style={{ fontSize: 10 }}>Share</span>
+        </button>
       </div>
 
       <div
@@ -364,31 +414,73 @@ export default function VideoWatch() {
             onClick={() => setIsEpisodeModalOpen(false)}
           />
           <div
-            className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white rounded-t-2xl p-4 z-50 max-h-[50vh] overflow-y-auto"
+            className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white rounded-t-3xl p-4 z-50 overflow-y-auto max-h-[70vh]"
             style={{
-              animation: 'slideUp 0.3s ease-out'
+              animation: 'slideUp 0.3s ease-out',
+              transform: `translateY(${modalOffsetY}px)`,
+              transition: modalOffsetY === 0 ? 'transform 0.2s ease-out' : 'none',
+            }}
+            onTouchStart={(e) => {
+              modalTouchStartY.current = e.touches[0].clientY;
+              modalTouchOffsetY.current = modalOffsetY;
+            }}
+            onTouchMove={(e) => {
+              const deltaY = e.touches[0].clientY - modalTouchStartY.current;
+              if (deltaY > 0) {
+                setModalOffsetY(modalTouchOffsetY.current + deltaY);
+              }
+            }}
+            onTouchEnd={(e) => {
+              const deltaY = e.changedTouches[0].clientY - modalTouchStartY.current;
+              if (deltaY > 80) {
+                setIsEpisodeModalOpen(false);
+                setModalOffsetY(0);
+              } else {
+                setModalOffsetY(0);
+              }
             }}
           >
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-bold">{t('episode-select')}</h3>
+            <div className="flex justify-center mb-4">
+              <div className="w-10 h-1 bg-white/40 rounded-full" />
             </div>
-            <div className="grid grid-cols-5 gap-3">
-              {videoPlayInfoResp.videoList?.map((video) => (
-                <Badge.Anchor key={video.epNum} className="w-10 h-10 flex items-center justify-center">
-                  <Avatar className="w-10 h-10 rounded-lg">
-                    <Avatar.Fallback
-                      className={video.epNum === currentEpisode ? "w-10 h-10 rounded-lg bg-danger" : "w-10 h-10 rounded-lg border-white/30 text-white bg-transparent"}
-                      onClick={() => handleEpisodeButton(video.epNum, video.isLock)}
-                    >
-                      {video.epNum}
-                    </Avatar.Fallback>
-                  </Avatar>
-                  {video.isLock && (
-                    <Badge color="accent" size="sm" placement="top-right" className="w-3 h-3 bg-danger">
-                      <LockFill className="w-2 h-2" />
-                    </Badge>
-                  )}
-                </Badge.Anchor>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-md font-medium">{videoPlayInfoResp.collectionName}</h3>
+            </div>
+            <div className="flex justify-between items-center">
+              <h4 className="text-sm font-medium">{t('episode-select')}</h4>
+            </div>
+            <div className="mt-1 mb-4">
+              {Array.from({ length: Math.ceil((videoPlayInfoResp.videoList?.length || 0) / 25) }).map((_, i) => (
+                <Button
+                  key={i}
+                  size="sm"
+                  variant={i === episodePage ? "danger" : "ghost"}
+                  className={i === episodePage ? "min-w-8 h-8 bg-danger" : "min-w-8 h-8 text-white/60"}
+                  onPress={() => setEpisodePage(i)}
+                >
+                  {`${i * 25 + 1}-${Math.min((i + 1) * 25, videoPlayInfoResp.videoList?.length || 0)}`}
+                </Button>
+              ))}
+            </div>
+            <div className="grid grid-cols-5">
+              {videoPlayInfoResp.videoList?.slice(episodePage * 25, (episodePage + 1) * 25).map((video) => (
+                <div className="flex justify-center mb-4">
+                  <Badge.Anchor key={video.epNum} className="w-10 h-10 flex items-center justify-center">
+                    <Avatar className="w-12 h-12 rounded-lg">
+                      <Avatar.Fallback
+                        className={video.epNum === currentEpisode ? "w-12 h-12 rounded-lg bg-danger" : "w-12 h-12 rounded-lg border-white/30 text-white bg-transparent"}
+                        onClick={() => handleEpisodeButton(video.epNum, video.isLock)}
+                      >
+                        {video.epNum}
+                      </Avatar.Fallback>
+                    </Avatar>
+                    {video.isLock && (
+                      <Badge color="accent" size="sm" placement="top-right" className="w-3 h-3 bg-danger">
+                        <LockFill className="w-2 h-2" />
+                      </Badge>
+                    )}
+                  </Badge.Anchor>
+                </div>
               ))}
             </div>
           </div>

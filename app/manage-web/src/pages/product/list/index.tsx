@@ -1,11 +1,14 @@
-import { Table } from "@heroui/react";
+import { Button, Input, Table } from "@heroui/react";
 import { useProductTable } from "@app/manage-web/hooks/product";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import EditModalButton from "./edit-modal-button";
 import DeleteButton from "@app/manage-web/components/delete-button";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
+import RegionSelect from "@app/manage-web/components/region-select";
+import type { ProductListReq } from "@lib/common/dto/product";
 
 export default function ProductList() {
+  const [productTableReq, setProductTableReq] = useState<ProductListReq>({} as ProductListReq);
   const { productTableState, fetchProductTable } = useProductTable();
 
   useEffect(() => {
@@ -16,6 +19,25 @@ export default function ProductList() {
     <div>
       <div className="flex items-center justify-between mb-5">
         <div className="text-lg font-semibold text-gray-700">产品管理</div>
+      </div>
+      <div className="flex items-center gap-4 mb-4">
+        <div className="flex items-center gap-2">
+          <Input
+            aria-label="搜索"
+            variant="secondary"
+            placeholder="搜索ID/域名"
+            value={productTableReq.search}
+            onChange={(e) => setProductTableReq({ ...productTableReq, search: e.target.value })}
+          />
+          <RegionSelect
+            className="w-[192px]"
+            value={productTableReq.region}
+            onChange={(region) => setProductTableReq({ ...productTableReq, region })}
+          />
+        </div>
+        <Button variant="primary" size="sm">查询</Button>
+        <div className="flex-1"></div>
+        {/* <CreateModalButton onSuccess={() => fetchEpisodeList(collectionTableListReq)} /> */}
       </div>
       <Table>
         <Table.ScrollContainer>
