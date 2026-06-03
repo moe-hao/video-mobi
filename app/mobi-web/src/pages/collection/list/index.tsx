@@ -52,14 +52,11 @@ export default function CollectionListPage() {
           <div className="relative my-1 -mx-4 pt-10 pb-4 overflow-hidden">
             <div
               className="absolute inset-0 bg-cover bg-center blur-md transition-all duration-700"
-              style={{ backgroundImage: `url(${featuredList[carouselIndex]?.cover})` }}
-            />
-            <div
-              className="absolute inset-0"
               style={{
-                background: `
-                  linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 15%, transparent 65%, rgba(0,0,0,1) 100%),
-                  linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(61,119,255,0.35) 35%, transparent 50%, rgba(61,119,255,0.35) 65%, rgba(0,0,0,0.7) 100%)
+                backgroundImage: `
+                  linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 15%, transparent 55%, rgba(0,0,0,0.6) 75%, rgba(0,0,0,1) 90%),
+                  linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(61,119,255,0.35) 35%, transparent 50%, rgba(61,119,255,0.35) 65%, rgba(0,0,0,0.7) 100%),
+                  url(${featuredList[carouselIndex]?.cover})
                 `,
               }}
             />
