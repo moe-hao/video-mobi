@@ -1,9 +1,8 @@
 import { Card } from '@heroui/react';
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 import { CircleDashed, CircleCheckFill } from '@gravity-ui/icons';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import Navigation from '@app/mobi-web/components/navigation';
 import { useCollection, useFeatureCollection } from '@app/mobi-web/hooks/collection';
 import Carousel from '@app/mobi-web/components/carousel';
 
@@ -14,6 +13,7 @@ export default function CollectionListPage() {
   const { collectionListResp, fetchCollectionList, loadMore, loading, hasMore } = useCollection();
   const { featuredList, fetchFeaturedCollections } = useFeatureCollection();
   const observerRef = useRef<HTMLDivElement>(null);
+  const [carouselIndex, setCarouselIndex] = useState(0);
 
   useEffect(() => {
     fetchCollectionList(1);
@@ -47,15 +47,29 @@ export default function CollectionListPage() {
 
   return (
     <div className='flex-1 bg-black overflow-auto'>
-      <Navigation showBackButton={false} />
-      <div className="pt-16 p-4">
+      <div>
         {featuredList.length > 0 && (
-          <div className="my-1 -mx-4">
-            <Carousel items={featuredList} onItemClick={handleVideoClick} />
+          <div className="relative my-1 -mx-4 pt-10 pb-4 overflow-hidden">
+            <div
+              className="absolute inset-0 bg-cover bg-center blur-md transition-all duration-700"
+              style={{ backgroundImage: `url(${featuredList[carouselIndex]?.cover})` }}
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background: `
+                  linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 15%, transparent 65%, rgba(0,0,0,1) 100%),
+                  linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(61,119,255,0.35) 35%, transparent 50%, rgba(61,119,255,0.35) 65%, rgba(0,0,0,0.7) 100%)
+                `,
+              }}
+            />
+            <div className="relative z-10">
+              <Carousel items={featuredList} onItemClick={handleVideoClick} onIndexChange={setCarouselIndex} />
+            </div>
           </div>
         )}
         <h1 className="text-lg font-bold text-white p-2">{t('all-collections')}</h1>
-        <div className="grid grid-cols-3 gap-x-2 gap-y-4">
+        <div className="grid grid-cols-3 gap-x-2 gap-y-4 p-2">
           {collectionListResp?.list?.map((collection) => (
             <div
               key={collection.bizId}
@@ -66,7 +80,7 @@ export default function CollectionListPage() {
                 <img
                   alt={collection.name}
                   aria-hidden="true"
-                  className="absolute inset-0 h-full w-full object-cover"
+                  className="absolute inset-0 h-full w-full object-cover rounded-[6px]"
                   src={collection.cover}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />

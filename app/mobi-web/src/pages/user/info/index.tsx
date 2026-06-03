@@ -7,7 +7,6 @@ import { UserType } from "@lib/common/consts/user";
 import { currentTime } from "@lib/common/utils/time";
 import { useVideoMobiContext } from "@app/mobi-web/contexts/video-mobi-context";
 import { useUserMemberInfo, useUserSubscriptionInfo } from "@app/mobi-web/hooks/user";
-import Navigation from "@app/mobi-web/components/navigation";
 
 export default function UserInfo() {
   const navigate = useNavigate();
@@ -35,8 +34,7 @@ export default function UserInfo() {
 
   return (
     <div className='flex-1 bg-black overflow-auto'>
-      <Navigation showBackButton={false} />
-      <div className="pt-16 p-4">
+      <div className="pt-10 p-4">
         {!userInfo ? (
           <div className="flex items-center justify-center pt-20">
             <Spinner />

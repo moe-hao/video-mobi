@@ -5,9 +5,10 @@ import type { CollectionItemResp } from "@lib/common/dto/collection";
 interface CarouselProps {
   items: CollectionItemResp[];
   onItemClick?: (bizId: string) => void;
+  onIndexChange?: (index: number) => void;
 }
 
-export default function Carousel({ items, onItemClick }: CarouselProps) {
+export default function Carousel({ items, onItemClick, onIndexChange }: CarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [swipeDelta, setSwipeDelta] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -28,6 +29,10 @@ export default function Carousel({ items, onItemClick }: CarouselProps) {
     const interval = setInterval(goToNext, 5000);
     return () => clearInterval(interval);
   }, [goToNext]);
+
+  useEffect(() => {
+    onIndexChange?.(currentIndex);
+  }, [currentIndex, onIndexChange]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
@@ -133,11 +138,11 @@ export default function Carousel({ items, onItemClick }: CarouselProps) {
               }}
               onClick={() => !isDragging && offset === 0 && onItemClick?.(item.bizId)}
             >
-              <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative w-full h-full overflow-hidden shadow-2xl rounded-[6px]">
                 <img
                   src={item.cover}
                   alt={item.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover "
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-3">
