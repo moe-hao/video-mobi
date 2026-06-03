@@ -75,7 +75,7 @@ export default function RouteGuard() {
         >
           <Tabs.List aria-label="导航" className="w-full rounded-none">
             {bottomTabs.map((tab) => (
-              <Tabs.Tab key={tab.path} id={tab.path} className="flex-col gap-0.5 p-6 pb-8">
+              <Tabs.Tab key={tab.path} id={tab.path} className="flex-col gap-0.5 p-5 pb-6">
                 <span className="[&>svg]:w-5 [&>svg]:h-5">{tab.icon}</span>
                 <span className="text-[8px]">{tab.label}</span>
               </Tabs.Tab>
