@@ -7,7 +7,7 @@ import { useCollection, useFeatureCollection } from '@app/mobi-web/hooks/collect
 import Carousel from '@app/mobi-web/components/carousel';
 
 export default function CollectionListPage() {
-  const { t } = useTranslation('', {keyPrefix: 'collection-list'});
+  const { t } = useTranslation('', { keyPrefix: 'collection-list' });
   const navigate = useNavigate();
 
   const { collectionListResp, fetchCollectionList, loadMore, loading, hasMore } = useCollection();
@@ -46,10 +46,10 @@ export default function CollectionListPage() {
   };
 
   return (
-    <div className='flex-1 bg-black overflow-auto'>
+    <div className='flex-1 bg-black overflow-auto overflow-x-hidden'>
       <div>
         {featuredList.length > 0 && (
-          <div className="relative my-1 -mx-4 pt-10 pb-4 overflow-hidden">
+          <div className="relative my-1 -mx-4 pt-10 overflow-hidden">
             <div
               className="absolute inset-0 bg-cover bg-center blur-md transition-all duration-700"
               style={{
@@ -66,7 +66,7 @@ export default function CollectionListPage() {
           </div>
         )}
         <h1 className="text-lg font-bold text-white p-2">{t('all-collections')}</h1>
-        <div className="grid grid-cols-3 gap-x-2 gap-y-4 m-2">
+        <div className="grid grid-cols-3 gap-x-2 gap-y-4 p-2">
           {collectionListResp?.list?.map((collection) => (
             <div
               key={collection.bizId}
