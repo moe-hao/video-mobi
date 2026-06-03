@@ -95,7 +95,7 @@ export default function Carousel({ items, onItemClick, onIndexChange }: Carousel
 
   return (
     <div
-      className="relative w-full h-[305px] overflow-hidden touch-pan-y"
+      className="relative w-full h-[260px] overflow-hidden touch-pan-y"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -130,7 +130,7 @@ export default function Carousel({ items, onItemClick, onIndexChange }: Carousel
           return (
             <div
               key={item.bizId}
-              className={`absolute h-70 aspect-[3/4] cursor-pointer ${isDragging ? "" : "transition-all duration-500 ease-out"}`}
+              className={`absolute h-60 aspect-[3/4] cursor-pointer ${isDragging ? "" : "transition-all duration-500 ease-out"}`}
               style={{
                 transform,
                 zIndex,

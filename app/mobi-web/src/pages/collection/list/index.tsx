@@ -66,7 +66,7 @@ export default function CollectionListPage() {
           </div>
         )}
         <h1 className="text-lg font-bold text-white p-2">{t('all-collections')}</h1>
-        <div className="grid grid-cols-3 gap-x-2 gap-y-4 p-2">
+        <div className="grid grid-cols-3 gap-x-2 gap-y-4 m-2">
           {collectionListResp?.list?.map((collection) => (
             <div
               key={collection.bizId}
