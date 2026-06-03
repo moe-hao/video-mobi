@@ -49,7 +49,7 @@ export default function CollectionListPage() {
     <div className='flex-1 bg-black overflow-auto overflow-x-hidden'>
       <div>
         {featuredList.length > 0 && (
-          <div className="relative my-1 -mx-4 pt-10 overflow-hidden">
+          <div className="relative my-1 -mx-4 pt-12 overflow-hidden">
             <div
               className="absolute inset-0 bg-cover bg-center blur-md transition-all duration-700"
               style={{
