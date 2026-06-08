@@ -8,7 +8,7 @@ export default function CollectionTypeSelect({ className, collectionType, onChan
       variant="secondary"
       className={className}
       placeholder="选择类型"
-      value={collectionType || ""}
+      defaultValue={collectionType}
       onChange={(value) => onChange(value as CollectionType)}
     >
       <Select.Trigger>

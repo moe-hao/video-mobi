@@ -8,7 +8,7 @@ export default function LocalTypeSelect({ className, local, onChange }: { classN
       variant="secondary"
       className={className}
       placeholder="选择类型"
-      value={local || ""}
+      defaultValue={local}
       onChange={(value) => onChange(value as CollectionLocal)}
     >
       <Select.Trigger>
