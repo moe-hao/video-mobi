@@ -11,7 +11,7 @@ export default function HistoryList() {
   const { historyUserList, loading, hasMore, fetchHistoryList, fetchMore } = useHistoryPage();
   const { fetchDeleteHistoryItem } = useDeleteHistoryItem();
 
-  const [ historyListReq ] = useState<UserHistoryListReq>({
+  const [historyListReq] = useState<UserHistoryListReq>({
     page: 1,
     size: 10,
   });
@@ -22,7 +22,7 @@ export default function HistoryList() {
   const contentRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const isDragging = useRef(false);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
-   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchHistoryList(historyListReq);
@@ -101,49 +101,53 @@ export default function HistoryList() {
 
   return (
     <div className="mx-4 pt-16 pb-4 ">
-      {
-        historyUserList.list?.map((item) => (
-          <div key={item.collectionBizId} className="relative overflow-hidden rounded-[20px] mb-4">
-            <button
-              className="absolute right-0 top-0 bottom-0 flex items-center justify-center bg-red-500 text-white"
-              style={{ width: DELETE_BTN_WIDTH }}
-              onClick={() => handleDelete(item.id)}
-            >
-              <TrashBin className="size-5" />
-            </button>
+      {!historyUserList.list || historyUserList.list?.length === 0 ? (
+        <div className="flex flex-col items-center justify-center min-h-[60vh]">
+          <img className="w-[160px] object-cover rounded-md shadow-sm rounded-[6px]" src="https://s01.bluearcshow.com/images/no-data.png" alt="No Data" />
+          <span className="text-white text-[12px] mt-2">No Watch History</span>
+        </div>
+      ) : historyUserList.list?.map((item) => (
+        <div key={item.collectionBizId} className="relative overflow-hidden rounded-[20px] mb-4">
+          <button
+            className="absolute right-0 top-0 bottom-0 flex items-center justify-center bg-red-500 text-white"
+            style={{ width: DELETE_BTN_WIDTH }}
+            onClick={() => handleDelete(item.id)}
+          >
+            <TrashBin className="size-5" />
+          </button>
 
-            <div
-              ref={(el) => { contentRefs.current[item.collectionBizId] = el; }}
-              className="relative bg-[#1c1c1c] p-4 flex gap-4 transition-transform duration-200"
-              onTouchStart={(e) => handleTouchStart(e, item.collectionBizId)}
-              onTouchMove={(e) => handleTouchMove(e, item.collectionBizId)}
-              onTouchEnd={(e) => handleTouchEnd(e, item.collectionBizId)}
-              onClick={openItemId ? resetOpenItem : undefined}
-            >
-              <img className="h-24 object-cover rounded-md shadow-sm rounded-[6px]" src={item.collectionCover} alt={item.collectionName} />
-              <div className="flex-1 min-w-0">
-                <h3 className="text-white text-[14px] font-medium truncate">{item.collectionName}</h3>
-                <ProgressBar aria-label={item.collectionBizId} size="sm" value={item.epNum / item.collectionEpNum * 100}>
-                  <Label>
-                    <span className="text-white text-[10px] mt-1">Up to EP. {item.epNum}</span>
-                    <span className="text-white/50 text-[10px] mt-1"> / EP. {item.collectionEpNum}</span>
-                  </Label>
-                  <ProgressBar.Track>
-                    <ProgressBar.Fill className="bg-[#3D77FF]" />
-                  </ProgressBar.Track>
-                </ProgressBar>
-                <div className="flex justify-between mt-1 pt-2">
-                  <p className="text-white/50 text-[10px]">Watch Just Now</p>
-                  <Button size="sm" className="min-h-0 h-6 px-2 text-xs bg-white text-black" onClick={() => handleContinue(item.collectionBizId, item.epNum)}>
-                    <CirclePlay />
-                    Continue
-                  </Button>
-                </div>
+          <div
+            ref={(el) => { contentRefs.current[item.collectionBizId] = el; }}
+            className="relative bg-[#1c1c1c] p-4 flex gap-4 transition-transform duration-200"
+            onTouchStart={(e) => handleTouchStart(e, item.collectionBizId)}
+            onTouchMove={(e) => handleTouchMove(e, item.collectionBizId)}
+            onTouchEnd={(e) => handleTouchEnd(e, item.collectionBizId)}
+            onClick={openItemId ? resetOpenItem : undefined}
+          >
+            <img className="h-24 object-cover rounded-md shadow-sm rounded-[6px]" src={item.collectionCover} alt={item.collectionName} />
+            <div className="flex-1 min-w-0">
+              <h3 className="text-white text-[14px] font-medium truncate">{item.collectionName}</h3>
+              <ProgressBar aria-label={item.collectionBizId} size="sm" value={item.epNum / item.collectionEpNum * 100}>
+                <Label>
+                  <span className="text-white text-[10px] mt-1">Up to EP. {item.epNum}</span>
+                  <span className="text-white/50 text-[10px] mt-1"> / EP. {item.collectionEpNum}</span>
+                </Label>
+                <ProgressBar.Track>
+                  <ProgressBar.Fill className="bg-[#3D77FF]" />
+                </ProgressBar.Track>
+              </ProgressBar>
+              <div className="flex justify-between mt-1 pt-2">
+                <p className="text-white/50 text-[10px]">Watch Just Now</p>
+                <Button size="sm" className="min-h-0 h-6 px-2 text-xs bg-white text-black" onClick={() => handleContinue(item.collectionBizId, item.epNum)}>
+                  <CirclePlay />
+                  Continue
+                </Button>
               </div>
             </div>
           </div>
-        ))
-      }
+        </div>
+      ))}
+
       <div ref={sentinelRef} className="flex justify-center py-4">
         {loading && <span className="text-white/50 text-xs">Loading...</span>}
         {!hasMore && historyUserList.list?.length > 0 && (

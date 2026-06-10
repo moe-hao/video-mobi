@@ -61,7 +61,7 @@ export default function UserInfo() {
                           {t('expiration-time')}: {new Date(userMemberInfoState.expireTime * 1000).toLocaleString()}
                         </span>
                       ) : (
-                        <span className="text-sm text-white truncate">All Episodes Free</span>
+                        <span className="text-[12px] text-white truncate">All Episodes Free</span>
                       )
                     }
                   </div>
