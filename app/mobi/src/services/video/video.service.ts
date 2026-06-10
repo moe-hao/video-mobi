@@ -9,6 +9,7 @@ import { userLikeDao } from "@lib/repo/dao/user-like.dao";
 import { videoDao } from "@lib/repo/dao/video.dao";
 import { historyDao } from "@lib/repo/dao/history.dao";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
+import { currentTime } from "@lib/common/utils/time";
 
 class VideoService {
     async getVideoPlayInfo(userInfo: UserAuthInfo, collectionBizId: string, epNum: number): Promise<VideoPlayInfoResp> {
@@ -18,7 +19,7 @@ class VideoService {
         ]);
 
         let isValidMember = false;
-        if (memberInfo) {
+        if (memberInfo && memberInfo.expireTime >= currentTime()) {
             isValidMember = true;
         }
 
