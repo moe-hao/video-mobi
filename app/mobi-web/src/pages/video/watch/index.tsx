@@ -34,9 +34,11 @@ export default function VideoWatch() {
   const modalTouchOffsetY = useRef(0);
 
   const swipeContainerRef = useRef<HTMLDivElement>(null);
+  const episodeModalRef = useRef<HTMLDivElement>(null);
   const touchStartY = useRef(0);
   const touchCurrentY = useRef(0);
   const isSwiping = useRef(false);
+  const isModalSwipingDown = useRef(false);
   const shouldPreventClick = useRef(false);
 
   const collectionVideoEpisodes = videoPlayInfoResp.videoList?.map((item) => item.epNum) || [];
@@ -156,6 +158,23 @@ export default function VideoWatch() {
       el.removeEventListener('touchmove', preventTouchMove);
     };
   }, []);
+
+  useEffect(() => {
+    const el = episodeModalRef.current;
+    if (!el) return;
+
+    const preventPullRefresh = (e: TouchEvent) => {
+      if (isModalSwipingDown.current) {
+        e.preventDefault();
+      }
+    };
+
+    el.addEventListener('touchmove', preventPullRefresh, { passive: false });
+
+    return () => {
+      el.removeEventListener('touchmove', preventPullRefresh);
+    };
+  }, [isEpisodeModalOpen]);
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     const time = parseFloat(e.target.value);
@@ -414,6 +433,7 @@ export default function VideoWatch() {
             onClick={() => setIsEpisodeModalOpen(false)}
           />
           <div
+            ref={episodeModalRef}
             className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white rounded-t-3xl p-4 z-50 overflow-y-auto max-h-[70vh]"
             style={{
               animation: 'slideUp 0.3s ease-out',
@@ -427,10 +447,14 @@ export default function VideoWatch() {
             onTouchMove={(e) => {
               const deltaY = e.touches[0].clientY - modalTouchStartY.current;
               if (deltaY > 0) {
+                isModalSwipingDown.current = true;
                 setModalOffsetY(modalTouchOffsetY.current + deltaY);
+              } else {
+                isModalSwipingDown.current = false;
               }
             }}
             onTouchEnd={(e) => {
+              isModalSwipingDown.current = false;
               const deltaY = e.changedTouches[0].clientY - modalTouchStartY.current;
               if (deltaY > 80) {
                 setIsEpisodeModalOpen(false);
@@ -503,8 +527,11 @@ export default function VideoWatch() {
               animation: 'slideUp 0.3s ease-out'
             }}
           >
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-bold">{t('become-vip')}</h3>
+            <div className="flex justify-center items-center">
+              <span className="text-[32px] font-[Anton] bg-gradient-to-r from-[#3A4DFF] to-[#55A7FF] bg-clip-text text-transparent">Blue Arc</span>&nbsp;<span className="text-[32px] font-[Anton]">Preminum</span>
+            </div>
+            <div className="flex justify-center items-center mb-4">
+              <span className="text-[12px]">Activate to enjoy more benefits</span>
             </div>
             <Payment />
           </div>
