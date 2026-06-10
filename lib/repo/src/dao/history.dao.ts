@@ -30,7 +30,8 @@ class HistoryDao {
         const [result] = await this.conn.select().from(historyTable).where(
             and(
                 eq(historyTable.userId, userId),
-                eq(historyTable.collectionId, collectionId)
+                eq(historyTable.collectionId, collectionId),
+                eq(historyTable.isDeleted, DeleteStatus.NotDeleted)
             )
         );
         return result;
