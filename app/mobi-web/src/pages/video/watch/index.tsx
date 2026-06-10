@@ -454,8 +454,8 @@ export default function VideoWatch() {
                 <Button
                   key={i}
                   size="sm"
-                  variant={i === episodePage ? "danger" : "ghost"}
-                  className={i === episodePage ? "min-w-8 h-8 bg-danger" : "min-w-8 h-8 text-white/60"}
+                  variant={i === episodePage ? "primary" : "ghost"}
+                  className={i === episodePage ? "min-w-8 h-8 bg-[#3D77FF]" : "min-w-8 h-8 text-white/60"}
                   onPress={() => setEpisodePage(i)}
                 >
                   {`${i * 25 + 1}-${Math.min((i + 1) * 25, videoPlayInfoResp.videoList?.length || 0)}`}
@@ -468,14 +468,14 @@ export default function VideoWatch() {
                   <Badge.Anchor key={video.epNum} className="w-10 h-10 flex items-center justify-center">
                     <Avatar className="w-12 h-12 rounded-lg">
                       <Avatar.Fallback
-                        className={video.epNum === currentEpisode ? "w-12 h-12 rounded-lg bg-danger" : "w-12 h-12 rounded-lg border-white/30 text-white bg-transparent"}
+                        className={video.epNum === currentEpisode ? "w-12 h-12 rounded-lg bg-[#3D77FF]" : "w-12 h-12 rounded-lg border-white/30 text-white bg-transparent"}
                         onClick={() => handleEpisodeButton(video.epNum, video.isLock)}
                       >
                         {video.epNum}
                       </Avatar.Fallback>
                     </Avatar>
                     {video.isLock && (
-                      <Badge color="accent" size="sm" placement="top-right" className="w-3 h-3 bg-danger">
+                      <Badge color="accent" size="sm" placement="top-right" className="w-3 h-3 bg-[#3D77FF]">
                         <LockFill className="w-2 h-2" />
                       </Badge>
                     )}

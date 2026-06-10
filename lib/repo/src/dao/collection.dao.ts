@@ -5,6 +5,7 @@ import { database, type DatabaseConn } from "@lib/internal/database";
 import { DeleteStatus } from "@lib/common/consts/common-status";
 import { currentTime } from "@lib/common/utils/time";
 import type { Language } from "@lib/common/consts/region";
+import { PublishStatus } from "@lib/common/consts/collection";
 
 
 type SearchPageParam = {
@@ -83,7 +84,10 @@ class CollectionDao {
     async getCollectionPage(page: number, size: number): Promise<CollectionSelect[]> {
         const collections = await this.conn.select().from(collectionTable)
             .where(
-                eq(collectionTable.isDeleted, DeleteStatus.NotDeleted)
+                and(
+                    eq(collectionTable.isDeleted, DeleteStatus.NotDeleted),
+                    eq(collectionTable.publishStatus, PublishStatus.Published)
+                )
             )
             .orderBy(desc(collectionTable.id))
             .offset((page - 1) * size)

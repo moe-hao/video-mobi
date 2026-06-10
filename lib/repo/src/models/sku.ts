@@ -10,6 +10,8 @@ export const skuTable = mysqlTable("sku", {
     paypalPlanId: varchar("paypal_plan_id", { length: 30 }).notNull().default(""),
     productId: int("product_id").notNull().default(0),
     weight: int("weight").notNull().default(0),
+    desc: varchar("desc", { length: 256 }).notNull().default(""),
+    important: int("important").notNull().default(0),
     createTime: int("create_time").notNull().default(0),
     updateTime: int("update_time").notNull().default(0),
 })

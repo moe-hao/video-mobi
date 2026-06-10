@@ -7,6 +7,7 @@ import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { memberDao } from "@lib/repo/dao/member.dao";
 import { userLikeDao } from "@lib/repo/dao/user-like.dao";
 import { videoDao } from "@lib/repo/dao/video.dao";
+import { historyDao } from "@lib/repo/dao/history.dao";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
 
 class VideoService {
@@ -61,6 +62,19 @@ class VideoService {
             }
 
             playURL = videoInfo.MainPlayUrl.replace('http://', 'https://');
+        }
+
+        const history = await historyDao.getHistoryByUserIdAndCollection(userInfo.id, collectionInfo.id);
+        if (!history) {
+            await historyDao.addHistory({
+                userId: userInfo.id,
+                collectionId: collectionInfo.id,
+                epNum: epNum,
+            });
+        } else {
+            await historyDao.updateHistoryById(history.id, {
+                epNum: epNum,
+            });
         }
 
         return {

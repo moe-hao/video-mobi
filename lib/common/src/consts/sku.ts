@@ -7,3 +7,8 @@ export enum SkuPeriodType {
     Month = "M",
     Year = "Y",
 }
+
+export enum SkuImportant {
+    No = 0,
+    Yes = 1,
+}

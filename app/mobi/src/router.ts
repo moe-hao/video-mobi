@@ -9,6 +9,7 @@ import product from "./controllers/product";
 import feedback from "./controllers/feedback";
 import subscription from "./controllers/subscription";
 import { userAuthInfoMiddleware } from "./middlewares/user-middleware";
+import history from "./controllers/history";
 
 const router = new Hono();
 router.use(userAuthInfoMiddleware);
@@ -22,5 +23,6 @@ router.route("/member", member);
 router.route("/product", product);
 router.route("/feedback", feedback);
 router.route("/subscription", subscription);
+router.route("/history", history);
 
 export default router;

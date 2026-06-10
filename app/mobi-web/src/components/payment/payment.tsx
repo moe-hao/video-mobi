@@ -1,5 +1,5 @@
 import { CreditCard, Xmark } from "@gravity-ui/icons";
-import { Button, Card, Label, Link } from "@heroui/react";
+import { Button, Label, Link } from "@heroui/react";
 import { useEffect, useState } from "react";
 import PaymentPolicyTips from "./policy";
 import { useTranslation } from "react-i18next";
@@ -9,6 +9,7 @@ import { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
 import { useSkuListState } from "@app/mobi-web/hooks/sku";
 import type { SkuListItem } from "@lib/common/dto/sku";
 import { PeriodType, PeriodTypeToName } from "@lib/common/consts/subscription";
+import { SkuImportant } from "@lib/common/consts/sku";
 
 export default function Payment() {
   const { t } = useTranslation('', { keyPrefix: 'payment' });
@@ -42,28 +43,34 @@ export default function Payment() {
   }
 
   return (
-    <div className="mt-auto flex w-full flex-col items-start gap-3">
+    <div className="mt-auto flex w-full flex-col items-start gap-6">
       {
         skuListRespState.skuList?.map((item) => (
-          <div className="w-full mb-4 rounded-xl bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 p-[1px]" key={item.bizId}>
-            <Card
-              className="bg-gradient-to-b from-black to-purple-950 border-none h-full"
+            <div
+              className={
+                item.important === SkuImportant.Yes ? "w-full bg-gradient-to-r from-[#3D4AE0] to-[#84A1FF] h-full px-4 py-4 rounded-[16px] relative" : "w-full bg-white/10 backdrop-blur-sm border-white/20 h-full px-4 py-4 rounded-[16px] relative"
+              }
+              key={item.bizId}
               onClick={() => handleClickStoreCard(item)}
             >
-              <Card.Header className="flex flex-row items-center justify-between gap-4 p-4">
+              {item.desc && (
+                <span className="absolute -top-2.5 right-[16px] text-[10px] font-bold text-black bg-white px-2 py-1 rounded-[8px] backdrop-blur-sm">
+                  {item.desc}
+                </span>
+              )}
+              <div className="flex flex-row items-center justify-between gap-4 p-2">
                 <div className="flex flex-1 flex-col gap-1">
-                  <h2 className="text-lg font-bold text-white">
+                  <h2 className="text-[16px] italic text-white font-[Anton] truncate tracking-wider">
                     {t(`${PeriodTypeToName[item.periodType as PeriodType]}-vip`)}
                   </h2>
                 </div>
                 <div className="flex shrink-0 flex-col gap-1 items-end">
-                  <h2 className="text-lg font-bold bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-500 bg-clip-text text-transparent whitespace-nowrap">
-                    {t(`${PeriodTypeToName[item.periodType as PeriodType]}-vip-amount`, { amount: `R$${item.price}` })}
+                  <h2 className="text-[16px] text-white font-[Anton] whitespace-nowrap tracking-wider">
+                    {t(`${PeriodTypeToName[item.periodType as PeriodType]}-vip-amount`, { amount: `$${item.price}` })}
                   </h2>
                 </div>
-              </Card.Header>
-            </Card>
-          </div>
+              </div>
+            </div>
         ))
       }
       {showPaymentModal && (

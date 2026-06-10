@@ -7,15 +7,15 @@ import { useAuthCode } from "@app/mobi-web/hooks/user";
 import type { UserAuthInfoResp } from "@lib/common/dto/user";
 import { useProductInfo } from "@app/mobi-web/hooks/product";
 import { VideoMobiContext } from "@app/mobi-web/contexts/video-mobi-context";
-import { House, Person } from "@gravity-ui/icons";
+import { ClockArrowRotateLeft, House, Person } from "@gravity-ui/icons";
 
 const bottomTabs = [
   { path: "/", label: "Home", icon: <House /> },
-  // { path: "/test", label: "History", icon: <ClockArrowRotateLeft /> },
+  { path: "/history/list", label: "History", icon: <ClockArrowRotateLeft /> },
   { path: "/user/info", label: "Mine", icon: <Person /> },
 ];
 
-const showTabPath = ['/', '/test', '/user/info'];
+const showTabPath = ['/', '/history/list', '/user/info'];
 
 export default function RouteGuard() {
   const location = useLocation();

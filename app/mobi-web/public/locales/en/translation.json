@@ -8,12 +8,14 @@
         "profile": "Profile"
     },
     "payment": {
-        "weekly-vip": "VIP Week",
-        "weekly-vip-amount": "{{amount}} / week",
-        "monthly-vip": "VIP Month",
-        "monthly-vip-amount": "{{amount}} / month",
-        "yearly-vip": "VIP Year",
-        "yearly-vip-amount": "{{amount}} / year",
+        "weekly-vip": "Weekly Premium",
+        "weekly-vip-amount": "{{amount}}",
+        "monthly-vip": "Monthly Premium",
+        "monthly-vip-amount": "{{amount}}",
+        "yearly-vip": "Annual Premium",
+        "yearly-vip-amount": "{{amount}}",
+        "monthly-recommend": "Best deal",
+        "yearly-recommend": "Most Pop·85%",
         "payment-title": "Payment",
         "credit-debit-card": "Credit / Debit Card",
         "google-pay": "Google Pay"
@@ -22,9 +24,9 @@
         "id": "ID",
         "user": "User",
         "profile": "Profile",
-        "expiration-time": "Expiration Time",
+        "expiration-time": "Expiraed Date",
         "subscribe": "Subscribe",
-        "login-now": "Login Now"
+        "login-now": "Sign In"
     },
     "user-login": {
         "welcome": "Bem-vindo",
@@ -43,7 +45,7 @@
         "enter": "Enter"
     },
     "user-store": {
-        "subscribe": "Subscribe"
+        "subscribe": "Premium"
     },
     "video-with-id": {
         "episode-num": "Ep. {{currentEpisode}}",
