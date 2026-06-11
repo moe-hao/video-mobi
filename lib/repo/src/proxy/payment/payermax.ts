@@ -71,7 +71,7 @@ class PayermaxProxy {
                 'sign': sign,
             },
             body: body,
-        })
+        });
     }
 
     async payOrder(productInfo: ProductSelect, paymentInfo: PaymentInfo): Promise<PayermaxOrderAndPayResult> {
@@ -138,6 +138,7 @@ class PayermaxProxy {
 
         const resp = await this.request(path.SubscriptionCreate, body);
         const result = await resp.json();
+        logger.info(`CreateSubscription result: ${result.data}`);
         return {
             subscriptionRequestId: result.data?.subscriptionRequestId || '',
             subscriptionNo: result.data?.subscriptionPlan.subscriptionNo || '',
