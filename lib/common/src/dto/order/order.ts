@@ -17,6 +17,7 @@ export interface OrderListResp {
 export interface OrderListRespItem {
     id: number;
     bizId: string;
+    host: string;
     userId: number;
     username: string;
     email: string;

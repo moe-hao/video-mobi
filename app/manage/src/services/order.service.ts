@@ -4,6 +4,7 @@ import { orderDao } from "@lib/repo/dao/order.dao";
 import { userDao } from "@lib/repo/dao/user.dao";
 import { OrderStatus, OrderStatusName } from "@lib/common/consts/order";
 import { formatUnixTime } from "@lib/common/utils/time";
+import { productDao } from "@lib/repo/dao/product.dao";
 
 class OrderService {
     async getOrderList(req: OrderListReq): Promise<OrderListResp> {
@@ -16,6 +17,10 @@ class OrderService {
         const userList = await userDao.getUserListByIds(orderUserIds);
         const userIdToInfoMap = new Map(userList.map((item) => [item.id, item]));
 
+        const productIds = orderList.map((item) => item.productId);
+        const productList = await productDao.getProductListInIds(productIds);
+        const productIdToInfoMap = new Map(productList.map((item) => [item.id, item]));
+
         return {
             page: req.page,
             size: req.size,
@@ -23,6 +28,7 @@ class OrderService {
             list: orderList.map((item) => ({
                 id: item.id,
                 bizId: item.bizId,
+                host: productIdToInfoMap.get(item.productId)?.host || '',
                 userId: item.userId,
                 username: userIdToInfoMap.get(item.userId)?.username || '',
                 email: userIdToInfoMap.get(item.userId)?.email || '',

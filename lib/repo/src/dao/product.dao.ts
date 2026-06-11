@@ -1,4 +1,4 @@
-import { count, desc, eq } from "drizzle-orm";
+import { count, desc, eq, inArray } from "drizzle-orm";
 import { productTable, type ProductSelect } from "../models/product";
 import { database, type DatabaseConn } from "@lib/internal/database";
 
@@ -19,6 +19,13 @@ class ProductDao {
     async getProductCount(): Promise<number> {
         const [result] = await this.conn.select({ count: count() }).from(productTable);
         return result.count;
+    }
+
+    async getProductListInIds(ids: number[]): Promise<ProductSelect[]> {
+        const idSet = new Set(ids);
+        return await this.conn.select().from(productTable).where(
+            inArray(productTable.id, [...idSet.values()])
+        );
     }
 }
 
