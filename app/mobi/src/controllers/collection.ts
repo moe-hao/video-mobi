@@ -7,13 +7,17 @@ import { success } from "@lib/common/dto/result";
 const collection = new Hono();
 
 collection.get('/list', validated('query', collectionListReqSchema), async (c) => {
+    const host = c.req.header('host') as string;
+
     const { page, size } = c.req.valid('query');
-    const resp = await getCollectionPage(page, size);
+    const resp = await getCollectionPage(host, page, size);
     return c.json(success(resp));
 });
 
 collection.get('/feature', async (c) => {
-    const resp = await getFeaturedCollections();
+    const host = c.req.header('host') as string;
+
+    const resp = await getFeaturedCollections(host);
     return c.json(success(resp));
 });
 

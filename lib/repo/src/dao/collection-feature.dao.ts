@@ -44,9 +44,12 @@ class CollectionFeatureDao {
         return result.count;
     }
 
-    async getFeaturedCollections() {
+    async getFeaturedCollections(): Promise<CollectionFeatureSelect[]> {
         return await this.conn.select().from(collectionFeatureTable).where(
-            eq(collectionFeatureTable.isDeleted, DeleteStatus.NotDeleted)
+            and(
+                eq(collectionFeatureTable.isDeleted, DeleteStatus.NotDeleted)
+            )
+
         ).orderBy(desc(collectionFeatureTable.weight));
     }
 

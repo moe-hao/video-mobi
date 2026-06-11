@@ -81,7 +81,7 @@ class CollectionDao {
         return await this.conn.select().from(collectionTable).where(and(...conditions));
     }
 
-    async getCollectionPage(page: number, size: number): Promise<CollectionSelect[]> {
+    async getCollectionPage(page: number, size: number, language: Language): Promise<CollectionSelect[]> {
         const collections = await this.conn.select().from(collectionTable)
             .where(
                 and(
@@ -95,7 +95,7 @@ class CollectionDao {
         return collections;
     }
 
-    async getCollectionTotal(): Promise<number> {
+    async getCollectionTotal(language: Language): Promise<number> {
         const result = await this.conn.select({ count: count() }).from(collectionTable).where(
             eq(collectionTable.isDeleted, DeleteStatus.NotDeleted)
         );
