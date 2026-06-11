@@ -12,6 +12,7 @@ class ProductService {
             region: productInfo.region as Region,
             language: productInfo.language as Language,
             currency: productInfo.currency,
+            currencySign: productInfo.currencySign,
         };
     }
 }

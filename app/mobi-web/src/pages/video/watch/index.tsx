@@ -147,7 +147,7 @@ export default function VideoWatch() {
     if (!el) return;
 
     const preventTouchMove = (e: TouchEvent) => {
-      if (isSwiping.current) {
+      if (isSwiping.current && e.cancelable) {
         e.preventDefault();
       }
     };
@@ -164,7 +164,7 @@ export default function VideoWatch() {
     if (!el) return;
 
     const preventPullRefresh = (e: TouchEvent) => {
-      if (isModalSwipingDown.current) {
+      if (isModalSwipingDown.current && e.cancelable) {
         e.preventDefault();
       }
     };
@@ -390,7 +390,7 @@ export default function VideoWatch() {
           }}
         >
           <ArrowShapeTurnUpRight width={28} height={28} className="text-white" />
-          <span className="text-white mt-1" style={{ fontSize: 10 }}>Share</span>
+          <span className="text-white mt-1" style={{ fontSize: 10 }}>{t('share')}</span>
         </button>
       </div>
 
@@ -488,7 +488,7 @@ export default function VideoWatch() {
             </div>
             <div className="grid grid-cols-5">
               {videoPlayInfoResp.videoList?.slice(episodePage * 25, (episodePage + 1) * 25).map((video) => (
-                <div className="flex justify-center mb-4">
+                <div className="flex justify-center mb-4" key={video.epNum}>
                   <Badge.Anchor key={video.epNum} className="w-10 h-10 flex items-center justify-center">
                     <Avatar className="w-12 h-12 rounded-lg">
                       <Avatar.Fallback

@@ -2,15 +2,15 @@ import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { historyDao } from "@lib/repo/dao/history.dao";
 import type { CollectionSelect } from "@lib/repo/models/collection";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
-import type { HistoryDeleteReq, UserHistoryListResp } from "@lib/common/dto/history";
+import type { CollectionHistoryReq, CollectionHistoryResp, HistoryDeleteReq, UserHistoryListReq, UserHistoryListResp } from "@lib/common/dto/history";
 import { DeleteStatus } from "@lib/common/consts/common-status";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { ResultCode } from "@lib/common/consts/result";
 
 class HistoryService {
-    async getHistoryListByUserId(userInfo: UserAuthInfo): Promise<UserHistoryListResp> {
+    async getHistoryListByUserId(userInfo: UserAuthInfo, req: UserHistoryListReq): Promise<UserHistoryListResp> {
         const [historyList, historyTotal] = await Promise.all([
-            historyDao.getHistoryPageByUserId(userInfo.id, 1, 10),
+            historyDao.getHistoryPageByUserId(userInfo.id, req.page, req.size),
             historyDao.getHistoryCountByUserId(userInfo.id),
         ]);
 
@@ -33,6 +33,18 @@ class HistoryService {
                 collectionCover: collectionIdToInfo[item.collectionId].cover,
                 epNum: item.epNum,
             })),
+        }
+    }
+
+    async getCollectionHistory(userInfo: UserAuthInfo, req: CollectionHistoryReq): Promise<CollectionHistoryResp> {
+        const collection = await collectionDao.getCollectionByBizId(req.collectionBizId);
+        if (!collection) {
+            throw new InternalException(ResultCode.ResourceNotFound.code, "Collection Not Found!");
+        }
+
+        const history = await historyDao.getHistoryByUserIdAndCollection(userInfo.id, collection.id);
+        return {
+            epNum: history ? history.epNum : 1,
         }
     }
 

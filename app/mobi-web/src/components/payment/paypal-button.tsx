@@ -8,11 +8,11 @@ import { useEffect } from "react";
 
 const styles: PayPalButtonsComponentProps["style"] = {
     tagline: false,
-    shape: "sharp",
+    shape: "rect",
     layout: "horizontal",
-    color: "black",
+    color: "white",
     label: "paypal",
-    height: 50,
+    height: 52,
 };
 
 export default function PayPalButton({ skuInfo }: { skuInfo: SkuListItem }) {
@@ -76,7 +76,7 @@ export default function PayPalButton({ skuInfo }: { skuInfo: SkuListItem }) {
 
     if (skuInfo.skuType === SkuType.Subscription) {
         return (
-            <div className="rounded-3xl overflow-hidden [&_iframe]:!rounded-3xl">
+            <div className="rounded-[16px] overflow-hidden [&_iframe]:!rounded-[16px]">
                 <PayPalButtons
                     style={styles}
                     createSubscription={handlePaypalCreateSubscription}
@@ -88,7 +88,7 @@ export default function PayPalButton({ skuInfo }: { skuInfo: SkuListItem }) {
     }
 
     return (
-        <div className="rounded-3xl overflow-hidden [&_iframe]:!rounded-3xl">
+        <div className="rounded-[16px] overflow-hidden [&_iframe]:!rounded-[16px]">
             <PayPalButtons
                 style={styles}
                 createOrder={handlePaypalCreateOrder}

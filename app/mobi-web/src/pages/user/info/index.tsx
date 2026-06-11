@@ -33,7 +33,8 @@ export default function UserInfo() {
               <Avatar.Fallback><Person /></Avatar.Fallback>
             </Avatar>
             <div className="flex flex-1 flex-col gap-1 min-w-0">
-              <span className="text-base font-bold text-white truncate">{userInfo.username}</span>
+              {/* <span className="text-base font-bold text-white truncate">{userInfo.username}</span> */}
+              <span className="text-base font-bold text-white truncate">{t('user')}</span>
               <span className="text-xs font-normal text-white truncate">UID: {userInfo.bizId}</span>
             </div>
             {userInfo.userType === UserType.Guest && (
@@ -54,14 +55,14 @@ export default function UserInfo() {
                 <div className="flex flex-1 items-center gap-4 min-w-0">
                   <img src="https://s01.bluearcshow.com/images/vip.png" alt="premium" className="size-14" />
                   <div className="flex flex-1 flex-col gap-1 min-w-0">
-                    <h2 className="text-lg font-bold italic text-white truncate font-[Anton] tracking-wider">Blue Arc Premium</h2>
+                    <h2 className="text-lg font-bold italic text-white truncate font-[Anton] tracking-wider">Blue Arc {t('premium')}</h2>
                     {
                       userMemberInfoState.expireTime > currentTime() ? (
                         <span className="text-[12px] text-white truncate">
                           {t('expiration-time')}: {new Date(userMemberInfoState.expireTime * 1000).toLocaleString()}
                         </span>
                       ) : (
-                        <span className="text-[12px] text-white truncate">All Episodes Free</span>
+                        <span className="text-[12px] text-white truncate">{t('all-ep-free')}</span>
                       )
                     }
                   </div>
@@ -74,7 +75,7 @@ export default function UserInfo() {
                 <div className="flex items-start justify-center pt-px">
                   <Headphones className="size-6 shrink-0 text-muted" />
                 </div>
-                <div className="flex flex-col">Feedback</div>
+                <div className="flex flex-col">{t('feedback')}</div>
                 <ChevronRight className="ms-auto size-4 shrink-0 text-muted" />
               </ListBox.Item>
               <ListBox.Item id="terms-of-service" textValue="Terms of Service" className="px-0" onPress={() => { window.location.href = '/terms/terms-of-service.html'; }}
@@ -82,7 +83,7 @@ export default function UserInfo() {
                 <div className="flex items-start justify-center pt-px">
                   <Person className="size-6 shrink-0 text-muted" />
                 </div>
-                <div className="flex flex-col">Terms of Service</div>
+                <div className="flex flex-col">{t('terms')}</div>
                 <ChevronRight className="ms-auto size-4 shrink-0 text-muted" />
               </ListBox.Item>
               <ListBox.Item id="privacy-policy" textValue="Privacy Policy" className="px-0" onPress={() => { window.location.href = '/terms/privacy-policy.html'; }}
@@ -90,7 +91,7 @@ export default function UserInfo() {
                 <div className="flex items-start justify-center pt-px">
                   <ShieldKeyhole className="size-6 shrink-0 text-muted" />
                 </div>
-                <div className="flex flex-col">Privacy Policy</div>
+                <div className="flex flex-col">{t('privacy')}</div>
                 <ChevronRight className="ms-auto size-4 shrink-0 text-muted" />
               </ListBox.Item>
             </ListBox>

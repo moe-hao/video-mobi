@@ -8,11 +8,12 @@ import type { UserAuthInfoResp } from "@lib/common/dto/user";
 import { useProductInfo } from "@app/mobi-web/hooks/product";
 import { VideoMobiContext } from "@app/mobi-web/contexts/video-mobi-context";
 import { ClockArrowRotateLeft, House, Person } from "@gravity-ui/icons";
+import { useTranslation } from "react-i18next";
 
 const bottomTabs = [
-  { path: "/", label: "Home", icon: <House /> },
-  { path: "/history/list", label: "History", icon: <ClockArrowRotateLeft /> },
-  { path: "/user/info", label: "Mine", icon: <Person /> },
+  { path: "/", label: "home", icon: <House /> },
+  { path: "/history/list", label: "history", icon: <ClockArrowRotateLeft /> },
+  { path: "/user/info", label: "profile", icon: <Person /> },
 ];
 
 const showTabPath = ['/', '/history/list', '/user/info'];
@@ -52,6 +53,8 @@ export default function RouteGuard() {
     fetchVideoMobiInfo();
   }, [location.pathname, searchParams]);
 
+  const { t } = useTranslation('', { keyPrefix: 'navigation' });
+
   return (
     <VideoMobiContext.Provider value={{ userInfo: userInfoState, productInfo: productInfoState }}>
       <div className="flex flex-col flex-1">
@@ -77,7 +80,7 @@ export default function RouteGuard() {
             {bottomTabs.map((tab) => (
               <Tabs.Tab key={tab.path} id={tab.path} className="flex-col gap-0.5 p-5 pb-6">
                 <span className="[&>svg]:w-5 [&>svg]:h-5">{tab.icon}</span>
-                <span className="text-[8px]">{tab.label}</span>
+                <span className="text-[8px]">{t(tab.label)}</span>
               </Tabs.Tab>
             ))}
           </Tabs.List>

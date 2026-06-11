@@ -10,11 +10,13 @@ import { useSkuListState } from "@app/mobi-web/hooks/sku";
 import type { SkuListItem } from "@lib/common/dto/sku";
 import { PeriodType, PeriodTypeToName } from "@lib/common/consts/subscription";
 import { SkuImportant } from "@lib/common/consts/sku";
+import { useVideoMobiContext } from "@app/mobi-web/contexts/video-mobi-context";
 
 export default function Payment() {
   const { t } = useTranslation('', { keyPrefix: 'payment' });
   const { fetchUserOrderCreate } = useUserOrderCreate();
   const { skuListRespState, fetchSkuList } = useSkuListState();
+  const { productInfo } = useVideoMobiContext();
 
   const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
   // const [shouldPaySkuId, setShouldPaySkuId] = useState<string>('');
@@ -46,46 +48,47 @@ export default function Payment() {
     <div className="mt-auto flex w-full flex-col items-start gap-6">
       {
         skuListRespState.skuList?.map((item) => (
-            <div
-              className={
-                item.important === SkuImportant.Yes ? "w-full bg-gradient-to-r from-[#3D4AE0] to-[#84A1FF] h-full px-4 py-4 rounded-[16px] relative" : "w-full bg-white/10 backdrop-blur-sm border-white/20 h-full px-4 py-4 rounded-[16px] relative"
-              }
-              key={item.bizId}
-              onClick={() => handleClickStoreCard(item)}
-            >
-              {item.desc && (
-                <span className="absolute -top-2.5 right-[16px] text-[10px] font-bold text-black bg-white px-2 py-1 rounded-[8px] backdrop-blur-sm">
-                  {item.desc}
-                </span>
-              )}
-              <div className="flex flex-row items-center justify-between gap-4 p-2">
-                <div className="flex flex-1 flex-col gap-1">
-                  <h2 className="text-[16px] italic text-white font-[Anton] truncate tracking-wider">
-                    {t(`${PeriodTypeToName[item.periodType as PeriodType]}-vip`)}
-                  </h2>
-                </div>
-                <div className="flex shrink-0 flex-col gap-1 items-end">
-                  <h2 className="text-[16px] text-white font-[Anton] whitespace-nowrap tracking-wider">
-                    {t(`${PeriodTypeToName[item.periodType as PeriodType]}-vip-amount`, { amount: `$${item.price}` })}
-                  </h2>
-                </div>
+          <div
+            className={
+              item.important === SkuImportant.Yes ? "w-full bg-gradient-to-r from-[#3D4AE0] to-[#84A1FF] h-full px-4 py-4 rounded-[16px] relative" : "w-full bg-white/10 backdrop-blur-sm border-white/20 h-full px-4 py-4 rounded-[16px] relative"
+            }
+            key={item.bizId}
+            onClick={() => handleClickStoreCard(item)}
+          >
+            {item.desc && (
+              <span className="absolute -top-2.5 right-[16px] text-[10px] font-bold text-black bg-white px-2 py-1 rounded-[8px] backdrop-blur-sm">
+                {item.desc}
+              </span>
+            )}
+            <div className="flex flex-row items-center justify-between gap-4 p-2">
+              <div className="flex flex-1 flex-col gap-1">
+                <h2 className="text-[16px] italic text-white font-[Anton] truncate tracking-wider">
+                  {t(`${PeriodTypeToName[item.periodType as PeriodType]}-vip`)}
+                </h2>
+              </div>
+              <div className="flex shrink-0 flex-col gap-1 items-end">
+                <h2 className="text-[16px] text-white font-[Anton] whitespace-nowrap tracking-wider">
+                  {productInfo?.currencySign}{ item.price }
+                </h2>
               </div>
             </div>
+          </div>
         ))
       }
       {showPaymentModal && (
         <>
           <div
-            className="fixed inset-0 bg-black/60 z-40 backdrop-blur-sm pointer-events-none"
+            className="fixed inset-0 bg-black/60 z-40 backdrop-blur-sm"
           />
           <div
-            className="fixed bottom-0 left-0 right-0 bg-gradient-to-b from-gray-900 to-black text-white rounded-t-3xl p-6 z-50"
+            className="fixed bottom-0 left-0 right-0 text-white rounded-[16px] p-2 z-50"
             style={{
-              animation: 'slideUp 0.3s ease-out'
+              animation: 'slideUp 0.3s ease-out',
+              background: 'linear-gradient(180deg, #2a3e63 0%, #1a1f2e 20%, #0d1117 100%)'
             }}
           >
-            <div className="flex justify-between items-center mb-6">
-              <h1 className="text-xl font-bold text-white">{t('payment-title')}</h1>
+            <div className="flex justify-between items-center">
+              <h1 className="text-xl font-bold text-white"></h1>
               <Button
                 variant="ghost"
                 size="sm"
@@ -95,18 +98,22 @@ export default function Payment() {
                 <Xmark />
               </Button>
             </div>
-            <div className="bg-white/5 rounded-2xl p-4 mb-6 border border-white/10">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-1">
-                  <span className="text-2xl font-bold bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-500 bg-clip-text text-transparent">
-                    R${skuInfo.price}
-                  </span>
-                </div>
-              </div>
+            <div className="flex items-end justify-center gap-1">
+              <span className="text-[50px] font-[Anton] bg-gradient-to-r from-[#FFA200] via-amber-400 to-[#FFEC75] bg-clip-text text-transparent">
+                {skuInfo.price}
+              </span>
+              <span className="text-[14px] pb-3 text-[#FFC525]">
+                {productInfo?.currency}
+              </span>
+            </div>
+            <div className="flex items-end justify-center gap-1">
+              <span className="text-[12px] pb-6">
+                Blue Arc Premium
+              </span>
             </div>
             <Button
               size="lg"
-              className="w-full h-[50px] bg-gradient-to-r text-white font-bold text-xl mb-4 bg-[#2C2E2F]"
+              className="w-full h-[52px] bg-white/10 backdrop-blur-sm border-white/20 h-full mb-4 px-4 py-4 rounded-[16px] relative"
               onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.Card)}
             >
               <CreditCard />
@@ -116,7 +123,7 @@ export default function Payment() {
             </Button>
             <Button
               size="lg"
-              className="w-full h-[50px] bg-gradient-to-r text-white font-bold text-xl mb-4 bg-[#2C2E2F]"
+              className="w-full h-[52px] bg-white/10 backdrop-blur-sm border-white/20 h-full mb-4 px-4 py-4 rounded-[16px] relative"
               onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.GooglePay)}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">

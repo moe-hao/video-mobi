@@ -5,32 +5,33 @@
     },
     "navigation": {
         "home": "Home",
-        "profile": "Profile"
+        "profile": "Profile",
+        "history": "History"
+    },
+    "history": {
+        "up-to": "Up to Ep. {{epNum}}",
+        "total": "{{totalEpNum}}",
+        "watch-now": "Watch Just Now",
+        "continue": "Continue"
     },
     "payment": {
         "weekly-vip": "Weekly Premium",
-        "weekly-vip-amount": "{{amount}}",
         "monthly-vip": "Monthly Premium",
-        "monthly-vip-amount": "{{amount}}",
         "yearly-vip": "Annual Premium",
-        "yearly-vip-amount": "{{amount}}",
-        "monthly-recommend": "Best deal",
-        "yearly-recommend": "Most Pop·85%",
-        "payment-title": "Payment",
         "credit-debit-card": "Credit / Debit Card",
         "google-pay": "Google Pay"
     },
     "user-info": {
-        "id": "ID",
         "user": "User",
-        "profile": "Profile",
+        "premium": "Premium",
         "expiration-time": "Expiraed Date",
-        "subscribe": "Subscribe",
-        "login-now": "Sign In"
+        "login-now": "Sign In",
+        "all-ep-free": "All Episodes Free",
+        "feedback": "Feedback",
+        "terms": "Terms of Service",
+        "privacy": "Privacy Policy"
     },
     "user-login": {
-        "welcome": "Bem-vindo",
-        "enter-to-blue-arc": "Entrar no Blue Arc",
         "email-login": "Email Login"
     },
     "user-login-email": {
@@ -45,13 +46,17 @@
         "enter": "Enter"
     },
     "user-store": {
-        "subscribe": "Premium"
+        "title": "Premium",
+        "subscribe": "Premium",
+        "hd-quality": "HD Quality",
+        "free": "Free Watch",
+        "watch-first": "Watch First",
+        "premium": "Premium"
     },
     "video-with-id": {
         "episode-num": "Ep. {{currentEpisode}}",
         "episode-select": "Episodes",
         "completed": "Completed",
-        "total-episodes": "{{totalEpisodes}} Episodes",
-        "become-vip": "Become VIP"
+        "total-episodes": "{{totalEpisodes}} Episodes"
     }
 }

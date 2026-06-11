@@ -50,7 +50,7 @@ export default function VerifyLogin() {
             </InputOTP.Group>
           </InputOTP>
         </div>
-        <Button variant="danger" className="w-full" onPress={handleVerify}>{t('enter')}</Button>
+        <Button className="w-full bg-white text-black" variant="ghost" onPress={handleVerify}>{t('enter')}</Button>
       </div>
     </div>
   );

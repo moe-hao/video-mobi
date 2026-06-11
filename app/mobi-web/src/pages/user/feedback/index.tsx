@@ -42,9 +42,10 @@ export default function UserFeedback() {
         <Button variant="ghost" isIconOnly onPress={() => navigate('/user/info')}>
           <ChevronLeft />
         </Button>
+        <h1 className="text-lg text-white">Feedback</h1>
+        <div className="w-10" />
       </div>
       <div className="pt-16 p-4 ">
-        <h1 className="text-lg font-bold text-white p-2">Feedback</h1>
         <Tabs className="w-full max-w-md" onSelectionChange={(key) => setFeedbackAddReq({ ...feedbackAddReq, feedbackType: key as FeedbackType })}>
           <Tabs.ListContainer>
             <Tabs.List aria-label="Options">
@@ -74,7 +75,7 @@ export default function UserFeedback() {
         </Tabs>
       </div>
       <div className="px-6">
-        <Button className="w-full" variant="primary" onClick={handleSubmit} isDisabled={loading}>
+        <Button className="w-full bg-white text-black" variant="ghost" onClick={handleSubmit} isDisabled={loading}>
           {loading && <Spinner color="current" size="sm" />}
           Submit
         </Button>

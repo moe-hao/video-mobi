@@ -3,11 +3,13 @@ import { CirclePlay, TrashBin } from "@gravity-ui/icons";
 import { Button, Label, ProgressBar } from "@heroui/react";
 import type { UserHistoryListReq } from "@lib/common/dto/history";
 import { useEffect, useRef, useState } from "react"
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 
 const DELETE_BTN_WIDTH = 72;
 
 export default function HistoryList() {
+  const { t } = useTranslation('', { keyPrefix: 'history' });
   const { historyUserList, loading, hasMore, fetchHistoryList, fetchMore } = useHistoryPage();
   const { fetchDeleteHistoryItem } = useDeleteHistoryItem();
 
@@ -129,18 +131,18 @@ export default function HistoryList() {
               <h3 className="text-white text-[14px] font-medium truncate">{item.collectionName}</h3>
               <ProgressBar aria-label={item.collectionBizId} size="sm" value={item.epNum / item.collectionEpNum * 100}>
                 <Label>
-                  <span className="text-white text-[10px] mt-1">Up to EP. {item.epNum}</span>
-                  <span className="text-white/50 text-[10px] mt-1"> / EP. {item.collectionEpNum}</span>
+                  <span className="text-white text-[10px] mt-1">{t('up-to', { epNum: item.epNum })}</span>
+                  <span className="text-white/50 text-[10px] mt-1"> / {t('total', { totalEpNum: item.collectionEpNum })}</span>
                 </Label>
                 <ProgressBar.Track>
                   <ProgressBar.Fill className="bg-[#3D77FF]" />
                 </ProgressBar.Track>
               </ProgressBar>
               <div className="flex justify-between mt-1 pt-2">
-                <p className="text-white/50 text-[10px]">Watch Just Now</p>
+                <p className="text-white/50 text-[10px]">{t('watch-now')}</p>
                 <Button size="sm" className="min-h-0 h-6 px-2 text-xs bg-white text-black" onClick={() => handleContinue(item.collectionBizId, item.epNum)}>
                   <CirclePlay />
-                  Continue
+                  {t('continue')}
                 </Button>
               </div>
             </div>

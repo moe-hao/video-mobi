@@ -1,0 +1,62 @@
+{
+    "collection-list": {
+        "all-collections": "全部",
+        "episodes": "集"
+    },
+    "navigation": {
+        "home": "首頁",
+        "profile": "我的",
+        "history": "歷史"
+    },
+    "history": {
+        "up-to": "觀看至 第 {{epNum}} 集",
+        "total": "共 {{totalEpNum}} 集",
+        "watch-now": "立即觀看",
+        "continue": "繼續觀看"
+    },
+    "payment": {
+        "weekly-vip": "周會員",
+        "monthly-vip": "月會員",
+        "yearly-vip": "年會員",
+        "credit-debit-card": "信用卡 / 借記卡",
+        "google-pay": "Google Pay"
+    },
+    "user-info": {
+        "user": "用戶",
+        "premium": "會員",
+        "expiration-time": "到期時間",
+        "login-now": "登錄",
+        "all-ep-free": "所有劇集免費",
+        "feedback": "問題反饋",
+        "terms": "用戶條款",
+        "privacy": "隱私政策"
+    },
+    "user-login": {
+        "email-login": "電子信箱登錄"
+    },
+    "user-login-email": {
+        "email-login": "電子信箱登錄",
+        "email-address": "電子信箱",
+        "enter": "確認"
+    },
+    "user-login-verify": {
+        "verify-code": "驗證碼",
+        "verify-account": "帳號驗證碼",
+        "verify-code-sent-to": "我們已發送驗證碼至 {{email}}",
+        "enter": "確認"
+    },
+    "user-store": {
+        "title": "會員訂閱",
+        "hd-quality": "高清視頻",
+        "free": "免費觀看",
+        "watch-first": "優先觀看",
+        "premium": "會員"
+    },
+    "video-with-id": {
+        "episode-num": "第 {{currentEpisode}} 集",
+        "episode-select": "選集",
+        "completed": "已完結",
+        "total-episodes": "{{totalEpisodes}} 集",
+        "share": "分享"
+    }
+}

@@ -4,6 +4,7 @@ export interface ProductInfoResp {
     region: Region;
     language: Language;
     currency: string;
+    currencySign: string;
 }
 
 export interface ProductListResp {

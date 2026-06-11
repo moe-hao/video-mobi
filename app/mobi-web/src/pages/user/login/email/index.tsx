@@ -37,8 +37,7 @@ export default function EmailLogin() {
           className="w-full"
         />
         <Button
-          variant="danger"
-          className="w-full"
+          className="w-full bg-white text-black" variant="ghost"
           isPending={isClickEnterButton}
           onPress={handleContinue}
         >

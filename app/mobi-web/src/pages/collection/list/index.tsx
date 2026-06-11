@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { useCollection, useFeatureCollection } from '@app/mobi-web/hooks/collection';
 import Carousel from '@app/mobi-web/components/carousel';
+import { useUserCollectionHistory } from '@app/mobi-web/hooks/history/use-user-history';
 
 export default function CollectionListPage() {
   const { t } = useTranslation('', { keyPrefix: 'collection-list' });
@@ -12,6 +13,7 @@ export default function CollectionListPage() {
 
   const { collectionListResp, fetchCollectionList, loadMore, loading, hasMore } = useCollection();
   const { featuredList, fetchFeaturedCollections } = useFeatureCollection();
+  const { fetchCollectionHistory } = useUserCollectionHistory();
   const observerRef = useRef<HTMLDivElement>(null);
   const [carouselIndex, setCarouselIndex] = useState(0);
 
@@ -41,8 +43,9 @@ export default function CollectionListPage() {
     return () => observer.disconnect();
   }, [handleObserver]);
 
-  const handleVideoClick = (bizId: string) => {
-    navigate(`/video/watch?collectionId=${bizId}&episode=1`);
+  const handleVideoClick = async (bizId: string) => {
+    const result = await fetchCollectionHistory({ collectionBizId: bizId });
+    navigate(`/video/watch?collectionId=${bizId}&episode=${result.epNum}`);
   };
 
   return (
