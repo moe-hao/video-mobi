@@ -5,7 +5,7 @@ import { database, type DatabaseConn } from "@lib/internal/database";
 import { DeleteStatus } from "@lib/common/consts/common-status";
 import { currentTime } from "@lib/common/utils/time";
 import type { Language } from "@lib/common/consts/region";
-import { PublishStatus } from "@lib/common/consts/collection";
+import { CollectionType, PublishStatus } from "@lib/common/consts/collection";
 
 
 type SearchPageParam = {
@@ -81,11 +81,12 @@ class CollectionDao {
         return await this.conn.select().from(collectionTable).where(and(...conditions));
     }
 
-    async getCollectionPage(page: number, size: number, language: Language): Promise<CollectionSelect[]> {
+    async getCollectionPage(page: number, size: number, language: Language, collectionTypeList: CollectionType[]): Promise<CollectionSelect[]> {
         const collections = await this.conn.select().from(collectionTable)
             .where(
                 and(
                     eq(collectionTable.language, language),
+                    inArray(collectionTable.collectionType, collectionTypeList),
                     eq(collectionTable.isDeleted, DeleteStatus.NotDeleted),
                     eq(collectionTable.publishStatus, PublishStatus.Published)
                 )
@@ -96,10 +97,11 @@ class CollectionDao {
         return collections;
     }
 
-    async getCollectionTotal(language: Language): Promise<number> {
+    async getCollectionTotal(language: Language, collectionTypeList: CollectionType[]): Promise<number> {
         const result = await this.conn.select({ count: count() }).from(collectionTable).where(
             and(
                 eq(collectionTable.language, language),
+                inArray(collectionTable.collectionType, collectionTypeList),
                 eq(collectionTable.isDeleted, DeleteStatus.NotDeleted)
             )
         );

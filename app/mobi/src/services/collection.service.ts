@@ -1,3 +1,4 @@
+import type { CollectionType } from "@lib/common/consts/collection";
 import { Language } from "@lib/common/consts/region";
 import type { CollectionItemResp, CollectionListResp } from "@lib/common/dto/collection";
 import { collectionFeatureDao } from "@lib/repo/dao/collection-feature.dao";
@@ -8,10 +9,11 @@ import type { CollectionSelect } from "@lib/repo/models/collection";
 export async function getCollectionPage(host: string, page: number, size: number): Promise<CollectionListResp> {
     const productInfo = await productDao.getProductByHost(host);
     const productLanguage = (productInfo?.language || Language.En) as Language;
+    const collectionTypeList = JSON.parse(productInfo?.collectionTypeList || '[]') as CollectionType[];
 
     const [collectionList, total] = await Promise.all([
-        collectionDao.getCollectionPage(page, size, productLanguage),
-        collectionDao.getCollectionTotal(productLanguage),
+        collectionDao.getCollectionPage(page, size, productLanguage, collectionTypeList),
+        collectionDao.getCollectionTotal(productLanguage, collectionTypeList),
     ]);
 
     const list = collectionList.map((item) => ({
