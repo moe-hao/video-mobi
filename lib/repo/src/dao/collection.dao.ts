@@ -85,6 +85,7 @@ class CollectionDao {
         const collections = await this.conn.select().from(collectionTable)
             .where(
                 and(
+                    eq(collectionTable.language, language),
                     eq(collectionTable.isDeleted, DeleteStatus.NotDeleted),
                     eq(collectionTable.publishStatus, PublishStatus.Published)
                 )
@@ -97,7 +98,10 @@ class CollectionDao {
 
     async getCollectionTotal(language: Language): Promise<number> {
         const result = await this.conn.select({ count: count() }).from(collectionTable).where(
-            eq(collectionTable.isDeleted, DeleteStatus.NotDeleted)
+            and(
+                eq(collectionTable.language, language),
+                eq(collectionTable.isDeleted, DeleteStatus.NotDeleted)
+            )
         );
         return result?.[0]?.count || 0;
     }
