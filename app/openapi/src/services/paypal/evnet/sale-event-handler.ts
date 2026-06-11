@@ -31,6 +31,7 @@ export class SaleEventHandler implements EventHandler {
                     userId: subscriptionInfo.userId,
                     amount: saleInfo.amount.total,
                     skuId: subscriptionInfo.skuId,
+                    productId: subscriptionInfo.productId,
                     paymentId: saleInfo.id,
                     subscriptionId: subscriptionId,
                     subscriptionCount: subscriptionOrderCount + 1,

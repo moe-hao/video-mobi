@@ -30,6 +30,7 @@ export class PayermaxPayment implements Payment {
             subscriptionStatus: PayermaxToSubscriptionStatus[subscriptionCreateResult.subscriptionStatus],
             subscriptionChannel: this.orderPaymentChannel,
             skuId: paymentInfo.skuInfo.id,
+            productId: paymentInfo.productInfo.id,
         });
 
         const orderBizId = await orderBizIdGenerator.generate();
@@ -49,6 +50,7 @@ export class PayermaxPayment implements Payment {
             amount: paymentInfo.skuInfo.price,
             currency: paymentInfo.productInfo.currency,
             skuId: paymentInfo.skuInfo.id,
+            productId: paymentInfo.productInfo.id,
             paymentId: paymentResult.tradeToken,
             subscriptionId: subscriptionId,
             paymentChannel: this.orderPaymentChannel,

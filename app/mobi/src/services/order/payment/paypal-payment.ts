@@ -49,6 +49,7 @@ export class PaypalPayment implements Payment {
             subscriptionStatus: SubscriptionStatus.InActive,
             subscriptionChannel: this.paymentChannel,
             skuId: paymentInfo.skuInfo.id,
+            productId: paymentInfo.productInfo.id,
         });
 
         return {
@@ -80,6 +81,7 @@ export class PaypalPayment implements Payment {
             userId: paymentInfo.userInfo.id,
             amount: paymentInfo.skuInfo.price,
             skuId: paymentInfo.skuInfo.id,
+            productId: paymentInfo.productInfo.id,
             paymentId: resp.result.id || '',
             paymentChannel: this.paymentChannel,
             orderStatus: OrderStatus.Pending,

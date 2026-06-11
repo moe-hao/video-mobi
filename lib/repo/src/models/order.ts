@@ -7,6 +7,7 @@ export const orderTable = mysqlTable("order", {
     amount: decimal("amount", { precision: 6, scale: 2 }).notNull().default('0.00'),
     currency: varchar("currency", { length: 10 }).notNull().default(''),
     skuId: int("sku_id").notNull().default(0),
+    productId: int("product_id").notNull().default(0),
     paymentId: varchar('payment_id', { length: 40 }).notNull().default(''),
     subscriptionId: int("subscription_id").notNull().default(0),
     subscriptionCount: int("subscription_count").notNull().default(0),

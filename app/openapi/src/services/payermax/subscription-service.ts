@@ -59,6 +59,7 @@ class SubscriptionService {
                 amount: req.data.subscriptionPaymentDetail.payAmount.amount,
                 currency: req.data.subscriptionPaymentDetail.payAmount.currency,
                 skuId: subscriptionInfo.skuId,
+                productId: subscriptionInfo.productId,
                 paymentId: orderPaymentId,
                 subscriptionId: subscriptionInfo.id,
                 subscriptionCount: req.data.subscriptionPaymentDetail.subscriptionIndex + 1,

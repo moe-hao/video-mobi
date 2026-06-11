@@ -9,6 +9,7 @@ export const subscriptionTable = mysqlTable("subscription", {
     subscriptionStatus: int("subscription_status").notNull().default(SubscriptionStatus.InActive),
     subscriptionChannel: varchar("subscription_channel", { length: 30 }).notNull().default(""),
     skuId: int("sku_id").notNull().default(0),
+    productId: int("product_id").notNull().default(0),
     createTime: int("create_time").notNull().default(0),
     updateTime: int("update_time").notNull().default(0),
 })
