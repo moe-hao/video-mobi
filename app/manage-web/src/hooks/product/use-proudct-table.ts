@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { request } from "@lib/common/utils/request-manage";
-import type { ProductListResp } from "@lib/common/dto/product";
+import type { ProductAddReq, ProductEditReq, ProductListResp } from "@lib/common/dto/product";
 
 export function useProductTable(): {
   productTableState: ProductListResp;
@@ -17,5 +17,29 @@ export function useProductTable(): {
   return {
     productTableState,
     fetchProductTable,
+  };
+}
+
+export function useAddProduct(): {
+  fetchAddProduct: (req: ProductAddReq) => Promise<void>;
+} {
+  const fetchAddProduct = useCallback(async (req: ProductAddReq) => {
+    await request<void>("/api/product/add", "POST", req);
+  }, []);
+
+  return {
+    fetchAddProduct,
+  };
+}
+
+export function useEditProduct(): {
+  fetchEditProduct: (req: ProductEditReq) => Promise<void>;
+} {
+  const fetchEditProduct = useCallback(async (req: ProductEditReq) => {
+    await request<void>("/api/product/edit", "POST", req);
+  }, []);
+
+  return {
+    fetchEditProduct,
   };
 }

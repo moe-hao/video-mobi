@@ -1,6 +1,7 @@
 import { count, desc, eq, inArray } from "drizzle-orm";
-import { productTable, type ProductSelect } from "../models/product";
+import { productTable, type ProductInsert, type ProductSelect } from "../models/product";
 import { database, type DatabaseConn } from "@lib/internal/database";
+import { currentTime } from "@lib/common/utils/time";
 
 class ProductDao {
     constructor(private readonly conn: DatabaseConn = database) { }
@@ -26,6 +27,19 @@ class ProductDao {
         return await this.conn.select().from(productTable).where(
             inArray(productTable.id, [...idSet.values()])
         );
+    }
+
+    async updateProductById(id: number, data: ProductInsert): Promise<void> {
+        data.updateTime = currentTime();
+        await this.conn.update(productTable).set(data).where(
+            eq(productTable.id, id)
+        );
+    }
+
+    async addProduct(data: ProductInsert): Promise<void> {
+        data.createTime = currentTime();
+        data.updateTime = currentTime();
+        await this.conn.insert(productTable).values(data);
     }
 }
 

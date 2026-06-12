@@ -6,6 +6,7 @@ import DeleteButton from "@app/manage-web/components/delete-button";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
 import RegionSelect from "@app/manage-web/components/region-select";
 import type { ProductListReq } from "@lib/common/dto/product";
+import CreateModalButton from "./create-modal-button";
 
 export default function ProductList() {
   const [productTableReq, setProductTableReq] = useState<ProductListReq>({} as ProductListReq);
@@ -37,7 +38,7 @@ export default function ProductList() {
         </div>
         <Button variant="primary" size="sm">查询</Button>
         <div className="flex-1"></div>
-        {/* <CreateModalButton onSuccess={() => fetchEpisodeList(collectionTableListReq)} /> */}
+        <CreateModalButton onSuccess={() => fetchProductTable()} />
       </div>
       <Table>
         <Table.ScrollContainer>
@@ -65,7 +66,7 @@ export default function ProductList() {
                   <Table.Cell className="whitespace-nowrap">{item.createTime} </Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.updateTime}</Table.Cell>
                   <Table.Cell>
-                    <EditModalButton product={item} />
+                    <EditModalButton product={item} onSuccess={() => fetchProductTable()} />
                     <DeleteButton id={item.id} onConfirm={(id) => console.log(id)} onSuccess={() => fetchProductTable()} />
                   </Table.Cell>
                 </Table.Row>

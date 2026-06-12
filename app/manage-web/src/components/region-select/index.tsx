@@ -9,7 +9,7 @@ export default function RegionSelect({ className, value, onChange }: { className
       variant="secondary"
       placeholder="选择地区"
       selectionMode="single"
-      value={value}
+      defaultValue={value}
       onChange={(region) => onChange(region as Region)}
     >
       <Label />
@@ -21,7 +21,7 @@ export default function RegionSelect({ className, value, onChange }: { className
       < Description />
       <Autocomplete.Popover>
         <Autocomplete.Filter>
-          <SearchField autoFocus variant="secondary">
+          <SearchField aria-label="搜索地区" autoFocus variant="secondary">
             <SearchField.Group>
               <SearchField.SearchIcon />
               < SearchField.Input placeholder="搜索地区" />

@@ -1,5 +1,5 @@
 import { Language, LanguageName, RegionName, type Region } from "@lib/common/consts/region";
-import type { ProductListResp } from "@lib/common/dto/product";
+import type { ProductAddReq, ProductEditReq, ProductListResp } from "@lib/common/dto/product";
 import { formatUnixTime } from "@lib/common/utils/time";
 import { productDao } from "@lib/repo/dao/product.dao";
 
@@ -28,6 +28,27 @@ class ProductService {
             }))
         };
 
+    }
+
+    async editProduct(req: ProductEditReq): Promise<void> {
+        await productDao.updateProductById(req.id, {
+            host: req.host,
+            region: req.region,
+            language: req.language,
+            currency: req.currency,
+            currencySign: req.currencySign,
+            collectionTypeList: JSON.stringify(req.collectionTypeList),
+        });
+    }
+
+    async addProduct(req: ProductAddReq): Promise<void> {
+        await productDao.addProduct({
+            host: req.host,
+            region: req.region,
+            language: req.language,
+            currency: req.currency,
+            currencySign: req.currencySign,
+        });
     }
 }
 
