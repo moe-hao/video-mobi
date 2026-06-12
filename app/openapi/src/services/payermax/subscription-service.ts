@@ -8,6 +8,8 @@ import { PaymentChannel } from "@lib/common/consts/payment";
 import { orderDao } from "@lib/repo/dao/order.dao";
 import { orderBizIdGenerator } from "@app/order/order/order-biz-id-generator";
 import { OrderFinalState } from "@lib/common/consts/order";
+// import { CustomData, EventRequest, ServerEvent } from "facebook-nodejs-business-sdk"
+// import { currentTime } from "@lib/common/utils/time";
 
 class SubscriptionService {
     async receive(req: PayermaxNotificationReq<PayermaxSubscriptionNotificationData>): Promise<OrderPayermaxResultResp> {
@@ -32,7 +34,14 @@ class SubscriptionService {
             switch (targetStatus) {
                 case SubscriptionStatus.Active:
                     if (subscriptionInfo.subscriptionStatus === SubscriptionStatus.InActive) {
+                        logger.info(`SubscriptionService.processSubscriptionStatus, subscriptionNo:${subscriptionNo}, targetStatus:${targetStatus}, update to active`);
                         await subscriptionDao.updateSubscriptionById(subscriptionInfo.id, { subscriptionStatus: targetStatus });
+                        // if (subscriptionInfo.fbPixelId) {
+                        //     const fbCustomData = new CustomData().setCurrency(req.data.subscriptionPaymentDetail.payAmount.currency).setValue(Number(req.data.subscriptionPaymentDetail.payAmount.amount));
+                        //     const fbServerEvent = new ServerEvent().setEventName("Subscribe").setEventTime(currentTime()).setCustomData(fbCustomData);
+                        //     const fbEventRequest = new EventRequest("", "pixel_id").setEvents([fbServerEvent]);
+                        //     await fbEventRequest.execute();
+                        // }
                     }
                     break;
                 default:

@@ -30,11 +30,17 @@ export default function RouteGuard() {
   const fetchVideoMobiInfo = async () => {
     const auth = localStorage.getItem("auth");
     const code = searchParams.get('code') || '';
+    const pixel = searchParams.get('pixel') || '';
 
     if (!auth) {
       const result = await fetchGuestLogin(code);
       localStorage.setItem("auth", result.authToken);
     }
+
+    if (pixel) {
+      localStorage.setItem("pixel", pixel);
+    }
+
     const [userInfo, productInfo] = await Promise.all([
       fetchUserInfo(),
       fetchProductInfo(),
@@ -45,6 +51,11 @@ export default function RouteGuard() {
 
     if (!code || code !== userInfo.guestCode) {
       searchParams.set('code', userInfo.guestCode);
+      setSearchParams(searchParams);
+    }
+
+    if (localStorage.getItem("pixel") && !pixel) {
+      searchParams.set('pixel', localStorage.getItem("pixel") || '');
       setSearchParams(searchParams);
     }
   }

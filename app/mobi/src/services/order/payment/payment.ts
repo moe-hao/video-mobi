@@ -19,6 +19,8 @@ export type PaymentInfo = {
     skuInfo: SkuSelect;
     productInfo: ProductSelect;
     paymentType: PaymentType;
+    fbPixelId: string;
+    reback: string;
 }
 
 export type PaymentApproveInfo = {

@@ -11,6 +11,7 @@ import type { SkuListItem } from "@lib/common/dto/sku";
 import { PeriodType, PeriodTypeToName } from "@lib/common/consts/subscription";
 import { SkuImportant } from "@lib/common/consts/sku";
 import { useVideoMobiContext } from "@app/mobi-web/contexts/video-mobi-context";
+import { useLocation, useSearchParams } from "react-router";
 
 export default function Payment() {
   const { t } = useTranslation('', { keyPrefix: 'payment' });
@@ -18,10 +19,12 @@ export default function Payment() {
   const { skuListRespState, fetchSkuList } = useSkuListState();
   const { productInfo } = useVideoMobiContext();
 
+  const location = useLocation();
+  const [searchParams, _setSearchParams] = useSearchParams();
   const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
+  const [skuInfo, setSkuInfo] = useState<SkuListItem>({} as SkuListItem);
   // const [shouldPaySkuId, setShouldPaySkuId] = useState<string>('');
   // const [paymentAmount, setPaymentAmount] = useState<string>('');
-  const [skuInfo, setSkuInfo] = useState<SkuListItem>({} as SkuListItem);
 
   useEffect(() => {
     fetchSkuList();
@@ -39,6 +42,8 @@ export default function Payment() {
       sku: skuInfo.bizId,
       paymentChannel,
       paymentType,
+      fbPixelId: searchParams.get('pixel') || '',
+      reback: `${location.pathname}${location.search || ''}`,
     });
 
     window.location.href = result.redirectUrl;

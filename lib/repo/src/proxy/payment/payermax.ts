@@ -37,7 +37,8 @@ interface PaymentInfo {
     amount: string;
     paymentChannel: PaymentChannel;
     paymentType: PaymentType;
-    subscriptionNo?: string
+    subscriptionNo?: string;
+    reback: string;
 }
 
 function generatePayermaxRequestBody<T>(data: T): PayermaxRequestBody<T> {
@@ -84,9 +85,9 @@ class PayermaxProxy {
             country: productInfo.region,
             userId: paymentInfo.userBizId,
             language: productInfo.language,
-            frontCallbackUrl: `http://${productInfo.host}${config.PayermaxFrontCallbackPath}`,
+            frontCallbackUrl: `http://${productInfo.host}${paymentInfo.reback}`,
             notifyUrl: config.PayermaxPaymentNotifyUrl,
-            mitManagementUrl: "http://localhost:3000",
+            mitManagementUrl: "http://${productInfo.host}",
         }
 
         if (paymentInfo.subscriptionNo) {

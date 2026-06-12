@@ -20,6 +20,7 @@ export default defineConfig({
     }
   },
   build: {
+    minify: true,
     rolldownOptions: {
       output: {
         codeSplitting: {

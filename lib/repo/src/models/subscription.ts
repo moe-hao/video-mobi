@@ -10,6 +10,7 @@ export const subscriptionTable = mysqlTable("subscription", {
     subscriptionChannel: varchar("subscription_channel", { length: 30 }).notNull().default(""),
     skuId: int("sku_id").notNull().default(0),
     productId: int("product_id").notNull().default(0),
+    fbPixelId: varchar("fb_pixel_id", { length: 32 }).notNull().default(""),
     createTime: int("create_time").notNull().default(0),
     updateTime: int("update_time").notNull().default(0),
 })
