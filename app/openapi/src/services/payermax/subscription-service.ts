@@ -8,8 +8,9 @@ import { PaymentChannel } from "@lib/common/consts/payment";
 import { orderDao } from "@lib/repo/dao/order.dao";
 import { orderBizIdGenerator } from "@app/order/order/order-biz-id-generator";
 import { OrderFinalState } from "@lib/common/consts/order";
-// import { CustomData, EventRequest, ServerEvent } from "facebook-nodejs-business-sdk"
-// import { currentTime } from "@lib/common/utils/time";
+import { CustomData, EventRequest, ServerEvent, UserData } from "facebook-nodejs-business-sdk"
+import { currentTime } from "@lib/common/utils/time";
+import config from "@lib/internal/config";
 
 class SubscriptionService {
     async receive(req: PayermaxNotificationReq<PayermaxSubscriptionNotificationData>): Promise<OrderPayermaxResultResp> {
@@ -36,12 +37,15 @@ class SubscriptionService {
                     if (subscriptionInfo.subscriptionStatus === SubscriptionStatus.InActive) {
                         logger.info(`SubscriptionService.processSubscriptionStatus, subscriptionNo:${subscriptionNo}, targetStatus:${targetStatus}, update to active`);
                         await subscriptionDao.updateSubscriptionById(subscriptionInfo.id, { subscriptionStatus: targetStatus });
-                        // if (subscriptionInfo.fbPixelId) {
-                        //     const fbCustomData = new CustomData().setCurrency(req.data.subscriptionPaymentDetail.payAmount.currency).setValue(Number(req.data.subscriptionPaymentDetail.payAmount.amount));
-                        //     const fbServerEvent = new ServerEvent().setEventName("Subscribe").setEventTime(currentTime()).setCustomData(fbCustomData);
-                        //     const fbEventRequest = new EventRequest("", "pixel_id").setEvents([fbServerEvent]);
-                        //     await fbEventRequest.execute();
-                        // }
+                        if (subscriptionInfo.fbPixelId) {
+                            logger.info(`SubscriptionService.processSubscriptionStatus, subscriptionNo:${subscriptionNo}, targetStatus:${targetStatus}, update to active, fbPixelId:${subscriptionInfo.fbPixelId}`);
+                            const fbUserData = new UserData().setAppUserId(subscriptionInfo.userId.toString());
+                            const fbCustomData = new CustomData().setCurrency(req.data.subscriptionPaymentDetail.payAmount.currency).setValue(Number(req.data.subscriptionPaymentDetail.payAmount.amount));
+                            const fbServerEvent = new ServerEvent().setEventName("Subscribe").setEventTime(currentTime()).setCustomData(fbCustomData).setUserData(fbUserData);
+                            const fbEventRequest = new EventRequest(config.FbAccessToken, subscriptionInfo.fbPixelId).setEvents([fbServerEvent]);
+                            await fbEventRequest.execute();
+                            logger.info(`SubscriptionService.processSubscriptionStatus, subscriptionNo:${subscriptionNo}, targetStatus:${targetStatus}, update to active, fbPixelId:${subscriptionInfo.fbPixelId}, fbEventRequest:${fbEventRequest}`);
+                        }
                     }
                     break;
                 default:

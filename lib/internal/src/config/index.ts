@@ -42,6 +42,8 @@ const config = {
 
     PaypalClientId: process.env.PAYPAL_CLIENT_ID || '',
     PaypalSecret: process.env.PAYPAL_SECRET || '',
+
+    FbAccessToken: process.env.FB_ACCESS_TOKEN || '',
 }
 
 export default config;
