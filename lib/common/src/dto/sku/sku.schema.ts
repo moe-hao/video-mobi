@@ -1,4 +1,4 @@
-import { SkuPeriodType, SkuType } from "@lib/common/consts/sku";
+import { SkuImportant, SkuPeriodType, SkuType } from "@lib/common/consts/sku";
 import z from "zod";
 
 export const skuManageListReqSchema = z.object({
@@ -14,6 +14,7 @@ export const skuAddReqSchema = z.object({
     desc: z.string().default(''),
     skuType: z.enum(SkuType, { message: "Sku Type Invalid" }),
     periodType: z.enum(SkuPeriodType, { message: "Period Type Invalid" }),
+    important: z.enum(SkuImportant, { message: "Important Invalid" }),
     paypalPlanId: z.string().default(''),
 });
 
@@ -24,6 +25,7 @@ export const skuEditReqSchema = z.object({
     desc: z.string().default(''),
     skuType: z.enum(SkuType, { message: "Sku Type Invalid" }),
     periodType: z.enum(SkuPeriodType, { message: "Period Type Invalid" }),
+    important: z.enum(SkuImportant, { message: "Important Invalid" }),
     paypalPlanId: z.string().default(''),
 })
 

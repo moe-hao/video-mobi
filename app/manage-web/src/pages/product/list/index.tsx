@@ -2,7 +2,7 @@ import { Button, Input, Table } from "@heroui/react";
 import { useProductTable } from "@app/manage-web/hooks/product";
 import { useEffect, useState } from "react";
 import EditModalButton from "./edit-modal-button";
-import DeleteButton from "@app/manage-web/components/delete-button";
+// import DeleteButton from "@app/manage-web/components/delete-button";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
 import RegionSelect from "@app/manage-web/components/region-select";
 import type { ProductListReq } from "@lib/common/dto/product";
@@ -67,7 +67,7 @@ export default function ProductList() {
                   <Table.Cell className="whitespace-nowrap">{item.updateTime}</Table.Cell>
                   <Table.Cell>
                     <EditModalButton product={item} onSuccess={() => fetchProductTable()} />
-                    <DeleteButton id={item.id} onConfirm={(id) => console.log(id)} onSuccess={() => fetchProductTable()} />
+                    {/* <DeleteButton id={item.id} onConfirm={(id) => console.log(id)} onSuccess={() => fetchProductTable()} /> */}
                   </Table.Cell>
                 </Table.Row>
               ))}

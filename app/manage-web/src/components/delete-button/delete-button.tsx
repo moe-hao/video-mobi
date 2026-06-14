@@ -2,14 +2,14 @@ import { Dropdown, Label, Link, type Key } from "@heroui/react";
 
 interface DeleteButtonProps {
   id: number;
-  onConfirm: (id: number) => void;
-  onSuccess?: () => void;
+  onConfirm: (id: number) => Promise<void>;
+  onSuccess?: () => Promise<void>;
 }
 
 export default function DeleteButton({ id, onConfirm, onSuccess }: DeleteButtonProps) {
-  const handleAction = (key: Key) => {
+  const handleAction = async (key: Key) => {
     if (key === "confirm") {
-      onConfirm(id);
+      await onConfirm(id);
       onSuccess?.();
     }
   };

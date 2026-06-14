@@ -25,7 +25,7 @@ export default function SkuList() {
   }, []);
 
   const handleSearch = async(req: SkuManageListReq) => {
-    fetchSkuList(req);
+    await fetchSkuList(req);
   }
 
   return (
@@ -80,8 +80,8 @@ export default function SkuList() {
                   <Table.Cell className="whitespace-nowrap">{item.createTime} </Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.updateTime}</Table.Cell>
                   <Table.Cell>
-                    <EditModalButton sku={item} onSuccess={() => fetchSkuList(skuManageListReq)} />
-                    <DeleteButton id={item.id} onConfirm={(id) => fetchDeleteSku({ id })} onSuccess={() => fetchSkuList(skuManageListReq)} />
+                    <EditModalButton sku={item} onSuccess={() => handleSearch(skuManageListReq)} />
+                    <DeleteButton id={item.id} onConfirm={(id) => fetchDeleteSku({ id })} onSuccess={() => handleSearch(skuManageListReq)} />
                   </Table.Cell>
                 </Table.Row>
               ))}

@@ -58,6 +58,7 @@ class SkuService {
             desc: sku.desc,
             skuType: sku.skuType,
             periodType: sku.periodType,
+            important: sku.important,
             paypalPlanId: sku.paypalPlanId,
         });
     }
@@ -68,6 +69,7 @@ class SkuService {
             price: req.price,
             skuType: req.skuType,
             periodType: req.periodType,
+            important: req.important,
             desc: req.desc,
             paypalPlanId: req.paypalPlanId,
         });

@@ -1,9 +1,12 @@
-import { Button, Input, Select, Label, Modal, ListBox } from "@heroui/react";
+import { Button, Input, Label, Modal } from "@heroui/react";
 import { useEffect, useState } from "react";
 import ProductSelect from "@app/manage-web/components/product-select";
 import type { SkuAddReq } from "@lib/common/dto/sku";
-import { SkuPeriodType, SkuPeriodTypeName, SkuType } from "@lib/common/consts/sku";
+import { SkuImportant, SkuPeriodType, SkuType } from "@lib/common/consts/sku";
 import { useAddSku } from "@app/manage-web/hooks/sku";
+import { SkuImportantSelect } from "./sku-important-select";
+import { SkuTypeSelect } from "./sku-type-select";
+import { SkuPeriodSelect } from "./sku-period-select";
 
 export default function CreateModalButton({ onSuccess }: { onSuccess?: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,50 +46,16 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
               <div className="flex flex-row items-center gap-2">
                 <div className="flex flex-row items-center gap-4 flex-1">
                   <Label className="w-18  shrink-0 text-right">类型</Label>
-                  <Select
-                    aria-label="选择商品类型"
-                    variant="secondary"
-                    className="flex-1"
-                    placeholder="选择商品类型"
-                    defaultValue={skuAddReq.skuType}
-                    onChange={(value) => setSkuAddReq({ ...skuAddReq, skuType: value as SkuType })}
-                  >
-                    <Select.Trigger>
-                      <Select.Value />
-                      <Select.Indicator />
-                    </Select.Trigger>
-                    <Select.Popover>
-                      <ListBox>
-                        <ListBox.Item key={SkuType.Subscription} id={SkuType.Subscription} textValue="订阅">订阅</ListBox.Item>
-                      </ListBox>
-                    </Select.Popover>
-                  </Select>
+                  <SkuTypeSelect className="flex-1" value={skuAddReq.skuType} onChange={(value) => setSkuAddReq({ ...skuAddReq, skuType: value as SkuType })} />
                 </div>
                 <div className="flex flex-row items-center gap-4 flex-1">
                   <Label className="w-10 shrink-0 text-right">周期</Label>
-                  <Select
-                    aria-label="选择订阅周期"
-                    variant="secondary"
-                    className="flex-1"
-                    placeholder="选择订阅周期"
-                    defaultValue={skuAddReq.periodType}
-                    onChange={(value) => setSkuAddReq({ ...skuAddReq, periodType: value as SkuPeriodType })}
-                  >
-                    <Select.Trigger>
-                      <Select.Value />
-                      <Select.Indicator />
-                    </Select.Trigger>
-                    <Select.Popover>
-                      <ListBox>
-                        {
-                          Object.values(SkuPeriodType).map((item) => (
-                            <ListBox.Item key={item} id={item} textValue={item}>{SkuPeriodTypeName[item]}</ListBox.Item>
-                          ))
-                        }
-                      </ListBox>
-                    </Select.Popover>
-                  </Select>
+                  <SkuPeriodSelect className="flex-1" value={skuAddReq.periodType} onChange={(value) => setSkuAddReq({ ...skuAddReq, periodType: value as SkuPeriodType })} />
                 </div>
+              </div>
+              <div className="flex flex-row items-center gap-4">
+                <Label className="w-18 shrink-0 text-right">重点展示</Label>
+                <SkuImportantSelect className="flex-1" value={skuAddReq.important} onChange={(value) => setSkuAddReq({ ...skuAddReq, important: value as SkuImportant })} />
               </div>
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-18  shrink-0 text-right">横幅描述</Label>

@@ -1,11 +1,12 @@
-import { Button, Input, Label, Link, ListBox, Modal, Select } from "@heroui/react";
+import { Button, Input, Label, Link, Modal } from "@heroui/react";
 import { useEffect, useState } from "react";
 import type { SkuEditReq, SkuManageListItem } from "@lib/common/dto/sku";
-import { SkuPeriodType, SkuPeriodTypeName, SkuType } from "@lib/common/consts/sku";
+import { SkuImportant, SkuPeriodType, SkuType } from "@lib/common/consts/sku";
 import ProductSelect from "@app/manage-web/components/product-select";
 import { useEditSku } from "@app/manage-web/hooks/sku";
-
-
+import { SkuImportantSelect } from "./sku-important-select";
+import { SkuPeriodSelect } from "./sku-period-select";
+import { SkuTypeSelect } from "./sku-type-select";
 
 export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageListItem, onSuccess?: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +22,7 @@ export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageList
       desc: sku.desc,
       skuType: sku.skuType as SkuType,
       periodType: sku.periodType as SkuPeriodType,
+      important: sku.important as SkuImportant,
       paypalPlanId: sku.paypalPlanId,
     });
   }, [isOpen]);
@@ -53,50 +55,16 @@ export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageList
               <div className="flex flex-row items-center gap-2">
                 <div className="flex flex-row items-center gap-4 flex-1">
                   <Label className="w-18  shrink-0 text-right">类型</Label>
-                  <Select
-                    aria-label="选择商品类型"
-                    variant="secondary"
-                    className="flex-1"
-                    placeholder="选择商品类型"
-                    defaultValue={skuEditReq.skuType}
-                    onChange={(value) => setSkuEditReq({ ...skuEditReq, skuType: value as SkuType })}
-                  >
-                    <Select.Trigger>
-                      <Select.Value />
-                      <Select.Indicator />
-                    </Select.Trigger>
-                    <Select.Popover>
-                      <ListBox>
-                        <ListBox.Item key={SkuType.Subscription} id={SkuType.Subscription} textValue="订阅">订阅</ListBox.Item>
-                      </ListBox>
-                    </Select.Popover>
-                  </Select>
+                  <SkuTypeSelect className="flex-1" value={skuEditReq.skuType} onChange={(value) => setSkuEditReq({ ...skuEditReq, skuType: value as SkuType })} />
                 </div>
                 <div className="flex flex-row items-center gap-4 flex-1">
                   <Label className="w-10 shrink-0 text-right">周期</Label>
-                  <Select
-                    aria-label="选择订阅周期"
-                    variant="secondary"
-                    className="flex-1"
-                    placeholder="选择订阅周期"
-                    defaultValue={skuEditReq.periodType}
-                    onChange={(value) => setSkuEditReq({ ...skuEditReq, periodType: value as SkuPeriodType })}
-                  >
-                    <Select.Trigger>
-                      <Select.Value />
-                      <Select.Indicator />
-                    </Select.Trigger>
-                    <Select.Popover>
-                      <ListBox>
-                        {
-                          Object.values(SkuPeriodType).map((item) => (
-                            <ListBox.Item key={item} id={item} textValue={item}>{SkuPeriodTypeName[item]}</ListBox.Item>
-                          ))
-                        }
-                      </ListBox>
-                    </Select.Popover>
-                  </Select>
+                  <SkuPeriodSelect className="flex-1" value={skuEditReq.periodType} onChange={(value) => setSkuEditReq({ ...skuEditReq, periodType: value as SkuPeriodType })} />
                 </div>
+              </div>
+              <div className="flex flex-row items-center gap-4">
+                <Label className="w-18 shrink-0 text-right">重点展示</Label>
+                <SkuImportantSelect className="flex-1" value={skuEditReq.important} onChange={(value) => setSkuEditReq({ ...skuEditReq, important: value as SkuImportant })} />
               </div>
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-18  shrink-0 text-right">横幅描述</Label>
