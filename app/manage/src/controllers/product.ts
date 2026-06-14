@@ -23,5 +23,10 @@ product.post('/add', validated('json', ProductAddReqSchema), async (c) => {
     return c.json(success());
 });
 
+product.get('/all', async (c) => {
+    const productList = await productService.getAllProductList();
+    return c.json(success(productList));
+});
+
 export default product;
 

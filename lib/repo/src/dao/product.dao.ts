@@ -22,6 +22,10 @@ class ProductDao {
         return result.count;
     }
 
+    async getProductList(): Promise<ProductSelect[]> {
+        return await this.conn.select().from(productTable);
+    }
+
     async getProductListInIds(ids: number[]): Promise<ProductSelect[]> {
         const idSet = new Set(ids);
         return await this.conn.select().from(productTable).where(

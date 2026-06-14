@@ -93,6 +93,12 @@ export const routers: RouterItem[] = [
         element: loadable(() => import('../pages/product/list')),
         isMenu: true,
       },
+      {
+        name: '商品管理',
+        path: '/product/sku',
+        element: loadable(() => import('../pages/product/sku')),
+        isMenu: true,
+      }
     ]
   },
   {

@@ -21,4 +21,8 @@ export default defineConfig({
       '@app/manage-web': path.resolve(__dirname, './src'),
     }
   },
+  build: {
+    minify: true,
+
+  }
 })

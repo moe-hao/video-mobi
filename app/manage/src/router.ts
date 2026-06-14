@@ -8,6 +8,7 @@ import order from "./controllers/order";
 import subscription from "./controllers/subscription";
 import product from "./controllers/product";
 import { authMiddleware } from "./middlewares/auth-middleware";
+import sku from "./controllers/sku";
 
 const router = new Hono();
 router.use(authMiddleware);
@@ -20,5 +21,6 @@ router.route('/collection_video', collectionVideo);
 router.route('/order', order);
 router.route('/subscription', subscription);
 router.route('/product', product);
+router.route('/sku', sku);
 
 export default router;

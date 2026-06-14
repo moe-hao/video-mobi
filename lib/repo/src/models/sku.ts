@@ -12,6 +12,7 @@ export const skuTable = mysqlTable("sku", {
     weight: int("weight").notNull().default(0),
     desc: varchar("desc", { length: 256 }).notNull().default(""),
     important: int("important").notNull().default(0),
+    isDeleted: int("is_deleted").notNull().default(0),
     createTime: int("create_time").notNull().default(0),
     updateTime: int("update_time").notNull().default(0),
 })
