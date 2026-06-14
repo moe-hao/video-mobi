@@ -1,7 +1,7 @@
 import { OrderStatus } from "@lib/common/consts/order";
 import { PaymentChannel } from "@lib/common/consts/payment";
 import type { Payment, PaymentApproveInfo, PaymentInfo, PaymentOrder } from "./payment";
-import { CheckoutPaymentIntent, Client, OrdersController, SubscriptionsController } from "@paypal/paypal-server-sdk";
+import { CheckoutPaymentIntent, Client, Environment, LogLevel, OrdersController, SubscriptionsController } from "@paypal/paypal-server-sdk";
 import config from "@lib/internal/config";
 import { SkuType } from "@lib/common/consts/sku";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
@@ -23,6 +23,10 @@ export class PaypalPayment implements Payment {
             clientCredentialsAuthCredentials: {
                 oAuthClientId: config.PaypalClientId,
                 oAuthClientSecret: config.PaypalSecret,
+            },
+            environment: config.AppEnv === 'prod' ? Environment.Production : Environment.Sandbox,
+            logging: {
+                logLevel: LogLevel.Info,
             }
         })
     }

@@ -1,8 +1,6 @@
 const config = {
     AppServerPort: Number(process.env.APP_SERVER_PORT || 3000),
-    // AppLanguage: process.env.APP_LANGUAGE || 'en',
-    // AppCountry: process.env.APP_COUNTRY || 'US',
-    // AppCurrency: process.env.APP_CURRENCY || 'USD',
+    AppEnv: process.env.APP_ENV || 'dev',
 
     AuthTokenSecret: process.env.AUTH_TOKEN_SECRET || 'test_hono_secret',
     EncryptSecret: process.env.ENCRYPT_SECRET || 'test_hono_secret',

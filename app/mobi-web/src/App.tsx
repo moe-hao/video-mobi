@@ -5,7 +5,7 @@ import { PayPalScriptProvider, type ReactPayPalScriptOptions } from '@paypal/rea
 
 function App() {
   const paypalOptions: ReactPayPalScriptOptions = {
-    clientId: "AaOadMzzJ6dvKzeobaiQ03btA_117amlqR_TyUZeXYUfXIWrF5ewtz015NMrSVKo4J9t7S74HQz62Oye",
+    clientId: "Afe584rs6RidqkgoOAGmkVKbEXmTuwY2STPF-oV6pxdm7W2LVLUuPPHqPINDykK6axeoeELM9LvRFiNm",
   };
 
   return (
