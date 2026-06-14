@@ -6,12 +6,13 @@ import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { decrypt, encrypt } from "@lib/common/utils/aes-encrypt";
 import { uuid } from "@lib/common/utils/uuid";
 import config from "@lib/internal/config";
+import { productDao } from "@lib/repo/dao/product.dao";
 import { userDao } from "@lib/repo/dao/user.dao";
 import { userAuthRedis } from "@lib/repo/redis/user";
 import { sign } from "hono/jwt";
 
 class GuestLoginService {
-    async login(param: GuestLoginReq): Promise<UserAuthLoginResp> {
+    async login(host: string, param: GuestLoginReq): Promise<UserAuthLoginResp> {
         if (param.code) {
             try {
                 const authToken = decrypt(param.code);
@@ -40,10 +41,15 @@ class GuestLoginService {
             }
         }
 
-        return await this.addNewGuest();
+        return await this.addNewGuest(host);
     }
 
-    private async addNewGuest(): Promise<UserAuthLoginResp> {
+    private async addNewGuest(host: string): Promise<UserAuthLoginResp> {
+        const productInfo = await productDao.getProductByHost(host);
+        if (!productInfo) {
+            throw new InternalException(ResultCode.ResourceNotFound);
+        }
+
         const userBizId = uuid();
         const authToken = uuid();
 
@@ -51,7 +57,8 @@ class GuestLoginService {
             bizId: userBizId,
             username: `g_${userBizId}`,
             authToken: authToken,
-            userType: UserType.Guest
+            userType: UserType.Guest,
+            productId: productInfo.id,
         });
 
         await userAuthRedis.setAuthToken(userId, authToken, {

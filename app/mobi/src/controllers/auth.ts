@@ -12,8 +12,10 @@ import type { UserAuthInfo } from "@lib/repo/redis/user";
 const auth = new Hono();
 
 auth.post('/guest_login', validated('json', guestLoginReqSchema), async (c) => {
+    const host = c.req.header('host') || '';
+
     const param = c.req.valid('json');
-    const resp = await guestLoginService.login(param);
+    const resp = await guestLoginService.login(host, param);
     return c.json(success(resp));
 });
 

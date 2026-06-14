@@ -27,6 +27,7 @@ export interface UserListRespItem {
     username: string;
     email: string;
     memberStatus: string;
+    productHost: string;
     createTime: string;
     updateTime: string;
 }

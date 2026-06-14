@@ -1,8 +1,10 @@
 import type { UserListReq, UserListResp } from "@lib/common/dto/user";
 import { formatUnixTime } from "@lib/common/utils/time";
 import { memberDao } from "@lib/repo/dao/member.dao";
+import { productDao } from "@lib/repo/dao/product.dao";
 import { userDao } from "@lib/repo/dao/user.dao";
 import type { MemberSelect } from "@lib/repo/models/member";
+import type { ProductSelect } from "@lib/repo/models/product";
 
 class UserService {
     async getUserList(req: UserListReq): Promise<UserListResp> {
@@ -18,6 +20,14 @@ class UserService {
             return prev;
         }, new Map<number, MemberSelect>());
 
+        const productIds = userInfoList.map((item) => item.productId);
+        const productInfoList = await productDao.getProductListInIds(productIds);
+
+        const productIdToProductInfoMap: Map<number, ProductSelect> = productInfoList.reduce((prev, cur) => {
+            prev.set(cur.id, cur);
+            return prev;
+        }, new Map<number, ProductSelect>());
+
         return {
             page: req.page,
             size: req.size,
@@ -28,6 +38,7 @@ class UserService {
                 username: item.username,
                 email: item.email,
                 memberStatus: userIdToMemberMap.get(item.id) ? '订阅中' : '未订阅',
+                productHost: productIdToProductInfoMap.get(item.productId)?.host || '',
                 createTime: formatUnixTime(item.createTime),
                 updateTime: formatUnixTime(item.updateTime),
             }))

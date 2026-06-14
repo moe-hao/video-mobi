@@ -9,6 +9,7 @@ export const userTable = mysqlTable("user", {
     email: varchar("email", { length: 256 }).notNull().default(""),
     authToken: varchar("auth_token", { length: 64 }).notNull().default(""),
     userType: int("user_type").notNull().default(UserType.Guest),
+    productId: int("product_id").notNull().default(0),
     isDeleted: int("is_deleted").notNull().default(0),
     createTime: int("create_time").notNull().default(0),
     updateTime: int("update_time").notNull().default(0),

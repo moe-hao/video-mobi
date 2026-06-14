@@ -31,6 +31,7 @@ export default function UserList() {
             <Table.Header>
               <Table.Column isRowHeader>ID</Table.Column>
               <Table.Column>编号</Table.Column>
+              <Table.Column>来源</Table.Column>
               <Table.Column>用户名</Table.Column>
               <Table.Column>邮箱</Table.Column>
               <Table.Column>订阅状态</Table.Column>
@@ -43,6 +44,7 @@ export default function UserList() {
                   <Table.Row key={item.id}>
                     <Table.Cell>{item.id}</Table.Cell>
                     <Table.Cell>{item.bizId}</Table.Cell>
+                    <Table.Cell>{item.productHost}</Table.Cell>
                     <Table.Cell>{item.username}</Table.Cell>
                     <Table.Cell>{item.email}</Table.Cell>
                     <Table.Cell>{item.memberStatus}</Table.Cell>
