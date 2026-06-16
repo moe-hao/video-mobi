@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { ChevronLeft, ChevronRight } from "@gravity-ui/icons";
+// import { ChevronLeft, ChevronRight } from "@gravity-ui/icons";
 import type { CollectionItemResp } from "@lib/common/dto/collection";
 
 interface CarouselProps {

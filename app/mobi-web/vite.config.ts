@@ -20,7 +20,7 @@ export default defineConfig({
     }
   },
   build: {
-    minify: true,
+    minify: 'oxc',
     rolldownOptions: {
       output: {
         codeSplitting: {
