@@ -27,6 +27,7 @@ export const collectionAddReqSchema = z.object({
     videoId: z.int().default(0),
     collectionType: z.enum(CollectionType).default(CollectionType.Normal),
     local: z.enum(CollectionLocal).default(CollectionLocal.Translated),
+    desc: z.string().default(''),
 });
 
 export const collectionEditReqSchema = z.object({
@@ -40,6 +41,7 @@ export const collectionEditReqSchema = z.object({
     cover: z.string().default(''),
     collectionType: z.enum(CollectionType).default(CollectionType.Normal),
     local: z.enum(CollectionLocal).default(CollectionLocal.Translated),
+    desc: z.string().default(''),
 });
 
 export const collectionDeleteReqSchema = z.object({

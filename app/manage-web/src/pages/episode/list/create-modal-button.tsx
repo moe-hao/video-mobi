@@ -1,5 +1,5 @@
 import { Plus } from "@gravity-ui/icons";
-import { Button, Input, Label, Modal } from "@heroui/react";
+import { Button, Input, Label, Modal, TextArea } from "@heroui/react";
 import { useEffect, useState } from "react";
 import LanguageSelect from "@app/manage-web/components/language-select";
 import OperateImage from "./operate-image";
@@ -75,6 +75,10 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-14 shrink-0">VideoID</Label>
                 <Input variant="secondary" className="w-full" onChange={(e) => setCollectionAddReq({ ...collectionAddReq, videoId: Number(e.target.value) })} />
+              </div>
+              <div className="flex flex-row items-start gap-4">
+                <Label className="w-14 shrink-0">剧集简介</Label>
+                <TextArea  variant="secondary" aria-label="简介"  className="w-full" placeholder="填写简介" value={collectionAddReq.desc} onChange={(e) => setCollectionAddReq({ ...collectionAddReq, desc: e.target.value })} />
               </div>
             </Modal.Body>
             <Modal.Footer>

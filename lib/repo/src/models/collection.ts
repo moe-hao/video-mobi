@@ -14,6 +14,8 @@ export const collectionTable = mysqlTable("collection", {
     publishStatus: tinyint("publish_status").notNull().default(PublishStatus.Unpublished),
     collectionType: tinyint("collection_type").notNull().default(CollectionType.Normal),
     local: tinyint("local").notNull().default(0),
+    desc: varchar("desc", { length: 512 }).notNull().default(""),
+    mockLike: int("mock_like").notNull().default(0),
     isDeleted: int("is_deleted").notNull().default(0),
     createTime: int("create_time").notNull().default(0),
     updateTime: int("update_time").notNull().default(0),

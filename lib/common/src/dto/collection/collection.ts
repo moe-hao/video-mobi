@@ -38,6 +38,7 @@ export interface CollectionTableListRespItem {
     languageCode: Language;
     language: string;
     videoId: number;
+    desc: string;
     createTime: string;
     updateTime: string;
 }

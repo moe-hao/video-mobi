@@ -11,6 +11,7 @@ import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { ResultCode } from "@lib/common/consts/result";
 import { videoDao } from "@lib/repo/dao/video.dao";
 import { vod } from "@lib/internal/vod";
+import { randomNum } from "@lib/common/utils/random";
 
 class CollectionService {
     async getCollectionList(req: CollectionTableListReq): Promise<CollectionTableListResp> {
@@ -39,6 +40,7 @@ class CollectionService {
                 collectionTypeName: CollectionTypeName[item.collectionType as CollectionType],
                 local: item.local,
                 localName: CollectionLocalName[item.local as CollectionLocal],
+                desc: item.desc,
                 createTime: formatUnixTime(item.createTime),
                 updateTime: formatUnixTime(item.updateTime),
             })),
@@ -58,6 +60,8 @@ class CollectionService {
             videoId: req.videoId,
             collectionType: req.collectionType,
             local: req.local,
+            desc: req.desc,
+            mockLike: randomNum(3000, 9000),
         }
         await collectionDao.addCollection(collectionInfo);
     }
@@ -73,6 +77,7 @@ class CollectionService {
             cover: req.cover,
             collectionType: req.collectionType,
             local: req.local,
+            desc: req.desc,
         }
         await collectionDao.updateCollectionById(req.id, collectionInfo);
     }

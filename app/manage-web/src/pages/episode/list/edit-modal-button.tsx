@@ -1,4 +1,4 @@
-import { Button, Input, Label, Link, Modal } from "@heroui/react";
+import { Button, Input, Label, Link, Modal, TextArea } from "@heroui/react";
 import { useEffect, useState } from "react";
 import OperateImage from "./operate-image";
 import type { CollectionEditReq, CollectionTableListRespItem } from "@lib/common/dto/collection";
@@ -15,7 +15,7 @@ export default function EditModalButton({ item, onSuccess }: { item: CollectionT
   const [collectionEditReq, setCollectionEditReq] = useState<CollectionEditReq>(item);
 
   useEffect(() => {
-      setCollectionEditReq(item);
+    setCollectionEditReq(item);
   }, [isOpen, item]);
 
   const handleEpisodeEdit = async () => {
@@ -79,6 +79,10 @@ export default function EditModalButton({ item, onSuccess }: { item: CollectionT
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-14 shrink-0">VideoID</Label>
                 <Input variant="secondary" className="flex-1" value={collectionEditReq.videoId} onChange={(e) => setCollectionEditReq({ ...collectionEditReq, videoId: Number(e.target.value) })} />
+              </div>
+              <div className="flex flex-row items-start gap-4">
+                <Label className="w-14 shrink-0">剧集简介</Label>
+                <TextArea variant="secondary" aria-label="简介" className="w-full" placeholder="填写简介" value={collectionEditReq.desc} onChange={(e) => setCollectionEditReq({ ...collectionEditReq, desc: e.target.value })} />
               </div>
             </Modal.Body>
             <Modal.Footer>

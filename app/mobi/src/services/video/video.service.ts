@@ -124,7 +124,7 @@ class VideoService {
 
         return {
             isLike: isLike,
-            likeTotal: likeTotal,
+            likeTotal: likeTotal + collectionInfo.mockLike,
         };
     }
 }
