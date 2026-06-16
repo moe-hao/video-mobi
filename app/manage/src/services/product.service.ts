@@ -1,3 +1,4 @@
+import type { CollectionType } from "@lib/common/consts/collection";
 import { Language, LanguageName, RegionName, type Region } from "@lib/common/consts/region";
 import type { ProductAddReq, ProductEditReq, ProductListResp, ProductListRespItem } from "@lib/common/dto/product";
 import { formatUnixTime } from "@lib/common/utils/time";
@@ -23,6 +24,7 @@ class ProductService {
                 languageName: LanguageName[item.language as Language],
                 currency: item.currency,
                 currencySign: item.currencySign,
+                collectionTypeList: JSON.parse(item.collectionTypeList || "[]") as CollectionType[],
                 createTime: formatUnixTime(item.createTime),
                 updateTime: formatUnixTime(item.updateTime),
             }))
@@ -41,6 +43,7 @@ class ProductService {
             languageName: LanguageName[item.language as Language],
             currency: item.currency,
             currencySign: item.currencySign,
+            collectionTypeList: JSON.parse(item.collectionTypeList || "[]") as CollectionType[],
             createTime: formatUnixTime(item.createTime),
             updateTime: formatUnixTime(item.updateTime),
         }));
@@ -64,6 +67,7 @@ class ProductService {
             language: req.language,
             currency: req.currency,
             currencySign: req.currencySign,
+            collectionTypeList: JSON.stringify(req.collectionTypeList),
         });
     }
 }

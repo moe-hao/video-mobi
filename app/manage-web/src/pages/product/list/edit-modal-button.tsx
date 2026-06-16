@@ -5,6 +5,8 @@ import type { ProductEditReq, ProductListRespItem } from "@lib/common/dto/produc
 import type { Language, Region } from "@lib/common/consts/region";
 import RegionSelect from "@app/manage-web/components/region-select";
 import { useEditProduct } from "@app/manage-web/hooks/product";
+import CollectionMultipleTypeSelect from "@app/manage-web/components/collection-type-select/collection-multiple-type-select";
+import type { CollectionType } from "@lib/common/consts/collection";
 
 export default function EditModalButton({ product, onSuccess }: { product: ProductListRespItem, onSuccess?: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +21,7 @@ export default function EditModalButton({ product, onSuccess }: { product: Produ
       language: product.language,
       currency: product.currency,
       currencySign: product.currencySign,
-      collectionTypeList: [],
+      collectionTypeList: product.collectionTypeList,
     });
   }, [isOpen, product]);
 
@@ -56,6 +58,10 @@ export default function EditModalButton({ product, onSuccess }: { product: Produ
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-14 shrink-0">语言</Label>
                 <LanguageSelect className="flex-1" language={productEditReq.language as Language} onChange={(e) => setProductEditReq({ ...productEditReq, language: e as Language })} />
+              </div>
+              <div className="flex flex-row items-center gap-4">
+                <Label className="w-14 shrink-0">剧集类型</Label>
+                <CollectionMultipleTypeSelect className="flex-1" collectionTypeList={productEditReq.collectionTypeList} onChange={(e) => setProductEditReq({ ...productEditReq, collectionTypeList: e as CollectionType[] })} />
               </div>
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-14 shrink-0">币种</Label>

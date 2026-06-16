@@ -1,3 +1,4 @@
+import type { CollectionType } from "@lib/common/consts/collection";
 import type { Language, Region } from "@lib/common/consts/region";
 
 export interface ProductInfoResp {
@@ -23,6 +24,7 @@ export interface ProductListRespItem {
     languageName: string;
     currency: string;
     currencySign: string;
+    collectionTypeList: CollectionType[];
     createTime: string;
     updateTime: string;
 }

@@ -5,8 +5,8 @@ import type { CollectionEditReq, CollectionTableListRespItem } from "@lib/common
 import type { Language } from "@lib/common/consts/region";
 import { useEditEpisodeState } from "@app/manage-web/hooks/episode";
 import LocalTypeSelect from "@app/manage-web/components/local-type-select";
-import CollectionTypeSelect from "@app/manage-web/components/collection-type-select";
 import LanguageSelect from "@app/manage-web/components/language-select";
+import CollectionTypeSelect from "@app/manage-web/components/collection-type-select/collection-type-select";
 
 export default function EditModalButton({ item, onSuccess }: { item: CollectionTableListRespItem, onSuccess?: () => void }) {
   const { fetchEpisodeEdit } = useEditEpisodeState();

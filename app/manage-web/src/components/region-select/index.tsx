@@ -1,7 +1,11 @@
-import { Autocomplete, Label, Description, SearchField, ListBox, EmptyState } from "@heroui/react";
+import { Autocomplete, Label, Description, SearchField, ListBox, EmptyState, useFilter } from "@heroui/react";
+import { useState } from "react";
 import { Region, RegionName } from "@lib/common/consts/region";
 
 export default function RegionSelect({ className, value, onChange }: { className?: string, value: Region | "", onChange: (region: Region) => void }) {
+  const [searchValue, setSearchValue] = useState("");
+  const { contains } = useFilter({ sensitivity: "base" });
+
   return (
     <Autocomplete
       aria-label="选择地区"
@@ -20,7 +24,11 @@ export default function RegionSelect({ className, value, onChange }: { className
       </Autocomplete.Trigger>
       < Description />
       <Autocomplete.Popover>
-        <Autocomplete.Filter>
+        <Autocomplete.Filter
+          filter={contains}
+          inputValue={searchValue}
+          onInputChange={setSearchValue}
+        >
           <SearchField aria-label="搜索地区" autoFocus variant="secondary">
             <SearchField.Group>
               <SearchField.SearchIcon />

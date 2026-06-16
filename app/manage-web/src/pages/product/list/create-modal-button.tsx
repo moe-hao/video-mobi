@@ -5,6 +5,8 @@ import type { ProductAddReq } from "@lib/common/dto/product";
 import type { Language, Region } from "@lib/common/consts/region";
 import RegionSelect from "@app/manage-web/components/region-select";
 import { useAddProduct } from "@app/manage-web/hooks/product";
+import type { CollectionType } from "@lib/common/consts/collection";
+import CollectionMultipleTypeSelect from "@app/manage-web/components/collection-type-select/collection-multiple-type-select";
 
 export default function CreateModalButton({ onSuccess }: { onSuccess?: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,6 +49,10 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-14 shrink-0">语言</Label>
                 <LanguageSelect className="flex-1" language={productAddReq.language as Language} onChange={(e) => setProductAddReq({ ...productAddReq, language: e as Language })} />
+              </div>
+              <div className="flex flex-row items-center gap-4">
+                <Label className="w-14 shrink-0">剧集类型</Label>
+                <CollectionMultipleTypeSelect className="flex-1" collectionTypeList={productAddReq.collectionTypeList} onChange={(e) => setProductAddReq({ ...productAddReq, collectionTypeList: e as CollectionType[] })} />
               </div>
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-14 shrink-0">币种</Label>

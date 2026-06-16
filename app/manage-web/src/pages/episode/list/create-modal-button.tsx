@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import LanguageSelect from "@app/manage-web/components/language-select";
 import OperateImage from "./operate-image";
 import { useCreateEpisodeState } from "@app/manage-web/hooks/episode/use-episode-state";
-import CollectionTypeSelect from "@app/manage-web/components/collection-type-select";
 import LocalTypeSelect from "@app/manage-web/components/local-type-select";
 import type { CollectionAddReq } from "@lib/common/dto/collection";
+import CollectionTypeSelect from "@app/manage-web/components/collection-type-select/collection-type-select";
 
 export default function CreateModalButton({ onSuccess }: { onSuccess?: () => void }) {
   const { fetchEpisodeAdd } = useCreateEpisodeState();

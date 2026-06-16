@@ -1,9 +1,11 @@
 import { useProductList } from "@app/manage-web/hooks/product";
-import { Autocomplete, Label, Description, SearchField, ListBox, EmptyState } from "@heroui/react";
-import { useEffect } from "react";
+import { Autocomplete, Label, Description, SearchField, ListBox, EmptyState, useFilter } from "@heroui/react";
+import { useEffect, useState } from "react";
 
 export default function ProductSelect({ className, value, onChange }: { className?: string, value: number | "", onChange: (productId: number) => void }) {
   const { productList, fetchProductList } = useProductList();
+  const [searchValue, setSearchValue] = useState("");
+  const { contains } = useFilter({ sensitivity: "base" });
 
   useEffect(() => {
     fetchProductList();
@@ -27,7 +29,11 @@ export default function ProductSelect({ className, value, onChange }: { classNam
       </Autocomplete.Trigger>
       <Description />
       <Autocomplete.Popover>
-        <Autocomplete.Filter>
+        <Autocomplete.Filter
+          filter={contains}
+          inputValue={searchValue}
+          onInputChange={setSearchValue}
+        >
           <SearchField aria-label="搜索地区" autoFocus variant="secondary">
             <SearchField.Group>
               <SearchField.SearchIcon />
