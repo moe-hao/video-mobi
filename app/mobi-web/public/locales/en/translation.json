@@ -57,6 +57,7 @@
         "episode-num": "Ep. {{currentEpisode}}",
         "episode-select": "Episodes",
         "completed": "Completed",
-        "total-episodes": "{{totalEpisodes}} Episodes"
+        "total-episodes": "{{totalEpisodes}} Episodes",
+        "share": "Share"
     }
 }
