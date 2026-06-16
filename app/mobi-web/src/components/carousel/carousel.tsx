@@ -154,7 +154,7 @@ export default function Carousel({ items, onItemClick, onIndexChange }: Carousel
         })}
       </div>
 
-      <button
+      {/* <button
         onClick={(e) => { e.stopPropagation(); goToPrev(); }}
         className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/70 transition-colors"
       >
@@ -165,7 +165,7 @@ export default function Carousel({ items, onItemClick, onIndexChange }: Carousel
         className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/70 transition-colors"
       >
         <ChevronRight />
-      </button>
+      </button> */}
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { Button, Label, Link } from "@heroui/react";
 import { useEffect, useState } from "react";
 import PaymentPolicyTips from "./policy";
 import { useTranslation } from "react-i18next";
-import PayPalButton from "./paypal-button";
+// import PayPalButton from "./paypal-button";
 import { useUserOrderCreate } from "@app/mobi-web/hooks/user";
 import { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
 import { useSkuListState } from "@app/mobi-web/hooks/sku";
@@ -105,11 +105,11 @@ export default function Payment() {
               </Button>
             </div>
             <div className="flex items-end justify-center gap-1">
-              <span className="text-[50px] font-[Anton] bg-gradient-to-r from-[#FFA200] via-amber-400 to-[#FFEC75] bg-clip-text text-transparent">
-                {skuInfo.price}
-              </span>
               <span className="text-[14px] pb-3 text-[#FFC525]">
                 {productInfo?.currency}
+              </span>
+              <span className="text-[50px] font-[Anton] bg-gradient-to-r from-[#FFA200] via-amber-400 to-[#FFEC75] bg-clip-text text-transparent">
+                {skuInfo.price}
               </span>
             </div>
             <div className="flex items-end justify-center gap-1">
@@ -142,7 +142,7 @@ export default function Payment() {
                 {t('google-pay')}
               </span>
             </Button>
-            <PayPalButton skuInfo={skuInfo} />
+            {/* <PayPalButton skuInfo={skuInfo} /> */}
             <PaymentPolicyTips />
             {
               productInfo?.region === Region.JP && (
