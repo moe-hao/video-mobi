@@ -12,6 +12,7 @@ import { PeriodType, PeriodTypeToName } from "@lib/common/consts/subscription";
 import { SkuImportant } from "@lib/common/consts/sku";
 import { useVideoMobiContext } from "@app/mobi-web/contexts/video-mobi-context";
 import { useLocation, useSearchParams } from "react-router";
+import { Region } from "@lib/common/consts/region";
 
 export default function Payment() {
   const { t } = useTranslation('', { keyPrefix: 'payment' });
@@ -73,7 +74,7 @@ export default function Payment() {
               </div>
               <div className="flex shrink-0 flex-col gap-1 items-end">
                 <h2 className="text-[16px] text-white font-[Anton] whitespace-nowrap tracking-wider">
-                  {productInfo?.currencySign}{ item.price }
+                  {productInfo?.currencySign}{item.price}
                 </h2>
               </div>
             </div>
@@ -86,7 +87,7 @@ export default function Payment() {
             className="fixed inset-0 bg-black/60 z-40 backdrop-blur-sm"
           />
           <div
-            className="fixed bottom-0 left-0 right-0 text-white rounded-[16px] p-2 z-50"
+            className="fixed bottom-0 left-0 right-0 text-white rounded-[16px] p-2 pb-6 z-50"
             style={{
               animation: 'slideUp 0.3s ease-out',
               background: 'linear-gradient(180deg, #2a3e63 0%, #1a1f2e 20%, #0d1117 100%)'
@@ -118,7 +119,7 @@ export default function Payment() {
             </div>
             <Button
               size="lg"
-              className="w-full h-[52px] bg-white/10 backdrop-blur-sm border-white/20 h-full mb-4 px-4 py-4 rounded-[16px] relative"
+              className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold h-full mb-4 px-4 py-4 rounded-[16px] relative"
               onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.Card)}
             >
               <CreditCard />
@@ -128,7 +129,7 @@ export default function Payment() {
             </Button>
             <Button
               size="lg"
-              className="w-full h-[52px] bg-white/10 backdrop-blur-sm border-white/20 h-full mb-4 px-4 py-4 rounded-[16px] relative"
+              className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold h-full mb-4 px-4 py-4 rounded-[16px] relative"
               onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.GooglePay)}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -143,16 +144,22 @@ export default function Payment() {
             </Button>
             <PayPalButton skuInfo={skuInfo} />
             <PaymentPolicyTips />
-            <div className="flex justify-center pt-1">
-              <Label className="opacity-50 cursor-default text-xs">
-                <Link href="/terms/settlement.html">資金決済法に基づく表示</Link>
-              </Label>
-            </div>
-            <div className="flex justify-center pt-1">
-              <Label className="opacity-50 cursor-default text-xs">
-                <Link href="/terms/specified.html">特定商取引法に基づく表示</Link>
-              </Label>
-            </div>
+            {
+              productInfo?.region === Region.JP && (
+                <>
+                  <div className="flex justify-center pt-1">
+                    <Label className="opacity-50 cursor-default text-xs">
+                      <Link href="/terms/settlement.html">資金決済法に基づく表示</Link>
+                    </Label>
+                  </div>
+                  <div className="flex justify-center pt-1">
+                    <Label className="opacity-50 cursor-default text-xs">
+                      <Link href="/terms/specified.html">特定商取引法に基づく表示</Link>
+                    </Label>
+                  </div>
+                </>
+              )
+            }
           </div>
         </>
       )}

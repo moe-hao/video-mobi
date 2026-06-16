@@ -11,7 +11,7 @@ const styles: PayPalButtonsComponentProps["style"] = {
   tagline: false,
   shape: "rect",
   layout: "horizontal",
-  color: "white",
+  color: "black",
   label: "paypal",
   height: 52,
 };
