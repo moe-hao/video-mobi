@@ -8,6 +8,7 @@ export const productTable = mysqlTable("product", {
     currency: varchar("currency", { length: 10 }).notNull().default(""),
     currencySign: varchar("currency_sign", { length: 5 }).notNull().default(""),
     collectionTypeList: varchar("collection_type_list", { length: 128 }).notNull().default(""),
+    desc: varchar("desc", { length: 256 }).notNull().default(""),
     createTime: int("create_time").notNull().default(0),
     updateTime: int("update_time").notNull().default(0),
 })

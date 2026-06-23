@@ -50,6 +50,7 @@ export default function ProductList() {
               <Table.Column className="whitespace-nowrap">语言</Table.Column>
               <Table.Column className="whitespace-nowrap">币种</Table.Column>
               <Table.Column className="whitespace-nowrap">货币符号</Table.Column>
+              <Table.Column className="whitespace-nowrap">备注</Table.Column>
               <Table.Column className="whitespace-nowrap">创建时间</Table.Column>
               <Table.Column className="whitespace-nowrap">更新时间</Table.Column>
               <Table.Column>操作</Table.Column>
@@ -63,6 +64,7 @@ export default function ProductList() {
                   <Table.Cell className="whitespace-nowrap">{item.languageName}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.currency}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.currencySign}</Table.Cell>
+                  <Table.Cell className="whitespace-nowrap">{item.desc}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.createTime} </Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.updateTime}</Table.Cell>
                   <Table.Cell>

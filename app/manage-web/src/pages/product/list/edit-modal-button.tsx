@@ -22,6 +22,7 @@ export default function EditModalButton({ product, onSuccess }: { product: Produ
       currency: product.currency,
       currencySign: product.currencySign,
       collectionTypeList: product.collectionTypeList,
+      desc: product.desc,
     });
   }, [isOpen, product]);
 
@@ -70,6 +71,10 @@ export default function EditModalButton({ product, onSuccess }: { product: Produ
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-14 shrink-0">货币符号</Label>
                 <Input variant="secondary" className="flex-1" value={productEditReq.currencySign} onChange={(e) => setProductEditReq({ ...productEditReq, currencySign: e.target.value })} />
+              </div>
+              <div className="flex flex-row items-center gap-4">
+                <Label className="w-14 shrink-0">备注</Label>
+                <Input variant="secondary" className="flex-1" value={productEditReq.desc} onChange={(e) => setProductEditReq({ ...productEditReq, desc: e.target.value })} />
               </div>
             </Modal.Body>
             <Modal.Footer>

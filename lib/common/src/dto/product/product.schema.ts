@@ -15,6 +15,7 @@ export const ProductEditReqSchema = z.object({
     language: z.enum(Language).or(z.literal('')).default(''),
     currency: z.string().min(1),
     currencySign: z.string().min(1),
+    desc: z.string().default(''),
     collectionTypeList: z.array(z.number()).default([]),
 });
 
@@ -24,6 +25,7 @@ export const ProductAddReqSchema = z.object({
     language: z.enum(Language).or(z.literal('')).default(''),
     currency: z.string().min(1),
     currencySign: z.string().min(1),
+    desc: z.string().default(''),
     collectionTypeList: z.array(z.number()).default([]),
 });
 

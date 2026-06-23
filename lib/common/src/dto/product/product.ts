@@ -24,6 +24,7 @@ export interface ProductListRespItem {
     languageName: string;
     currency: string;
     currencySign: string;
+    desc: string;
     collectionTypeList: CollectionType[];
     createTime: string;
     updateTime: string;

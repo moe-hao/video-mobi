@@ -62,6 +62,10 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
                 <Label className="w-14 shrink-0">货币符号</Label>
                 <Input variant="secondary" className="flex-1" onChange={(e) => setProductAddReq({ ...productAddReq, currencySign: e.target.value })} />
               </div>
+              <div className="flex flex-row items-center gap-4">
+                <Label className="w-14 shrink-0">备注</Label>
+                <Input variant="secondary" className="flex-1" value={productAddReq.desc} onChange={(e) => setProductAddReq({ ...productAddReq, desc: e.target.value })} />
+              </div>
             </Modal.Body>
             <Modal.Footer>
               <Button type="submit" onClick={handleProductEditButton}>
