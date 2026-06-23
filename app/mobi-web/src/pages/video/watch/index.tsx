@@ -305,7 +305,7 @@ export default function VideoWatch() {
 
   return (
     <div
-      className="fixed inset-0 bg-black overflow-hidden"
+      className="fixed inset-0 bg-black overflow-hidden select-none"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
