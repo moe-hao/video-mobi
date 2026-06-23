@@ -128,11 +128,14 @@ class CollectionDao {
     }
 
     async addCollection(data: CollectionInsert) {
-        await this.conn.insert(collectionTable).values({ ...data, createTime: currentTime(), updateTime: currentTime() });
+        data.createTime = currentTime();
+        data.updateTime = currentTime();
+        await this.conn.insert(collectionTable).values(data);
     }
 
     async updateCollectionById(id: number, data: CollectionInsert) {
-        await this.conn.update(collectionTable).set({ ...data, updateTime: currentTime() }).where(eq(collectionTable.id, id));
+        data.updateTime = currentTime();
+        await this.conn.update(collectionTable).set(data).where(eq(collectionTable.id, id));
     }
 }
 

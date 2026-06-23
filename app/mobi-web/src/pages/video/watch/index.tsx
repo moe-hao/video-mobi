@@ -316,8 +316,12 @@ export default function VideoWatch() {
             <video
               key={currentEpisode}
               ref={player}
-              className="w-full h-full object-contain"
               src={currentURL}
+              disablePictureInPicture
+              controlsList="nodownload noremoteplayback"
+              className="w-full h-full object-contain select-none [-webkit-user-drag:none] [-webkit-touch-callout:none]"
+              onContextMenu={(e) => e.preventDefault()}
+              draggable="false"
               playsInline
             />
           )}

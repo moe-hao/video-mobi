@@ -1,4 +1,4 @@
-import { char, int, mysqlTable, tinyint, varchar } from "drizzle-orm/mysql-core";
+import { char, int, mysqlTable, text, tinyint, varchar } from "drizzle-orm/mysql-core";
 import { CollectionType, PublishStatus } from "@lib/common/consts/collection";
 
 export const collectionTable = mysqlTable("collection", {
@@ -14,7 +14,7 @@ export const collectionTable = mysqlTable("collection", {
     publishStatus: tinyint("publish_status").notNull().default(PublishStatus.Unpublished),
     collectionType: tinyint("collection_type").notNull().default(CollectionType.Normal),
     local: tinyint("local").notNull().default(0),
-    desc: varchar("desc", { length: 512 }).notNull().default(""),
+    desc: text("desc").notNull().default(""),
     mockLike: int("mock_like").notNull().default(0),
     isDeleted: int("is_deleted").notNull().default(0),
     createTime: int("create_time").notNull().default(0),

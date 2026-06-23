@@ -1,4 +1,4 @@
-import { Button, Spinner, Table } from "@heroui/react";
+import { Button, Link, Spinner, Table } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 import SyncButton from "./sync-button";
@@ -89,6 +89,7 @@ export default function EpisodeVideo() {
               <Table.Column>VID</Table.Column>
               <Table.Column>创建日期</Table.Column>
               <Table.Column>更新日期</Table.Column>
+              <Table.Column>操作</Table.Column>
             </Table.Header>
             <Table.Body>
               {
@@ -99,6 +100,12 @@ export default function EpisodeVideo() {
                     <Table.Cell>{item.vid}</Table.Cell>
                     <Table.Cell>{item.createTime}</Table.Cell>
                     <Table.Cell>{item.updateTime}</Table.Cell>
+                    <Table.Cell>
+                      <Link className="no-underline hover:underline text-accent mr-2">
+                        下载
+                      </Link>
+                      {/* <DeleteButton id={item.id} onConfirm={(id) => fetchEpisodeDelete(id)} onSuccess={async () => await handleSearch(collectionTableListReq)} /> */}
+                    </Table.Cell>
                   </Table.Row>
                 ))
               }
