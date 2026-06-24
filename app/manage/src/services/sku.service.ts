@@ -41,6 +41,7 @@ class SkuService {
                 skuTypeName: SkuTypeName[item.skuType as keyof typeof SkuTypeName],
                 periodType: item.periodType,
                 periodTypeName: SkuPeriodTypeName[item.periodType as keyof typeof SkuPeriodTypeName],
+                periodTotal: item.periodTotal,
                 paypalPlanId: item.paypalPlanId,
                 desc: item.desc,
                 important: item.important,
@@ -58,6 +59,7 @@ class SkuService {
             desc: sku.desc,
             skuType: sku.skuType,
             periodType: sku.periodType,
+            periodTotal: sku.periodTotal,
             important: sku.important,
             paypalPlanId: sku.paypalPlanId,
         });
@@ -69,6 +71,7 @@ class SkuService {
             price: req.price,
             skuType: req.skuType,
             periodType: req.periodType,
+            periodTotal: req.periodTotal,
             important: req.important,
             desc: req.desc,
             paypalPlanId: req.paypalPlanId,

@@ -14,7 +14,6 @@ export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageList
   const { fetchEditSku } = useEditSku();
 
   useEffect(() => {
-    console.log(sku);
     setSkuEditReq({
       id: sku.id,
       productId: sku.productId,
@@ -24,6 +23,7 @@ export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageList
       periodType: sku.periodType as SkuPeriodType,
       important: sku.important as SkuImportant,
       paypalPlanId: sku.paypalPlanId,
+      periodTotal: sku.periodTotal,
     });
   }, [isOpen]);
 
@@ -61,6 +61,10 @@ export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageList
                   <Label className="w-10 shrink-0 text-right">周期</Label>
                   <SkuPeriodSelect className="flex-1" value={skuEditReq.periodType} onChange={(value) => setSkuEditReq({ ...skuEditReq, periodType: value as SkuPeriodType })} />
                 </div>
+              </div>
+              <div className="flex flex-row items-center gap-4">
+                <Label className="w-18  shrink-0 text-right">周期总数</Label>
+                <Input variant="secondary" className="flex-1" value={skuEditReq.periodTotal} type="number" onChange={(e) => setSkuEditReq({ ...skuEditReq, periodTotal: Number(e.target.value) })} />
               </div>
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-18 shrink-0 text-right">重点展示</Label>

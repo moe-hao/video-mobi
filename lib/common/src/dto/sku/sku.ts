@@ -32,6 +32,7 @@ export interface SkuManageListItem {
     skuTypeName: string;
     periodType: string;
     periodTypeName: string;
+    periodTotal: number;
     paypalPlanId: string;
     desc: string;
     important: SkuImportant;

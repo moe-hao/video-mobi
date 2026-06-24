@@ -14,6 +14,7 @@ export const skuAddReqSchema = z.object({
     desc: z.string().default(''),
     skuType: z.enum(SkuType, { message: "Sku Type Invalid" }),
     periodType: z.enum(SkuPeriodType, { message: "Period Type Invalid" }),
+    periodTotal: z.number().int().min(1, { message: "Period Total Required" }),
     important: z.enum(SkuImportant, { message: "Important Invalid" }),
     paypalPlanId: z.string().default(''),
 });
@@ -25,6 +26,7 @@ export const skuEditReqSchema = z.object({
     desc: z.string().default(''),
     skuType: z.enum(SkuType, { message: "Sku Type Invalid" }),
     periodType: z.enum(SkuPeriodType, { message: "Period Type Invalid" }),
+    periodTotal: z.number().int().min(1, { message: "Period Total Required" }),
     important: z.enum(SkuImportant, { message: "Important Invalid" }),
     paypalPlanId: z.string().default(''),
 })
