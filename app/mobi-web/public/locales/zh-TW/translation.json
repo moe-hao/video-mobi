@@ -43,6 +43,7 @@
         "verify-code": "驗證碼",
         "verify-account": "帳號驗證碼",
         "verify-code-sent-to": "我們已發送驗證碼至 {{email}}",
+        "verify-code-error": "驗證碼錯誤",
         "enter": "確認"
     },
     "user-store": {

@@ -55,8 +55,6 @@ class VideoService {
             }
 
             const playInfo = await vod.GetPlayInfo({ Vid: video.vid });
-            const mediaInfos = await vod.GetMediaList({ Tags: collectionBizId });
-            console.log(mediaInfos.Result);
             const [videoInfo] = playInfo.Result?.PlayInfoList || [];
             if (!videoInfo) {
                 throw new InternalException(ResultCode.ResourceNotFound.code, 'Video Not Found');

@@ -43,6 +43,7 @@
         "verify-code": "Verify Code",
         "verify-account": "Verify Account",
         "verify-code-sent-to": "We've sent a code to {{email}}",
+        "verify-code-error": "Verify Code Error",
         "enter": "Enter"
     },
     "user-store": {

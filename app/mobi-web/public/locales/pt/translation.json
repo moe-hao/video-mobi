@@ -40,6 +40,7 @@
         "verify-code": "Código de Verificação",
         "verify-account": "Verificar Conta",
         "verify-code-sent-to": "Enviamos um código para {{email}}",
+        "verify-code-error": "Código de Verificação Erro",
         "enter": "Entrar"
     },
     "user-store": {

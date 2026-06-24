@@ -1,16 +1,16 @@
-import { userUserVerifyEmail } from "@app/mobi-web/hooks/user";
+import { useUserVerifyEmail } from "@app/mobi-web/hooks/user";
 import { ChevronLeft } from "@gravity-ui/icons";
-import { Button, InputOTP, Label } from "@heroui/react";
+import { Button, FieldError, InputOTP, Label, TextField } from "@heroui/react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router";
 
 export default function VerifyLogin() {
   const navigate = useNavigate();
-  const { t } = useTranslation('', {keyPrefix: 'user-login-verify'});
+  const { t } = useTranslation('', { keyPrefix: 'user-login-verify' });
   const [searchParams] = useSearchParams();
 
-  const { fetchUserVerifyEmail } = userUserVerifyEmail();
+  const { userLoginEmailVerifyValid, fetchUserVerifyEmail } = useUserVerifyEmail();
 
   const [otp, setOtp] = useState("");
   const email = decodeURIComponent(searchParams.get('email') || '');
@@ -39,16 +39,19 @@ export default function VerifyLogin() {
           <p className="text-sm text-muted">{t('verify-code-sent-to', { email })}</p>
         </div>
         <div className="flex justify-center">
-          <InputOTP maxLength={6} value={otp} onChange={setOtp}>
-            <InputOTP.Group>
-              <InputOTP.Slot index={0} />
-              <InputOTP.Slot index={1} />
-              <InputOTP.Slot index={2} />
-              <InputOTP.Slot index={3} />
-              <InputOTP.Slot index={4} />
-              <InputOTP.Slot index={5} />
-            </InputOTP.Group>
-          </InputOTP>
+          <TextField className="w-64" isInvalid={!userLoginEmailVerifyValid}>
+            <InputOTP maxLength={6} value={otp} onChange={setOtp}>
+              <InputOTP.Group>
+                <InputOTP.Slot index={0} />
+                <InputOTP.Slot index={1} />
+                <InputOTP.Slot index={2} />
+                <InputOTP.Slot index={3} />
+                <InputOTP.Slot index={4} />
+                <InputOTP.Slot index={5} />
+              </InputOTP.Group>
+            </InputOTP>
+            <FieldError className="text-right py-2">{t('verify-code-error')}</FieldError>
+          </TextField>
         </div>
         <Button className="w-full bg-white text-black" variant="ghost" onPress={handleVerify}>{t('enter')}</Button>
       </div>

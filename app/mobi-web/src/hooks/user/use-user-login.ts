@@ -34,16 +34,25 @@ export function useUserLoginEmail(): {
   }
 }
 
-export function userUserVerifyEmail(): {
+export function useUserVerifyEmail(): {
+  userLoginEmailVerifyValid: boolean;
   fetchUserVerifyEmail: (body: VerifyEmailCodeReq) => Promise<UserAuthLoginResp>;
 } {
+  const [userLoginEmailVerifyValid, setUserLoginEmailVerifyValid] = useState<boolean>(true);
+
   const fetchUserVerifyEmail = async (body: VerifyEmailCodeReq) => {
-    const result = await request<UserAuthLoginResp>('/api/auth/verify_email_code', 'POST', body);
-    localStorage.setItem("auth", result.authToken);
-    return result;
+    try {
+      const result = await request<UserAuthLoginResp>('/api/auth/verify_email_code', 'POST', body);
+      localStorage.setItem("auth", result.authToken);
+      return result;
+    } catch (error) {
+      setUserLoginEmailVerifyValid(false);
+      throw error;
+    }
   }
 
   return {
+    userLoginEmailVerifyValid,
     fetchUserVerifyEmail,
   }
 }
