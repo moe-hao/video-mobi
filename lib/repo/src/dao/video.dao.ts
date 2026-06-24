@@ -31,6 +31,13 @@ class VideoDao {
         );
     }
 
+    async getVideoById(id: number): Promise<VideoSelect> {
+        const [result] = await this.conn.select().from(videoTable).where(
+            eq(videoTable.id, id)
+        );
+        return result;
+    }
+
     async addVideo(data: VideoInsert): Promise<void> {
         await this.conn.insert(videoTable).values(data);
     }

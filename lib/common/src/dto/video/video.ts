@@ -35,3 +35,7 @@ export interface VideoLikeResp {
     isLike: boolean;
     likeTotal: number;
 }
+
+export interface VideoDownloadVodResp {
+    url: string;
+}

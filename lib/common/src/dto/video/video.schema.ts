@@ -18,7 +18,12 @@ export const videoLikeReqSchema = z.object({
     collectionBizId: z.string().default(''),
 });
 
+export const videoDownloadVodSchema = z.object({
+    id: z.int().default(0),
+});
+
 export type VideoListReq = z.infer<typeof videoListReqSchema>;
 export type VideoSyncReq = z.infer<typeof videoSyncReqSchema>;
 export type VideoDownloadReq = z.infer<typeof videoDownloadReqSchema>;
 export type VideoLikeReq = z.infer<typeof videoLikeReqSchema>;
+export type VideoDownloadVodReq = z.infer<typeof videoDownloadVodSchema>;
