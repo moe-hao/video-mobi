@@ -31,6 +31,7 @@ collectionVideo.post('/download', validated('json', videoDownloadVodSchema), asy
     return c.newResponse(response.body, 200, {
         'Content-Type': response.headers.get('Content-Type') || 'video/mp4',
         'Content-Disposition': 'attachment',
+        'X-Accel-Buffering': 'no',
     });
 });
 
