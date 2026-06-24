@@ -31,7 +31,7 @@ export class PayermaxPayment implements Payment {
             subscriptionChannel: this.orderPaymentChannel,
             skuId: paymentInfo.skuInfo.id,
             productId: paymentInfo.productInfo.id,
-            fbPixelId: paymentInfo.fbPixelId,
+            pixelId: paymentInfo.pixelId,
         });
 
         const orderBizId = await orderBizIdGenerator.generate();
@@ -53,7 +53,7 @@ export class PayermaxPayment implements Payment {
             currency: paymentInfo.productInfo.currency,
             skuId: paymentInfo.skuInfo.id,
             productId: paymentInfo.productInfo.id,
-            fbPixelId: paymentInfo.fbPixelId,
+            pixelId: paymentInfo.pixelId,
             paymentId: paymentResult.tradeToken,
             subscriptionId: subscriptionId,
             paymentChannel: this.orderPaymentChannel,

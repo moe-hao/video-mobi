@@ -8,7 +8,7 @@ export const orderTable = mysqlTable("order", {
     currency: varchar("currency", { length: 10 }).notNull().default(''),
     skuId: int("sku_id").notNull().default(0),
     productId: int("product_id").notNull().default(0),
-    fbPixelId: varchar("fb_pixel_id", { length: 32 }).notNull().default(''),
+    pixelId: int("pixel_id").notNull().default(0),
     paymentId: varchar('payment_id', { length: 40 }).notNull().default(''),
     subscriptionId: int("subscription_id").notNull().default(0),
     subscriptionCount: int("subscription_count").notNull().default(0),

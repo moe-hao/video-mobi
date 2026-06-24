@@ -43,7 +43,7 @@ export default function Payment() {
       sku: skuInfo.bizId,
       paymentChannel,
       paymentType,
-      fbPixelId: searchParams.get('pixel') || '',
+      pixelId: Number(searchParams.get('p')) || 0,
       reback: `${location.pathname}${location.search || ''}`,
     });
 

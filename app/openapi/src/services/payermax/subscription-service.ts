@@ -10,7 +10,7 @@ import { orderBizIdGenerator } from "@app/order/order/order-biz-id-generator";
 import { OrderFinalState } from "@lib/common/consts/order";
 import { CustomData, EventRequest, ServerEvent, UserData } from "facebook-nodejs-business-sdk"
 import { currentTime } from "@lib/common/utils/time";
-import config from "@lib/internal/config";
+import { pixelDao } from "@lib/repo/dao/pixel.dao";
 
 class SubscriptionService {
     async receive(req: PayermaxNotificationReq<PayermaxSubscriptionNotificationData>): Promise<OrderPayermaxResultResp> {
@@ -37,14 +37,16 @@ class SubscriptionService {
                     if (subscriptionInfo.subscriptionStatus === SubscriptionStatus.InActive) {
                         logger.info(`SubscriptionService.processSubscriptionStatus, subscriptionNo:${subscriptionNo}, targetStatus:${targetStatus}, update to active`);
                         await subscriptionDao.updateSubscriptionById(subscriptionInfo.id, { subscriptionStatus: targetStatus });
-                        if (subscriptionInfo.fbPixelId) {
-                            logger.info(`SubscriptionService.processSubscriptionStatus, subscriptionNo:${subscriptionNo}, targetStatus:${targetStatus}, update to active, fbPixelId:${subscriptionInfo.fbPixelId}`);
+                        if (subscriptionInfo.pixelId !== 0) {
+                            logger.info(`SubscriptionService.processSubscriptionStatus, subscriptionNo:${subscriptionNo}, targetStatus:${targetStatus}, update to active, pixelId:${subscriptionInfo.pixelId}`);
+
+                            const pixel = await pixelDao.getPixelById(subscriptionInfo.pixelId);
                             const fbUserData = new UserData().setAppUserId(subscriptionInfo.userId.toString());
                             const fbCustomData = new CustomData().setCurrency(req.data.subscriptionPaymentDetail.payAmount.currency).setValue(Number(req.data.subscriptionPaymentDetail.payAmount.amount));
                             const fbServerEvent = new ServerEvent().setEventName("Subscribe").setEventTime(currentTime()).setCustomData(fbCustomData).setUserData(fbUserData);
-                            const fbEventRequest = new EventRequest(config.FbAccessToken, subscriptionInfo.fbPixelId).setEvents([fbServerEvent]);
+                            const fbEventRequest = new EventRequest(pixel.accessToken, pixel.pixelId).setEvents([fbServerEvent]);
                             await fbEventRequest.execute();
-                            logger.info(`SubscriptionService.processSubscriptionStatus, subscriptionNo:${subscriptionNo}, targetStatus:${targetStatus}, update to active, fbPixelId:${subscriptionInfo.fbPixelId}, fbEventRequest:${fbEventRequest}`);
+                            logger.info(`SubscriptionService.processSubscriptionStatus, subscriptionNo:${subscriptionNo}, targetStatus:${targetStatus}, update to active, pixelId:${subscriptionInfo.pixelId}, fbEventRequest:${fbEventRequest}`);
                         }
                     }
                     break;

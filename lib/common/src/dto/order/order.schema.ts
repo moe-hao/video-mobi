@@ -5,7 +5,7 @@ export const orderCreateReqSchema = z.object({
     sku: z.string().nonempty({ message: "SKU Required" }),
     paymentChannel: z.enum(PaymentChannel, { message: "Payment Channel Invalid" }),
     paymentType: z.enum(PaymentType, { message: "Payment Type Invalid" }),
-    fbPixelId: z.string().optional().default(''),
+    pixelId: z.number().int().default(0),
     reback: z.string().default(''),
 });
 

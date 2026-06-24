@@ -19,7 +19,7 @@ export type PaymentInfo = {
     skuInfo: SkuSelect;
     productInfo: ProductSelect;
     paymentType: PaymentType;
-    fbPixelId: string;
+    pixelId: number;
     reback: string;
 }
 

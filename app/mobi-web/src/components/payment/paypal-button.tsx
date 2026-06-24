@@ -49,7 +49,7 @@ export default function PayPalButton({ skuInfo }: { skuInfo: SkuListItem }) {
       sku: skuInfo.bizId,
       paymentChannel: PaymentChannel.Paypal,
       paymentType: PaymentType.Card,
-      fbPixelId: searchParams.get('pixel') || '',
+      pixelId: Number(searchParams.get('p')) || 0,
       reback: `${location.pathname}${location.search || ''}`,
     });
     return result.paymentId;
@@ -76,7 +76,7 @@ export default function PayPalButton({ skuInfo }: { skuInfo: SkuListItem }) {
       sku: skuInfo.bizId,
       paymentChannel: PaymentChannel.Paypal,
       paymentType: PaymentType.Card,
-      fbPixelId: searchParams.get('pixel') || '',
+      pixelId: Number(searchParams.get('p')) || 0,
       reback: `${location.pathname}${location.search || ''}`,
     });
     return result.subscriptionNo;

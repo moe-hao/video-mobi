@@ -24,7 +24,7 @@ class OrderService {
             productInfo: productInfo,
             orderPaymentChannel: body.paymentChannel,
             paymentType: body.paymentType,
-            fbPixelId: body.fbPixelId,
+            pixelId: body.pixelId,
             reback: body.reback,
         }
         const payment = PaymentFactory.createPayment(body.paymentChannel);
