@@ -78,7 +78,11 @@ class SkuDao {
 
     async getSkuListByProductId(productId: number): Promise<SkuSelect[]> {
         return await this.conn.select().from(skuTable).where(
-            eq(skuTable.productId, productId)
+            and(
+                eq(skuTable.productId, productId),
+                eq(skuTable.isDeleted, DeleteStatus.NotDeleted),
+            )
+
         ).orderBy(desc(skuTable.weight));
     }
 
