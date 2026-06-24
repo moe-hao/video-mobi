@@ -70,6 +70,13 @@ export default function VideoWatch() {
   }, [fetchVideoPlayInfo, fetchLikeStatus, collectionId, currentEpisode]);
 
   useEffect(() => {
+    const currentVideo = videoPlayInfoResp.videoList?.find((item) => item.epNum === currentEpisode);
+    if (currentVideo?.isLock) {
+      setIsUnlockModalOpen(true);
+    }
+  }, [videoPlayInfoResp.videoList, currentEpisode]);
+
+  useEffect(() => {
     const video = player.current;
     if (!video || !videoPlayInfoResp.videoList) return;
 
@@ -107,6 +114,9 @@ export default function VideoWatch() {
           setTimeout(() => {
             changeEpisode(currentEpisode + 1);
           }, 200);
+        } else {
+          changeEpisode(currentEpisode + 1);
+          setIsUnlockModalOpen(true);
         }
       }
     };
@@ -206,9 +216,8 @@ export default function VideoWatch() {
   };
 
   const handleEpisodeButton = (episode: number, isLock: boolean) => {
-    if (!isLock) {
-      changeEpisode(episode);
-    } else {
+    changeEpisode(episode);
+    if (isLock) {
       setIsUnlockModalOpen(true);
     }
     setIsEpisodeModalOpen(false);

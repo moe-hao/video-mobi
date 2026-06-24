@@ -151,10 +151,7 @@ export default function HistoryList() {
       ))}
 
       <div ref={sentinelRef} className="flex justify-center py-4">
-        {loading && <span className="text-white/50 text-xs">Loading...</span>}
-        {!hasMore && historyUserList.list?.length > 0 && (
-          <span className="text-white/30 text-xs">No more data</span>
-        )}
+        { loading && <span className="text-white/50 text-xs">Loading...</span> }
       </div>
     </div>
   )
