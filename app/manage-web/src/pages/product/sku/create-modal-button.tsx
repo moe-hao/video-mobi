@@ -55,7 +55,7 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
               </div>
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-18  shrink-0 text-right">周期总数</Label>
-                <Input variant="secondary" className="flex-1" onChange={(e) => setSkuAddReq({ ...skuAddReq, desc: e.target.value })} />
+                <Input variant="secondary" className="flex-1" value={skuAddReq.periodTotal} type="number" onChange={(e) => setSkuAddReq({ ...skuAddReq, periodTotal: Number(e.target.value) })} />
               </div>
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-18 shrink-0 text-right">重点展示</Label>
