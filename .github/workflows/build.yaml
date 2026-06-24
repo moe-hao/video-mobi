@@ -30,6 +30,7 @@ jobs:
               - 'lib/**'
             mobi-web:
               - 'app/mobi-web/**'
+              - 'app/mobi-web/public/.well-known/**'
               - 'lib/common/**'
             manage:
               - 'app/manage/**'

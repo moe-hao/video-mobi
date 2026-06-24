@@ -142,7 +142,7 @@ export default function Payment() {
                 {t('google-pay')}
               </span>
             </Button>
-            <Button
+            {/* <Button
               size="lg"
               className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold h-full mb-4 px-4 py-4 rounded-[16px] relative"
               onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.ApplePay)}
@@ -153,7 +153,7 @@ export default function Payment() {
               <span className="ml-2">
                 Apple Pay
               </span>
-            </Button>
+            </Button> */}
             {/* <PayPalButton skuInfo={skuInfo} /> */}
             <PaymentPolicyTips />
             {
