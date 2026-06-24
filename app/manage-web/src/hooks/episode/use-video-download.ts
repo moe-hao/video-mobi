@@ -1,31 +1,13 @@
-import type { VideoDownloadVodReq } from "@lib/common/dto/video";
+import type { VideoDownloadVodReq, VideoDownloadVodResp } from "@lib/common/dto/video";
+import { request } from "@lib/common/utils/request-manage";
 import { useCallback } from "react";
 
 export function useVideoDownload(): {
-  fetchDownload(req: VideoDownloadVodReq): Promise<void>
+  fetchDownload(req: VideoDownloadVodReq): Promise<VideoDownloadVodResp>
 } {
   const fetchDownload = useCallback(async (req: VideoDownloadVodReq) => {
-    const token = localStorage.getItem('token');
-    const response = await fetch('/api/collection_video/download', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token ? { Authorization: token } : {}),
-      },
-      body: JSON.stringify(req),
-    });
-    if (!response.ok) {
-      throw new Error('Download failed');
-    }
-    const blob = await response.blob();
-    const blobUrl = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = blobUrl;
-    a.download = '';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(blobUrl);
+    const result = await request<VideoDownloadVodResp>('/api/collection_video/download', 'POST', req);
+    return result;
   }, []);
 
   return { fetchDownload };

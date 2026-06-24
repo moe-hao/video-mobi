@@ -53,7 +53,10 @@ export default function EpisodeVideo() {
   }
 
   const handleDownloadVideo = async (req: VideoDownloadVodReq) => {
-    await fetchDownload(req);
+    const result = await fetchDownload(req);
+    if (result?.url) {
+      window.open(result.url, '_blank');
+    }
   };
 
   return (
@@ -107,7 +110,7 @@ export default function EpisodeVideo() {
                     <Table.Cell>{item.updateTime}</Table.Cell>
                     <Table.Cell>
                       <Link className="no-underline hover:underline text-accent mr-2" onClick={() => handleDownloadVideo({ id: item.id })}>
-                        下载
+                        查看
                       </Link>
                     </Table.Cell>
                   </Table.Row>

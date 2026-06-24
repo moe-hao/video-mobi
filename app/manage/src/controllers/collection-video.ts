@@ -27,12 +27,8 @@ collectionVideo.post('/download_video', validated('json', videoDownloadReqSchema
 
 collectionVideo.post('/download', validated('json', videoDownloadVodSchema), async (c) => {
     const req = c.req.valid('json');
-    const response = await collectionVideoService.download(req);
-    return c.newResponse(response.body, 200, {
-        'Content-Type': response.headers.get('Content-Type') || 'video/mp4',
-        'Content-Disposition': 'attachment',
-        'X-Accel-Buffering': 'no',
-    });
+    const resp = await collectionVideoService.download(req);
+    return c.json(success(resp));
 });
 
 export default collectionVideo;

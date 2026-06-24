@@ -1,5 +1,5 @@
 import { ResultCode } from "@lib/common/consts/result";
-import type { VideoDownloadReq, VideoDownloadVodReq, VideoListReq, VideoListResp } from "@lib/common/dto/video";
+import type { VideoDownloadReq, VideoDownloadVodReq, VideoDownloadVodResp, VideoListReq, VideoListResp } from "@lib/common/dto/video";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { currentTime, formatUnixTime } from "@lib/common/utils/time";
 import config from "@lib/internal/config";
@@ -46,7 +46,7 @@ class CollectionVideoService {
         }
     }
 
-    async download(req: VideoDownloadVodReq): Promise<Response> {
+    async download(req: VideoDownloadVodReq): Promise<VideoDownloadVodResp> {
         const videoInfo = await videoDao.getVideoById(req.id);
         if (!videoInfo) {
             throw new InternalException(ResultCode.ResourceNotFound.code, 'Video Not Found');
@@ -59,7 +59,7 @@ class CollectionVideoService {
         }
 
         const url = vodVideoInfo.MainPlayUrl.replace('http://', 'https://');
-        return await fetch(url);
+        return { url };
     }
 
     async syncVodToCollection(id: number): Promise<void> {
