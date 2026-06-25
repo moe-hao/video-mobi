@@ -1,56 +1,64 @@
 {
     "collection-list": {
-        "all-collections": "Todas as Coleções",
+        "all-collections": "Todas as coleções",
         "episodes": "Episódios"
     },
     "navigation": {
         "home": "Início",
-        "profile": "Perfil"
+        "profile": "Perfil",
+        "history": "Histórico"
+    },
+    "history": {
+        "up-to": "Até o ep. {{epNum}}",
+        "total": "{{totalEpNum}}",
+        "watch-now": "Assistir agora",
+        "continue": "Continuar"
     },
     "payment": {
-        "weekly-vip": "VIP Semanal",
-        "weekly-vip-amount": "{{amount}} / semana",
-        "monthly-vip": "VIP Mensal",
-        "monthly-vip-amount": "{{amount}} / mês",
-        "yearly-vip": "VIP Anual",
-        "yearly-vip-amount": "{{amount}} / ano",
-        "payment-title": "Pagamento",
-        "credit-debit-card": "Cartão de Crédito / Débito",
+        "weekly-vip": "Premium semanal",
+        "monthly-vip": "Premium mensal",
+        "yearly-vip": "Premium anual",
+        "credit-debit-card": "Cartão de crédito / débito",
         "google-pay": "Google Pay"
     },
     "user-info": {
-        "id": "ID",
         "user": "Usuário",
-        "profile": "Perfil",
-        "expiration-time": "Data de Expiração",
-        "subscribe": "Assinar",
-        "login-now": "Entrar Agora"
+        "premium": "Premium",
+        "expiration-time": "Data de expiração",
+        "login-now": "Entrar",
+        "all-ep-free": "Todos os episódios grátis",
+        "feedback": "Feedback",
+        "terms": "Termos de serviço",
+        "privacy": "Política de privacidade"
     },
     "user-login": {
-        "welcome": "Bem-vindo",
-        "enter-to-blue-arc": "Entrar ao Blue Arc",
-        "email-login": "Entrar com Email"
+        "email-login": "Login por e-mail"
     },
     "user-login-email": {
-        "email-login": "Login por Email",
-        "email-address": "Insira o Email",
+        "email-login": "Login por e-mail",
+        "email-address": "Endereço de e-mail",
         "enter": "Entrar"
     },
     "user-login-verify": {
-        "verify-code": "Código de Verificação",
-        "verify-account": "Verificar Conta",
-        "verify-code-sent-to": "Enviamos um código para {{email}}",
-        "verify-code-error": "Código de Verificação Erro",
+        "verify-code": "Código de verificação",
+        "verify-account": "Verificar conta",
+        "verify-code-sent-to": "Enviamos un código para {{email}}",
+        "verify-code-error": "Verify Code Error",
         "enter": "Entrar"
     },
     "user-store": {
-        "subscribe": "Assinar"
+        "title": "Premium",
+        "subscribe": "Premium",
+        "hd-quality": "Qualidade HD",
+        "free": "Assistir grátis",
+        "watch-first": "Assistir primeiro",
+        "premium": "Premium"
     },
     "video-with-id": {
         "episode-num": "Ep. {{currentEpisode}}",
         "episode-select": "Episódios",
         "completed": "Concluído",
-        "total-episodes": "{{totalEpisodes}} Episódios",
-        "become-vip": "Torne-se VIP"
+        "total-episodes": "{{totalEpisodes}} episódios",
+        "share": "Compartilhar"
     }
 }
