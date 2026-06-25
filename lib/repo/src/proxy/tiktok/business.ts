@@ -23,10 +23,10 @@ class TikTokBusinessProxy {
         logger.info(`sendEvent toiktok body: ${JSON.stringify(body)}`);
 
         try {
-            const resp = await fetch('https://business-api.tiktok.com/open_api/v1.3/event/track', {
+            const resp = await fetch('https://business-api.tiktok.com/open_api/v1.3/event/track/', {
                 method: 'POST',
                 headers: {
-                    'Authorization': req.accessToken,
+                    'Access-Token': req.accessToken,
                     'Content-Type': 'application/json',
                 },
                 body: body,
