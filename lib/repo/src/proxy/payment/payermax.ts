@@ -79,7 +79,7 @@ class PayermaxProxy {
         const data: PayermaxOrderAndPayData = {
             outTradeNo: paymentInfo.orderBizId,
             integrate: 'Hosted_Checkout',
-            subject: 'Video Mobi Week Subscription',
+            subject: 'Video Mobi Subscription',
             totalAmount: paymentInfo.amount,
             currency: productInfo.currency,
             country: productInfo.region,
@@ -87,7 +87,7 @@ class PayermaxProxy {
             language: productInfo.language,
             frontCallbackUrl: `http://${productInfo.host}${paymentInfo.reback}`,
             notifyUrl: config.PayermaxPaymentNotifyUrl,
-            mitManagementUrl: "http://${productInfo.host}",
+            mitManagementUrl: `http://${productInfo.host}`,
         }
 
         if (paymentInfo.subscriptionNo) {
@@ -122,7 +122,7 @@ class PayermaxProxy {
         }
 
         const subscriptionPlan: PayermaxSubscriptionCreatePlan = {
-            subject: 'Video Mobi Week Subscription',
+            subject: 'Video Mobi Subscription',
             totalPeriods: skuInfo.periodTotal,
             periodRule: periodRule,
             periodAmount: periodAmount,
