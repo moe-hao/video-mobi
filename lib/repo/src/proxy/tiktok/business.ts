@@ -22,17 +22,21 @@ class TikTokBusinessProxy {
         })
         logger.info(`sendEvent toiktok body: ${JSON.stringify(body)}`);
 
-        const resp = await fetch('https://business-api.tiktok.com/open_api/v1.3/event/track', {
-            method: 'POST',
-            headers: {
-                'Authorization': req.accessToken,
-                'Content-Type': 'application/json',
-            },
-            body: body,
-        });
+        try {
+            const resp = await fetch('https://business-api.tiktok.com/open_api/v1.3/event/track', {
+                method: 'POST',
+                headers: {
+                    'Authorization': req.accessToken,
+                    'Content-Type': 'application/json',
+                },
+                body: body,
+            });
 
-        const data = await resp.json();
-        logger.info(`sendEvent toiktok: ${JSON.stringify(data)}`);
+            const data = await resp.json();
+            logger.info(`sendEvent toiktok: ${JSON.stringify(data)}`);
+        } catch (error) {
+            logger.error(`sendEvent toiktok error: ${JSON.stringify(error)}`);
+        }
     }
 }
 
