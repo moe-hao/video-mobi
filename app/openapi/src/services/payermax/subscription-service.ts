@@ -1,4 +1,4 @@
-import type { OrderPayermaxResultResp, PayermaxNotificationReq, PayermaxSubscriptionNotificationData } from "@lib/common/dto/payermax";
+import type { OrderPayermaxResultResp, PayermaxNotificationReq, PayermaxSubscriptionNotificationData, PayermaxSubscriptionNotificationPaymentDetail } from "@lib/common/dto/payermax";
 import { orderStatusHelper } from "./order/order-status-helper";
 import { PayermaxNotifyType, PayermaxResponseCode, PayermaxResultToStatus } from "@lib/common/consts/payermax";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
@@ -6,11 +6,16 @@ import { PayermaxToSubscriptionStatus, SubscriptionFinalStatus, SubscriptionStat
 import { logger } from "@lib/internal/logger";
 import { PaymentChannel } from "@lib/common/consts/payment";
 import { orderDao } from "@lib/repo/dao/order.dao";
+import { productDao } from "@lib/repo/dao/product.dao";
 import { orderBizIdGenerator } from "@app/order/order/order-biz-id-generator";
 import { OrderFinalState } from "@lib/common/consts/order";
 import { CustomData, EventRequest, ServerEvent, UserData } from "facebook-nodejs-business-sdk"
 import { currentTime } from "@lib/common/utils/time";
 import { pixelDao } from "@lib/repo/dao/pixel.dao";
+import type { PixelSelect } from "@lib/repo/models/pixel";
+import { PixelPlatform, TikTokEvent } from "@lib/common/consts/pixel";
+import { tikTokBusinessProxy } from "@lib/repo/proxy/tiktok/business";
+import type { SubscriptionSelect } from "@lib/repo/models/subscription";
 
 class SubscriptionService {
     async receive(req: PayermaxNotificationReq<PayermaxSubscriptionNotificationData>): Promise<OrderPayermaxResultResp> {
@@ -41,12 +46,13 @@ class SubscriptionService {
                             logger.info(`SubscriptionService.processSubscriptionStatus, subscriptionNo:${subscriptionNo}, targetStatus:${targetStatus}, update to active, pixelId:${subscriptionInfo.pixelId}`);
 
                             const pixel = await pixelDao.getPixelById(subscriptionInfo.pixelId);
-                            const fbUserData = new UserData().setAppUserId(subscriptionInfo.userId.toString());
-                            const fbCustomData = new CustomData().setCurrency(req.data.subscriptionPaymentDetail.payAmount.currency).setValue(Number(req.data.subscriptionPaymentDetail.payAmount.amount));
-                            const fbServerEvent = new ServerEvent().setEventName("Subscribe").setEventTime(currentTime()).setCustomData(fbCustomData).setUserData(fbUserData);
-                            const fbEventRequest = new EventRequest(pixel.accessToken, pixel.pixelId).setEvents([fbServerEvent]);
-                            await fbEventRequest.execute();
-                            logger.info(`SubscriptionService.processSubscriptionStatus, subscriptionNo:${subscriptionNo}, targetStatus:${targetStatus}, update to active, pixelId:${subscriptionInfo.pixelId}, fbEventRequest:${fbEventRequest}`);
+                            if (pixel.platfrom === PixelPlatform.Facebook) {
+                                await this.sendFacebookEvent(subscriptionInfo.userId, pixel, req.data.subscriptionPaymentDetail);
+                            }
+
+                            if (pixel.platfrom === PixelPlatform.TikTok) {
+                                await this.sendTikTokEvent(pixel, subscriptionInfo);
+                            }
                         }
                     }
                     break;
@@ -55,6 +61,28 @@ class SubscriptionService {
                     break;
             }
         }
+    }
+
+    private async sendFacebookEvent(userId: number, pixel: PixelSelect, subscriptionPaymentDetail: PayermaxSubscriptionNotificationPaymentDetail) {
+        const fbUserData = new UserData().setAppUserId(userId.toString());
+        const fbCustomData = new CustomData().setCurrency(subscriptionPaymentDetail.payAmount.currency).setValue(Number(subscriptionPaymentDetail.payAmount.amount));
+        const fbServerEvent = new ServerEvent().setEventName("Subscribe").setEventTime(currentTime()).setCustomData(fbCustomData).setUserData(fbUserData);
+        const fbEventRequest = new EventRequest(pixel.accessToken, pixel.pixelId).setEvents([fbServerEvent]);
+        await fbEventRequest.execute();
+    }
+
+    private async sendTikTokEvent(pixel: PixelSelect, subscriptionInfo: SubscriptionSelect) {
+        const [productInfo] = await productDao.getProductListInIds([subscriptionInfo.productId]);
+
+        const data = {
+            accessToken: pixel.accessToken,
+            pixelCode: pixel.pixelId,
+            event: TikTokEvent.Subscribe,
+            eventId: subscriptionInfo.subscriptionNo,
+            externalId: subscriptionInfo.userId.toString(),
+            url: productInfo.host || '',
+        }
+        await tikTokBusinessProxy.sendEvent(data);
     }
 
     private async processSubscriptionPayment(req: PayermaxNotificationReq<PayermaxSubscriptionNotificationData>) {
