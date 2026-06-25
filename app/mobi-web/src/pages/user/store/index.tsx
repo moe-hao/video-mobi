@@ -24,15 +24,15 @@ export default function UserStore() {
           <div className="flex items-center gap-12 my-3">
             <div className="flex flex-col items-center gap-2">
               <img src="https://s01.bluearcshow.com/images/hd.png" alt="hd" className="size-10" />
-              <span className="text-xs text-white/70">{t('hd-quality')}</span>
+              <span className="text-xs text-white/70 text-center">{t('hd-quality')}</span>
             </div>
             <div className="flex flex-col items-center gap-2">
               <img src="https://s01.bluearcshow.com/images/video.png" alt="video" className="size-10" />
-              <span className="text-xs text-white/70">{t('free')}</span>
+              <span className="text-xs text-white/70 text-center">{t('free')}</span>
             </div>
             <div className="flex flex-col items-center gap-2">
               <img src="https://s01.bluearcshow.com/images/tag.png" alt="tag" className="size-10" />
-              <span className="text-xs text-white/70">{t('watch-first')}</span>
+              <span className="text-xs text-white/70 text-center">{t('watch-first')}</span>
             </div>
           </div>
         </div>
