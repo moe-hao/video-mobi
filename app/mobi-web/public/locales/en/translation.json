@@ -60,5 +60,16 @@
         "completed": "Completed",
         "total-episodes": "{{totalEpisodes}} Episodes",
         "share": "Share"
+    },
+    "user-feedback": {
+        "feedback": "Feedback",
+        "bug": "Bug",
+        "suggestion": "Suggestion",
+        "payment": "Payment",
+        "email": "Email",
+        "description": "Description",
+        "transaction-id": "Transaction ID", 
+        "submit": "Submit",
+        "cancel-subscription": "Cancel Subscription"
     }
 }

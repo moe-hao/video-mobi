@@ -1,7 +1,7 @@
 
 import { readFileSync } from "fs";
 import crypto from "crypto";
-import type { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
+import { PaymentType, type PaymentChannel } from "@lib/common/consts/payment";
 import type {
     PayermaxOrderAndPayData,
     PayermaxOrderAndPayResult,
@@ -90,7 +90,7 @@ class PayermaxProxy {
             mitManagementUrl: `http://${productInfo.host}`,
         }
 
-        if (paymentInfo.subscriptionNo) {
+        if (paymentInfo.subscriptionNo && paymentInfo.paymentType !== PaymentType.Pix) {
             data.subscriptionPlan = {
                 subscriptionNo: paymentInfo.subscriptionNo,
             }

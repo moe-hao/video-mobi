@@ -154,6 +154,30 @@ export default function Payment() {
                 Apple Pay
               </span>
             </Button>
+            {productInfo?.region === Region.BR && (
+              <>
+                <Button
+                  size="lg"
+                  className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold h-full mb-4 px-4 py-4 rounded-[16px] relative"
+                  onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.Pix)}
+                >
+                  <img src="https://i.bluearcshow.com/images/PIX_BR.png" alt="Pix" className="w-[24px] h-[24px]" />
+                  <span className="ml-2">
+                    Pix
+                  </span>
+                </Button>
+                <Button
+                  size="lg"
+                  className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold h-full mb-4 px-4 py-4 rounded-[16px] relative"
+                  onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.MercadoPago)}
+                >
+                  <img src="https://i.bluearcshow.com/images/Mercado_Pago_BR.png" alt="MercadoPago" className="w-[24px] h-[24px]" />
+                  <span className="ml-2">
+                    MercadoPago
+                  </span>
+                </Button>
+              </>
+            )}
             {/* <PayPalButton skuInfo={skuInfo} /> */}
             <PaymentPolicyTips />
             {

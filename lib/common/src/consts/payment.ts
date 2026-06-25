@@ -8,6 +8,8 @@ export enum PaymentType {
     GooglePay = 'GOOGLEPAY',
     Card = 'CARD',
     Paypal = 'paypal',
+    Pix = "PIX",
+    MercadoPago = "ONE_TOUCH"
 }
 
 export const PaymentTypeName: Record<PaymentType, string> = {
@@ -15,4 +17,6 @@ export const PaymentTypeName: Record<PaymentType, string> = {
     [PaymentType.GooglePay]: 'Google Pay',
     [PaymentType.Card]: '银行卡/信用卡',
     [PaymentType.Paypal]: 'PayPal',
+    [PaymentType.Pix]: 'Pix',
+    [PaymentType.MercadoPago]: 'MercadoPago'
 }
