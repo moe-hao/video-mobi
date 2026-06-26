@@ -17,7 +17,8 @@ paypal.post('/event', async (c) => {
 paypal.get('/send', async (c) => {
     const userId = c.req.query('userId');
     const pixel = c.req.query('pixel');
-    if (!userId || !pixel) {
+    const event = c.req.query('event');
+    if (!userId || !pixel || !event) {
         return c.json(success());
     }
 

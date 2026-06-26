@@ -10,6 +10,7 @@ import { productDao } from "@lib/repo/dao/product.dao";
 import { orderBizIdGenerator } from "@app/order/order/order-biz-id-generator";
 import { OrderFinalState } from "@lib/common/consts/order";
 import { CustomData, EventRequest, ServerEvent, UserData } from "facebook-nodejs-business-sdk"
+import crypto from "crypto";
 import { currentTime } from "@lib/common/utils/time";
 import { pixelDao } from "@lib/repo/dao/pixel.dao";
 import type { PixelSelect } from "@lib/repo/models/pixel";
@@ -64,9 +65,9 @@ class SubscriptionService {
     }
 
     async sendFacebookEvent(userId: number, pixel: PixelSelect, subscriptionPaymentDetail: PayermaxSubscriptionNotificationPaymentDetail) {
-        const fbUserData = new UserData().setAppUserId(userId.toString());
-        const fbCustomData = new CustomData().setCurrency(subscriptionPaymentDetail?.payAmount?.currency || 'USD').setValue(Number(subscriptionPaymentDetail?.payAmount?.amount || '0'));
-        const fbServerEvent = new ServerEvent().setEventName("Subscribe").setEventTime(currentTime()).setCustomData(fbCustomData).setUserData(fbUserData);
+        const fbUserData = new UserData().setAppUserId(crypto.createHash("sha256").update(userId.toString()).digest("hex"));
+        const fbCustomData = new CustomData().setCurrency(subscriptionPaymentDetail?.payAmount?.currency || 'USD').setValue(Number(subscriptionPaymentDetail?.payAmount?.amount || '29.00'));
+        const fbServerEvent = new ServerEvent().setEventName("Subscribe").setEventTime(currentTime()).setActionSource("website").setUserData(fbUserData).setCustomData(fbCustomData);
         const fbEventRequest = new EventRequest(pixel.accessToken, pixel.pixelId).setEvents([fbServerEvent]);
         const result = await fbEventRequest.execute();
         logger.info(`SubscriptionService.sendFacebookEvent, result:${JSON.stringify(result)}`);
