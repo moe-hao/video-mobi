@@ -22,7 +22,7 @@ export interface FacebookEventUserData {
 }
 
 export interface FacebookEventCustomData {
-    value: string;
+    value: number;
     currency: string;
 }
 

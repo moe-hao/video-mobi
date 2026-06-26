@@ -81,7 +81,7 @@ class SubscriptionService {
                     app_user_id: fbUserAppId,
                 },
                 custom_data: {
-                    value: orderInfo.amount,
+                    value: Number(orderInfo.amount),
                     currency: orderInfo.currency,
                 },
                 action_source: "website",
