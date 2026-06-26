@@ -63,9 +63,9 @@ class SubscriptionService {
         }
     }
 
-    private async sendFacebookEvent(userId: number, pixel: PixelSelect, subscriptionPaymentDetail: PayermaxSubscriptionNotificationPaymentDetail) {
+    async sendFacebookEvent(userId: number, pixel: PixelSelect, subscriptionPaymentDetail: PayermaxSubscriptionNotificationPaymentDetail) {
         const fbUserData = new UserData().setAppUserId(userId.toString());
-        const fbCustomData = new CustomData().setCurrency(subscriptionPaymentDetail.payAmount.currency).setValue(Number(subscriptionPaymentDetail.payAmount.amount));
+        const fbCustomData = new CustomData().setCurrency(subscriptionPaymentDetail?.payAmount?.currency || 'USD').setValue(Number(subscriptionPaymentDetail?.payAmount?.amount || '0'));
         const fbServerEvent = new ServerEvent().setEventName("Subscribe").setEventTime(currentTime()).setCustomData(fbCustomData).setUserData(fbUserData);
         const fbEventRequest = new EventRequest(pixel.accessToken, pixel.pixelId).setEvents([fbServerEvent]);
         await fbEventRequest.execute();
