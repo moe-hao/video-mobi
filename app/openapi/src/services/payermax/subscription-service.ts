@@ -17,6 +17,7 @@ import type { PixelSelect } from "@lib/repo/models/pixel";
 import { PixelPlatform, TikTokEvent } from "@lib/common/consts/pixel";
 import { tikTokBusinessProxy } from "@lib/repo/proxy/tiktok/business";
 import type { SubscriptionSelect } from "@lib/repo/models/subscription";
+import AttributionData from "facebook-nodejs-business-sdk/src/objects/serverside/attribution-data";
 
 class SubscriptionService {
     async receive(req: PayermaxNotificationReq<PayermaxSubscriptionNotificationData>): Promise<OrderPayermaxResultResp> {
@@ -67,7 +68,8 @@ class SubscriptionService {
     async sendFacebookEvent(userId: number, pixel: PixelSelect, subscriptionPaymentDetail: PayermaxSubscriptionNotificationPaymentDetail) {
         const fbUserData = new UserData().setAppUserId(crypto.createHash("sha256").update(userId.toString()).digest("hex"));
         const fbCustomData = new CustomData().setCurrency(subscriptionPaymentDetail?.payAmount?.currency || 'USD').setValue(Number(subscriptionPaymentDetail?.payAmount?.amount || '29.00'));
-        const fbServerEvent = new ServerEvent().setEventName("Subscribe").setEventTime(currentTime()).setActionSource("website").setUserData(fbUserData).setCustomData(fbCustomData);
+        const fbAttributionData = new AttributionData().setCampaignId("52515086558299").setAdsetId("52515086558099").setAdId("52515207859699");
+        const fbServerEvent = new ServerEvent().setEventName("Subscribe").setEventTime(currentTime()).setActionSource("website").setUserData(fbUserData).setAttributionData(fbAttributionData).setCustomData(fbCustomData);
         const fbEventRequest = new EventRequest(pixel.accessToken, pixel.pixelId).setEvents([fbServerEvent]).setDebugMode(true);
         const result = await fbEventRequest.execute();
         logger.info(`SubscriptionService.sendFacebookEvent, result:${JSON.stringify(result)}`);
