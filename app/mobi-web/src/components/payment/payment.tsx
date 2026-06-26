@@ -43,6 +43,7 @@ export default function Payment() {
       ad_id: searchParams.get('creative_id') || '',
       adset_id: searchParams.get('adset_id') || '',
       campaign_id: searchParams.get('campaign_id') || '',
+      fbclid: searchParams.get('fbclid') || '',
     }
 
     const result = await fetchUserOrderCreate({

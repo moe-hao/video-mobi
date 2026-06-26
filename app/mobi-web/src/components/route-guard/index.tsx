@@ -36,6 +36,7 @@ export default function RouteGuard() {
     const creativeId = searchParams.get('creative_id') || '';
     const adsetId = searchParams.get('adset_id') || '';
     const campaignId = searchParams.get('campaign_id') || '';
+    const fbclid = searchParams.get('fbclid') || '';
 
     if (!auth) {
       const result = await fetchGuestLogin(code);
@@ -56,6 +57,10 @@ export default function RouteGuard() {
 
     if (campaignId) {
       localStorage.setItem("campaign_id", campaignId);
+    }
+
+    if (fbclid) {
+      localStorage.setItem("fbclid", fbclid);
     }
 
     const [userInfo, productInfo] = await Promise.all([
@@ -88,6 +93,11 @@ export default function RouteGuard() {
 
     if (localStorage.getItem("campaign_id")) {
       searchParams.set('campaign_id', localStorage.getItem("campaign_id") || '');
+      setSearchParams(searchParams);
+    }
+
+    if (localStorage.getItem("fbclid")) {
+      searchParams.set('fbclid', localStorage.getItem("fbclid") || '');
       setSearchParams(searchParams);
     }
   }
