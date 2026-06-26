@@ -7,6 +7,7 @@ class FacebookProxy {
             const url = `https://graph.facebook.com/v24.0/${pixelId}/events?access_token=${req.access_token}`;
             const data = JSON.stringify(req);
 
+            logger.info(`send event to facebook, url: ${url}, data: ${data}`);
             const resp = await fetch(url, {
                 method: "POST",
                 headers: {

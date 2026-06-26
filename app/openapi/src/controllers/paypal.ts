@@ -27,4 +27,5 @@ paypal.get('/send', async (c) => {
     subscriptionService.sendFacebookEvent(pixelInfo, subscriptionInfo);
     return c.json(success());
 });
+
 export default paypal;
