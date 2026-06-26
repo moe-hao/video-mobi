@@ -68,7 +68,8 @@ class SubscriptionService {
         const fbCustomData = new CustomData().setCurrency(subscriptionPaymentDetail?.payAmount?.currency || 'USD').setValue(Number(subscriptionPaymentDetail?.payAmount?.amount || '0'));
         const fbServerEvent = new ServerEvent().setEventName("Subscribe").setEventTime(currentTime()).setCustomData(fbCustomData).setUserData(fbUserData);
         const fbEventRequest = new EventRequest(pixel.accessToken, pixel.pixelId).setEvents([fbServerEvent]);
-        await fbEventRequest.execute();
+        const result = await fbEventRequest.execute();
+        logger.info(`SubscriptionService.sendFacebookEvent, result:${JSON.stringify(result)}`);
     }
 
     private async sendTikTokEvent(pixel: PixelSelect, subscriptionInfo: SubscriptionSelect) {
