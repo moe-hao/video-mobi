@@ -13,7 +13,7 @@ export interface FacebookEventData {
 
 export interface FacebookEventAttributionData {
     ad_id: string;
-    ad_set_id: string;
+    adset_id: string;
     campaign_id: string;
 }
 
@@ -22,10 +22,11 @@ export interface FacebookEventUserData {
 }
 
 export interface FacebookEventCustomData {
-    value: number;
+    value: string;
     currency: string;
 }
 
 export interface FacebookEventActionData {
     action_source: string;
 }
+

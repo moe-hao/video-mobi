@@ -32,6 +32,15 @@ class OrderDao {
         return order;
     }
 
+    async getOrderListByUserIdAndSubscriptionId(userId: number, subscriptionId: number): Promise<OrderSelect[]> {
+        return await this.conn.select().from(orderTable).where(
+            and(
+                eq(orderTable.userId, userId),
+                eq(orderTable.subscriptionId, subscriptionId),
+            )
+        ).orderBy(desc(orderTable.id));
+    }
+
     async getOrderByPaymentIdAndChannel(paymentId: string, channel: PaymentChannel): Promise<OrderSelect> {
         const [order] = await this.conn.select().from(orderTable).where(
             and(

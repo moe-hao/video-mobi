@@ -4,7 +4,7 @@ import type { PaypalEventReq } from "@lib/common/dto/paypal";
 import { success } from "@lib/common/dto/result";
 import { subscriptionService } from "../services/payermax/subscription-service";
 import { pixelDao } from "@lib/repo/dao/pixel.dao";
-import type { PayermaxSubscriptionNotificationPaymentDetail } from "@lib/common/dto/payermax";
+import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
 
 const paypal = new Hono();
 
@@ -15,15 +15,16 @@ paypal.post('/event', async (c) => {
 });
 
 paypal.get('/send', async (c) => {
-    const userId = c.req.query('userId');
+    const subscriptionId = c.req.query('subscriptionId');
     const pixel = c.req.query('pixel');
-    const event = c.req.query('event');
-    if (!userId || !pixel || !event) {
+    if (!subscriptionId || !pixel) {
         return c.json(success());
     }
 
     const pixelInfo = await pixelDao.getPixelById(Number(pixel));
-    subscriptionService.sendFacebookEvent(Number(userId), pixelInfo, {} as PayermaxSubscriptionNotificationPaymentDetail);
+    const subscriptionInfo = await subscriptionDao.getSubscriptionById(Number(subscriptionId));
+
+    subscriptionService.sendFacebookEvent(pixelInfo, subscriptionInfo);
     return c.json(success());
 });
 export default paypal;

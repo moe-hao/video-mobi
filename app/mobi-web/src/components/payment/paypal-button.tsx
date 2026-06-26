@@ -45,12 +45,19 @@ export default function PayPalButton({ skuInfo }: { skuInfo: SkuListItem }) {
   }, [currency]);
 
   const handlePaypalCreateOrder: PayPalButtonsComponentProps["createOrder"] = async () => {
+    const ad = {
+      creative_id: searchParams.get('creative_id') || '',
+      adset_id: searchParams.get('adset_id') || '',
+      campaign_id: searchParams.get('campaign_id') || '',
+    };
+
     const result = await fetchUserOrderCreate({
       sku: skuInfo.bizId,
       paymentChannel: PaymentChannel.Paypal,
       paymentType: PaymentType.Card,
       pixelId: Number(searchParams.get('p')) || 0,
       reback: `${location.pathname}${location.search || ''}`,
+      ad: JSON.stringify(ad),
     });
     return result.paymentId;
   }
@@ -72,12 +79,19 @@ export default function PayPalButton({ skuInfo }: { skuInfo: SkuListItem }) {
   }
 
   const handlePaypalCreateSubscription: PayPalButtonsComponentProps["createSubscription"] = async () => {
+    const ad = {
+      ad_id: searchParams.get('creative_id') || '',
+      adset_id: searchParams.get('adset_id') || '',
+      campaign_id: searchParams.get('campaign_id') || '',
+    };
+
     const result = await fetchUserOrderCreate({
       sku: skuInfo.bizId,
       paymentChannel: PaymentChannel.Paypal,
       paymentType: PaymentType.Card,
       pixelId: Number(searchParams.get('p')) || 0,
       reback: `${location.pathname}${location.search || ''}`,
+      ad: JSON.stringify(ad),
     });
     return result.subscriptionNo;
   }

@@ -21,6 +21,7 @@ export type PaymentInfo = {
     paymentType: PaymentType;
     pixelId: number;
     reback: string;
+    ad: string;
 }
 
 export type PaymentApproveInfo = {

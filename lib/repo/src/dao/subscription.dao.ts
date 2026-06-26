@@ -16,6 +16,11 @@ export class SubscriptionDao {
         return result.count;
     }
 
+    async getSubscriptionById(id: number): Promise<SubscriptionSelect> {
+        const [subscription] = await this.conn.select().from(subscriptionTable).where(eq(subscriptionTable.id, id));
+        return subscription;
+    }
+
     async addSubscription(data: SubscriptionInsert): Promise<number> {
         data.createTime = currentTime()
         data.updateTime = currentTime()

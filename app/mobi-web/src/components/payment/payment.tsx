@@ -39,12 +39,19 @@ export default function Payment() {
   }
 
   const handleClickPayment = async (paymentChannel: PaymentChannel, paymentType: PaymentType) => {
+    const ad = {
+      ad_id: searchParams.get('creative_id') || '',
+      adset_id: searchParams.get('adset_id') || '',
+      campaign_id: searchParams.get('campaign_id') || '',
+    }
+
     const result = await fetchUserOrderCreate({
       sku: skuInfo.bizId,
       paymentChannel,
       paymentType,
       pixelId: Number(searchParams.get('p')) || 0,
       reback: `${location.pathname}${location.search || ''}`,
+      ad: JSON.stringify(ad),
     });
 
     window.location.href = result.redirectUrl;

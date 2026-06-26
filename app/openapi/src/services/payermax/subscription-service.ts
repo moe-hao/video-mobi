@@ -1,4 +1,4 @@
-import type { OrderPayermaxResultResp, PayermaxNotificationReq, PayermaxSubscriptionNotificationData, PayermaxSubscriptionNotificationPaymentDetail } from "@lib/common/dto/payermax";
+import type { OrderPayermaxResultResp, PayermaxNotificationReq, PayermaxSubscriptionNotificationData } from "@lib/common/dto/payermax";
 import { orderStatusHelper } from "./order/order-status-helper";
 import { PayermaxNotifyType, PayermaxResponseCode, PayermaxResultToStatus } from "@lib/common/consts/payermax";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
@@ -17,6 +17,7 @@ import { PixelPlatform, TikTokEvent } from "@lib/common/consts/pixel";
 import { tikTokBusinessProxy } from "@lib/repo/proxy/tiktok/business";
 import type { SubscriptionSelect } from "@lib/repo/models/subscription";
 import { facebookProxy } from "@lib/repo/proxy/facebook/facebook";
+import type { FacebookEventAttributionData } from "@lib/repo/proxy/facebook/facebook.interface";
 
 class SubscriptionService {
     async receive(req: PayermaxNotificationReq<PayermaxSubscriptionNotificationData>): Promise<OrderPayermaxResultResp> {
@@ -32,6 +33,7 @@ class SubscriptionService {
     }
 
     private async processSubscriptionStatus(req: PayermaxNotificationReq<PayermaxSubscriptionNotificationData>) {
+        logger.info(`SubscriptionService.processSubscriptionStatus, req:${JSON.stringify(req)}`);
         const subscriptionNo = req.data.subscriptionPlan.subscriptionNo;
         const subscriptionInfo = await subscriptionDao.getSubscriptionByNo(subscriptionNo);
         const targetStatus = PayermaxToSubscriptionStatus[req.data.subscriptionPlan.subscriptionStatus];
@@ -48,7 +50,7 @@ class SubscriptionService {
 
                             const pixel = await pixelDao.getPixelById(subscriptionInfo.pixelId);
                             if (pixel.platfrom === PixelPlatform.Facebook) {
-                                await this.sendFacebookEvent(subscriptionInfo.userId, pixel, req.data.subscriptionPaymentDetail);
+                                await this.sendFacebookEvent(pixel, subscriptionInfo);
                             }
 
                             if (pixel.platfrom === PixelPlatform.TikTok) {
@@ -64,23 +66,23 @@ class SubscriptionService {
         }
     }
 
-    async sendFacebookEvent(userId: number, pixel: PixelSelect, subscriptionPaymentDetail: PayermaxSubscriptionNotificationPaymentDetail) {
+    async sendFacebookEvent(pixel: PixelSelect, subscriptionInfo: SubscriptionSelect) {
+        const [orderInfo] = await orderDao.getOrderListByUserIdAndSubscriptionId(subscriptionInfo.userId, subscriptionInfo.id);
+        const attribution = JSON.parse(orderInfo.ad || '{}') as FacebookEventAttributionData;
+
+        const fbUserAppId = crypto.createHash("sha256").update(subscriptionInfo.userId.toString()).digest("hex")
         const req = {
             access_token: pixel.accessToken,
             data: [{
                 event_name: "Purchase",
                 event_time: currentTime(),
-                attribution_data: {
-                    campaign_id: "52515086558299",
-                    ad_id: "52515207859699",
-                    ad_set_id: "52515086558099",
-                },
+                attribution_data: attribution,
                 user_data: {
-                    app_user_id: crypto.createHash("sha256").update(userId.toString()).digest("hex"),
+                    app_user_id: fbUserAppId,
                 },
                 custom_data: {
-                    value: Number(subscriptionPaymentDetail?.payAmount?.amount || '29.00'),
-                    currency: subscriptionPaymentDetail?.payAmount?.currency || 'USD',
+                    value: orderInfo.amount,
+                    currency: orderInfo.currency,
                 },
                 action_source: "website",
             }]

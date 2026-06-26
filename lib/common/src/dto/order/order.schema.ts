@@ -7,6 +7,7 @@ export const orderCreateReqSchema = z.object({
     paymentType: z.enum(PaymentType, { message: "Payment Type Invalid" }),
     pixelId: z.number().int().default(0),
     reback: z.string().default(''),
+    ad: z.string().default(''),
 });
 
 export const orderApproveReqSchema = z.object({

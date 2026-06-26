@@ -11,6 +11,7 @@ export const subscriptionTable = mysqlTable("subscription", {
     skuId: int("sku_id").notNull().default(0),
     productId: int("product_id").notNull().default(0),
     pixelId: int("pixel_id").notNull().default(0),
+    ad: varchar("ad", { length: 512 }).notNull().default(""),
     createTime: int("create_time").notNull().default(0),
     updateTime: int("update_time").notNull().default(0),
 })

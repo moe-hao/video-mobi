@@ -55,6 +55,7 @@ export class PaypalPayment implements Payment {
             skuId: paymentInfo.skuInfo.id,
             productId: paymentInfo.productInfo.id,
             pixelId: paymentInfo.pixelId,
+            ad: paymentInfo.ad,
         });
 
         return {
@@ -91,6 +92,7 @@ export class PaypalPayment implements Payment {
             paymentChannel: this.paymentChannel,
             orderStatus: OrderStatus.Pending,
             pixelId: paymentInfo.pixelId,
+            ad: paymentInfo.ad,
         }
         const orderId = await orderDao.addOrder(orderInfo);
 
