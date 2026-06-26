@@ -9,7 +9,6 @@ import { orderDao } from "@lib/repo/dao/order.dao";
 import { productDao } from "@lib/repo/dao/product.dao";
 import { orderBizIdGenerator } from "@app/order/order/order-biz-id-generator";
 import { OrderFinalState } from "@lib/common/consts/order";
-import { CustomData, EventRequest, ServerEvent, UserData } from "facebook-nodejs-business-sdk";
 import crypto from "crypto";
 import { currentTime } from "@lib/common/utils/time";
 import { pixelDao } from "@lib/repo/dao/pixel.dao";
@@ -17,7 +16,7 @@ import type { PixelSelect } from "@lib/repo/models/pixel";
 import { PixelPlatform, TikTokEvent } from "@lib/common/consts/pixel";
 import { tikTokBusinessProxy } from "@lib/repo/proxy/tiktok/business";
 import type { SubscriptionSelect } from "@lib/repo/models/subscription";
-import AttributionData from "facebook-nodejs-business-sdk/src/objects/serverside/attribution-data.js";
+import { facebookProxy } from "@lib/repo/proxy/facebook/facebook";
 
 class SubscriptionService {
     async receive(req: PayermaxNotificationReq<PayermaxSubscriptionNotificationData>): Promise<OrderPayermaxResultResp> {
@@ -66,21 +65,27 @@ class SubscriptionService {
     }
 
     async sendFacebookEvent(userId: number, pixel: PixelSelect, subscriptionPaymentDetail: PayermaxSubscriptionNotificationPaymentDetail) {
-        const fbUserData = new UserData().setAppUserId(crypto.createHash("sha256").update(userId.toString()).digest("hex"));
-        const fbCustomData = new CustomData().setCurrency(subscriptionPaymentDetail?.payAmount?.currency || 'USD').setValue(Number(subscriptionPaymentDetail?.payAmount?.amount || '29.00'));
-        const fbAttributionData = new AttributionData().setCampaignId("52515086558299").setAdsetId("52515086558099").setAdId("52515207859699")
-        const fbServerEvent = new ServerEvent().setEventName("Subscribe").setEventTime(currentTime()).setActionSource("website").setUserData(fbUserData).setAttributionData(fbAttributionData).setCustomData(fbCustomData);
-        const fbEventRequest = new EventRequest(pixel.accessToken, pixel.pixelId).setEvents([fbServerEvent]).setDebugMode(true);
-        const result = await fbEventRequest.execute();
-        logger.info(`SubscriptionService.sendFacebookEvent, result:${JSON.stringify(result)}`);
-
-        // const fbAttributionData = new AdAccountCampaignAttributionOptionInfo().setData({
-        //     campaignId: "52515086558299",
-        //     adsetId: "52515086558099",
-        //     adId: "52515207859699",
-        // });
-        // const fbAttributionData = new AdAccountCampaignAttributionOptionInfo().setCampaignId("52515086558299").setAdsetId("52515086558099").setAdId("52515207859699");
-        // AdAccountCampaignAttributionOptionInfo.
+        const req = {
+            access_token: pixel.accessToken,
+            data: [{
+                event_name: "Purchase",
+                event_time: currentTime(),
+                attribution_data: {
+                    campaign_id: "52515086558299",
+                    ad_id: "52515207859699",
+                    ad_set_id: "52515086558099",
+                },
+                user_data: {
+                    app_user_id: crypto.createHash("sha256").update(userId.toString()).digest("hex"),
+                },
+                custom_data: {
+                    value: Number(subscriptionPaymentDetail?.payAmount?.amount || '29.00'),
+                    currency: subscriptionPaymentDetail?.payAmount?.currency || 'USD',
+                },
+                action_source: "website",
+            }]
+        };
+        await facebookProxy.sendEvent(pixel.pixelId, req);
     }
 
     private async sendTikTokEvent(pixel: PixelSelect, subscriptionInfo: SubscriptionSelect) {
