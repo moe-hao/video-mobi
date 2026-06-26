@@ -68,7 +68,7 @@ class SubscriptionService {
         const fbUserData = new UserData().setAppUserId(crypto.createHash("sha256").update(userId.toString()).digest("hex"));
         const fbCustomData = new CustomData().setCurrency(subscriptionPaymentDetail?.payAmount?.currency || 'USD').setValue(Number(subscriptionPaymentDetail?.payAmount?.amount || '29.00'));
         const fbServerEvent = new ServerEvent().setEventName("Subscribe").setEventTime(currentTime()).setActionSource("website").setUserData(fbUserData).setCustomData(fbCustomData);
-        const fbEventRequest = new EventRequest(pixel.accessToken, pixel.pixelId).setEvents([fbServerEvent]);
+        const fbEventRequest = new EventRequest(pixel.accessToken, pixel.pixelId).setEvents([fbServerEvent]).setDebugMode(true);
         const result = await fbEventRequest.execute();
         logger.info(`SubscriptionService.sendFacebookEvent, result:${JSON.stringify(result)}`);
     }
