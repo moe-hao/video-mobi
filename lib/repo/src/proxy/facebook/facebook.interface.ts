@@ -30,3 +30,9 @@ export interface FacebookEventActionData {
     action_source: string;
 }
 
+export interface AdParam {
+    ad_id: string; // 广告id
+    adset_id: string; // 广告组id
+    campaign_id: string; // 广告系列id
+    fbclid: string;
+}

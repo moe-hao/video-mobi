@@ -17,7 +17,7 @@ import { PixelPlatform, TikTokEvent } from "@lib/common/consts/pixel";
 import { tikTokBusinessProxy } from "@lib/repo/proxy/tiktok/business";
 import type { SubscriptionSelect } from "@lib/repo/models/subscription";
 import { facebookProxy } from "@lib/repo/proxy/facebook/facebook";
-import type { FacebookEventAttributionData } from "@lib/repo/proxy/facebook/facebook.interface";
+import type { AdParam } from "@lib/repo/proxy/facebook/facebook.interface";
 
 class SubscriptionService {
     async receive(req: PayermaxNotificationReq<PayermaxSubscriptionNotificationData>): Promise<OrderPayermaxResultResp> {
@@ -68,7 +68,7 @@ class SubscriptionService {
 
     async sendFacebookEvent(pixel: PixelSelect, subscriptionInfo: SubscriptionSelect) {
         const [orderInfo] = await orderDao.getOrderListByUserIdAndSubscriptionId(subscriptionInfo.userId, subscriptionInfo.id);
-        const attribution = JSON.parse(orderInfo.ad || '{}') as FacebookEventAttributionData;
+        const adParam = JSON.parse(orderInfo.ad || '{}') as AdParam;
 
         const fbUserAppId = crypto.createHash("sha256").update(subscriptionInfo.userId.toString()).digest("hex")
         const req = {
@@ -76,9 +76,14 @@ class SubscriptionService {
             data: [{
                 event_name: "Purchase",
                 event_time: currentTime(),
-                attribution_data: attribution,
+                attribution_data: {
+                    ad_id: adParam.ad_id,
+                    adset_id: adParam.adset_id,
+                    campaign_id: adParam.campaign_id
+                },
                 user_data: {
                     app_user_id: fbUserAppId,
+                    fbc: `fb.1.${currentTime()}.${adParam.fbclid}`
                 },
                 custom_data: {
                     value: Number(orderInfo.amount),
