@@ -92,16 +92,36 @@ class SubscriptionService {
 
     private async sendTikTokEvent(pixel: PixelSelect, subscriptionInfo: SubscriptionSelect) {
         const [productInfo] = await productDao.getProductListInIds([subscriptionInfo.productId]);
+        const [orderInfo] = await orderDao.getOrderListByUserIdAndSubscriptionId(subscriptionInfo.userId, subscriptionInfo.id);
+        const ttUserId = crypto.createHash("sha256").update(subscriptionInfo.userId.toString()).digest("hex");
+        const ad = JSON.parse(orderInfo.ad || '{}');
 
-        const data = {
-            accessToken: pixel.accessToken,
-            pixelCode: pixel.pixelId,
-            event: TikTokEvent.Subscribe,
-            eventId: subscriptionInfo.subscriptionNo,
-            externalId: subscriptionInfo.userId.toString(),
-            url: productInfo.host || '',
+        const req = {
+            event_source: "web",
+            event_source_id: pixel.pixelId,
+            data: [{
+                event: TikTokEvent.Purchase,
+                event_time: currentTime(),
+                event_id: subscriptionInfo.subscriptionNo,
+                user: {
+                    external_id: ttUserId,
+                },
+                properties: {
+                    content_ids: [subscriptionInfo.skuId.toString()],
+                    currency: orderInfo.currency,
+                    value: Number(orderInfo.amount),
+                },
+                page: {
+                    url: productInfo.host || '',
+                },
+                ad: {
+                    creative_id: ad.creative_id || '',
+                    ad_id: ad.ad_id || '',
+                    campaign_id: ad.campaign_id || '',
+                }
+            }]
         }
-        await tikTokBusinessProxy.sendEvent(data);
+        await tikTokBusinessProxy.sendEvent(pixel.accessToken, req);
     }
 
     private async processSubscriptionPayment(req: PayermaxNotificationReq<PayermaxSubscriptionNotificationData>) {

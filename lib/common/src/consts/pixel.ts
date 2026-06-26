@@ -5,4 +5,5 @@ export enum PixelPlatform {
 
 export enum TikTokEvent {
     Subscribe = 'Subscribe',
+    Purchase = 'Purchase',
 }

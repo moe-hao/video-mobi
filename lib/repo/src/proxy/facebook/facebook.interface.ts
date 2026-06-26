@@ -12,9 +12,9 @@ export interface FacebookEventData {
 }
 
 export interface FacebookEventAttributionData {
-    ad_id: string;
-    adset_id: string;
-    campaign_id: string;
+    ad_id: string; // 广告id
+    adset_id: string; // 广告组id
+    campaign_id: string; // 广告系列id
 }
 
 export interface FacebookEventUserData {
