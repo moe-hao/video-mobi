@@ -1,5 +1,5 @@
 import { SubscriptionStatus } from "@lib/common/consts/subscription";
-import { int, mysqlTable, varchar } from "drizzle-orm/mysql-core";
+import { int, mysqlTable, text, varchar } from "drizzle-orm/mysql-core";
 
 export const subscriptionTable = mysqlTable("subscription", {
     id: int("id").primaryKey().autoincrement(),
@@ -11,7 +11,7 @@ export const subscriptionTable = mysqlTable("subscription", {
     skuId: int("sku_id").notNull().default(0),
     productId: int("product_id").notNull().default(0),
     pixelId: int("pixel_id").notNull().default(0),
-    ad: varchar("ad", { length: 512 }).notNull().default(""),
+    ad: text("ad").notNull().default(""),
     createTime: int("create_time").notNull().default(0),
     updateTime: int("update_time").notNull().default(0),
 })

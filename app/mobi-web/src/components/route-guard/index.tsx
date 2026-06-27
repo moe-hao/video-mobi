@@ -9,6 +9,7 @@ import { useProductInfo } from "@app/mobi-web/hooks/product";
 import { VideoMobiContext } from "@app/mobi-web/contexts/video-mobi-context";
 import { ClockArrowRotateLeft, House, Person } from "@gravity-ui/icons";
 import { useTranslation } from "react-i18next";
+import { storeAdParam } from "./ad-param";
 
 const bottomTabs = [
   { path: "/", label: "home", icon: <House /> },
@@ -29,38 +30,11 @@ export default function RouteGuard() {
 
   const fetchVideoMobiInfo = async () => {
     const auth = localStorage.getItem("auth");
-
     const code = searchParams.get('code') || '';
-
-    const p = searchParams.get('p') || '';
-    const creativeId = searchParams.get('creative_id') || '';
-    const adsetId = searchParams.get('adset_id') || '';
-    const campaignId = searchParams.get('campaign_id') || '';
-    const fbclid = searchParams.get('fbclid') || '';
 
     if (!auth) {
       const result = await fetchGuestLogin(code);
       localStorage.setItem("auth", result.authToken);
-    }
-
-    if (p) {
-      localStorage.setItem("p", p);
-    }
-
-    if (creativeId) {
-      localStorage.setItem("creative_id", creativeId);
-    }
-
-    if (adsetId) {
-      localStorage.setItem("adset_id", adsetId);
-    }
-
-    if (campaignId) {
-      localStorage.setItem("campaign_id", campaignId);
-    }
-
-    if (fbclid) {
-      localStorage.setItem("fbclid", fbclid);
     }
 
     const [userInfo, productInfo] = await Promise.all([
@@ -76,30 +50,7 @@ export default function RouteGuard() {
       setSearchParams(searchParams);
     }
 
-    if (localStorage.getItem("p") && !p) {
-      searchParams.set('p', localStorage.getItem("p") || '');
-      setSearchParams(searchParams);
-    }
-
-    if (localStorage.getItem("creative_id")) {
-      searchParams.set('creative_id', localStorage.getItem("creative_id") || '');
-      setSearchParams(searchParams);
-    }
-
-    if (localStorage.getItem("adset_id")) {
-      searchParams.set('adset_id', localStorage.getItem("adset_id") || '');
-      setSearchParams(searchParams);
-    }
-
-    if (localStorage.getItem("campaign_id")) {
-      searchParams.set('campaign_id', localStorage.getItem("campaign_id") || '');
-      setSearchParams(searchParams);
-    }
-
-    if (localStorage.getItem("fbclid")) {
-      searchParams.set('fbclid', localStorage.getItem("fbclid") || '');
-      setSearchParams(searchParams);
-    }
+    storeAdParam(searchParams, setSearchParams);
   }
 
   useEffect(() => {

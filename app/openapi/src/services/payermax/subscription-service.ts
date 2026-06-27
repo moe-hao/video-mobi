@@ -13,7 +13,7 @@ import crypto from "crypto";
 import { currentTime } from "@lib/common/utils/time";
 import { pixelDao } from "@lib/repo/dao/pixel.dao";
 import type { PixelSelect } from "@lib/repo/models/pixel";
-import { PixelPlatform, TikTokEvent } from "@lib/common/consts/pixel";
+import { PixelPlatform, PixelEvent } from "@lib/common/consts/pixel";
 import { tikTokBusinessProxy } from "@lib/repo/proxy/tiktok/business";
 import type { SubscriptionSelect } from "@lib/repo/models/subscription";
 import { facebookProxy } from "@lib/repo/proxy/facebook/facebook";
@@ -74,7 +74,7 @@ class SubscriptionService {
         const req = {
             access_token: pixel.accessToken,
             data: [{
-                event_name: "Purchase",
+                event_name: PixelEvent.Purchase,
                 event_time: currentTime(),
                 attribution_data: {
                     ad_id: adParam.ad_id,
@@ -95,7 +95,7 @@ class SubscriptionService {
         await facebookProxy.sendEvent(pixel.pixelId, req);
     }
 
-    private async sendTikTokEvent(pixel: PixelSelect, subscriptionInfo: SubscriptionSelect) {
+    async sendTikTokEvent(pixel: PixelSelect, subscriptionInfo: SubscriptionSelect) {
         const [productInfo] = await productDao.getProductListInIds([subscriptionInfo.productId]);
         const [orderInfo] = await orderDao.getOrderListByUserIdAndSubscriptionId(subscriptionInfo.userId, subscriptionInfo.id);
         const ttUserId = crypto.createHash("sha256").update(subscriptionInfo.userId.toString()).digest("hex");
@@ -105,11 +105,12 @@ class SubscriptionService {
             event_source: "web",
             event_source_id: pixel.pixelId,
             data: [{
-                event: TikTokEvent.Purchase,
+                event: PixelEvent.Purchase,
                 event_time: currentTime(),
                 event_id: subscriptionInfo.subscriptionNo,
                 user: {
                     external_id: ttUserId,
+                    ttclid: ad.ttclid || '',
                 },
                 properties: {
                     content_ids: [subscriptionInfo.skuId.toString()],
@@ -152,7 +153,8 @@ class SubscriptionService {
                 subscriptionCount: req.data.subscriptionPaymentDetail.subscriptionIndex + 1,
                 paymentChannel: PaymentChannel.Payermax,
                 paymentType: req.data.subscriptionPaymentDetail.paymentMethodType,
-                orderStatus: targetStatus
+                orderStatus: targetStatus,
+                ad: subscriptionInfo.ad || "",
             });
             orderInfo = await orderDao.getOrderById(orderId);
             logger.info(`SubscriptionService.processSubscriptionPayment, newOrderInfo: ${JSON.stringify(orderInfo)}`);

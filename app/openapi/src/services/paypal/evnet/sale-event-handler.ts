@@ -37,7 +37,8 @@ export class SaleEventHandler implements EventHandler {
                     subscriptionCount: subscriptionOrderCount + 1,
                     paymentChannel: PaymentChannel.Paypal,
                     paymentType: PaymentType.Paypal,
-                    orderStatus: OrderStatus.Paid
+                    orderStatus: OrderStatus.Paid,
+                    ad: subscriptionInfo.ad || "",
                 });
 
                 const orderInfo = await orderDao.getOrderByBizId(orderBizId);

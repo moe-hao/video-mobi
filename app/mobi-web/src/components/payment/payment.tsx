@@ -1,4 +1,4 @@
-import { CreditCard, Xmark } from "@gravity-ui/icons";
+import { Xmark } from "@gravity-ui/icons";
 import { Button, Label, Link } from "@heroui/react";
 import { useEffect, useState } from "react";
 import PaymentPolicyTips from "./policy";
@@ -24,16 +24,12 @@ export default function Payment() {
   const [searchParams, _setSearchParams] = useSearchParams();
   const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
   const [skuInfo, setSkuInfo] = useState<SkuListItem>({} as SkuListItem);
-  // const [shouldPaySkuId, setShouldPaySkuId] = useState<string>('');
-  // const [paymentAmount, setPaymentAmount] = useState<string>('');
 
   useEffect(() => {
     fetchSkuList();
   }, []);
 
   const handleClickStoreCard = (skuInfo: SkuListItem) => {
-    // setShouldPaySkuId(skuId);
-    // setPaymentAmount(paymentAmount);
     setSkuInfo(skuInfo);
     setShowPaymentModal(true);
   }
@@ -44,6 +40,7 @@ export default function Payment() {
       adset_id: searchParams.get('adset_id') || '',
       campaign_id: searchParams.get('campaign_id') || '',
       fbclid: searchParams.get('fbclid') || '',
+      ttclid: searchParams.get('ttclid') || '',
     }
 
     const result = await fetchUserOrderCreate({
@@ -127,37 +124,30 @@ export default function Payment() {
             </div>
             <Button
               size="lg"
-              className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold h-full mb-4 px-4 py-4 rounded-[16px] relative"
+              className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
               onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.Card)}
             >
-              <CreditCard />
+              <img src="https://i.bluearcshow.com/images/B0_Card.png" alt="Credit Card" className="w-8" />
               <span className="ml-2">
                 {t('credit-debit-card')}
               </span>
             </Button>
             <Button
               size="lg"
-              className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold h-full mb-4 px-4 py-4 rounded-[16px] relative"
+              className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
               onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.GooglePay)}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path
-                  fill="currentColor"
-                  d="M21.456 10.154c.123.659.19 1.348.19 2.067c0 5.624-3.764 9.623-9.449 9.623A9.84 9.84 0 0 1 2.353 12a9.84 9.84 0 0 1 9.844-9.844c2.658 0 4.879.978 6.583 2.566l-2.775 2.775V7.49c-1.033-.984-2.344-1.489-3.808-1.489c-3.248 0-5.888 2.744-5.888 5.993s2.64 5.999 5.888 5.999c2.947 0 4.953-1.686 5.365-4h-5.365v-3.839z"
-                />
-              </svg>
+              <img src="https://i.bluearcshow.com/images/Google_Pay_Global.png" alt="Google Pay" className="w-8" />
               <span className="ml-2">
                 {t('google-pay')}
               </span>
             </Button>
             <Button
               size="lg"
-              className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold h-full mb-4 px-4 py-4 rounded-[16px] relative"
+              className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
               onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.ApplePay)}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 211" fill="#fff" style={{ width: '48px' }}>
-                <path d="M93.552 27.103c-6 7.1-15.602 12.702-25.203 11.901c-1.2-9.6 3.5-19.802 9.001-26.103C83.35 5.601 93.852.4 102.353 0c1 10.001-2.9 19.802-8.8 27.103Zm8.701 13.802c-13.902-.8-25.803 7.9-32.404 7.9c-6.7 0-16.802-7.5-27.803-7.3c-14.301.2-27.603 8.3-34.904 21.202c-15.002 25.803-3.9 64.008 10.601 85.01c7.101 10.401 15.602 21.802 26.803 21.402c10.602-.4 14.802-6.9 27.604-6.9c12.901 0 16.602 6.9 27.803 6.7c11.601-.2 18.902-10.4 26.003-20.802c8.1-11.801 11.401-23.303 11.601-23.903c-.2-.2-22.402-8.7-22.602-34.304c-.2-21.402 17.502-31.603 18.302-32.203c-10.002-14.802-25.603-16.402-31.004-16.802Zm80.31-29.004V167.82h24.202v-53.306h33.504c30.603 0 52.106-21.002 52.106-51.406c0-30.403-21.103-51.206-51.306-51.206h-58.507Zm24.202 20.403h27.903c21.003 0 33.004 11.201 33.004 30.903c0 19.702-12.001 31.004-33.104 31.004h-27.803V32.304ZM336.58 169.019c15.202 0 29.303-7.7 35.704-19.902h.5v18.702h22.403V90.21c0-22.502-18.002-37.004-45.706-37.004c-25.703 0-44.705 14.702-45.405 34.904h21.803c1.8-9.601 10.7-15.902 22.902-15.902c14.802 0 23.103 6.901 23.103 19.603v8.6l-30.204 1.8c-28.103 1.7-43.304 13.202-43.304 33.205c0 20.202 15.701 33.603 38.204 33.603Zm6.5-18.502c-12.9 0-21.102-6.2-21.102-15.702c0-9.8 7.901-15.501 23.003-16.401l26.903-1.7v8.8c0 14.602-12.401 25.003-28.803 25.003Zm82.01 59.707c23.603 0 34.704-9 44.405-36.304L512 54.706h-24.603l-28.503 92.11h-.5l-28.503-92.11h-25.303l41.004 113.513l-2.2 6.901c-3.7 11.701-9.701 16.202-20.402 16.202c-1.9 0-5.6-.2-7.101-.4v18.702c1.4.4 7.4.6 9.201.6Z" />
-              </svg>
+              <img src="https://i.bluearcshow.com/images/Apple_Pay_Global.png" alt="Apple Pay" className="w-8" />
               <span className="ml-2">
                 Apple Pay
               </span>
@@ -166,20 +156,20 @@ export default function Payment() {
               <>
                 <Button
                   size="lg"
-                  className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold h-full mb-4 px-4 py-4 rounded-[16px] relative"
+                  className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
                   onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.Pix)}
                 >
-                  <img src="https://i.bluearcshow.com/images/PIX_BR.png" alt="Pix" className="w-[24px] h-[24px]" />
+                  <img src="https://i.bluearcshow.com/images/PIX_BR.png" alt="Pix" className="w-8" />
                   <span className="ml-2">
                     Pix
                   </span>
                 </Button>
                 <Button
                   size="lg"
-                  className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold h-full mb-4 px-4 py-4 rounded-[16px] relative"
+                  className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
                   onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.MercadoPago)}
                 >
-                  <img src="https://i.bluearcshow.com/images/Mercado_Pago_BR.png" alt="MercadoPago" className="w-[24px] h-[24px]" />
+                  <img src="https://i.bluearcshow.com/images/Mercado_Pago_BR.png" alt="MercadoPago" className="w-8" />
                   <span className="ml-2">
                     MercadoPago
                   </span>

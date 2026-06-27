@@ -1,4 +1,4 @@
-import type { TikTokEvent } from "@lib/common/consts/pixel";
+import type { PixelEvent } from "@lib/common/consts/pixel";
 
 export interface TikTokBusinessEventReq {
     event_source: string;
@@ -7,7 +7,7 @@ export interface TikTokBusinessEventReq {
 }
 
 export interface TikTokBusinessEventData {
-    event: TikTokEvent;
+    event: PixelEvent;
     event_time: number;
     event_id: string;
     user: TikTokBusinessEventUserData;
@@ -17,6 +17,7 @@ export interface TikTokBusinessEventData {
 
 export interface TikTokBusinessEventUserData {
     external_id: string;
+    ttclid: string;
 }
 
 export interface TikTokBusinessEventProperties {

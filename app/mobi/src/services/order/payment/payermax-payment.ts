@@ -32,7 +32,7 @@ export class PayermaxPayment implements Payment {
             skuId: paymentInfo.skuInfo.id,
             productId: paymentInfo.productInfo.id,
             pixelId: paymentInfo.pixelId,
-            ad: paymentInfo.ad,
+            ad: paymentInfo.ad || "",
         });
 
         const orderBizId = await orderBizIdGenerator.generate();
@@ -60,7 +60,7 @@ export class PayermaxPayment implements Payment {
             paymentChannel: this.orderPaymentChannel,
             paymentType: paymentInfo.paymentType,
             orderStatus: OrderStatus.Pending,
-            ad: paymentInfo.ad,
+            ad: paymentInfo.ad || "",
         });
 
         return {

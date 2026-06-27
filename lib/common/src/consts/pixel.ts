@@ -3,7 +3,7 @@ export enum PixelPlatform {
     TikTok = 2
 }
 
-export enum TikTokEvent {
+export enum PixelEvent {
     Subscribe = 'Subscribe',
     Purchase = 'Purchase',
 }

@@ -24,7 +24,7 @@ paypal.get('/send', async (c) => {
     const pixelInfo = await pixelDao.getPixelById(Number(pixel));
     const subscriptionInfo = await subscriptionDao.getSubscriptionById(Number(subscriptionId));
 
-    subscriptionService.sendFacebookEvent(pixelInfo, subscriptionInfo);
+    subscriptionService.sendTikTokEvent(pixelInfo, subscriptionInfo);
     return c.json(success());
 });
 

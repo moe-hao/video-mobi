@@ -1,4 +1,4 @@
-import { char, decimal, int, mysqlTable, varchar } from "drizzle-orm/mysql-core";
+import { char, decimal, int, mysqlTable, text, varchar } from "drizzle-orm/mysql-core";
 
 export const orderTable = mysqlTable("order", {
     id: int("id").primaryKey().autoincrement(),
@@ -15,7 +15,7 @@ export const orderTable = mysqlTable("order", {
     paymentChannel: varchar("payment_channel", { length: 50 }).notNull().default(""),
     paymentType: varchar("payment_type", { length: 50 }).notNull().default(""),
     orderStatus: int("order_status").notNull().default(0),
-    ad: varchar("ad", { length: 512 }).notNull().default(""),
+    ad: text("ad").notNull().default(""),
     createTime: int("create_time").notNull().default(0),
     updateTime: int("update_time").notNull().default(0),
 })
