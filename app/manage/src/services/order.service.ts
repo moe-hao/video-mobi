@@ -8,9 +8,14 @@ import { productDao } from "@lib/repo/dao/product.dao";
 
 class OrderService {
     async getOrderList(req: OrderListReq): Promise<OrderListResp> {
+        const search = {
+            search: req.search,
+            status: req.status ?? '' as OrderStatus | '',
+        }
+
         const [orderList, orderTotal] = await Promise.all([
-            orderDao.getOrderListPage(req.page, req.size),
-            orderDao.getOrderListTotal()
+            orderDao.getOrderListPage(req.page, req.size, search),
+            orderDao.getOrderListTotal(search)
         ]);
 
         const orderUserIds = orderList.map((item) => item.userId);

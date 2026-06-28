@@ -22,7 +22,8 @@ class SubscriptionService {
             total: subscriptionTotal,
             list: subscriptionList.map((item) => ({
                 id: item.id,
-                userInfo: `${userIdToInfo.get(item.userId)?.username}`,
+                userId: item.userId,
+                username: userIdToInfo.get(item.userId)?.username,
                 subscriptionNo: item.subscriptionNo,
                 subscriptionStatus: item.subscriptionStatus,
                 subscriptionStatusName: SubscriptionStatusName[item.subscriptionStatus as SubscriptionStatus],

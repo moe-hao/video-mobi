@@ -1,15 +1,23 @@
 import { Button, Input, Table } from "@heroui/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useOrderListState } from "@app/manage-web/hooks/payment/use-order-list-state";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
 import OrderStatusPoint from "./order-status";
+import type { OrderListReq } from "@lib/common/dto/order";
+import OrderStatusSelect from "@app/manage-web/components/order-select";
+import type { OrderStatus } from "@lib/common/consts/order";
 
 export default function OrderList() {
   const { orderListState, fetchOrderList } = useOrderListState();
+  const [orderListReq, setOrderListReq] = useState<OrderListReq>({ page: 1, size: 20, search: "", status: "" });
 
   useEffect(() => {
-    fetchOrderList({ page: 1, size: 20, search: "" });
+    fetchOrderList(orderListReq);
   }, [fetchOrderList]);
+
+  const handleSearch = async () => {
+    await fetchOrderList(orderListReq);
+  }
 
   return (
     <div>
@@ -23,13 +31,13 @@ export default function OrderList() {
             variant="secondary"
             placeholder="搜索订单ID/编号"
             className="w-48"
-          // value={episodeListReq.search}
-          // onChange={(e) => setEpisodeListReq({ ...episodeListReq, search: e.target.value })}
+            value={orderListReq.search}
+            onChange={(e) => setOrderListReq({ ...orderListReq, search: e.target.value })}
           />
+          <OrderStatusSelect className="w-48" value={orderListReq.status as OrderStatus} onChange={(status) => setOrderListReq({ ...orderListReq, status: status as string })} />
         </div>
-        <Button variant="primary" size="sm">查询</Button>
+        <Button variant="primary" size="sm" onClick={handleSearch}>查询</Button>
         <div className="flex-1"></div>
-        {/* <CreateModalButton onSuccess={() => fetchEpisodeList(episodeListReq)} /> */}
       </div>
       <Table>
         <Table.ScrollContainer>
@@ -83,7 +91,7 @@ export default function OrderList() {
         page={orderListState.page || 1}
         size={orderListState.size || 10}
         total={orderListState.total || 0}
-        onPageChange={(page) => fetchOrderList({ search: "", page, size: 20, })}
+        onPageChange={(page) => fetchOrderList({ ...orderListReq, page, size: 20, })}
       />
     </div>
   )

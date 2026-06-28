@@ -38,26 +38,26 @@ export default function SubscriptionList() {
                   <Table.Header>
                     <Table.Column>ID</Table.Column>
                     <Table.Column isRowHeader>订阅编号</Table.Column>
-                    <Table.Column>用户信息</Table.Column>
+                    <Table.Column>用户ID</Table.Column>
                     <Table.Column>订阅状态</Table.Column>
                     <Table.Column>创建时间</Table.Column>
                     <Table.Column>更新时间</Table.Column>
-                    <Table.Column>操作</Table.Column>
+                    {/* <Table.Column>操作</Table.Column> */}
                   </Table.Header>
                   <Table.Body>
                     {subscriptionListState.list?.map((item) => (
                       <Table.Row key={item.id}>
                         <Table.Cell>{item.id}</Table.Cell>
                         <Table.Cell>{item.subscriptionNo}</Table.Cell>
-                        <Table.Cell>{item.userInfo}</Table.Cell>
+                        <Table.Cell>{item.userId}</Table.Cell>
                         <Table.Cell>
                           <SubscriptionStatusPoint status={item.subscriptionStatus} name={item.subscriptionStatusName} />
                         </Table.Cell>
                         <Table.Cell>{item.createTime} </Table.Cell>
                         <Table.Cell>{item.updateTime}</Table.Cell>
-                        <Table.Cell>
+                        {/* <Table.Cell> */}
                           {/* <Button variant="secondary" size="sm">关单</Button> */}
-                        </Table.Cell>
+                        {/* </Table.Cell> */}
                       </Table.Row>
                     ))}
 
