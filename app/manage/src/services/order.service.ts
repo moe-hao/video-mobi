@@ -36,7 +36,7 @@ class OrderService {
                 collectionBizIds.push(ad.collectionId);
             }
 
-            if (ad.fbc) {
+            if (ad.fbclid) {
                 orderIdToPlatfrom.set(item.id, 'Facebook');
             }
 
