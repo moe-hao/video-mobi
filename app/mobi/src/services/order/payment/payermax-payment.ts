@@ -9,12 +9,61 @@ import { orderDao } from "@lib/repo/dao/order.dao";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { ResultCode } from "@lib/common/consts/result";
 import { orderBizIdGenerator } from "@app/order/order/order-biz-id-generator";
+import { SkuType } from "@lib/common/consts/sku";
 
 
 export class PayermaxPayment implements Payment {
     private readonly orderPaymentChannel = PaymentChannel.Payermax;
 
     async createOrder(paymentInfo: PaymentInfo): Promise<PaymentOrder> {
+        let subscriptionId = 0;
+        let subscriptionNo = "";
+
+        if (paymentInfo.skuInfo.skuType === SkuType.Subscription) {
+            const subscriptionResult = await this.createSubscription(paymentInfo);
+            subscriptionId = subscriptionResult.subscriptionId;
+            subscriptionNo = subscriptionResult.subscriptionNo;
+        }
+
+        const orderBizId = await orderBizIdGenerator.generate();
+        const payermaxPaymentInfo = {
+            userBizId: paymentInfo.userInfo.bizId,
+            orderBizId: orderBizId,
+            amount: paymentInfo.skuInfo.price,
+            paymentChannel: this.orderPaymentChannel,
+            paymentType: paymentInfo.paymentType,
+            subscriptionNo: subscriptionNo,
+            reback: paymentInfo.reback,
+        }
+        const paymentResult = await payermaxProxy.payOrder(paymentInfo.productInfo, payermaxPaymentInfo);
+
+        const orderId = await orderDao.addOrder({
+            bizId: orderBizId,
+            userId: paymentInfo.userInfo.id,
+            amount: paymentInfo.skuInfo.price,
+            currency: paymentInfo.productInfo.currency,
+            skuId: paymentInfo.skuInfo.id,
+            productId: paymentInfo.productInfo.id,
+            pixelId: paymentInfo.pixelId,
+            paymentId: paymentResult.tradeToken,
+            subscriptionId: subscriptionId,
+            paymentChannel: this.orderPaymentChannel,
+            paymentType: paymentInfo.paymentType,
+            orderType: paymentInfo.skuInfo.skuType,
+            orderStatus: OrderStatus.Pending,
+            ad: paymentInfo.ad || "",
+        });
+
+        return {
+            orderId: orderId,
+            orderBizId: orderBizId,
+            subscriptionNo: subscriptionNo,
+            paymentId: paymentResult.tradeToken,
+            redirectUrl: paymentResult.redirectUrl,
+        };
+    }
+
+    private async createSubscription(paymentInfo: PaymentInfo): Promise<{ subscriptionId: number, subscriptionNo: string }> {
         const subscriptionBizId = uuid();
         const subscriptionCreateResult = await payermaxProxy.createSubscription(
             paymentInfo.userInfo.bizId,
@@ -35,41 +84,8 @@ export class PayermaxPayment implements Payment {
             ad: paymentInfo.ad || "",
         });
 
-        const orderBizId = await orderBizIdGenerator.generate();
-        const payermaxPaymentInfo = {
-            userBizId: paymentInfo.userInfo.bizId,
-            orderBizId: orderBizId,
-            amount: paymentInfo.skuInfo.price,
-            paymentChannel: this.orderPaymentChannel,
-            paymentType: paymentInfo.paymentType,
-            subscriptionNo: subscriptionCreateResult.subscriptionNo,
-            reback: paymentInfo.reback,
-        }
-        const paymentResult = await payermaxProxy.payOrder(paymentInfo.productInfo, payermaxPaymentInfo);
-
-        const orderId = await orderDao.addOrder({
-            bizId: orderBizId,
-            userId: paymentInfo.userInfo.id,
-            amount: paymentInfo.skuInfo.price,
-            currency: paymentInfo.productInfo.currency,
-            skuId: paymentInfo.skuInfo.id,
-            productId: paymentInfo.productInfo.id,
-            pixelId: paymentInfo.pixelId,
-            paymentId: paymentResult.tradeToken,
-            subscriptionId: subscriptionId,
-            paymentChannel: this.orderPaymentChannel,
-            paymentType: paymentInfo.paymentType,
-            orderStatus: OrderStatus.Pending,
-            ad: paymentInfo.ad || "",
-        });
-
-        return {
-            orderId: orderId,
-            orderBizId: orderBizId,
-            subscriptionNo: subscriptionCreateResult.subscriptionNo,
-            paymentId: paymentResult.tradeToken,
-            redirectUrl: paymentResult.redirectUrl,
-        };
+        const subscriptionNo = subscriptionCreateResult.subscriptionNo;
+        return { subscriptionId, subscriptionNo };
     }
 
     async approveOrder(approveInfo: PaymentApproveInfo): Promise<void> {

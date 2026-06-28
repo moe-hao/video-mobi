@@ -6,7 +6,7 @@ import { orderBizIdGenerator } from "@app/order/order/order-biz-id-generator";
 import { orderDao } from "@lib/repo/dao/order.dao";
 import { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
 import { OrderStatus } from "@lib/common/consts/order";
-import { memberDelivery } from "@app/order/member";
+import { MemberDeliveryFactory } from "@app/order/member";
 export class SaleEventHandler implements EventHandler {
     async handle(req: PaypalEventReq<PaypalEventReourceSale>): Promise<void> {
         switch (req.event_type) {
@@ -42,7 +42,7 @@ export class SaleEventHandler implements EventHandler {
                 });
 
                 const orderInfo = await orderDao.getOrderByBizId(orderBizId);
-                await memberDelivery.deliver(orderInfo);
+                await MemberDeliveryFactory.create(orderInfo).deliver();
                 orderDao.updateOrderById(orderInfo.id, {
                     orderStatus: OrderStatus.Completed,
                 });

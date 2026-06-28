@@ -1,9 +1,11 @@
 export enum SkuType {
     Subscription = "subscription",
+    Coin = "coin",
 }
 
 export const SkuTypeName = {
     [SkuType.Subscription]: "订阅",
+    [SkuType.Coin]: "金币",
 }
 
 export enum SkuPeriodType {

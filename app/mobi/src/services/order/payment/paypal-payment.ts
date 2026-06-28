@@ -11,8 +11,8 @@ import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { logger } from "@lib/internal/logger";
 import { ResultCode } from "@lib/common/consts/result";
 import { PaypalOrderStatus } from "@lib/common/consts/paypal";
-import { memberDelivery } from "@app/order/member/member-delivery";
 import { orderBizIdGenerator } from "@app/order/order/order-biz-id-generator";
+import { MemberDeliveryFactory } from "@app/order/member/member-delivery";
 
 export class PaypalPayment implements Payment {
     private paymentChannel: PaymentChannel = PaymentChannel.Paypal;
@@ -144,7 +144,7 @@ export class PaypalPayment implements Payment {
     async completeOrder(paymentId: string): Promise<void> {
         const orderInfo = await orderDao.getOrderByPaymentIdAndChannel(paymentId, this.paymentChannel);
 
-        await memberDelivery.deliver(orderInfo);
+        await MemberDeliveryFactory.create(orderInfo).deliver();
         await orderDao.updateOrderByPaymentId(paymentId, {
             orderStatus: OrderStatus.Completed,
         });

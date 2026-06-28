@@ -18,6 +18,7 @@ import { tikTokBusinessProxy } from "@lib/repo/proxy/tiktok/business";
 import type { SubscriptionSelect } from "@lib/repo/models/subscription";
 import { facebookProxy } from "@lib/repo/proxy/facebook/facebook";
 import type { AdParam } from "@lib/repo/proxy/facebook/facebook.interface";
+import config from "@lib/internal/config";
 
 class SubscriptionService {
     async receive(req: PayermaxNotificationReq<PayermaxSubscriptionNotificationData>): Promise<OrderPayermaxResultResp> {
@@ -92,7 +93,9 @@ class SubscriptionService {
                 action_source: "website",
             }]
         };
-        await facebookProxy.sendEvent(pixel.pixelId, req);
+        if (config.AppEnv === 'prod') {
+            await facebookProxy.sendEvent(pixel.pixelId, req);
+        }
     }
 
     async sendTikTokEvent(pixel: PixelSelect, subscriptionInfo: SubscriptionSelect) {
@@ -126,8 +129,10 @@ class SubscriptionService {
                     campaign_id: ad.campaign_id || '',
                 }
             }]
+        };
+        if (config.AppEnv === 'prod') {
+            await tikTokBusinessProxy.sendEvent(pixel.accessToken, req);
         }
-        await tikTokBusinessProxy.sendEvent(pixel.accessToken, req);
     }
 
     private async processSubscriptionPayment(req: PayermaxNotificationReq<PayermaxSubscriptionNotificationData>) {
