@@ -6,16 +6,28 @@ import OrderStatusPoint from "./order-status";
 import type { OrderListReq } from "@lib/common/dto/order";
 import OrderStatusSelect from "@app/manage-web/components/order-select";
 import type { OrderStatus } from "@lib/common/consts/order";
+import { useSearchParams } from "react-router";
 
 export default function OrderList() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const { orderListState, fetchOrderList } = useOrderListState();
   const [orderListReq, setOrderListReq] = useState<OrderListReq>({ page: 1, size: 20, search: "", status: "" });
 
   useEffect(() => {
-    fetchOrderList(orderListReq);
+    handleSearch(orderListReq);
   }, [fetchOrderList]);
 
-  const handleSearch = async () => {
+  const changeSearchParams = (orderListReq: OrderListReq) => {
+    setSearchParams({
+      page: orderListReq.page.toString(),
+      size: orderListReq.size.toString(),
+      search: orderListReq.search.toString(),
+      status: orderListReq.status.toString(),
+    });
+  }
+
+  const handleSearch = async (orderListReq: OrderListReq) => {
+    changeSearchParams(orderListReq);
     await fetchOrderList(orderListReq);
   }
 
@@ -36,7 +48,7 @@ export default function OrderList() {
           />
           <OrderStatusSelect className="w-48" value={orderListReq.status as OrderStatus} onChange={(status) => setOrderListReq({ ...orderListReq, status: status as string })} />
         </div>
-        <Button variant="primary" size="sm" onClick={handleSearch}>查询</Button>
+        <Button variant="primary" size="sm" onClick={() => handleSearch(orderListReq)}>查询</Button>
         <div className="flex-1"></div>
       </div>
       <Table>
@@ -91,7 +103,9 @@ export default function OrderList() {
         page={orderListState.page || 1}
         size={orderListState.size || 10}
         total={orderListState.total || 0}
-        onPageChange={(page) => fetchOrderList({ ...orderListReq, page, size: 20, })}
+        sizeOptions={[20, 30, 50, 100]}
+        onPageChange={(page) => handleSearch({ ...orderListReq, page})}
+        onSizeChange={(size) => handleSearch({ ...orderListReq, size})}
       />
     </div>
   )
