@@ -10,6 +10,16 @@ export enum SubscriptionStatus {
     Terminate = 6, // 订阅终止
 }
 
+export const SubscriptionStatusList = [
+    SubscriptionStatus.InActive,
+    SubscriptionStatus.Active,
+    SubscriptionStatus.ActiveFailed,
+    SubscriptionStatus.Expired,
+    SubscriptionStatus.Finish,
+    SubscriptionStatus.Cancel,
+    SubscriptionStatus.Terminate,
+];
+
 export const PayermaxToSubscriptionStatus = {
     [PayermaxSubscriptionStatus.InActive]: SubscriptionStatus.InActive,
     [PayermaxSubscriptionStatus.Active]: SubscriptionStatus.Active,
