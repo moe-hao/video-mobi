@@ -1,4 +1,4 @@
-import { Button, Input, Table } from "@heroui/react";
+import { Button, Input, Link, Table, Tooltip } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { useOrderListState } from "@app/manage-web/hooks/payment/use-order-list-state";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
@@ -79,7 +79,21 @@ export default function OrderList() {
                   <Table.Cell className="whitespace-nowrap">{item.host}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.userId}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.email}</Table.Cell>
-                  <Table.Cell className="whitespace-nowrap">{item.collectionBizId}</Table.Cell>
+                  <Table.Cell className="whitespace-nowrap">
+                    <Tooltip delay={0} >
+                      <Link>{item.collectionBizId}</Link>
+                      <Tooltip.Content placement="right">
+                         <div className="flex items-center gap-2">
+                            <span className="text-muted-foreground font-medium flex-shrink-0">原名:</span>
+                            <span className="text-muted-foreground truncate">{item.collectionSourceName}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-muted-foreground font-medium flex-shrink-0">译名:</span>
+                            <span className="text-muted-foreground truncate">{item.collectionName}</span>
+                          </div>
+                      </Tooltip.Content>
+                    </Tooltip>
+                  </Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.currency} {item.amount}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.subscriptionId === 0 ? '非订阅' : '订阅'}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.subscriptionCount}</Table.Cell>
@@ -106,8 +120,8 @@ export default function OrderList() {
         size={orderListState.size || 10}
         total={orderListState.total || 0}
         sizeOptions={[20, 30, 50, 100]}
-        onPageChange={(page) => handleSearch({ ...orderListReq, page})}
-        onSizeChange={(size) => handleSearch({ ...orderListReq, size})}
+        onPageChange={(page) => handleSearch({ ...orderListReq, page })}
+        onSizeChange={(size) => handleSearch({ ...orderListReq, size })}
       />
     </div>
   )

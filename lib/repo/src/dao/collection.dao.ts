@@ -127,6 +127,13 @@ class CollectionDao {
         return collection;
     }
 
+    async getCollectionInBizIds(bizIds: string[]): Promise<CollectionSelect[]> {
+        const collections = await this.conn.select().from(collectionTable).where(
+            inArray(collectionTable.bizId, bizIds)
+        )
+        return collections;
+    }
+
     async addCollection(data: CollectionInsert) {
         data.createTime = currentTime();
         data.updateTime = currentTime();

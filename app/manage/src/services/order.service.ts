@@ -5,6 +5,7 @@ import { userDao } from "@lib/repo/dao/user.dao";
 import { OrderStatus, OrderStatusName } from "@lib/common/consts/order";
 import { formatUnixTime } from "@lib/common/utils/time";
 import { productDao } from "@lib/repo/dao/product.dao";
+import { collectionDao } from "@lib/repo/dao/collection.dao";
 
 class OrderService {
     async getOrderList(req: OrderListReq): Promise<OrderListResp> {
@@ -25,6 +26,10 @@ class OrderService {
         const productIds = orderList.map((item) => item.productId);
         const productList = await productDao.getProductListInIds(productIds);
         const productIdToInfoMap = new Map(productList.map((item) => [item.id, item]));
+
+        const collectionBizIds = orderList.map((item) => JSON.parse(item.ad || '{}').collectionId || '').filter(item => item !== '');
+        const collectionList = await collectionDao.getCollectionInBizIds(collectionBizIds);
+        const collectionBizIdToInfoMap = new Map(collectionList.map((item) => [item.bizId, item]));
 
         return {
             page: req.page,
@@ -47,6 +52,8 @@ class OrderService {
                 orderStatus: item.orderStatus as OrderStatus,
                 orderStatusName: OrderStatusName[item.orderStatus as OrderStatus],
                 collectionBizId: JSON.parse(item.ad || '{}').collectionId || '',
+                collectionName: collectionBizIdToInfoMap.get(JSON.parse(item.ad || '{}').collectionId || '')?.name || '',
+                collectionSourceName: collectionBizIdToInfoMap.get(JSON.parse(item.ad || '{}').collectionId || '')?.sourceName || '',
                 createTime: formatUnixTime(item.createTime),
                 updateTime: formatUnixTime(item.updateTime),
             }))
