@@ -9,8 +9,8 @@ import type { OrderStatus } from "@lib/common/consts/order";
 import { useSearchParams } from "react-router";
 
 export default function OrderList() {
-  const [searchParams, setSearchParams] = useSearchParams();
   const { orderListState, fetchOrderList } = useOrderListState();
+  const [_searchParams, setSearchParams] = useSearchParams();
   const [orderListReq, setOrderListReq] = useState<OrderListReq>({ page: 1, size: 20, search: "", status: "" });
 
   useEffect(() => {
