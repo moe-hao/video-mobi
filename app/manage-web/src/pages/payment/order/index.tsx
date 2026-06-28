@@ -63,6 +63,7 @@ export default function OrderList() {
               <Table.Column className="whitespace-nowrap">邮箱</Table.Column>
               <Table.Column className="whitespace-nowrap">剧集编号</Table.Column>
               <Table.Column className="whitespace-nowrap">支付金额</Table.Column>
+              <Table.Column className="whitespace-nowrap">美元金额</Table.Column>
               <Table.Column className="whitespace-nowrap">订阅</Table.Column>
               <Table.Column className="whitespace-nowrap">订阅期数</Table.Column>
               <Table.Column className="whitespace-nowrap">支付渠道</Table.Column>
@@ -97,6 +98,7 @@ export default function OrderList() {
                     </Tooltip>
                   </Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.currency} {item.amount}</Table.Cell>
+                  <Table.Cell className="whitespace-nowrap">${item.dollar}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.subscriptionId === 0 ? '非订阅' : '订阅'}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.subscriptionCount}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.paymentChennel}</Table.Cell>

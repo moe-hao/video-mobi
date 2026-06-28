@@ -27,6 +27,7 @@ export interface OrderListRespItem {
     collectionSourceName: string;
     amount: string;
     currency: string;
+    dollar: string;
     subscriptionId: number;
     subscriptionCount: number;
     paymentChennel: string;

@@ -6,6 +6,7 @@ import { OrderStatus, OrderStatusName } from "@lib/common/consts/order";
 import { formatUnixTime } from "@lib/common/utils/time";
 import { productDao } from "@lib/repo/dao/product.dao";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
+import { exchangeProxy } from "@lib/repo/proxy/exchange/exchange";
 
 class OrderService {
     async getOrderList(req: OrderListReq): Promise<OrderListResp> {
@@ -28,8 +29,9 @@ class OrderService {
         const productIdToInfoMap = new Map(productList.map((item) => [item.id, item]));
 
         const collectionBizIds: string[] = [];
+        const exchangeRateMap = new Map<string, number>();
         const orderIdToPlatfrom = new Map<number, string>();
-        orderList.forEach((item) => {
+        for (const item of orderList) {
             const ad = JSON.parse(item.ad || '{}');
 
             if (ad.collectionId) {
@@ -43,8 +45,11 @@ class OrderService {
             if (ad.ttclid) {
                 orderIdToPlatfrom.set(item.id, 'TikTok');
             }
-        });
 
+            if (!exchangeRateMap.has(item.currency)) {
+                exchangeRateMap.set(item.currency, await exchangeProxy.getExchangeRate(item.currency, 'USD'));
+            }
+        }
 
         const collectionList = await collectionDao.getCollectionInBizIds(collectionBizIds);
         const collectionBizIdToInfoMap = new Map(collectionList.map((item) => [item.bizId, item]));
@@ -63,6 +68,7 @@ class OrderService {
                 email: userIdToInfoMap.get(item.userId)?.email || '',
                 amount: item.amount,
                 currency: item.currency,
+                dollar: (Number(item.amount) * (exchangeRateMap.get(item.currency) || 0)).toFixed(2),
                 subscriptionId: item.subscriptionId,
                 subscriptionCount: item.subscriptionCount,
                 paymentChennel: item.paymentChannel,
