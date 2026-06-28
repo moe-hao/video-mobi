@@ -58,6 +58,7 @@ export default function OrderList() {
               <Table.Column className="whitespace-nowrap">ID</Table.Column>
               <Table.Column className="whitespace-nowrap" isRowHeader>编号</Table.Column>
               <Table.Column className="whitespace-nowrap">来源</Table.Column>
+              <Table.Column className="whitespace-nowrap">平台</Table.Column>
               <Table.Column className="whitespace-nowrap">用户ID</Table.Column>
               <Table.Column className="whitespace-nowrap">邮箱</Table.Column>
               <Table.Column className="whitespace-nowrap">剧集编号</Table.Column>
@@ -77,6 +78,7 @@ export default function OrderList() {
                   <Table.Cell className="whitespace-nowrap">{item.id}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.bizId}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.host}</Table.Cell>
+                  <Table.Cell className="whitespace-nowrap">{item.platfrom}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.userId}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.email}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">

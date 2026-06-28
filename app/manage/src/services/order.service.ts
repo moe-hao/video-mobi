@@ -27,7 +27,25 @@ class OrderService {
         const productList = await productDao.getProductListInIds(productIds);
         const productIdToInfoMap = new Map(productList.map((item) => [item.id, item]));
 
-        const collectionBizIds = orderList.map((item) => JSON.parse(item.ad || '{}').collectionId || '').filter(item => item !== '');
+        const collectionBizIds: string[] = [];
+        const orderIdToPlatfrom = new Map<number, string>();
+        orderList.forEach((item) => {
+            const ad = JSON.parse(item.ad || '{}');
+
+            if (ad.collectionId) {
+                collectionBizIds.push(ad.collectionId);
+            }
+
+            if (ad.fbc) {
+                orderIdToPlatfrom.set(item.id, 'Facebook');
+            }
+
+            if (ad.ttclid) {
+                orderIdToPlatfrom.set(item.id, 'TikTok');
+            }
+        });
+
+
         const collectionList = await collectionDao.getCollectionInBizIds(collectionBizIds);
         const collectionBizIdToInfoMap = new Map(collectionList.map((item) => [item.bizId, item]));
 
@@ -39,6 +57,7 @@ class OrderService {
                 id: item.id,
                 bizId: item.bizId,
                 host: productIdToInfoMap.get(item.productId)?.host || '',
+                platfrom: orderIdToPlatfrom.get(item.id) || '',
                 userId: item.userId,
                 username: userIdToInfoMap.get(item.userId)?.username || '',
                 email: userIdToInfoMap.get(item.userId)?.email || '',
