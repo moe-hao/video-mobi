@@ -21,6 +21,7 @@ export interface OrderListRespItem {
     userId: number;
     username: string;
     email: string;
+    collectionBizId: string;
     amount: string;
     currency: string;
     subscriptionId: number;

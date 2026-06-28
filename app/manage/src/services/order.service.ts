@@ -46,6 +46,7 @@ class OrderService {
                 paymentTypeName: PaymentTypeName[item.paymentType as PaymentType],
                 orderStatus: item.orderStatus as OrderStatus,
                 orderStatusName: OrderStatusName[item.orderStatus as OrderStatus],
+                collectionBizId: JSON.parse(item.ad || '{}').collectionId || '',
                 createTime: formatUnixTime(item.createTime),
                 updateTime: formatUnixTime(item.updateTime),
             }))
