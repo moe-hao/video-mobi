@@ -47,7 +47,9 @@ class OrderService {
             }
 
             if (!exchangeRateMap.has(item.currency)) {
-                exchangeRateMap.set(item.currency, await exchangeProxy.getExchangeRate(item.currency, 'USD'));
+                if (item.currency) {
+                    exchangeRateMap.set(item.currency, await exchangeProxy.getExchangeRate(item.currency, 'USD'));
+                }
             }
         }
 
