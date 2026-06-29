@@ -15,9 +15,15 @@ import { randomNum } from "@lib/common/utils/random";
 
 class CollectionService {
     async getCollectionList(req: CollectionTableListReq): Promise<CollectionTableListResp> {
+        const searchParams = {
+            search: req.search || '',
+            language: req.language || '',
+            collectionType: req.type,
+            publishStatus: req.publishStatus,
+        };
         const [collectionList, collectionTotal] = await Promise.all([
-            collectionDao.getCollectionListSearch({ ...req, language: req.language || undefined }),
-            collectionDao.getCollectionTotalSearch({ ...req, language: req.language || undefined }),
+            collectionDao.getCollectionListSearch(req.page, req.size, searchParams),
+            collectionDao.getCollectionTotalSearch(searchParams),
         ]);
 
         return {

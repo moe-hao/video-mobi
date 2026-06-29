@@ -8,17 +8,17 @@ import type { Language } from "@lib/common/consts/region";
 import { CollectionType, PublishStatus } from "@lib/common/consts/collection";
 
 
-type SearchPageParam = {
-    page: number,
-    size: number,
-    search?: string,
-    language?: Language
+export type SearchCollection = {
+    search: string;
+    language: Language | string;
+    collectionType: CollectionType | string;
+    publishStatus: PublishStatus | string;
 }
 
 class CollectionDao {
     constructor(private readonly conn: DatabaseConn = database) { }
 
-    async getCollectionListSearch(search: SearchPageParam): Promise<CollectionSelect[]> {
+    async getCollectionListSearch(page: number, size: number, search: SearchCollection): Promise<CollectionSelect[]> {
         const conditions = [];
         if (search.search) {
             const searchConditions = [];
@@ -32,15 +32,23 @@ class CollectionDao {
             conditions.push(or(...searchConditions));
         }
 
-        if (search.language) {
-            conditions.push(eq(collectionTable.language, search.language));
+        if (search.language !== '') {
+            conditions.push(eq(collectionTable.language, search.language as Language));
+        }
+
+        if (search.collectionType !== '') {
+            conditions.push(eq(collectionTable.collectionType, Number(search.collectionType) as CollectionType));
+        }
+
+        if (search.publishStatus !== '') {
+            conditions.push(eq(collectionTable.publishStatus, Number(search.publishStatus) as PublishStatus));
         }
 
         conditions.push(eq(collectionTable.isDeleted, DeleteStatus.NotDeleted));
-        return await this.conn.select().from(collectionTable).where(and(...conditions)).orderBy(desc(collectionTable.id)).offset((search.page - 1) * search.size).limit(search.size);
+        return await this.conn.select().from(collectionTable).where(and(...conditions)).orderBy(desc(collectionTable.id)).offset((page - 1) * size).limit(size);
     }
 
-    async getCollectionTotalSearch(search: SearchPageParam): Promise<number> {
+    async getCollectionTotalSearch(search: SearchCollection): Promise<number> {
         const conditions = [];
         if (search.search) {
             const searchConditions = [];
@@ -54,8 +62,16 @@ class CollectionDao {
             conditions.push(or(...searchConditions));
         }
 
-        if (search.language) {
-            conditions.push(eq(collectionTable.language, search.language));
+        if (search.language !== '') {
+            conditions.push(eq(collectionTable.language, search.language as Language));
+        }
+
+        if (search.collectionType !== '') {
+            conditions.push(eq(collectionTable.collectionType, Number(search.collectionType) as CollectionType));
+        }
+
+        if (search.publishStatus !== '') {
+            conditions.push(eq(collectionTable.publishStatus, Number(search.publishStatus) as PublishStatus));
         }
 
         conditions.push(eq(collectionTable.isDeleted, DeleteStatus.NotDeleted));
