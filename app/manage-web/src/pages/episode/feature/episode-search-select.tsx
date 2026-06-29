@@ -32,6 +32,8 @@ export function EpisodeSearchSelect({ value, onChange, languageCode, isDisabled 
       search: "",
       page: 1,
       size: 30,
+      type: '',
+      publishStatus: '',
       language: languageCode as Language,
     });
   }, [languageCode, isDisabled]);
@@ -43,6 +45,8 @@ export function EpisodeSearchSelect({ value, onChange, languageCode, isDisabled 
       search,
       page: 1,
       size: 30,
+      type: '',
+      publishStatus: '',
       language: languageCode as Language,
     });
   };
