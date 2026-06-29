@@ -136,6 +136,18 @@ class CollectionDao {
         return collections;
     }
 
+
+    async getCollectionInIdsAndType(ids: number[], collectionTypeList: CollectionType[]): Promise<CollectionSelect[]> {
+        const collections = await this.conn.select().from(collectionTable).where(
+            and(
+                inArray(collectionTable.id, ids),
+                inArray(collectionTable.collectionType, collectionTypeList),
+                eq(collectionTable.isDeleted, DeleteStatus.NotDeleted)
+            )
+        )
+        return collections;
+    }
+
     async getCollectionByBizId(bizId: string): Promise<CollectionSelect> {
         const [collection] = await this.conn.select().from(collectionTable).where(
             eq(collectionTable.bizId, bizId)
