@@ -13,6 +13,13 @@ export const PublishStatusToVod: Record<PublishStatus, VodPublishStatus> = {
     [PublishStatus.Published]: VodPublishStatus.Published,
 }
 
+export const PublishStatusName: Record<PublishStatus, string> = {
+    [PublishStatus.Unpublished]: '未上架',
+    [PublishStatus.Published]: '已上架',
+}
+
+export const PublishStatusList = [PublishStatus.Unpublished, PublishStatus.Published]
+
 export enum CollectionType {
     Normal = 0,
     Man = 1,

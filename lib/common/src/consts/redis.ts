@@ -13,4 +13,5 @@ export const CommonRedisKeyPrefix = {
     OrderBizId: 'order_biz_id',
     VideoAuth: 'video_auth',
     CollectionVideo: 'collection_video',
+    ExchangeRate: 'exchange_rate',
 }

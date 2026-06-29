@@ -7,6 +7,15 @@ export enum OrderStatus {
     Closed = 5
 }
 
+export const OrderStatusList = [
+    OrderStatus.Created,
+    OrderStatus.Pending,
+    OrderStatus.Paid,
+    OrderStatus.Completed,
+    OrderStatus.Failed,
+    OrderStatus.Closed
+];
+
 export const OrderStatusName: Record<OrderStatus, string> = {
     [OrderStatus.Created]: '已创建',
     [OrderStatus.Pending]: '支付中',

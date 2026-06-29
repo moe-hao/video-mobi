@@ -34,10 +34,11 @@ export async function getCollectionPage(host: string, page: number, size: number
 export async function getFeaturedCollections(host: string): Promise<CollectionItemResp[]> {
     const productInfo = await productDao.getProductByHost(host);
     const productLanguage = (productInfo?.language || Language.En) as Language;
+    const collectionTypeList = JSON.parse(productInfo?.collectionTypeList || '[]') as CollectionType[];
 
     const collectionFeatureList = await collectionFeatureDao.getFeaturedCollections();
     const collectionIds = collectionFeatureList.map((item) => item.collectionId);
-    const collectionList = await collectionDao.getCollectionInIds(collectionIds);
+    const collectionList = await collectionDao.getCollectionInIdsAndType(collectionIds, collectionTypeList);
 
     const collectionIdToInfoMap = new Map<number, CollectionSelect>();
     collectionList.forEach((item) => {
@@ -45,8 +46,6 @@ export async function getFeaturedCollections(host: string): Promise<CollectionIt
     });
 
     const result: CollectionItemResp[] = [];
-
-
     collectionFeatureList.forEach((item) => {
         if (collectionIdToInfoMap.has(item.collectionId) && collectionIdToInfoMap.get(item.collectionId)?.language === productLanguage) {
             result.push({

@@ -30,7 +30,8 @@ export const orderFailedReqSchema = z.object({
 export const orderListReqSchema = z.object({
     page: z.coerce.number().int().min(1).default(1),
     size: z.coerce.number().int().min(1).default(10),
-    search: z.string().default('')
+    search: z.string().default(''),
+    status: z.string().default('').or(z.coerce.number().int()),
 });
 
 export type OrderCreateReq = z.infer<typeof orderCreateReqSchema>;

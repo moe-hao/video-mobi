@@ -6,11 +6,13 @@ import CreateModalButton from "./create-modal-button";
 import { useNavigate, useSearchParams } from "react-router";
 import type { CollectionPublishReq, CollectionTableListReq } from "@lib/common/dto/collection";
 import type { Language } from "@lib/common/consts/region";
-import { PublishStatus } from "@lib/common/consts/collection";
+import { CollectionType, PublishStatus } from "@lib/common/consts/collection";
 import LanguageSelect from "@app/manage-web/components/language-select";
 import DeleteButton from "@app/manage-web/components/delete-button";
 import { useChangePublishState, useDeleteEpisodeState, useEpisodeState } from "@app/manage-web/hooks/episode";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
+import CollectionTypeSelect from "@app/manage-web/components/collection-type-select/collection-type-select";
+import PublishStatusSelect from "@app/manage-web/components/collection-type-select/publish-status-select";
 
 export default function EpisodeList() {
   const navigate = useNavigate();
@@ -24,6 +26,8 @@ export default function EpisodeList() {
     page: Number(searchParams.get('page')) || 1,
     size: Number(searchParams.get('size')) || 7,
     search: searchParams.get('search') || '',
+    type: searchParams.get('type') || '',
+    publishStatus: searchParams.get('publishStatus') || '',
     language: searchParams.get('language') as Language || '',
   });
 
@@ -32,6 +36,8 @@ export default function EpisodeList() {
       page: search.page.toString(),
       size: search.size.toString(),
       search: search.search,
+      type: search.type.toString() || '',
+      publishStatus: search.publishStatus.toString() || '',
       language: search.language || '',
     });
   };
@@ -85,6 +91,16 @@ export default function EpisodeList() {
               </Button>
             )}
           </div>
+          <CollectionTypeSelect
+            className="w-[192px]"
+            collectionType={collectionTableListReq.type as CollectionType}
+            onChange={(value) => setCollectionTableListReq({ ...collectionTableListReq, type: value })}
+          />
+          <PublishStatusSelect
+            className="w-[192px]"
+            publishStatus={collectionTableListReq.publishStatus as PublishStatus}
+            onChange={(value) => setCollectionTableListReq({ ...collectionTableListReq, publishStatus: value })}
+          />
         </div>
         <Button variant="primary" size="sm" onClick={async () => await handleSearch({ ...collectionTableListReq, page: 1 })}>查询</Button>
         <div className="flex-1"></div>

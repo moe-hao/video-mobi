@@ -18,11 +18,16 @@ export interface OrderListRespItem {
     id: number;
     bizId: string;
     host: string;
+    platfrom: string;
     userId: number;
     username: string;
     email: string;
+    collectionBizId: string;
+    collectionName: string;
+    collectionSourceName: string;
     amount: string;
     currency: string;
+    dollar: string;
     subscriptionId: number;
     subscriptionCount: number;
     paymentChennel: string;

@@ -41,6 +41,7 @@ export default function Payment() {
       campaign_id: searchParams.get('campaign_id') || '',
       fbclid: searchParams.get('fbclid') || '',
       ttclid: searchParams.get('ttclid') || '',
+      collectionId: searchParams.get('collectionId') || '',
     }
 
     const result = await fetchUserOrderCreate({

@@ -6,15 +6,18 @@ import { userDao } from "@lib/repo/dao/user.dao";
 
 class SubscriptionService {
     async getSubscriptionList(req: SubscriptionListReq): Promise<SubscriptionListResp> {
+        const search = {
+            id: req.id,
+            status: req.status,
+        }
         const [subscriptionList, subscriptionTotal] = await Promise.all([
-            subscriptionDao.getSubscriptionPageList(req.page, req.size),
-            subscriptionDao.getSubscriptionPageTotal(),
+            subscriptionDao.getSubscriptionPageList(req.page, req.size, search),
+            subscriptionDao.getSubscriptionPageTotal(search),
         ]);
 
         const userIds = subscriptionList.map((item) => item.userId);
         const userInfoList = await userDao.getUserListByIds(userIds);
         const userIdToInfo = new Map(userInfoList.map((item) => [item.id, item]));
-
 
         return {
             page: req.page,
@@ -22,7 +25,8 @@ class SubscriptionService {
             total: subscriptionTotal,
             list: subscriptionList.map((item) => ({
                 id: item.id,
-                userInfo: `${userIdToInfo.get(item.userId)?.username}`,
+                userId: item.userId,
+                username: userIdToInfo.get(item.userId)?.username,
                 subscriptionNo: item.subscriptionNo,
                 subscriptionStatus: item.subscriptionStatus,
                 subscriptionStatusName: SubscriptionStatusName[item.subscriptionStatus as SubscriptionStatus],

@@ -1,20 +1,55 @@
 
 import { database, type DatabaseConn } from "@lib/internal/database";
 import { orderTable, type OrderInsert, type OrderSelect } from "../models/order";
-import { and, count, desc, eq, inArray } from "drizzle-orm";
+import { and, count, desc, eq, inArray, or } from "drizzle-orm";
 import { currentTime } from "@lib/common/utils/time";
 import { PaymentChannel } from "@lib/common/consts/payment";
 import { OrderStatus } from "@lib/common/consts/order";
 
+export type SearchOrder = {
+    search: string;
+    status: OrderStatus | string;
+}
+
 class OrderDao {
     constructor(private readonly conn: DatabaseConn = database) { }
 
-    async getOrderListPage(page: number, size: number): Promise<OrderSelect[]> {
-        return await this.conn.select().from(orderTable).orderBy(desc(orderTable.id)).offset((page - 1) * size).limit(size);
+    async getOrderListPage(page: number, size: number, search: SearchOrder): Promise<OrderSelect[]> {
+        const conditions = [];
+        if (search.search) {
+            const searchConditions = [];
+            if (!isNaN(Number(search.search))) {
+                searchConditions.push(eq(orderTable.id, Number(search.search)));
+            }
+
+            searchConditions.push(eq(orderTable.bizId, search.search));
+            conditions.push(or(...searchConditions));
+        }
+
+        if (search.status !== '') {
+            conditions.push(eq(orderTable.orderStatus, Number(search.status) as OrderStatus));
+        }
+
+        return await this.conn.select().from(orderTable).where(and(...conditions)).orderBy(desc(orderTable.id)).offset((page - 1) * size).limit(size);
     }
 
-    async getOrderListTotal(): Promise<number> {
-        const [result] = await this.conn.select({ count: count() }).from(orderTable);
+    async getOrderListTotal(search: SearchOrder): Promise<number> {
+        const conditions = [];
+        if (search.search) {
+            const searchConditions = [];
+            if (!isNaN(Number(search.search))) {
+                searchConditions.push(eq(orderTable.id, Number(search.search)));
+            }
+
+            searchConditions.push(eq(orderTable.bizId, search.search));
+            conditions.push(or(...searchConditions));
+        }
+
+        if (search.status !== '') {
+            conditions.push(eq(orderTable.orderStatus, Number(search.status) as OrderStatus));
+        }
+
+        const [result] = await this.conn.select({ count: count() }).from(orderTable).where(and(...conditions));
         return result.count;
     }
 

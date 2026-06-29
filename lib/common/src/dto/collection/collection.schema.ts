@@ -11,6 +11,8 @@ export const collectionTableListReqSchema = z.object({
     page: z.coerce.number().int().min(1).default(1),
     size: z.coerce.number().int().min(1).default(10),
     search: z.string().default(''),
+    type: z.string().default('').or(z.enum(CollectionType)),
+    publishStatus: z.string().default('').or(z.enum(PublishStatus)),
     language: z.preprocess(
         (val) => val === '' ? '' : val,
         z.union([z.enum(Language, { error: "Param Invalid: language" }), z.literal('')]).optional()
