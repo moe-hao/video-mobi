@@ -30,7 +30,7 @@ export class PayssionPayment implements Payment {
         const episode = pathURL.searchParams.get('episode');
         const path = pathURL.pathname;
 
-        let url = `https://br01.bluearcshow.com${path}`;
+        let url = `https://${paymentInfo.productInfo.host}${path}`;
         if (collectionId) {
             url += `?collectionId=${collectionId}`;
         }
@@ -39,7 +39,6 @@ export class PayssionPayment implements Payment {
         }
 
         const mandate = await payssionProxy.createCustomerMandate(customer.id, url, periodType);
-
         const subscription = await payssionProxy.createSubscription({
             mandate_id: mandate.id,
             currency: paymentInfo.productInfo.currency,
