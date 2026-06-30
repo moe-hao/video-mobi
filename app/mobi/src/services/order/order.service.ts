@@ -27,6 +27,9 @@ class OrderService {
             pixelId: body.pixelId,
             reback: body.reback,
             ad: body.ad,
+            pixCPF: body.pixCPF,
+            firstName: body.firstName,
+            lastName: body.lastName,
         }
         const payment = PaymentFactory.createPayment(body.paymentChannel);
         const orderInfo = await payment.createOrder(paymentInfo);

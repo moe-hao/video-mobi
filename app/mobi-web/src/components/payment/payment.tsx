@@ -13,6 +13,7 @@ import { SkuImportant } from "@lib/common/consts/sku";
 import { useVideoMobiContext } from "@app/mobi-web/contexts/video-mobi-context";
 import { useLocation, useSearchParams } from "react-router";
 import { Region } from "@lib/common/consts/region";
+import PixButton from "./pix-button";
 
 export default function Payment() {
   const { t } = useTranslation('', { keyPrefix: 'payment' });
@@ -51,6 +52,34 @@ export default function Payment() {
       pixelId: Number(searchParams.get('p')) || 0,
       reback: `${location.pathname}${location.search || ''}`,
       ad: JSON.stringify(ad),
+      pixCPF: '',
+      firstName: '',
+      lastName: '',
+    });
+
+    window.location.href = result.redirectUrl;
+  }
+
+  const handlePixSubmit = async (data: { cpf: string; firstName: string; lastName: string }) => {
+    const ad = {
+      ad_id: searchParams.get('creative_id') || '',
+      adset_id: searchParams.get('adset_id') || '',
+      campaign_id: searchParams.get('campaign_id') || '',
+      fbclid: searchParams.get('fbclid') || '',
+      ttclid: searchParams.get('ttclid') || '',
+      collectionId: searchParams.get('collectionId') || '',
+    }
+
+    const result = await fetchUserOrderCreate({
+      sku: skuInfo.bizId,
+      paymentChannel: PaymentChannel.Payssion,
+      paymentType: PaymentType.Pix,
+      pixelId: Number(searchParams.get('p')) || 0,
+      reback: `${location.pathname}${location.search || ''}`,
+      ad: JSON.stringify(ad),
+      pixCPF: data.cpf,
+      firstName: data.firstName,
+      lastName: data.lastName,
     });
 
     window.location.href = result.redirectUrl;
@@ -155,16 +184,17 @@ export default function Payment() {
             </Button>
             {productInfo?.region === Region.BR && (
               <>
-                <Button
+                <PixButton onSubmit={handlePixSubmit} />
+                {/* <Button
                   size="lg"
                   className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
-                  onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.Pix)}
+                  onPress={() => handleClickPayment(PaymentChannel.Payssion, PaymentType.Pix)}
                 >
                   <img src="https://i.bluearcshow.com/images/PIX_BR.png" alt="Pix" className="w-8" />
                   <span className="ml-2">
                     Pix
                   </span>
-                </Button>
+                </Button> */}
                 <Button
                   size="lg"
                   className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"

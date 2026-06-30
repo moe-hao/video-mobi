@@ -5,6 +5,7 @@ import type { SkuSelect } from "@lib/repo/models/sku";
 import type { ProductSelect } from "@lib/repo/models/product";
 import { PaymentChannel, type PaymentType } from "@lib/common/consts/payment";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
+import { PayssionPayment } from "./payssion-payment";
 
 export type PaymentOrder = {
     orderId: number;
@@ -22,6 +23,9 @@ export type PaymentInfo = {
     pixelId: number;
     reback: string;
     ad: string;
+    pixCPF: string;
+    firstName: string;
+    lastName: string;
 }
 
 export type PaymentApproveInfo = {
@@ -45,6 +49,8 @@ export class PaymentFactory {
                 return new PayermaxPayment();
             case PaymentChannel.Paypal:
                 return new PaypalPayment();
+            case PaymentChannel.Payssion:
+                return new PayssionPayment();
         }
     }
 }
