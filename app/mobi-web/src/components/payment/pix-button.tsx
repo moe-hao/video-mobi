@@ -1,19 +1,28 @@
-import { Button, Input, Modal } from "@heroui/react";
+import { Button, Input, Modal, Spinner } from "@heroui/react";
 import { useState } from "react";
 
 interface PixButtonProps {
-  onSubmit: (data: { cpf: string; firstName: string; lastName: string }) => void;
+  onSubmit: (data: { cpf: string; firstName: string; lastName: string }) => Promise<void>;
 }
 
 export default function PixButton({ onSubmit }: PixButtonProps) {
   const [cpf, setCpf] = useState("");
   const [fullName, setFullName] = useState("");
+  const [isPending, setIsPending] = useState(false);
+  const [isInvalid, setIsInvalid] = useState(false);
 
-  const handleSubmit = () => {
-    const nameParts = fullName.trim().split(/\s+/);
-    const firstName = nameParts[0] || "";
-    const lastName = nameParts.slice(1).join(" ") || "";
-    onSubmit({ cpf, firstName, lastName });
+  const handleSubmit = async () => {
+    setIsPending(true);
+    try {
+      const nameParts = fullName.trim().split(/\s+/);
+      const firstName = nameParts[0] || "";
+      const lastName = nameParts.slice(1).join(" ") || "";
+      await onSubmit({ cpf, firstName, lastName });
+    } catch (error) {
+      setIsInvalid(true);
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return (
@@ -34,6 +43,7 @@ export default function PixButton({ onSubmit }: PixButtonProps) {
             <Modal.Header>
               <Modal.Heading className="px-2">
                 CPF
+                {isInvalid && <div className="text-[12px] font-bold text-red-500" >Dados incorretos. Por favor, verifique o CPF ou Nome.</div>}
               </Modal.Heading>
             </Modal.Header>
             <Modal.Body>
@@ -53,7 +63,8 @@ export default function PixButton({ onSubmit }: PixButtonProps) {
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
               />
-              <Button variant="primary" className="w-full" type="submit" onPress={handleSubmit}>
+              <Button variant="primary" className="w-full" type="submit" onPress={handleSubmit} isPending={isPending} isDisabled={!cpf.trim() || !fullName.trim()}>
+                {isPending ? <Spinner color="current" size="sm" /> : null}
                 Confirmar
               </Button>
             </Modal.Body>
