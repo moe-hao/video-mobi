@@ -23,8 +23,8 @@ class OrderStatusHelper {
                 const pixelInfo = await pixelDao.getPixelById(orderInfo.pixelId);
                 if (orderInfo.paymentType === PaymentType.Pix && pixelInfo.platfrom === PixelPlatform.Facebook) {
                     logger.info(`OrderStatusHelper.processChangeOrderStatus: use pix logic - send event to fb`);
-                    const subsriptionInfo = await subscriptionDao.getSubscriptionById(orderInfo.subscriptionId);
-                    await subscriptionService.sendFacebookEvent(pixelInfo, subsriptionInfo);
+                    const subscriptionInfo = await subscriptionDao.getSubscriptionById(orderInfo.subscriptionId);
+                    await subscriptionService.sendFacebookEvent(pixelInfo, subscriptionInfo);
                 }
                 break;
             default:

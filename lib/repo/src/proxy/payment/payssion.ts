@@ -1,5 +1,5 @@
 import { logger } from "@lib/internal/logger";
-import type { PayssionCreateCustomerMandateReq, PayssionCreateCustomerMandateResp, PayssionCreateCustomerReq, PayssionCreateCustomerResp, PayssionCreateSubscriptionReq, PayssionCreateSubscriptionResp } from "./payssion.interface";
+import type { PayssionCreateCustomerMandateReq, PayssionCreateCustomerMandateResp, PayssionCreateCustomerReq, PayssionCreateCustomerResp, PayssionCreateSubscriptionReq, PayssionCreateSubscriptionResp, PayssionSubscriptionInfoResp } from "./payssion.interface";
 import config from "@lib/internal/config";
 
 class PayssionProxy {
@@ -40,6 +40,21 @@ class PayssionProxy {
 
     async createSubscription(req: PayssionCreateSubscriptionReq): Promise<PayssionCreateSubscriptionResp> {
         return await this.request<PayssionCreateSubscriptionReq, PayssionCreateSubscriptionResp>('subscriptions', req);
+    }
+
+    async getSubscriptionInfo(subscriptionNo: string): Promise<PayssionSubscriptionInfoResp> {
+        logger.info(`PayssionProxy.request: subscriptions/${subscriptionNo}`);
+        const resp = await fetch(`${this.baseURL}/subscriptions/${subscriptionNo}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.apiKey}`,
+            }
+        });
+
+        const result = await resp.json() as PayssionSubscriptionInfoResp;
+        logger.info(`PayssionProxy.response: subscriptions/${subscriptionNo}: ${JSON.stringify(result)}`);
+        return result;
     }
 }
 

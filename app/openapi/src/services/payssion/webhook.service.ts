@@ -3,7 +3,10 @@ import { OrderStatus } from "@lib/common/consts/order";
 import { SubscriptionStatus } from "@lib/common/consts/subscription";
 import type { PayssionWebhookPaymentData, PayssionWebhookReq, PayssionWebhookSubscriptionData } from "@lib/common/dto/payssion";
 import { orderDao } from "@lib/repo/dao/order.dao";
+import { pixelDao } from "@lib/repo/dao/pixel.dao";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
+import { subscriptionService } from "../payermax/subscription-service";
+import { payssionProxy } from "@lib/repo/proxy/payment/payssion";
 
 export class PayssionWebhookService {
     async handle(req: PayssionWebhookReq) {
@@ -33,9 +36,23 @@ export class PayssionWebhookService {
         await orderDao.updateOrderById(orderInfo.id, {
             paymentId: req.data.object.id,
             orderStatus: OrderStatus.Completed,
+
         });
 
         await memberDelivery.deliver(orderInfo);
+
+        const payssionSubscriptionInfo = await payssionProxy.getSubscriptionInfo(subscriptionNo);
+        if (payssionSubscriptionInfo.status === 'active') {
+            await subscriptionDao.updateSubscriptionById(subscriptionInfo.id, {
+                subscriptionStatus: SubscriptionStatus.Active,
+            });
+
+            await orderDao.updateOrderById(orderInfo.id, {
+                subscriptionCount: payssionSubscriptionInfo.times_completed,
+            });
+        }
+        const pixelInfo = await pixelDao.getPixelById(orderInfo.pixelId);
+        await subscriptionService.sendFacebookEvent(pixelInfo, subscriptionInfo);
     }
 
     private async handlePaymentFailed(req: PayssionWebhookReq<PayssionWebhookPaymentData>) {

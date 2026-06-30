@@ -46,3 +46,9 @@ export interface PayssionCreateSubscriptionResp {
         };
     }
 }
+
+export interface PayssionSubscriptionInfoResp {
+    id: string;
+    times_completed: number;
+    status: string;
+}
