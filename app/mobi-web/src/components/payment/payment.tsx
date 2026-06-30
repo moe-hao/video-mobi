@@ -185,7 +185,7 @@ export default function Payment() {
             {productInfo?.region === Region.BR && (
               <>
                 <PixButton onSubmit={handlePixSubmit} />
-                <Button
+                {/* <Button
                   size="lg"
                   className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
                   onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.Pix)}
@@ -194,7 +194,7 @@ export default function Payment() {
                   <span className="ml-2">
                     Pix
                   </span>
-                </Button>
+                </Button> */}
                 <Button
                   size="lg"
                   className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
