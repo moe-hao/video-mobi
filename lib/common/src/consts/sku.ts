@@ -20,6 +20,12 @@ export const SkuPeriodTypeName = {
     [SkuPeriodType.Year]: "年",
 }
 
+export const SkuPeriodTypeToPayssionPeriodType = {
+    [SkuPeriodType.Week]: "week",
+    [SkuPeriodType.Month]: "month",
+    [SkuPeriodType.Year]: "year",
+}
+
 export enum SkuImportant {
     No = 0,
     Yes = 1,

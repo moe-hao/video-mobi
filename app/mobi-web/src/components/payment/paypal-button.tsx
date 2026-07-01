@@ -58,6 +58,9 @@ export default function PayPalButton({ skuInfo }: { skuInfo: SkuListItem }) {
       pixelId: Number(searchParams.get('p')) || 0,
       reback: `${location.pathname}${location.search || ''}`,
       ad: JSON.stringify(ad),
+      pixCPF: '',
+      firstName: '',
+      lastName: '',
     });
     return result.paymentId;
   }
@@ -92,6 +95,9 @@ export default function PayPalButton({ skuInfo }: { skuInfo: SkuListItem }) {
       pixelId: Number(searchParams.get('p')) || 0,
       reback: `${location.pathname}${location.search || ''}`,
       ad: JSON.stringify(ad),
+      pixCPF: '',
+      firstName: '',
+      lastName: '',
     });
     return result.subscriptionNo;
   }

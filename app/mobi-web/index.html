@@ -1,14 +1,39 @@
 <!doctype html>
 <html lang="en" data-theme="dark" class="dark h-full">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=1" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blue Arc</title>
-    <link href="https://s01.bluearcshow.com/css/anton.css" rel="stylesheet">
-  </head>
-  <body class="min-h-full flex flex-col">
-    <div id="root" class="flex-1 flex flex-col"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico?v=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blue Arc</title>
+  <link href="https://s01.bluearcshow.com/css/anton.css" rel="stylesheet">
+
+  <!-- Meta Pixel Code - only load when coming from Facebook -->
+  <script>
+    (function () {
+      if (!window.location.search.includes('fbclid')) return;
+      !function (f, b, e, v, n, t, s) {
+        if (f.fbq) return; n = f.fbq = function () {
+          n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+        };
+        if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+        n.queue = []; t = b.createElement(e); t.async = !0;
+        t.src = v; s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s)
+      }(window, document, 'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '990368740515702');
+      fbq('track', 'PageView');
+    })();
+  </script>
+  <!-- End Meta Pixel Code -->
+
+</head>
+
+<body class="min-h-full flex flex-col">
+  <div id="root" class="flex-1 flex flex-col"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>

@@ -16,6 +16,7 @@ export default function VerifyLogin() {
   const email = decodeURIComponent(searchParams.get('email') || '');
 
   const handleVerify = async () => {
+    fbq('track', 'CompleteRegistration');
     const result = await fetchUserVerifyEmail({
       email: email,
       code: otp,

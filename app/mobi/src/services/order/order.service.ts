@@ -18,15 +18,21 @@ class OrderService {
             throw new InternalException(ResultCode.ResourceNotFound);
         }
 
-        const orderInfo = await PaymentFactory.createPayment(body.paymentChannel).createOrder({
+        const paymentInfo = {
             userInfo: userInfo,
             skuInfo: skuInfo,
             productInfo: productInfo,
+            orderPaymentChannel: body.paymentChannel,
             paymentType: body.paymentType,
             pixelId: body.pixelId,
             reback: body.reback,
             ad: body.ad,
-        });
+            pixCPF: body.pixCPF,
+            firstName: body.firstName,
+            lastName: body.lastName,
+        }
+        const payment = PaymentFactory.createPayment(body.paymentChannel);
+        const orderInfo = await payment.createOrder(paymentInfo);
 
         return {
             paymentId: orderInfo.paymentId,
