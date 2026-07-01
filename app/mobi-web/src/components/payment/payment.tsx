@@ -9,7 +9,7 @@ import { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
 import { useSkuListState } from "@app/mobi-web/hooks/sku";
 import type { SkuListItem } from "@lib/common/dto/sku";
 import { PeriodType, PeriodTypeToName } from "@lib/common/consts/subscription";
-import { SkuImportant } from "@lib/common/consts/sku";
+import { SkuImportant, SkuType } from "@lib/common/consts/sku";
 import { useVideoMobiContext } from "@app/mobi-web/contexts/video-mobi-context";
 import { useLocation, useSearchParams } from "react-router";
 import { Region } from "@lib/common/consts/region";
@@ -89,9 +89,9 @@ export default function Payment() {
   }
 
   return (
-    <div className="mt-auto flex w-full flex-col items-start gap-6">
+    <div className="mt-auto flex w-full flex-col items-start gap-5">
       {
-        skuListRespState.skuList?.map((item) => (
+        skuListRespState.skuList?.map((item) => item.skuType === SkuType.Subscription && (
           <div
             className={
               item.important === SkuImportant.Yes ? "w-full bg-gradient-to-r from-[#3D4AE0] to-[#84A1FF] h-full px-4 py-4 rounded-[16px] relative" : "w-full bg-white/10 backdrop-blur-sm border-white/20 h-full px-4 py-4 rounded-[16px] relative"
@@ -119,6 +119,46 @@ export default function Payment() {
           </div>
         ))
       }
+      {skuListRespState.skuList?.some((item) => item.skuType === SkuType.Coin) && (
+        <h2 className="text-[16px] font-bold text-white tracking-wider">Coin Recharge</h2>
+      )}
+      <div className="flex flex-row gap-3 overflow-x-auto overflow-y-visible scrollbar-hide pt-[12px] overscroll-x-contain touch-pan-x" style={{ width: 'calc(100% + 2rem)', marginLeft: '-1rem', paddingLeft: '1rem', paddingRight: '1rem' }}>
+        {
+          skuListRespState.skuList?.map((item) => item.skuType === SkuType.Coin && (
+            <div
+              className="bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-4 rounded-[16px] relative shrink-0 w-[140px]"
+              key={item.bizId}
+              onClick={() => handleClickStoreCard(item)}
+            >
+              {item.desc && (
+                <span
+                  className="absolute left-0 -top-[12px] w-[66px] h-[24px] rounded-t-[16px] rounded-br-[16px] text-[10px] font-bold text-black flex items-center justify-center"
+                  style={{ background: 'linear-gradient(110deg, #fff37c 0%, #fcba48 100%)' }}
+                >
+                  {item.desc}
+                </span>
+              )}
+              <div className="flex flex-col gap-1 items-center">
+                <h2 className="text-[16px] text-white font-bold truncate">
+                  {item.coinNum} coins
+                </h2>
+                <div className="text-[#FFD83D]">+300</div>
+                <div
+                  className={
+                    item.important === SkuImportant.Yes
+                      ? 'w-[88px] h-[36px] rounded-[14px] bg-gradient-to-r from-[#3D4AE0] to-[#84A1FF] flex items-center justify-center'
+                      : 'w-[88px] h-[36px] rounded-[14px] bg-white/10 flex items-center justify-center'
+                  }
+                >
+                  {productInfo?.currencySign}{item.price}
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+
       {showPaymentModal && (
         <>
           <div

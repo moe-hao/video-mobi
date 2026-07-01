@@ -7,6 +7,7 @@ import { useState, useCallback } from "react";
 
 type UserMemberInfoState = {
   expireTime: number;
+  coinNum: number;
 }
 
 export function useUserMemberInfo(): {
@@ -15,11 +16,12 @@ export function useUserMemberInfo(): {
 } {
   const [userMemberInfoState, setUserMemberInfoState] = useState<UserMemberInfoState>({
     expireTime: 0,
+    coinNum: 0,
   });
 
   const fetchUserMemberInfo = useCallback(async () => {
     const memberInfo = await request<MemberInfoResp>('/api/member/info', 'GET');
-    setUserMemberInfoState({ expireTime: memberInfo.expireTime });
+    setUserMemberInfoState({ expireTime: memberInfo.expireTime, coinNum: memberInfo.coinNum });
     return memberInfo;
   }, []);
 

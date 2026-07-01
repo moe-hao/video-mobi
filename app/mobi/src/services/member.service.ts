@@ -7,9 +7,11 @@ export async function getMemberInfo(user: UserAuthInfo): Promise<MemberInfoResp>
     if (memberInfo) {
         return {
             expireTime: memberInfo.expireTime,
+            coinNum: memberInfo.coinNum,
         }
     }
     return {
         expireTime: 0,
+        coinNum: 0,
     }
 }
