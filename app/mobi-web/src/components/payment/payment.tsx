@@ -61,6 +61,7 @@ export default function Payment() {
   }
 
   const handlePixSubmit = async (data: { cpf: string; firstName: string; lastName: string }) => {
+    fbq('track', 'InitiateCheckout');
     const ad = {
       ad_id: searchParams.get('creative_id') || '',
       adset_id: searchParams.get('adset_id') || '',
