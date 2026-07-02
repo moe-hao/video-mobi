@@ -1,14 +1,13 @@
-import { Button, Link, Spinner, Table } from "@heroui/react";
+import { Button, Spinner, Table } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 import SyncButton from "./sync-button";
 import DownloadButton from "./download-button";
-import type { VideoDownloadVodReq, VideoListReq } from "@lib/common/dto/video";
+import type { VideoListReq } from "@lib/common/dto/video";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
 import type { CollectionPublishReq } from "@lib/common/dto/collection";
 import { PublishStatus } from "@lib/common/consts/collection";
 import { useChangePublishState, useDownloadEpisodeState, useEpisodeVideoState, useVideoState } from "@app/manage-web/hooks/episode";
-import { useVideoDownload } from "@app/manage-web/hooks/episode/use-video-download";
 import { PreviewButton } from "./preview-button";
 export default function EpisodeVideo() {
   const [searchParams] = useSearchParams();
@@ -24,7 +23,6 @@ export default function EpisodeVideo() {
   const { fetchSyncEpisodeVideo } = useEpisodeVideoState();
   const { fetchDownloadEpisodeVideo } = useDownloadEpisodeState();
   const { fetchEpisodeChangePublish } = useChangePublishState();
-  const { fetchDownload } = useVideoDownload();
 
   const [isClickChangePublish, setIsClickChangePublish] = useState(false);
 
@@ -52,13 +50,6 @@ export default function EpisodeVideo() {
     await fetchVideoList(videoListReq);
     setIsClickChangePublish(false);
   }
-
-  const handleDownloadVideo = async (req: VideoDownloadVodReq) => {
-    const result = await fetchDownload(req);
-    if (result?.url) {
-      window.open(result.url, '_blank');
-    }
-  };
 
   return (
     <div>
@@ -110,9 +101,6 @@ export default function EpisodeVideo() {
                     <Table.Cell>{item.createTime}</Table.Cell>
                     <Table.Cell>{item.updateTime}</Table.Cell>
                     <Table.Cell>
-                      {/* <Link className="no-underline hover:underline text-accent mr-2" onClick={() => handleDownloadVideo({ id: item.id })}>
-                        预览
-                      </Link> */}
                       <PreviewButton id={item.id} />
                     </Table.Cell>
                   </Table.Row>
