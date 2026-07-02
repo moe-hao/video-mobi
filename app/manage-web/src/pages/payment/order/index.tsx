@@ -7,28 +7,39 @@ import type { OrderListReq } from "@lib/common/dto/order";
 import OrderStatusSelect from "@app/manage-web/components/order-select";
 import type { OrderStatus } from "@lib/common/consts/order";
 import { useSearchParams } from "react-router";
+import DateRange, { dateRangeToUnixTimestamps } from "@app/manage-web/components/date-range";
+import ProductSelect from "@app/manage-web/components/product-select";
 
 export default function OrderList() {
   const { orderListState, fetchOrderList } = useOrderListState();
   const [_searchParams, setSearchParams] = useSearchParams();
-  const [orderListReq, setOrderListReq] = useState<OrderListReq>({ page: 1, size: 20, search: "", status: "" });
+  const [orderListReq, setOrderListReq] = useState<OrderListReq>({ page: 1, size: 20, search: "", status: "", productId: "", startDate: "", endDate: "" });
+  const [dateRange, setDateRange] = useState<any>(null);
 
   useEffect(() => {
     handleSearch(orderListReq);
   }, [fetchOrderList]);
 
-  const changeSearchParams = (orderListReq: OrderListReq) => {
+  const changeSearchParams = (req: OrderListReq) => {
     setSearchParams({
-      page: orderListReq.page.toString(),
-      size: orderListReq.size.toString(),
-      search: orderListReq.search.toString(),
-      status: orderListReq.status.toString(),
+      page: req.page.toString(),
+      size: req.size.toString(),
+      search: req.search.toString(),
+      status: req.status.toString(),
+      ...(req.startDate ? { startDate: req.startDate, endDate: req.endDate } : {}),
     });
   }
 
-  const handleSearch = async (orderListReq: OrderListReq) => {
-    changeSearchParams(orderListReq);
-    await fetchOrderList(orderListReq);
+  const handleSearch = async (req: OrderListReq) => {
+    const timestamps = dateRangeToUnixTimestamps(dateRange);
+    const finalReq = {
+      ...req,
+      ...(timestamps
+        ? { startDate: timestamps.startTimestamp.toString(), endDate: timestamps.endTimestamp.toString() }
+        : { startDate: "", endDate: "" }),
+    };
+    changeSearchParams(finalReq);
+    await fetchOrderList(finalReq);
   }
 
   return (
@@ -47,6 +58,8 @@ export default function OrderList() {
             onChange={(e) => setOrderListReq({ ...orderListReq, search: e.target.value })}
           />
           <OrderStatusSelect className="w-48" value={orderListReq.status as OrderStatus} onChange={(status) => setOrderListReq({ ...orderListReq, status: status as string })} />
+          <ProductSelect className="w-64" value={orderListReq.productId as number} onChange={(productId) => setOrderListReq({ ...orderListReq, productId: productId as number })} />
+          <DateRange className="w-72" onChange={setDateRange} />
         </div>
         <Button variant="primary" size="sm" onClick={() => handleSearch(orderListReq)}>查询</Button>
         <div className="flex-1"></div>
@@ -98,7 +111,7 @@ export default function OrderList() {
                     </Tooltip>
                   </Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.currency} {item.amount}</Table.Cell>
-                  <Table.Cell className="whitespace-nowrap">${item.dollar}</Table.Cell>
+                  <Table.Cell className="whitespace-nowrap">USD {item.dollar}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.subscriptionId === 0 ? '非订阅' : '订阅'}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.subscriptionCount}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.paymentChennel}</Table.Cell>

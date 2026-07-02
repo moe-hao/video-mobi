@@ -7,6 +7,9 @@ import { orderDao } from "@lib/repo/dao/order.dao";
 import { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
 import { OrderStatus } from "@lib/common/consts/order";
 import { MemberDeliveryFactory } from "@app/order/member";
+import { subscriptionService } from "../../payermax/subscription-service";
+import { pixelDao } from "@lib/repo/dao/pixel.dao";
+
 export class SaleEventHandler implements EventHandler {
     async handle(req: PaypalEventReq<PaypalEventReourceSale>): Promise<void> {
         switch (req.event_type) {
@@ -46,6 +49,9 @@ export class SaleEventHandler implements EventHandler {
                 orderDao.updateOrderById(orderInfo.id, {
                     orderStatus: OrderStatus.Completed,
                 });
+
+                const pixelInfo = await pixelDao.getPixelById(subscriptionInfo.pixelId);
+                await subscriptionService.sendFacebookEvent(pixelInfo, subscriptionInfo);
             }
         }
     }

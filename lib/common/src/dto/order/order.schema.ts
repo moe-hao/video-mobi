@@ -35,6 +35,9 @@ export const orderListReqSchema = z.object({
     size: z.coerce.number().int().min(1).default(10),
     search: z.string().default(''),
     status: z.string().default('').or(z.coerce.number().int()),
+    productId: z.string().default('').or(z.coerce.number().int()),
+    startDate: z.string().default(''),
+    endDate: z.string().default(''),
 });
 
 export type OrderCreateReq = z.infer<typeof orderCreateReqSchema>;

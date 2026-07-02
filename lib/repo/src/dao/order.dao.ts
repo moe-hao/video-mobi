@@ -1,7 +1,7 @@
 
 import { database, type DatabaseConn } from "@lib/internal/database";
 import { orderTable, type OrderInsert, type OrderSelect } from "../models/order";
-import { and, count, desc, eq, inArray, or } from "drizzle-orm";
+import { and, count, desc, eq, gte, inArray, lte, or } from "drizzle-orm";
 import { currentTime } from "@lib/common/utils/time";
 import { PaymentChannel } from "@lib/common/consts/payment";
 import { OrderStatus } from "@lib/common/consts/order";
@@ -9,6 +9,9 @@ import { OrderStatus } from "@lib/common/consts/order";
 export type SearchOrder = {
     search: string;
     status: OrderStatus | string;
+    productId: number | string;
+    startDate: string;
+    endDate: string;
 }
 
 class OrderDao {
@@ -30,6 +33,18 @@ class OrderDao {
             conditions.push(eq(orderTable.orderStatus, Number(search.status) as OrderStatus));
         }
 
+        const productId = Number(search.productId);
+        if (!isNaN(productId) && productId !== 0) {
+            conditions.push(eq(orderTable.productId, productId));
+        }
+
+        if (search.startDate && search.endDate) {
+            conditions.push(and(
+                gte(orderTable.createTime, Number(search.startDate)),
+                lte(orderTable.createTime, Number(search.endDate)),
+            ));
+        }
+
         return await this.conn.select().from(orderTable).where(and(...conditions)).orderBy(desc(orderTable.id)).offset((page - 1) * size).limit(size);
     }
 
@@ -47,6 +62,18 @@ class OrderDao {
 
         if (search.status !== '') {
             conditions.push(eq(orderTable.orderStatus, Number(search.status) as OrderStatus));
+        }
+
+        const productId = Number(search.productId);
+        if (!isNaN(productId) && productId !== 0) {
+            conditions.push(eq(orderTable.productId, productId));
+        }
+
+        if (search.startDate && search.endDate) {
+            conditions.push(and(
+                gte(orderTable.createTime, Number(search.startDate)),
+                lte(orderTable.createTime, Number(search.endDate)),
+            ));
         }
 
         const [result] = await this.conn.select({ count: count() }).from(orderTable).where(and(...conditions));
