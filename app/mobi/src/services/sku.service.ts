@@ -20,6 +20,7 @@ class SkuService {
                 periodType: item.periodType,
                 paypalPlanId: item.paypalPlanId,
                 coinNum: item.coinNum,
+                coinDesc: item.coinDesc,
                 desc: item.desc,
                 important: item.important,
             }))

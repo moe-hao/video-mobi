@@ -122,7 +122,7 @@ export default function Payment() {
       {skuListRespState.skuList?.some((item) => item.skuType === SkuType.Coin) && (
         <h2 className="text-[16px] font-bold text-white tracking-wider">Coin Recharge</h2>
       )}
-      <div className="flex flex-row gap-3 overflow-x-auto overflow-y-visible scrollbar-hide pt-[12px] overscroll-x-contain touch-pan-x" style={{ width: 'calc(100% + 2rem)', marginLeft: '-1rem', paddingLeft: '1rem', paddingRight: '1rem' }}>
+      <div className="flex flex-row gap-3 overflow-x-auto overflow-y-visible scrollbar-hide pt-3 overscroll-x-contain touch-pan-x" style={{ width: 'calc(100% + 2rem)', marginLeft: '-1rem', paddingLeft: '1rem', paddingRight: '1rem' }}>
         {
           skuListRespState.skuList?.map((item) => item.skuType === SkuType.Coin && (
             <div
@@ -130,19 +130,19 @@ export default function Payment() {
               key={item.bizId}
               onClick={() => handleClickStoreCard(item)}
             >
-              {item.desc && (
-                <span
-                  className="absolute left-0 -top-[12px] w-[66px] h-[24px] rounded-t-[16px] rounded-br-[16px] text-[10px] font-bold text-black flex items-center justify-center"
-                  style={{ background: 'linear-gradient(110deg, #fff37c 0%, #fcba48 100%)' }}
-                >
-                  {item.desc}
-                </span>
-              )}
+              <span
+                className={`absolute left-0 -top-[12px] w-[66px] h-[24px] rounded-t-[16px] rounded-br-[16px] text-[10px] font-bold text-black flex items-center justify-center ${!item.desc ? "invisible" : ""}`}
+                style={{ background: 'linear-gradient(110deg, #fff37c 0%, #fcba48 100%)' }}
+              >
+                {item.desc}
+              </span>
               <div className="flex flex-col gap-1 items-center">
                 <h2 className="text-[16px] text-white font-bold truncate">
                   {item.coinNum} coins
                 </h2>
-                <div className="text-[#FFD83D]">+300</div>
+                <div className={`text-[#FFD83D] leading-[20px] h-[20px] ${!item.coinDesc ? "invisible" : ""}`}>
+                  {item.coinDesc || "\u00A0"}
+                </div>
                 <div
                   className={
                     item.important === SkuImportant.Yes

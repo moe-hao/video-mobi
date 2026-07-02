@@ -82,7 +82,6 @@ class SkuDao {
                 eq(skuTable.productId, productId),
                 eq(skuTable.isDeleted, DeleteStatus.NotDeleted),
             )
-
         ).orderBy(desc(skuTable.weight));
     }
 
