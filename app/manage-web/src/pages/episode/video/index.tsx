@@ -9,6 +9,7 @@ import type { CollectionPublishReq } from "@lib/common/dto/collection";
 import { PublishStatus } from "@lib/common/consts/collection";
 import { useChangePublishState, useDownloadEpisodeState, useEpisodeVideoState, useVideoState } from "@app/manage-web/hooks/episode";
 import { useVideoDownload } from "@app/manage-web/hooks/episode/use-video-download";
+import { PreviewButton } from "./preview-button";
 export default function EpisodeVideo() {
   const [searchParams] = useSearchParams();
   const collectionId = Number(searchParams.get('collectionId'));
@@ -109,9 +110,10 @@ export default function EpisodeVideo() {
                     <Table.Cell>{item.createTime}</Table.Cell>
                     <Table.Cell>{item.updateTime}</Table.Cell>
                     <Table.Cell>
-                      <Link className="no-underline hover:underline text-accent mr-2" onClick={() => handleDownloadVideo({ id: item.id })}>
-                        查看
-                      </Link>
+                      {/* <Link className="no-underline hover:underline text-accent mr-2" onClick={() => handleDownloadVideo({ id: item.id })}>
+                        预览
+                      </Link> */}
+                      <PreviewButton id={item.id} />
                     </Table.Cell>
                   </Table.Row>
                 ))
