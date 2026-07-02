@@ -1,5 +1,5 @@
 import { ResultCode } from "@lib/common/consts/result";
-import type { VideoDownloadReq, VideoDownloadVodReq, VideoDownloadVodResp, VideoListReq, VideoListResp } from "@lib/common/dto/video";
+import type { VideoConfigUnlockReq, VideoDownloadReq, VideoDownloadVodReq, VideoDownloadVodResp, VideoListReq, VideoListResp } from "@lib/common/dto/video";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { currentTime, formatUnixTime } from "@lib/common/utils/time";
 import config from "@lib/internal/config";
@@ -147,6 +147,21 @@ class CollectionVideoService {
         const coverURL = `${config.VolTosUrl}/${filePath}`;
         await collectionDao.updateCollectionById(collectionInfo.id, { cover: coverURL });
         logger.info(`Download Collection Video Success! ${collectionInfo.bizId} ${collectionInfo.episodes} Videos!`);
+    }
+
+    async configUnlock(req: VideoConfigUnlockReq): Promise<void> {
+        const collectionInfo = await collectionDao.getCollectionById(req.collectionId);
+        if (!collectionInfo) {
+            throw new InternalException(ResultCode.ResourceNotFound.code, 'Collection Not Found');
+        }
+
+        await Promise.all(req.configList.map(async (item) => {
+            if (item.epNum > collectionInfo.cutPoint) {
+                await videoDao.updateVideoByCollectionIdAndEpNum(collectionInfo.id, item.epNum, {
+                    unlockCoinNum: item.unlockCoin
+                });
+            }
+        }));
     }
 }
 

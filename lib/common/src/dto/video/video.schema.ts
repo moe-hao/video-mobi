@@ -22,8 +22,17 @@ export const videoDownloadVodSchema = z.object({
     id: z.int().default(0),
 });
 
+export const videoConfigUnlockReqSchema = z.object({
+    collectionId: z.coerce.number().int().default(0),
+    configList: z.array(z.object({
+        epNum: z.coerce.number().int().default(0),
+        unlockCoin: z.coerce.number().int().default(0),
+    })).default([]),
+});
+
 export type VideoListReq = z.infer<typeof videoListReqSchema>;
 export type VideoSyncReq = z.infer<typeof videoSyncReqSchema>;
 export type VideoDownloadReq = z.infer<typeof videoDownloadReqSchema>;
 export type VideoLikeReq = z.infer<typeof videoLikeReqSchema>;
 export type VideoDownloadVodReq = z.infer<typeof videoDownloadVodSchema>;
+export type VideoConfigUnlockReq = z.infer<typeof videoConfigUnlockReqSchema>;

@@ -1,6 +1,7 @@
 import { database, type DatabaseConn } from "@lib/internal/database";
 import { videoTable, type VideoInsert, type VideoSelect } from "../models/video";
 import { and, asc, count, eq } from "drizzle-orm";
+import { currentTime } from "@lib/common/utils/time";
 
 class VideoDao {
     constructor(private readonly conn: DatabaseConn = database) { }
@@ -40,6 +41,13 @@ class VideoDao {
 
     async addVideo(data: VideoInsert): Promise<void> {
         await this.conn.insert(videoTable).values(data);
+    }
+
+    async updateVideoByCollectionIdAndEpNum(collectionId: number, epNum: number, data: VideoInsert): Promise<void> {
+        data.updateTime = currentTime();
+        await this.conn.update(videoTable).set(data).where(
+            and(eq(videoTable.collectionId, collectionId), eq(videoTable.epNum, epNum))
+        );
     }
 }
 

@@ -1,4 +1,4 @@
-import type { VideoListReq, VideoListResp } from "@lib/common/dto/video";
+import type { VideoConfigUnlockReq, VideoListReq, VideoListResp } from "@lib/common/dto/video";
 import { convertURLSearchParams } from "@lib/common/utils/param";
 import { request } from "@lib/common/utils/request-manage";
 import { useCallback, useState } from "react";
@@ -44,5 +44,17 @@ export function useDownloadEpisodeState(): {
 
   return {
     fetchDownloadEpisodeVideo,
+  };
+}
+
+export function useConfigUnlockEpisodeState(): {
+  fetchConfigUnlockEpisodeVideo: (req: VideoConfigUnlockReq) => Promise<void>;
+} {
+  const fetchConfigUnlockEpisodeVideo = useCallback(async (req: VideoConfigUnlockReq) => {
+    await request('/api/collection_video/config_unlock', 'POST', req);
+  }, []);
+
+  return {
+    fetchConfigUnlockEpisodeVideo,
   };
 }
