@@ -95,6 +95,8 @@ export default function EpisodeVideo() {
               <Table.Column>ID</Table.Column>
               <Table.Column isRowHeader>集数</Table.Column>
               <Table.Column>VID</Table.Column>
+              <Table.Column>付费集</Table.Column>
+              <Table.Column>解锁金币</Table.Column>
               <Table.Column>创建日期</Table.Column>
               <Table.Column>更新日期</Table.Column>
               <Table.Column>操作</Table.Column>
@@ -106,11 +108,13 @@ export default function EpisodeVideo() {
                     <Table.Cell>{item.id}</Table.Cell>
                     <Table.Cell>{item.epNum}</Table.Cell>
                     <Table.Cell>{item.vid}</Table.Cell>
+                    <Table.Cell>{item.epNum > videoListPage.collectionCutPoint || 0 ? '付费' : '免费'}</Table.Cell>
+                    <Table.Cell>{item.unlockCoinNum}</Table.Cell>
                     <Table.Cell>{item.createTime}</Table.Cell>
                     <Table.Cell>{item.updateTime}</Table.Cell>
                     <Table.Cell>
                       <Link className="no-underline hover:underline text-accent mr-2" onClick={() => handleDownloadVideo({ id: item.id })}>
-                        查看
+                        预览
                       </Link>
                     </Table.Cell>
                   </Table.Row>

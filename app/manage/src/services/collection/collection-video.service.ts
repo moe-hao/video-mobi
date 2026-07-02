@@ -35,11 +35,13 @@ class CollectionVideoService {
             total: videoInfoTotal,
             collectionName: collectionInfo.name,
             collectionBizId: collectionInfo.bizId,
+            collectionCutPoint: collectionInfo.cutPoint,
             publishStatus: collectionInfo.publishStatus,
             list: videoInfoList.map((item) => ({
                 id: item.id,
                 vid: item.vid,
                 epNum: item.epNum,
+                unlockCoinNum: item.unlockCoinNum,
                 createTime: formatUnixTime(item.createTime),
                 updateTime: formatUnixTime(item.updateTime),
             }))

@@ -19,6 +19,7 @@ export interface VideoListResp {
     total: number;
     collectionName: string;
     collectionBizId: string;
+    collectionCutPoint: number;
     publishStatus: PublishStatus;
     list: VideoListRespItem[];
 }
@@ -27,6 +28,7 @@ export interface VideoListRespItem {
     id: number;
     vid: string;
     epNum: number;
+    unlockCoinNum: number;
     createTime: string;
     updateTime: string;
 }

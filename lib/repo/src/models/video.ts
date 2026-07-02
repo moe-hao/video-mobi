@@ -5,6 +5,7 @@ export const videoTable = mysqlTable("video", {
     collectionId: int("collection_id").notNull().default(0),
     epNum: int("ep_num").notNull().default(0),
     vid: varchar("vid", { length: 40 }).notNull().default(""),
+    unlockCoinNum: int("unlock_coin_num").notNull().default(0),
     createTime: int("create_time").notNull().default(0),
     updateTime: int("update_time").notNull().default(0),
 })
