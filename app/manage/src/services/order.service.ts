@@ -13,7 +13,10 @@ class OrderService {
         const search = {
             search: req.search,
             status: req.status ?? '' as OrderStatus | '',
-        }
+            productId: req.productId ?? '' as number | '',
+            startDate: req.startDate,
+            endDate: req.endDate,
+        };
 
         const [orderList, orderTotal] = await Promise.all([
             orderDao.getOrderListPage(req.page, req.size, search),
