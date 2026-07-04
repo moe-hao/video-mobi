@@ -119,11 +119,6 @@ class SubscriptionService {
                 },
                 page: {
                     url: productInfo.host || '',
-                },
-                ad: {
-                    creative_id: ad.creative_id || '',
-                    ad_id: ad.ad_id || '',
-                    campaign_id: ad.campaign_id || '',
                 }
             }]
         }
