@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { getMemberCoinHistory, getMemberInfo } from "../services/member.service";
+import { memberService } from "../services/member.service";
 import { success } from "@lib/common/dto/result";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
 import { validated } from "@lib/middleware/validated";
@@ -9,14 +9,14 @@ const member = new Hono();
 
 member.get('/info', async (c) => {
     const user = await c.get('user' as never) as UserAuthInfo;
-    const result = await getMemberInfo(user);
+    const result = await memberService.getMemberInfo(user);
     return c.json(success(result));
 });
 
 member.get('/coin_history', validated('query', userCoinHistoryReqSchema), async (c) => {
     const user = await c.get('user' as never) as UserAuthInfo;
     const req = c.req.valid('query');
-    const result = await getMemberCoinHistory(user, req);
+    const result = await memberService.getMemberCoinHistory(user, req);
     return c.json(success(result));
 });
 
