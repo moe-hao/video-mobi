@@ -1,3 +1,4 @@
+import type { UnlockCommType } from "@lib/common/consts/unlock-coin";
 import type { UserType } from "@lib/common/consts/user";
 
 export interface UserAuthLoginResp {
@@ -30,4 +31,17 @@ export interface UserListRespItem {
     productHost: string;
     createTime: string;
     updateTime: string;
+}
+
+export interface UserCoinHistoryResp {
+    page: number;
+    size: number;
+    total: number;
+    list: UserCoinHistoryItem[];
+}
+
+export interface UserCoinHistoryItem {
+    coinNum: number;
+    commType: UnlockCommType;
+    createTime: string;
 }

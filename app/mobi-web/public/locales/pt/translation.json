@@ -28,6 +28,7 @@
         "login-now": "Entrar",
         "all-ep-free": "Todos os episódios grátis",
         "feedback": "Feedback",
+        "coin-history": "Histórico de moedas",
         "terms": "Termos de serviço",
         "privacy": "Política de privacidade"
     },
@@ -60,5 +61,21 @@
         "completed": "Concluído",
         "total-episodes": "{{totalEpisodes}} episódios",
         "share": "Compartilhar"
+    },
+    "user-feedback": {
+        "feedback": "Feedback",
+        "bug": "Bug",
+        "suggestion": "Suggestion",
+        "payment": "Payment",
+        "email": "Email",
+        "description": "Description",
+        "transaction-id": "Transaction ID",
+        "submit": "Submit",
+        "cancel-subscription": "Cancel Subscription"
+    },
+    "coin-history": {
+        "title": "Histórico de moedas",
+        "received": "Recebidas",
+        "spent": "Gastas"
     }
 }

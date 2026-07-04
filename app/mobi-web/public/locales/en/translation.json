@@ -28,6 +28,7 @@
         "login-now": "Sign In",
         "all-ep-free": "All Episodes Free",
         "feedback": "Feedback",
+        "coin-history": "Coin History",
         "terms": "Terms of Service",
         "privacy": "Privacy Policy"
     },
@@ -71,5 +72,10 @@
         "transaction-id": "Transaction ID", 
         "submit": "Submit",
         "cancel-subscription": "Cancel Subscription"
+    },
+    "coin-history": {
+        "title": "Coin History",
+        "received": "Received",
+        "spent": "Spent"
     }
 }

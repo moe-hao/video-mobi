@@ -1,4 +1,4 @@
-import type { VideoLikeReq, VideoLikeResp, VideoPlayInfoResp } from "@lib/common/dto/video";
+import type { VideoLikeReq, VideoLikeResp, VideoPlayInfoResp, VideoUnlockCoinReq, VideoUnlockCoinResp } from "@lib/common/dto/video";
 import { convertURLSearchParams } from "@lib/common/utils/param";
 import { request } from "@lib/common/utils/request-mobi";
 import { useCallback, useState } from "react";
@@ -51,5 +51,18 @@ export function useLikeStatus(): {
   return {
     likeResp,
     fetchLikeStatus,
+  }
+}
+
+export function useUnlockCoin(): {
+  fetchUnlockCoin: (req: VideoUnlockCoinReq) => Promise<VideoUnlockCoinResp>
+} {
+  const fetchUnlockCoin = useCallback(async (req: VideoUnlockCoinReq) => {
+    const result = await request<VideoUnlockCoinResp>(`/api/video/unlock_coin`, 'POST', req);
+    return result;
+  }, [])
+
+  return {
+    fetchUnlockCoin,
   }
 }

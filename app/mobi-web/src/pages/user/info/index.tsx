@@ -1,6 +1,6 @@
 import { Avatar, Button, Card, ListBox, Spinner } from "@heroui/react";
 import { useEffect } from "react";
-import { ChevronRight, Headphones, Person, ShieldKeyhole } from "@gravity-ui/icons";
+import { ChevronRight, Person } from "@gravity-ui/icons";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { UserType } from "@lib/common/consts/user";
@@ -33,7 +33,6 @@ export default function UserInfo() {
               <Avatar.Fallback><Person /></Avatar.Fallback>
             </Avatar>
             <div className="flex flex-1 flex-col gap-1 min-w-0">
-              {/* <span className="text-base font-bold text-white truncate">{userInfo.username}</span> */}
               <span className="text-base font-bold text-white truncate">{t('user')}</span>
               <span className="text-xs font-normal text-white truncate">UID: {userInfo.bizId}</span>
             </div>
@@ -76,17 +75,24 @@ export default function UserInfo() {
                   <div className="flex flex-1 items-center gap-4 min-w-0">
                     <div className="flex flex-1 flex-col gap-1 min-w-0">
                       <h2 className="text-lg font-bold text-white tracking-wider">{userMemberInfoState.coinNum}</h2>
-                      <img src="/image.png" alt="icon" className="size-5" />
+                      <img src="https://i.bluearcshow.com/images/right-001.png" alt="icon" className="size-5" />
                     </div>
                   </div>
                 </Card.Content>
-                <img src="/coin.png" alt="coin" className="absolute -bottom-0.5 right-1 size-13" />
+                <img src="https://i.bluearcshow.com/images/coin.png" alt="coin" className="absolute -bottom-0.5 right-1 size-13" />
               </Card>
             </div>
             <ListBox aria-label="user-actions" className="w-full gap-6 py-6" selectionMode="single">
+              <ListBox.Item id="coin" textValue="Coin" className="px-0" onPress={() => navigate('/user/coin')}>
+                <div className="flex items-start justify-center pt-px">
+                  <img src="https://i.bluearcshow.com/images/wallet.png" alt="wallet" className="size-6" />
+                </div>
+                <div className="flex flex-col">{t('coin-history')}</div>
+                <ChevronRight className="ms-auto size-4 shrink-0 text-muted" />
+              </ListBox.Item>
               <ListBox.Item id="feedback" textValue="Feedback" className="px-0" onPress={() => navigate('/user/feedback')}>
                 <div className="flex items-start justify-center pt-px">
-                  <Headphones className="size-6 shrink-0 text-muted" />
+                  <img src="https://i.bluearcshow.com/images/pencil.png" alt="feedback" className="size-6" />
                 </div>
                 <div className="flex flex-col">{t('feedback')}</div>
                 <ChevronRight className="ms-auto size-4 shrink-0 text-muted" />
@@ -94,15 +100,15 @@ export default function UserInfo() {
               <ListBox.Item id="terms-of-service" textValue="Terms of Service" className="px-0" onPress={() => { window.location.href = '/terms/terms-of-service.html'; }}
               >
                 <div className="flex items-start justify-center pt-px">
-                  <Person className="size-6 shrink-0 text-muted" />
+                  <img src="https://i.bluearcshow.com/images/terms.png" alt="terms" className="size-6" />
                 </div>
                 <div className="flex flex-col">{t('terms')}</div>
-                <ChevronRight className="ms-auto size-4 shrink-0 text-muted" />
+                <ChevronRight className="ms-auto size-4 shrink-0 text-white" />
               </ListBox.Item>
               <ListBox.Item id="privacy-policy" textValue="Privacy Policy" className="px-0" onPress={() => { window.location.href = '/terms/privacy-policy.html'; }}
               >
                 <div className="flex items-start justify-center pt-px">
-                  <ShieldKeyhole className="size-6 shrink-0 text-muted" />
+                  <img src="https://i.bluearcshow.com/images/privacy.png" alt="privacy" className="size-6" />
                 </div>
                 <div className="flex flex-col">{t('privacy')}</div>
                 <ChevronRight className="ms-auto size-4 shrink-0 text-muted" />

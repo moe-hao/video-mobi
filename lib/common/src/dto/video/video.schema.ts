@@ -30,9 +30,15 @@ export const videoConfigUnlockReqSchema = z.object({
     })).default([]),
 });
 
+export const videoUnlockCoinReqSchema = z.object({
+    collectionBizId: z.string().default(''),
+    epNum: z.number().int().default(0),
+});
+
 export type VideoListReq = z.infer<typeof videoListReqSchema>;
 export type VideoSyncReq = z.infer<typeof videoSyncReqSchema>;
 export type VideoDownloadReq = z.infer<typeof videoDownloadReqSchema>;
 export type VideoLikeReq = z.infer<typeof videoLikeReqSchema>;
 export type VideoDownloadVodReq = z.infer<typeof videoDownloadVodSchema>;
 export type VideoConfigUnlockReq = z.infer<typeof videoConfigUnlockReqSchema>;
+export type VideoUnlockCoinReq = z.infer<typeof videoUnlockCoinReqSchema>;

@@ -1,4 +1,5 @@
 import type { PublishStatus } from "@lib/common/consts/collection";
+import type { UnlockStatus } from "@lib/common/consts/unlock-coin";
 
 export interface VideoPlayInfoResp {
     collectionBizId: string;
@@ -40,4 +41,8 @@ export interface VideoLikeResp {
 
 export interface VideoDownloadVodResp {
     url: string;
+}
+
+export interface VideoUnlockCoinResp {
+    status: UnlockStatus;
 }

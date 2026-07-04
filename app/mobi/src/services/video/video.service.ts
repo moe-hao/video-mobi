@@ -1,6 +1,6 @@
 import { DeleteStatus } from "@lib/common/consts/common-status";
 import { ResultCode } from "@lib/common/consts/result";
-import type { VideoPlayInfoResp, VideoPlayInfoListItem, VideoLikeResp } from "@lib/common/dto/video";
+import type { VideoPlayInfoResp, VideoPlayInfoListItem, VideoLikeResp, VideoUnlockCoinReq, VideoUnlockCoinResp } from "@lib/common/dto/video";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { vod } from "@lib/internal/vod";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
@@ -10,6 +10,8 @@ import { videoDao } from "@lib/repo/dao/video.dao";
 import { historyDao } from "@lib/repo/dao/history.dao";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
 import { currentTime } from "@lib/common/utils/time";
+import { userUnlockDao } from "@lib/repo/dao/user-unlock.dao";
+import { UnlockCommType } from "@lib/common/consts/unlock-coin";
 
 class VideoService {
     async getVideoPlayInfo(userInfo: UserAuthInfo, collectionBizId: string, epNum: number): Promise<VideoPlayInfoResp> {
@@ -17,6 +19,8 @@ class VideoService {
             memberDao.getMemberByUserId(userInfo.id),
             collectionDao.getCollectionByBizId(collectionBizId),
         ]);
+
+        const userUnlockList = await userUnlockDao.getUserUnlockByUserIdAndCollectionId(userInfo.id, collectionInfo.id);
 
         let isValidMember = false;
         if (memberInfo && memberInfo.expireTime >= currentTime()) {
@@ -35,7 +39,8 @@ class VideoService {
                 isLock: false,
             };
 
-            if (!isValidMember && collectionInfo.cutPoint !== 0 && collectionEpNum > collectionInfo.cutPoint) {
+            const isUserUnlocked = userUnlockList.some(unlock => unlock.epNum === collectionEpNum);
+            if (!isValidMember && collectionInfo.cutPoint !== 0 && collectionEpNum > collectionInfo.cutPoint && !isUserUnlocked) {
                 videoItem.isLock = true;
             }
 
@@ -124,6 +129,40 @@ class VideoService {
             isLike: isLike,
             likeTotal: likeTotal + collectionInfo.mockLike,
         };
+    }
+
+    async unlockByCoin(userInfo: UserAuthInfo, req: VideoUnlockCoinReq): Promise<VideoUnlockCoinResp> {
+        const [memberInfo, collectionInfo] = await Promise.all([
+            memberDao.getMemberByUserId(userInfo.id),
+            collectionDao.getCollectionByBizId(req.collectionBizId),
+        ]);
+
+        const currentVideoInfo = await videoDao.getVideoByCollectionIdAndEpNum(collectionInfo.id, req.epNum);
+        if (!memberInfo || memberInfo.coinNum === 0 || memberInfo.coinNum < currentVideoInfo.unlockCoinNum) {
+            return { status: 'should_payment' };
+        }
+
+        const userUnlockList = (await userUnlockDao.getUserUnlockByUserIdAndCollectionId(userInfo.id, collectionInfo.id)).filter(u => u.commType === UnlockCommType.Expense);
+        console.log(userUnlockList);
+        const prevEpNum = req.epNum - 1;
+        if (prevEpNum !== collectionInfo.cutPoint && !userUnlockList.some(u => u.epNum === prevEpNum)) {
+            return { status: 'invalid_unlock' };
+        }
+
+        const memberInfoCoinNum = memberInfo.coinNum - currentVideoInfo.unlockCoinNum;
+        await memberDao.updateMemberById(memberInfo.id, {
+            coinNum: memberInfoCoinNum,
+        });
+
+        await userUnlockDao.addUserUnlock({
+            userId: userInfo.id,
+            collectionId: collectionInfo.id,
+            coinNum: currentVideoInfo.unlockCoinNum,
+            epNum: req.epNum,
+            commType: UnlockCommType.Expense,
+        });
+
+        return { status: 'success' };
     }
 }
 

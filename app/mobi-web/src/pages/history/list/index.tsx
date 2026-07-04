@@ -108,8 +108,8 @@ export default function HistoryList() {
           <img className="w-[160px] object-cover rounded-md shadow-sm rounded-[6px]" src="https://s01.bluearcshow.com/images/no-data.png" alt="No Data" />
           <span className="text-white text-[12px] mt-2">No Watch History</span>
         </div>
-      ) : historyUserList.list?.map((item) => (
-        <div key={item.collectionBizId} className="relative overflow-hidden rounded-[20px] mb-4">
+      ) : historyUserList.list?.map((item, index) => (
+        <div key={index} className="relative overflow-hidden rounded-[20px] mb-4">
           <button
             className="absolute right-0 top-0 bottom-0 flex items-center justify-center bg-red-500 text-white"
             style={{ width: DELETE_BTN_WIDTH }}

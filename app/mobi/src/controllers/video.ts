@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { videoService } from "../services/video/video.service";
 import { success } from "@lib/common/dto/result";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
-import { videoLikeReqSchema } from "@lib/common/dto/video";
+import { videoLikeReqSchema, videoUnlockCoinReqSchema } from "@lib/common/dto/video";
 import { validated } from "@lib/middleware/validated";
 
 const video = new Hono();
@@ -29,6 +29,14 @@ video.get('/like_status', validated('query', videoLikeReqSchema), async (c) => {
 
     const resp = await videoService.getLikeStatus(user, req.collectionBizId);
     return c.json(success(resp));
-})
+});
+
+video.post('/unlock_coin', validated('json', videoUnlockCoinReqSchema), async (c) => {
+    const user = await c.get('user' as never) as UserAuthInfo;
+    const req = c.req.valid('json');
+
+    const resp = await videoService.unlockByCoin(user, req);
+    return c.json(success(resp));
+});
 
 export default video;

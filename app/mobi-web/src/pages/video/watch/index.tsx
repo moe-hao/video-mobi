@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import Loading from '@app/mobi-web/components/loading';
 import Payment from '@app/mobi-web/components/payment';
-import { useCollectionVideo, useLike, useLikeStatus } from '@app/mobi-web/hooks/video';
+import { useCollectionVideo, useLike, useLikeStatus, useUnlockCoin } from '@app/mobi-web/hooks/video';
 import { useToast } from '@app/mobi-web/contexts/toast-context';
 
 export default function VideoWatch() {
@@ -20,6 +20,7 @@ export default function VideoWatch() {
   const { videoPlayInfoResp, fetchVideoPlayInfo } = useCollectionVideo();
   const { fetchLike } = useLike();
   const { likeResp, fetchLikeStatus } = useLikeStatus();
+  const { fetchUnlockCoin } = useUnlockCoin();
 
   const [currentURL, setCurrentURL] = useState('');
   const [currentEpisode, setCurrentEpisode] = useState(episode);
@@ -216,9 +217,23 @@ export default function VideoWatch() {
   };
 
   const handleEpisodeButton = (episode: number, isLock: boolean) => {
-    changeEpisode(episode);
     if (isLock) {
-      setIsUnlockModalOpen(true);
+      fetchUnlockCoin({ collectionBizId: collectionId, epNum: episode }).then(async (result) => {
+        if (result.status === 'success') {
+          await fetchVideoPlayInfo(collectionId, currentEpisode);
+          changeEpisode(episode);
+        } else if (result.status === 'invalid_unlock') {
+          toastQueue.add({
+            title: "Please unlock previous episodes first",
+            variant: "warning",
+            timeout: 2000,
+          });
+        } else {
+          setIsUnlockModalOpen(true);
+        }
+      });
+    } else {
+      changeEpisode(episode);
     }
     setIsEpisodeModalOpen(false);
   };
@@ -272,10 +287,28 @@ export default function VideoWatch() {
         const nextVideo = videoPlayInfoResp.videoList?.find((item) => item.epNum === currentEpisode + 1);
         if (nextVideo?.isLock) {
           applyTransform(0, true);
-          setTimeout(() => {
-            setIsUnlockModalOpen(true);
-            setIsTransitioning(false);
-          }, 200);
+          fetchUnlockCoin({ collectionBizId: collectionId, epNum: currentEpisode + 1 }).then(async (result) => {
+            if (result.status === 'success') {
+              await fetchVideoPlayInfo(collectionId, currentEpisode);
+              applyTransform(-window.innerHeight, true);
+              setTimeout(() => {
+                changeEpisode(currentEpisode + 1);
+                setIsTransitioning(false);
+              }, 200);
+            } else if (result.status === 'invalid_unlock') {
+              toastQueue.add({
+                title: "Please unlock previous episodes first",
+                variant: "warning",
+                timeout: 2000,
+              });
+              applyTransform(0, true);
+              setIsTransitioning(false);
+            } else {
+              applyTransform(0, true);
+              setIsUnlockModalOpen(true);
+              setIsTransitioning(false);
+            }
+          });
         } else {
           applyTransform(-window.innerHeight, true);
           setTimeout(() => {
@@ -535,7 +568,7 @@ export default function VideoWatch() {
             onClick={() => setIsUnlockModalOpen(false)}
           />
           <div
-            className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white rounded-t-2xl p-4 z-50 max-h-[50vh] overflow-y-auto"
+            className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white rounded-t-2xl p-4 z-50 overflow-y-auto"
             style={{
               animation: 'slideUp 0.3s ease-out'
             }}
