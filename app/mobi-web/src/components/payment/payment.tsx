@@ -3,7 +3,7 @@ import { Button, Label, Link } from "@heroui/react";
 import { useEffect, useState } from "react";
 import PaymentPolicyTips from "./policy";
 import { useTranslation } from "react-i18next";
-// import PayPalButton from "./paypal-button";
+import PayPalButton from "./paypal-button";
 import { useUserOrderCreate } from "@app/mobi-web/hooks/user";
 import { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
 import { useSkuListState } from "@app/mobi-web/hooks/sku";
@@ -250,7 +250,7 @@ export default function Payment() {
                 </Button>
               </>
             )}
-            {/* <PayPalButton skuInfo={skuInfo} /> */}
+            {productInfo?.region === Region.US && <PayPalButton skuInfo={skuInfo} />}
             <PaymentPolicyTips />
             {
               productInfo?.region === Region.JP && (

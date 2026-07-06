@@ -69,14 +69,9 @@ export class PayssionWebhookService {
     private async handleSubscriptionCompleted(req: PayssionWebhookReq<PayssionWebhookSubscriptionData>) {
         const subscriptionNo = req.data.object.id;
         const subscriptionInfo = await subscriptionDao.getSubscriptionByNo(subscriptionNo);
-        const [orderInfo] = await orderDao.getOrderListByUserIdAndSubscriptionId(subscriptionInfo.userId, subscriptionInfo.id);
 
         await subscriptionDao.updateSubscriptionById(subscriptionInfo.id, {
-            subscriptionStatus: SubscriptionStatus.Active,
-        });
-
-        await orderDao.updateOrderById(orderInfo.id, {
-            subscriptionCount: req.data.object.times_completed,
+            subscriptionStatus: SubscriptionStatus.Finish,
         });
     }
 

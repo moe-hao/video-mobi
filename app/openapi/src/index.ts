@@ -21,4 +21,4 @@ const server = {
 
 serve(server, (info) => {
     logger.info(`Server is running success :${info.port}`);
-})
+});

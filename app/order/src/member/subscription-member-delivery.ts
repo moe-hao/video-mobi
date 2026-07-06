@@ -22,7 +22,7 @@ export class SubscriptionMemberDelivery implements MemberDelivery {
         if (!memberInfo) {
             await memberDao.addMember({
                 userId: this.orderInfo.userId,
-                expireTime: nowTime + shouldAddExpireTime,
+                expireTime: nowTime + shouldAddExpireTime + 86400,
             });
         } else {
             await memberDao.updateMemberById(memberInfo.id, {
@@ -49,7 +49,7 @@ export class SubscriptionMemberDelivery implements MemberDelivery {
 
     private getMemberExpireTime(currentExpireTime: number, shouldAddExpireTime: number): number {
         if (currentExpireTime <= shouldAddExpireTime) {
-            return currentTime() + shouldAddExpireTime;
+            return currentTime() + shouldAddExpireTime + 86400;
         }
         return currentExpireTime + shouldAddExpireTime;
     }
