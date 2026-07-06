@@ -1,7 +1,7 @@
 import { memberDao } from "@lib/repo/dao/member.dao";
 import type { MemberInfoResp } from "@lib/common/dto/member";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
-import { userUnlockDao } from "@lib/repo/dao/user-unlock.dao";
+import { userCoinHistoryDao } from "@lib/repo/dao/user-coin-history.dao";
 import type { UserCoinHistoryReq, UserCoinHistoryResp } from "@lib/common/dto/user";
 import type { UnlockCommType } from "@lib/common/consts/unlock-coin";
 import { formatUnixTime } from "@lib/common/utils/time";
@@ -24,8 +24,8 @@ export const memberService = {
 
     getMemberCoinHistory: async (user: UserAuthInfo, req: UserCoinHistoryReq): Promise<UserCoinHistoryResp> => {
         const [unlockList, unlockTotal] = await Promise.all([
-            userUnlockDao.getUnlockListByUserId(req.page, req.size, user.id),
-            userUnlockDao.getUnlockTotalByUserId(user.id),
+            userCoinHistoryDao.getCoinHistoryListByUserId(req.page, req.size, user.id),
+            userCoinHistoryDao.getCoinHistoryTotalByUserId(user.id),
         ]);
 
         return {

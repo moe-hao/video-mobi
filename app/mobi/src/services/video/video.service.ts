@@ -10,7 +10,7 @@ import { videoDao } from "@lib/repo/dao/video.dao";
 import { historyDao } from "@lib/repo/dao/history.dao";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
 import { currentTime } from "@lib/common/utils/time";
-import { userUnlockDao } from "@lib/repo/dao/user-unlock.dao";
+import { userCoinHistoryDao } from "@lib/repo/dao/user-coin-history.dao";
 import { UnlockCommType } from "@lib/common/consts/unlock-coin";
 
 class VideoService {
@@ -20,7 +20,7 @@ class VideoService {
             collectionDao.getCollectionByBizId(collectionBizId),
         ]);
 
-        const userUnlockList = await userUnlockDao.getUserUnlockByUserIdAndCollectionId(userInfo.id, collectionInfo.id);
+        const userUnlockList = await userCoinHistoryDao.getCoinHistoryListByUserIdAndCollectionId(userInfo.id, collectionInfo.id);
 
         let isValidMember = false;
         if (memberInfo && memberInfo.expireTime >= currentTime()) {
@@ -142,7 +142,7 @@ class VideoService {
             return { status: 'should_payment' };
         }
 
-        const userUnlockList = (await userUnlockDao.getUserUnlockByUserIdAndCollectionId(userInfo.id, collectionInfo.id)).filter(u => u.commType === UnlockCommType.Expense);
+        const userUnlockList = (await userCoinHistoryDao.getCoinHistoryListByUserIdAndCollectionId(userInfo.id, collectionInfo.id)).filter(u => u.commType === UnlockCommType.Expense);
         console.log(userUnlockList);
         const prevEpNum = req.epNum - 1;
         if (prevEpNum !== collectionInfo.cutPoint && !userUnlockList.some(u => u.epNum === prevEpNum)) {
@@ -154,7 +154,7 @@ class VideoService {
             coinNum: memberInfoCoinNum,
         });
 
-        await userUnlockDao.addUserUnlock({
+        await userCoinHistoryDao.addUserCoinHistory({
             userId: userInfo.id,
             collectionId: collectionInfo.id,
             coinNum: currentVideoInfo.unlockCoinNum,

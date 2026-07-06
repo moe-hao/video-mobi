@@ -227,17 +227,21 @@ export default function Payment() {
             </Button>
             {productInfo?.region === Region.BR && (
               <>
-                <PixButton onSubmit={handlePixSubmit} />
-                {/* <Button
-                  size="lg"
-                  className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
-                  onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.Pix)}
-                >
-                  <img src="https://i.bluearcshow.com/images/PIX_BR.png" alt="Pix" className="w-8" />
-                  <span className="ml-2">
-                    Pix
-                  </span>
-                </Button> */}
+                {
+                  skuInfo.skuType === SkuType.Subscription ? <PixButton onSubmit={handlePixSubmit} /> : (
+                    <Button
+                      size="lg"
+                      className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
+                      onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.Pix)}
+                    >
+                      <img src="https://i.bluearcshow.com/images/PIX_BR.png" alt="Pix" className="w-8" />
+                      <span className="ml-2">
+                        Pix
+                      </span>
+                    </Button>
+                  )
+                }
+
                 <Button
                   size="lg"
                   className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
@@ -250,7 +254,7 @@ export default function Payment() {
                 </Button>
               </>
             )}
-            {productInfo?.region === Region.US && <PayPalButton skuInfo={skuInfo} />}
+            {productInfo?.region === Region.US && skuInfo.skuType === SkuType.Subscription && <PayPalButton skuInfo={skuInfo} />}
             <PaymentPolicyTips />
             {
               productInfo?.region === Region.JP && (

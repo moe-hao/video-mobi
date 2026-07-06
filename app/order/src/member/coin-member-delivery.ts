@@ -2,7 +2,7 @@ import type { OrderSelect } from "@lib/repo/models/order";
 import type { MemberDelivery } from "./member-delivery";
 import { memberDao } from "@lib/repo/dao/member.dao";
 import { skuDao } from "@lib/repo/dao/sku.dao";
-import { userUnlockDao } from "@lib/repo/dao/user-unlock.dao";
+import { userCoinHistoryDao } from "@lib/repo/dao/user-coin-history.dao";
 import { UnlockCommType } from "@lib/common/consts/unlock-coin";
 
 export class CoinMemberDelivery implements MemberDelivery {
@@ -20,7 +20,7 @@ export class CoinMemberDelivery implements MemberDelivery {
                 coinNum: skuInfo.coinNum,
             });
 
-            await userUnlockDao.addUserUnlock({
+            await userCoinHistoryDao.addUserCoinHistory({
                 userId: this.orderInfo.userId,
                 collectionId: 0,
                 coinNum: skuInfo.coinNum,
