@@ -9,6 +9,7 @@ import type { OrderStatus } from "@lib/common/consts/order";
 import { useSearchParams } from "react-router";
 import DateRange, { dateRangeToUnixTimestamps } from "@app/manage-web/components/date-range";
 import ProductSelect from "@app/manage-web/components/product-select";
+import { SkuType } from "@lib/common/consts/sku";
 
 export default function OrderList() {
   const { orderListState, fetchOrderList } = useOrderListState();
@@ -102,20 +103,35 @@ export default function OrderList() {
                     <Tooltip delay={0} >
                       <Link>{item.collectionBizId}</Link>
                       <Tooltip.Content placement="right">
-                         <div className="flex items-center gap-2">
-                            <span className="text-muted-foreground font-medium flex-shrink-0">原名:</span>
-                            <span className="text-muted-foreground truncate">{item.collectionSourceName}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-muted-foreground font-medium flex-shrink-0">译名:</span>
-                            <span className="text-muted-foreground truncate">{item.collectionName}</span>
-                          </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-muted-foreground font-medium flex-shrink-0">原名:</span>
+                          <span className="text-muted-foreground truncate">{item.collectionSourceName}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-muted-foreground font-medium flex-shrink-0">译名:</span>
+                          <span className="text-muted-foreground truncate">{item.collectionName}</span>
+                        </div>
                       </Tooltip.Content>
                     </Tooltip>
                   </Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.currency} {item.amount}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">USD {item.dollar}</Table.Cell>
-                  <Table.Cell className="whitespace-nowrap">{item.subscriptionId === 0 ? '非订阅' : '订阅'}</Table.Cell>
+                  <Table.Cell className="whitespace-nowrap">
+                    {item.orderType === SkuType.Subscription ? (
+                      <Tooltip delay={0} >
+                        <Link>{item.orderType === SkuType.Subscription ? '订阅' : '金币'}</Link>
+                        <Tooltip.Content placement="right">
+                          <div className="flex items-center gap-2">
+                            <span className="text-muted-foreground font-medium flex-shrink-0">订阅id:</span>
+                            <span className="text-muted-foreground truncate">{item.subscriptionId}</span>
+                          </div>
+                        </Tooltip.Content>
+                      </Tooltip>
+                    ) : (
+                      <span>金币</span>
+                    )}
+
+                  </Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.subscriptionCount}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.paymentChennel}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.paymentTypeName}</Table.Cell>

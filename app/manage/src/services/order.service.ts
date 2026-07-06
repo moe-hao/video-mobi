@@ -7,6 +7,7 @@ import { formatUnixTime } from "@lib/common/utils/time";
 import { productDao } from "@lib/repo/dao/product.dao";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { exchangeProxy } from "@lib/repo/proxy/exchange/exchange";
+import type { SkuType } from "@lib/common/consts/sku";
 
 class OrderService {
     async getOrderList(req: OrderListReq): Promise<OrderListResp> {
@@ -75,6 +76,7 @@ class OrderService {
                 amount: item.amount,
                 currency: item.currency,
                 dollar: (Number(item.amount) * (exchangeRateMap.get(item.currency) || 0)).toFixed(2),
+                orderType: item.orderType as SkuType,
                 subscriptionId: item.subscriptionId,
                 subscriptionCount: item.subscriptionCount,
                 paymentChennel: item.paymentChannel,

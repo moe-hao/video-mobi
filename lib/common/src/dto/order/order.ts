@@ -1,5 +1,6 @@
 import type { OrderStatus } from "@lib/common/consts/order";
 import type { PaymentType } from "@lib/common/consts/payment";
+import type { SkuType } from "@lib/common/consts/sku";
 
 export interface OrderCreateResp {
     paymentId: string;
@@ -28,6 +29,7 @@ export interface OrderListRespItem {
     amount: string;
     currency: string;
     dollar: string;
+    orderType: SkuType;
     subscriptionId: number;
     subscriptionCount: number;
     paymentChennel: string;
