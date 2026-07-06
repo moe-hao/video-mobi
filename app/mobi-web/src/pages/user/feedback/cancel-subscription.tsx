@@ -1,10 +1,12 @@
 import { useToast } from "@app/mobi-web/contexts/toast-context";
 import { useUserCancelSubscription } from "@app/mobi-web/hooks/user/use-user-cancel-subscription";
 import { Button, Link, Modal } from "@heroui/react";
+import { useTranslation } from "react-i18next";
 
 export default function CancelSubscription() {
   const toastQueue = useToast();
   const { fetchUserCancelSubscription } = useUserCancelSubscription();
+  const { t } = useTranslation('', {keyPrefix: 'user-feedback'});
 
   const handleConfirmButton = async () => {
     await fetchUserCancelSubscription();
@@ -23,11 +25,11 @@ export default function CancelSubscription() {
           <Modal.Dialog className="w-full">
             <Modal.CloseTrigger />
             <Modal.Header>
-              <Modal.Heading>Cancel Subscription</Modal.Heading>
+              <Modal.Heading>{t('cancel-subscription')}</Modal.Heading>
             </Modal.Header>
             <Modal.Footer>
               <Button className="w-full" slot="close" onClick={handleConfirmButton}>
-                Confirm
+                {t('submit')}
               </Button>
             </Modal.Footer>
           </Modal.Dialog>

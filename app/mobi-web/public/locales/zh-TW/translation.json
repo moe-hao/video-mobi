@@ -28,6 +28,7 @@
         "login-now": "登錄",
         "all-ep-free": "所有劇集免費",
         "feedback": "問題反饋",
+        "coin-history": "金幣紀錄",
         "terms": "用戶條款",
         "privacy": "隱私政策"
     },
@@ -59,5 +60,21 @@
         "completed": "已完結",
         "total-episodes": "{{totalEpisodes}} 集",
         "share": "分享"
+    },
+    "user-feedback": {
+        "feedback": "Feedback",
+        "bug": "Bug",
+        "suggestion": "建議",
+        "payment": "付款",
+        "email": "電子郵件",
+        "description": "詳細說明",
+        "transaction-id": "交易 ID",
+        "submit": "提交",
+        "cancel-subscription": "取消訂閱"
+    },
+    "coin-history": {
+        "title": "金幣紀錄",
+        "received": "獲取",
+        "spent": "消耗"
     }
 }

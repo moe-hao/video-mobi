@@ -1,7 +1,12 @@
-import { count, desc, eq, inArray } from "drizzle-orm";
+import { and, count, desc, eq, inArray, like, or } from "drizzle-orm";
 import { productTable, type ProductInsert, type ProductSelect } from "../models/product";
 import { database, type DatabaseConn } from "@lib/internal/database";
 import { currentTime } from "@lib/common/utils/time";
+
+export type ProductListSearch = {
+    search: string;
+    region: string;
+}
 
 class ProductDao {
     constructor(private readonly conn: DatabaseConn = database) { }
@@ -13,13 +18,37 @@ class ProductDao {
         return result;
     }
 
-    async getProductPage(page: number, size: number): Promise<ProductSelect[]> {
-        return await this.conn.select().from(productTable).orderBy(desc(productTable.id)).offset((page - 1) * size).limit(size);
+    async getProductPage(page: number, size: number, search: ProductListSearch): Promise<ProductSelect[]> {
+        const conditions = this.buildSearchConditions(search);
+        return await this.conn.select().from(productTable)
+            .where(and(...conditions))
+            .orderBy(desc(productTable.id))
+            .offset((page - 1) * size)
+            .limit(size);
     }
 
-    async getProductCount(): Promise<number> {
-        const [result] = await this.conn.select({ count: count() }).from(productTable);
+    async getProductCount(search: ProductListSearch): Promise<number> {
+        const conditions = this.buildSearchConditions(search);
+        const [result] = await this.conn.select({ count: count() }).from(productTable)
+            .where(and(...conditions));
         return result.count;
+    }
+
+    private buildSearchConditions(search: ProductListSearch) {
+        const conditions = [];
+        if (search.search) {
+            const searchConditions = [
+                like(productTable.host, `%${search.search}%`),
+            ];
+            if (!isNaN(Number(search.search))) {
+                searchConditions.unshift(eq(productTable.id, Number(search.search)));
+            }
+            conditions.push(or(...searchConditions));
+        }
+        if (search.region) {
+            conditions.push(eq(productTable.region, search.region));
+        }
+        return conditions;
     }
 
     async getProductList(): Promise<ProductSelect[]> {

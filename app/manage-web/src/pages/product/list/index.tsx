@@ -6,15 +6,40 @@ import EditModalButton from "./edit-modal-button";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
 import RegionSelect from "@app/manage-web/components/region-select";
 import type { ProductListReq } from "@lib/common/dto/product";
+import type { Region } from "@lib/common/consts/region";
 import CreateModalButton from "./create-modal-button";
+import { useSearchParams } from "react-router";
 
 export default function ProductList() {
-  const [productTableReq, setProductTableReq] = useState<ProductListReq>({} as ProductListReq);
+  const [searchParams, setSearchParams] = useSearchParams();
   const { productTableState, fetchProductTable } = useProductTable();
 
+  const [productTableReq, setProductTableReq] = useState<ProductListReq>({
+    page: Number(searchParams.get('page')) || 1,
+    size: Number(searchParams.get('size')) || 20,
+    search: searchParams.get('search') || '',
+    region: (searchParams.get('region') || '') as Region | '',
+  });
+
+  const changeSearchParams = (req: ProductListReq) => {
+    setSearchParams({
+      page: req.page.toString(),
+      size: req.size.toString(),
+      search: req.search,
+      region: req.region,
+    });
+  };
+
+  const handleSearch = async (req: ProductListReq) => {
+    setProductTableReq(req);
+    changeSearchParams(req);
+    await fetchProductTable(req);
+  };
+
   useEffect(() => {
-    fetchProductTable();
-  }, [fetchProductTable]);
+    fetchProductTable(productTableReq);
+    changeSearchParams(productTableReq);
+  }, []);
 
   return (
     <div>
@@ -36,9 +61,9 @@ export default function ProductList() {
             onChange={(region) => setProductTableReq({ ...productTableReq, region })}
           />
         </div>
-        <Button variant="primary" size="sm">查询</Button>
+        <Button variant="primary" size="sm" onClick={() => handleSearch(productTableReq)}>查询</Button>
         <div className="flex-1"></div>
-        <CreateModalButton onSuccess={() => fetchProductTable()} />
+        <CreateModalButton onSuccess={() => handleSearch(productTableReq)} />
       </div>
       <Table>
         <Table.ScrollContainer>
@@ -70,8 +95,8 @@ export default function ProductList() {
                   <Table.Cell className="whitespace-nowrap">{item.createTime} </Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.updateTime}</Table.Cell>
                   <Table.Cell>
-                    <EditModalButton product={item} onSuccess={() => fetchProductTable()} />
-                    {/* <DeleteButton id={item.id} onConfirm={(id) => console.log(id)} onSuccess={() => fetchProductTable()} /> */}
+                    <EditModalButton product={item} onSuccess={() => handleSearch(productTableReq)} />
+                    {/* <DeleteButton id={item.id} onConfirm={(id) => console.log(id)} onSuccess={() => handleSearch(productTableReq)} /> */}
                   </Table.Cell>
                 </Table.Row>
               ))}
@@ -80,10 +105,12 @@ export default function ProductList() {
         </Table.ScrollContainer>
       </Table>
       <TablePagination
-        page={productTableState.page || 1}
-        size={productTableState.size || 10}
+        page={productTableReq.page || 1}
+        size={productTableReq.size || 20}
         total={productTableState.total || 0}
-        onPageChange={() => fetchProductTable()}
+        sizeOptions={[20, 50, 100]}
+        onPageChange={(page) => handleSearch({ ...productTableReq, page })}
+        onSizeChange={(size) => handleSearch({ ...productTableReq, size })}
       />
     </div>
   )

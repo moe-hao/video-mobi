@@ -65,13 +65,13 @@
     "user-feedback": {
         "feedback": "Feedback",
         "bug": "Bug",
-        "suggestion": "Suggestion",
-        "payment": "Payment",
-        "email": "Email",
-        "description": "Description",
-        "transaction-id": "Transaction ID",
-        "submit": "Submit",
-        "cancel-subscription": "Cancel Subscription"
+        "suggestion": "Sugestão",
+        "payment": "Pagamento",
+        "email": "E-mail",
+        "description": "Descrição",
+        "transaction-id": "ID da transação",
+        "submit": "Enviar",
+        "cancel-subscription": "Cancelar assinatura"
     },
     "coin-history": {
         "title": "Histórico de moedas",

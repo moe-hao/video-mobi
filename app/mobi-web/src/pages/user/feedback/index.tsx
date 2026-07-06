@@ -10,12 +10,14 @@ import { useToast } from "@app/mobi-web/contexts/toast-context";
 import type { FeedbackAddReq } from "@lib/common/dto/feedback";
 import { useFeedbackAdd } from "@app/mobi-web/hooks/feedback";
 import { FeedbackType } from "@lib/common/consts/feedback";
+import { useTranslation } from "react-i18next";
 
 export default function UserFeedback() {
   const toastQueue = useToast();
   const navigate = useNavigate();
   const { fetchFeedbackAdd } = useFeedbackAdd();
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation('', {keyPrefix: 'user-feedback'});
 
   const [feedbackAddReq, setFeedbackAddReq] = useState<FeedbackAddReq>({
     feedbackType: FeedbackType.Bug,
@@ -50,15 +52,15 @@ export default function UserFeedback() {
           <Tabs.ListContainer>
             <Tabs.List aria-label="Options">
               <Tabs.Tab id={FeedbackType.Bug}>
-                Bug
+                {t('bug')}
                 <Tabs.Indicator />
               </Tabs.Tab>
               <Tabs.Tab id={FeedbackType.Suggestion}>
-                Suggestion
+                {t('suggestion')}
                 <Tabs.Indicator />
               </Tabs.Tab>
               <Tabs.Tab id={FeedbackType.Payment}>
-                Payment
+                {t('payment')}
                 <Tabs.Indicator />
               </Tabs.Tab>
             </Tabs.List>
@@ -77,7 +79,7 @@ export default function UserFeedback() {
       <div className="px-6">
         <Button className="w-full bg-white text-black" variant="ghost" onClick={handleSubmit} isDisabled={loading}>
           {loading && <Spinner color="current" size="sm" />}
-          Submit
+          {t('submit')}
         </Button>
       </div>
       {

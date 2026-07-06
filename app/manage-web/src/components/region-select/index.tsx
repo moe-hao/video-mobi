@@ -2,7 +2,7 @@ import { Autocomplete, Label, Description, SearchField, ListBox, EmptyState, use
 import { useState } from "react";
 import { Region, RegionName } from "@lib/common/consts/region";
 
-export default function RegionSelect({ className, value, onChange }: { className?: string, value: Region | "", onChange: (region: Region) => void }) {
+export default function RegionSelect({ className, value, onChange }: { className?: string, value: Region | "", onChange: (region: Region | "") => void }) {
   const [searchValue, setSearchValue] = useState("");
   const { contains } = useFilter({ sensitivity: "base" });
 
@@ -14,7 +14,7 @@ export default function RegionSelect({ className, value, onChange }: { className
       placeholder="选择地区"
       selectionMode="single"
       defaultValue={value}
-      onChange={(region) => onChange(region as Region)}
+      onChange={(region) => onChange((region || '') as Region)}
     >
       <Label />
       < Autocomplete.Trigger >

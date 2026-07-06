@@ -1,19 +1,20 @@
 import type { CollectionType } from "@lib/common/consts/collection";
 import { Language, LanguageName, RegionName, type Region } from "@lib/common/consts/region";
-import type { ProductAddReq, ProductEditReq, ProductListResp, ProductListRespItem } from "@lib/common/dto/product";
+import type { ProductAddReq, ProductEditReq, ProductListReq, ProductListResp, ProductListRespItem } from "@lib/common/dto/product";
 import { formatUnixTime } from "@lib/common/utils/time";
 import { productDao } from "@lib/repo/dao/product.dao";
 
 class ProductService {
-    async getProductList(): Promise<ProductListResp> {
+    async getProductList(req: ProductListReq): Promise<ProductListResp> {
+        const search = { search: req.search, region: req.region };
         const [productList, productTotal] = await Promise.all([
-            productDao.getProductPage(1, 10),
-            productDao.getProductCount()
+            productDao.getProductPage(req.page, req.size, search),
+            productDao.getProductCount(search)
         ]);
 
         return {
-            page: 1,
-            size: 10,
+            page: req.page,
+            size: req.size,
             total: productTotal,
             list: productList.map((item) => ({
                 id: item.id,

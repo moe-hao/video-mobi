@@ -1,14 +1,14 @@
 import { Language, Region } from "@lib/common/consts/region";
 import z from "zod";
 
-export const ProductListReqSchema = z.object({
+export const productListReqSchema = z.object({
     page: z.coerce.number().min(1).default(1),
     size: z.coerce.number().min(1).default(20),
     search: z.string().default(''),
     region: z.enum(Region).or(z.literal('')).default(''),
 });
 
-export const ProductEditReqSchema = z.object({
+export const productEditReqSchema = z.object({
     id: z.coerce.number().nonoptional(),
     host: z.string().min(1),
     region: z.enum(Region).or(z.literal('')).default(''),
@@ -20,7 +20,7 @@ export const ProductEditReqSchema = z.object({
     collectionTypeList: z.array(z.number()).default([]),
 });
 
-export const ProductAddReqSchema = z.object({
+export const productAddReqSchema = z.object({
     host: z.string().min(1),
     region: z.enum(Region).or(z.literal('')).default(''),
     language: z.enum(Language).or(z.literal('')).default(''),
@@ -31,8 +31,8 @@ export const ProductAddReqSchema = z.object({
     collectionTypeList: z.array(z.number()).default([]),
 });
 
-export type ProductListReq = z.infer<typeof ProductListReqSchema>;
-export type ProductEditReq = z.infer<typeof ProductEditReqSchema>;
-export type ProductAddReq = z.infer<typeof ProductAddReqSchema>;
+export type ProductListReq = z.infer<typeof productListReqSchema>;
+export type ProductEditReq = z.infer<typeof productEditReqSchema>;
+export type ProductAddReq = z.infer<typeof productAddReqSchema>;
 
 

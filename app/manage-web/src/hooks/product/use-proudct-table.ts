@@ -1,15 +1,16 @@
 import { useCallback, useState } from "react";
 import { request } from "@lib/common/utils/request-manage";
-import type { ProductAddReq, ProductEditReq, ProductListResp } from "@lib/common/dto/product";
+import type { ProductAddReq, ProductEditReq, ProductListReq, ProductListResp } from "@lib/common/dto/product";
+import { convertURLSearchParams } from "@lib/common/utils/param";
 
 export function useProductTable(): {
   productTableState: ProductListResp;
-  fetchProductTable: () => Promise<ProductListResp>;
+  fetchProductTable: (req: ProductListReq) => Promise<ProductListResp>;
 } {
   const [productTableState, setProductTableState] = useState<ProductListResp>({} as ProductListResp);
 
-  const fetchProductTable = useCallback(async () => {
-    const result = await request<ProductListResp>("/api/product/list", "GET");
+  const fetchProductTable = useCallback(async (req: ProductListReq) => {
+    const result = await request<ProductListResp>(`/api/product/list?${convertURLSearchParams(req)}`, "GET");
     setProductTableState(result);
     return result;
   }, []);
