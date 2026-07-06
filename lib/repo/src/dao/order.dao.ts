@@ -8,6 +8,7 @@ import { OrderStatus } from "@lib/common/consts/order";
 
 export type SearchOrder = {
     search: string;
+    userId: string;
     status: OrderStatus | string;
     productId: number | string;
     startDate: string;
@@ -27,6 +28,14 @@ class OrderDao {
 
             searchConditions.push(eq(orderTable.bizId, search.search));
             conditions.push(or(...searchConditions));
+        }
+
+        if (search.userId) {
+            if (isNaN(Number(search.userId))) {
+                conditions.push(eq(orderTable.userId, -1));
+            } else {
+                conditions.push(eq(orderTable.userId, Number(search.userId)));
+            }
         }
 
         if (search.status !== '') {
@@ -58,6 +67,14 @@ class OrderDao {
 
             searchConditions.push(eq(orderTable.bizId, search.search));
             conditions.push(or(...searchConditions));
+        }
+
+        if (search.userId) {
+            if (isNaN(Number(search.userId))) {
+                conditions.push(eq(orderTable.userId, -1));
+            } else {
+                conditions.push(eq(orderTable.userId, Number(search.userId)));
+            }
         }
 
         if (search.status !== '') {

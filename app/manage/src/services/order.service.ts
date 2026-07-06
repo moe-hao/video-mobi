@@ -12,6 +12,7 @@ class OrderService {
     async getOrderList(req: OrderListReq): Promise<OrderListResp> {
         const search = {
             search: req.search,
+            userId: req.userId,
             status: req.status ?? '' as OrderStatus | '',
             productId: req.productId ?? '' as number | '',
             startDate: req.startDate,

@@ -13,7 +13,7 @@ import ProductSelect from "@app/manage-web/components/product-select";
 export default function OrderList() {
   const { orderListState, fetchOrderList } = useOrderListState();
   const [_searchParams, setSearchParams] = useSearchParams();
-  const [orderListReq, setOrderListReq] = useState<OrderListReq>({ page: 1, size: 20, search: "", status: "", productId: "", startDate: "", endDate: "" });
+  const [orderListReq, setOrderListReq] = useState<OrderListReq>({ page: 1, size: 20, search: "", userId: "", status: "", productId: "", startDate: "", endDate: "" });
   const [dateRange, setDateRange] = useState<any>(null);
 
   useEffect(() => {
@@ -57,6 +57,7 @@ export default function OrderList() {
             value={orderListReq.search}
             onChange={(e) => setOrderListReq({ ...orderListReq, search: e.target.value })}
           />
+          <Input aria-label="搜索用户" variant="secondary" placeholder="搜索用户ID" className="w-48" value={orderListReq.userId} onChange={(e) => setOrderListReq({ ...orderListReq, userId: e.target.value })} />
           <OrderStatusSelect className="w-48" value={orderListReq.status as OrderStatus} onChange={(status) => setOrderListReq({ ...orderListReq, status: status as string })} />
           <ProductSelect className="w-64" value={orderListReq.productId as number} onChange={(productId) => setOrderListReq({ ...orderListReq, productId: productId as number })} />
           <DateRange className="w-72" onChange={setDateRange} />
