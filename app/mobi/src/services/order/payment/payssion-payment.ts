@@ -1,6 +1,6 @@
 import { payssionProxy } from "@lib/repo/proxy/payment";
 import type { Payment, PaymentApproveInfo, PaymentInfo, PaymentOrder } from "./payment";
-import { SkuPeriodType, SkuPeriodTypeToPayssionPeriodType } from "@lib/common/consts/sku";
+import { SkuPeriodType, SkuPeriodTypeToPayssionPeriodType, SkuType } from "@lib/common/consts/sku";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
 import { uuid } from "@lib/common/utils/uuid";
 import { SubscriptionStatus } from "@lib/common/consts/subscription";
@@ -68,6 +68,7 @@ export class PayssionPayment implements Payment {
             skuId: paymentInfo.skuInfo.id,
             productId: paymentInfo.productInfo.id,
             pixelId: paymentInfo.pixelId,
+            orderType: SkuType.Subscription,
             paymentId: "",
             subscriptionId: subscriptionId,
             paymentChannel: this.orderPaymentChannel,
