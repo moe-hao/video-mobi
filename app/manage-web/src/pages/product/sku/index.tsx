@@ -2,6 +2,7 @@ import { useDeleteSku, useSkuList } from "@app/manage-web/hooks/sku";
 import { Button, Input, Table } from "@heroui/react";
 import { SkuImportant, SkuType } from "@lib/common/consts/sku";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router";
 import CreateModalButton from "./create-modal-button";
 import DeleteButton from "@app/manage-web/components/delete-button";
 import type { SkuManageListReq } from "@lib/common/dto/sku";
@@ -12,19 +13,32 @@ import TablePagination from "@app/manage-web/components/pagination/pagination";
 export default function SkuList() {
   const { skuManageListResp, fetchSkuList } = useSkuList();
   const { fetchDeleteSku } = useDeleteSku();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [skuManageListReq, setSkuManageListReq] = useState<SkuManageListReq>({
-    page: 1,
-    size: 20,
-    search: '',
-    productId: 0,
+    page: Number(searchParams.get('page')) || 1,
+    size: Number(searchParams.get('size')) || 20,
+    search: searchParams.get('search') || '',
+    productId: Number(searchParams.get('productId')) || 0,
   });
+
+  const changeSearchParams = (req: SkuManageListReq) => {
+    setSearchParams({
+      page: req.page.toString(),
+      size: req.size.toString(),
+      search: req.search,
+      productId: req.productId.toString(),
+    });
+  };
 
   useEffect(() => {
     fetchSkuList(skuManageListReq);
+    changeSearchParams(skuManageListReq);
   }, []);
 
   const handleSearch = async(req: SkuManageListReq) => {
+    setSkuManageListReq(req);
+    changeSearchParams(req);
     await fetchSkuList(req);
   }
 
@@ -42,7 +56,7 @@ export default function SkuList() {
             value={skuManageListReq.search}
             onChange={(e) => setSkuManageListReq({ ...skuManageListReq, search: e.target.value })}
           />
-          <ProductSelect className="w-[192px]" value={skuManageListReq.productId} onChange={(productId) => setSkuManageListReq({ ...skuManageListReq, productId })} />
+          <ProductSelect className="w-64" value={skuManageListReq.productId} onChange={(productId) => setSkuManageListReq({ ...skuManageListReq, productId })} />
         </div>
         <Button variant="primary" size="sm" onClick={() => handleSearch(skuManageListReq)}>查询</Button>
         <div className="flex-1"></div>

@@ -27,8 +27,8 @@ class SkuService {
         }, {} as Record<number, ProductSelect>);
 
         return {
-            page: 1,
-            size: 20,
+            page: req.page,
+            size: req.size,
             total: skuTotal,
             list: skuList.map((item) => ({
                 id: item.id,
