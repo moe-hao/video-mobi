@@ -20,7 +20,10 @@ export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageList
       price: sku.price,
       desc: sku.desc,
       skuType: sku.skuType as SkuType,
+      coinNum: sku.coinNum,
+      coinDesc: sku.coinDesc,
       periodType: sku.periodType as SkuPeriodType,
+      weight: sku.weight,
       important: sku.important as SkuImportant,
       paypalPlanId: sku.paypalPlanId,
       periodTotal: sku.periodTotal,
@@ -57,14 +60,36 @@ export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageList
                   <Label className="w-18  shrink-0 text-right">类型</Label>
                   <SkuTypeSelect className="flex-1" value={skuEditReq.skuType} onChange={(value) => setSkuEditReq({ ...skuEditReq, skuType: value as SkuType })} />
                 </div>
-                <div className="flex flex-row items-center gap-4 flex-1">
-                  <Label className="w-10 shrink-0 text-right">周期</Label>
-                  <SkuPeriodSelect className="flex-1" value={skuEditReq.periodType} onChange={(value) => setSkuEditReq({ ...skuEditReq, periodType: value as SkuPeriodType })} />
-                </div>
+                {
+                  skuEditReq.skuType === SkuType.Subscription ? (
+                    <div className="flex flex-row items-center gap-4 flex-1">
+                      <Label className="w-10 shrink-0 text-right">周期</Label>
+                      <SkuPeriodSelect className="flex-1" value={skuEditReq.periodType as SkuPeriodType} onChange={(value) => setSkuEditReq({ ...skuEditReq, periodType: value as SkuPeriodType })} />
+                    </div>
+                  ) : (
+                    <div className="flex flex-row items-center gap-4 flex-1">
+                      <Label className="w-10 shrink-0 text-right">个数</Label>
+                      <Input className="flex-1" variant="secondary" placeholder="输入个数" value={skuEditReq.coinNum} onChange={(e) => setSkuEditReq({ ...skuEditReq, coinNum: Number(e.target.value) })} />
+                    </div>
+                  )
+                }
               </div>
+              {
+                skuEditReq.skuType === SkuType.Subscription ? (
+                  <div className="flex flex-row items-center gap-4">
+                    <Label className="w-18  shrink-0 text-right">周期总数</Label>
+                    <Input variant="secondary" className="flex-1" value={skuEditReq.periodTotal} type="number" onChange={(e) => setSkuEditReq({ ...skuEditReq, periodTotal: Number(e.target.value) })} />
+                  </div>
+                ) : (
+                  <div className="flex flex-row items-center gap-4">
+                    <Label className="w-18 shrink-0 text-right">金币描述</Label>
+                    <Input variant="secondary" className="flex-1" placeholder="输入金币描述" value={skuEditReq.coinDesc} onChange={(e) => setSkuEditReq({ ...skuEditReq, coinDesc: e.target.value })} />
+                  </div>
+                )
+              }
               <div className="flex flex-row items-center gap-4">
-                <Label className="w-18  shrink-0 text-right">周期总数</Label>
-                <Input variant="secondary" className="flex-1" value={skuEditReq.periodTotal} type="number" onChange={(e) => setSkuEditReq({ ...skuEditReq, periodTotal: Number(e.target.value) })} />
+                <Label className="w-18 shrink-0 text-right">权重</Label>
+                <Input variant="secondary" className="flex-1" value={skuEditReq.weight} onChange={(e) => setSkuEditReq({ ...skuEditReq, weight: Number(e.target.value) })} />
               </div>
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-18 shrink-0 text-right">重点展示</Label>

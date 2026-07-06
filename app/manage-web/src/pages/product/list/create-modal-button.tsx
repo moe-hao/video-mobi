@@ -1,4 +1,4 @@
-import { Button, Input, Label, Modal } from "@heroui/react";
+import { Button, Input, Label, Modal, Switch } from "@heroui/react";
 import { useEffect, useState } from "react";
 import LanguageSelect from "@app/manage-web/components/language-select";
 import type { ProductAddReq } from "@lib/common/dto/product";
@@ -61,6 +61,19 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-14 shrink-0">货币符号</Label>
                 <Input variant="secondary" className="flex-1" onChange={(e) => setProductAddReq({ ...productAddReq, currencySign: e.target.value })} />
+              </div>
+              <div className="flex flex-row items-center gap-4">
+                <Label className="w-14 shrink-0">开启金币</Label>
+                <Switch
+                  isSelected={productAddReq.coinUnlock === 1}
+                  onChange={(checked: boolean) => setProductAddReq({ ...productAddReq, coinUnlock: checked ? 1 : 0 })}
+                >
+                  <Switch.Content>
+                    <Switch.Control>
+                      <Switch.Thumb />
+                    </Switch.Control>
+                  </Switch.Content>
+                </Switch>
               </div>
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-14 shrink-0">备注</Label>

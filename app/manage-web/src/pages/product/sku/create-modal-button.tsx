@@ -10,7 +10,15 @@ import { SkuPeriodSelect } from "./sku-period-select";
 
 export default function CreateModalButton({ onSuccess }: { onSuccess?: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [skuAddReq, setSkuAddReq] = useState<SkuAddReq>({} as SkuAddReq);
+  const [skuAddReq, setSkuAddReq] = useState<SkuAddReq>({
+    coinNum: 0,
+    coinDesc: "",
+    periodType: "",
+    periodTotal: 0,
+    weight: 0,
+    desc: "",
+    paypalPlanId: "",
+  } as SkuAddReq);
   const { fetchAddSku } = useAddSku();
 
   useEffect(() => {
@@ -41,21 +49,43 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
               </div>
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-18 shrink-0 text-right">价格</Label>
-                <Input variant="secondary" className="flex-1" onChange={(e) => setSkuAddReq({ ...skuAddReq, price: e.target.value })} />
+                <Input variant="secondary" className="flex-1" placeholder="输入价格" onChange={(e) => setSkuAddReq({ ...skuAddReq, price: e.target.value })} />
               </div>
               <div className="flex flex-row items-center gap-2">
                 <div className="flex flex-row items-center gap-4 flex-1">
                   <Label className="w-18  shrink-0 text-right">类型</Label>
                   <SkuTypeSelect className="flex-1" value={skuAddReq.skuType} onChange={(value) => setSkuAddReq({ ...skuAddReq, skuType: value as SkuType })} />
                 </div>
-                <div className="flex flex-row items-center gap-4 flex-1">
-                  <Label className="w-10 shrink-0 text-right">周期</Label>
-                  <SkuPeriodSelect className="flex-1" value={skuAddReq.periodType} onChange={(value) => setSkuAddReq({ ...skuAddReq, periodType: value as SkuPeriodType })} />
-                </div>
+                {
+                  skuAddReq.skuType === SkuType.Subscription ? (
+                    <div className="flex flex-row items-center gap-4 flex-1">
+                      <Label className="w-10 shrink-0 text-right">周期</Label>
+                      <SkuPeriodSelect className="flex-1" value={skuAddReq.periodType as SkuPeriodType} onChange={(value) => setSkuAddReq({ ...skuAddReq, periodType: value as SkuPeriodType })} />
+                    </div>
+                  ) : (
+                    <div className="flex flex-row items-center gap-4 flex-1">
+                      <Label className="w-10 shrink-0 text-right">个数</Label>
+                      <Input className="flex-1" variant="secondary" placeholder="输入个数" value={skuAddReq.coinNum} onChange={(e) => setSkuAddReq({ ...skuAddReq, coinNum: Number(e.target.value) })} />
+                    </div>
+                  )
+                }
               </div>
+              {
+                skuAddReq.skuType === SkuType.Subscription ? (
+                  <div className="flex flex-row items-center gap-4">
+                    <Label className="w-18  shrink-0 text-right">周期总数</Label>
+                    <Input variant="secondary" className="flex-1" value={skuAddReq.periodTotal} type="number" onChange={(e) => setSkuAddReq({ ...skuAddReq, periodTotal: Number(e.target.value) })} />
+                  </div>
+                ) : (
+                  <div className="flex flex-row items-center gap-4">
+                    <Label className="w-18 shrink-0 text-right">金币描述</Label>
+                    <Input variant="secondary" className="flex-1" placeholder="输入金币描述" value={skuAddReq.coinDesc} onChange={(e) => setSkuAddReq({ ...skuAddReq, coinDesc: e.target.value })} />
+                  </div>
+                )
+              }
               <div className="flex flex-row items-center gap-4">
-                <Label className="w-18  shrink-0 text-right">周期总数</Label>
-                <Input variant="secondary" className="flex-1" value={skuAddReq.periodTotal} type="number" onChange={(e) => setSkuAddReq({ ...skuAddReq, periodTotal: Number(e.target.value) })} />
+                <Label className="w-18 shrink-0 text-right">权重</Label>
+                <Input variant="secondary" className="flex-1" value={skuAddReq.weight} onChange={(e) => setSkuAddReq({ ...skuAddReq, weight: Number(e.target.value) })} />
               </div>
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-18 shrink-0 text-right">重点展示</Label>
@@ -65,10 +95,12 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
                 <Label className="w-18  shrink-0 text-right">横幅描述</Label>
                 <Input variant="secondary" className="flex-1" onChange={(e) => setSkuAddReq({ ...skuAddReq, desc: e.target.value })} />
               </div>
-              <div className="flex flex-row items-center gap-4">
-                <Label className="w-18 shrink-0 text-right">PayPal计划</Label>
-                <Input variant="secondary" className="flex-1" onChange={(e) => setSkuAddReq({ ...skuAddReq, paypalPlanId: e.target.value })} />
-              </div>
+              {skuAddReq.skuType === SkuType.Subscription && (
+                <div className="flex flex-row items-center gap-4">
+                  <Label className="w-18 shrink-0 text-right">PayPal计划</Label>
+                  <Input variant="secondary" className="flex-1" onChange={(e) => setSkuAddReq({ ...skuAddReq, paypalPlanId: e.target.value })} />
+                </div>
+              )}
             </Modal.Body>
             <Modal.Footer>
               <Button type="submit" onClick={handleProductEditButton}>

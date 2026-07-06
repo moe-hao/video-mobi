@@ -1,4 +1,4 @@
-import { Button, Input, Label, Link, Modal } from "@heroui/react";
+import { Button, Input, Label, Link, Modal, Switch } from "@heroui/react";
 import { useEffect, useState } from "react";
 import LanguageSelect from "@app/manage-web/components/language-select";
 import type { ProductEditReq, ProductListRespItem } from "@lib/common/dto/product";
@@ -22,6 +22,7 @@ export default function EditModalButton({ product, onSuccess }: { product: Produ
       currency: product.currency,
       currencySign: product.currencySign,
       collectionTypeList: product.collectionTypeList,
+      coinUnlock: product.coinUnlock,
       desc: product.desc,
     });
   }, [isOpen, product]);
@@ -71,6 +72,19 @@ export default function EditModalButton({ product, onSuccess }: { product: Produ
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-14 shrink-0">货币符号</Label>
                 <Input variant="secondary" className="flex-1" value={productEditReq.currencySign} onChange={(e) => setProductEditReq({ ...productEditReq, currencySign: e.target.value })} />
+              </div>
+              <div className="flex flex-row items-center gap-4">
+                <Label className="w-14 shrink-0">开启金币</Label>
+                <Switch
+                  isSelected={productEditReq.coinUnlock === 1}
+                  onChange={(checked: boolean) => setProductEditReq({ ...productEditReq, coinUnlock: checked ? 1 : 0 })}
+                >
+                  <Switch.Content>
+                    <Switch.Control>
+                      <Switch.Thumb />
+                    </Switch.Control>
+                  </Switch.Content>
+                </Switch>
               </div>
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-14 shrink-0">备注</Label>

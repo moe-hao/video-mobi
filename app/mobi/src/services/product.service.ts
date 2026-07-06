@@ -13,6 +13,7 @@ class ProductService {
             language: productInfo.language as Language,
             currency: productInfo.currency,
             currencySign: productInfo.currencySign,
+            coinUnlock: productInfo.coinUnlock,
         };
     }
 }

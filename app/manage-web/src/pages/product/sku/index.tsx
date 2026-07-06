@@ -1,6 +1,6 @@
 import { useDeleteSku, useSkuList } from "@app/manage-web/hooks/sku";
 import { Button, Input, Table } from "@heroui/react";
-import { SkuImportant } from "@lib/common/consts/sku";
+import { SkuImportant, SkuType } from "@lib/common/consts/sku";
 import { useEffect, useState } from "react";
 import CreateModalButton from "./create-modal-button";
 import DeleteButton from "@app/manage-web/components/delete-button";
@@ -57,7 +57,8 @@ export default function SkuList() {
               <Table.Column className="whitespace-nowrap">产品域名</Table.Column>
               <Table.Column className="whitespace-nowrap">价格</Table.Column>
               <Table.Column className="whitespace-nowrap">类型</Table.Column>
-              <Table.Column className="whitespace-nowrap">周期</Table.Column>
+              <Table.Column className="whitespace-nowrap">权重</Table.Column>
+              <Table.Column className="whitespace-nowrap">周期/金币数量</Table.Column>
               <Table.Column className="whitespace-nowrap">横幅描述</Table.Column>
               <Table.Column className="whitespace-nowrap">重点展示</Table.Column>
               <Table.Column className="whitespace-nowrap">PayPal计划ID</Table.Column>
@@ -73,7 +74,8 @@ export default function SkuList() {
                   <Table.Cell className="whitespace-nowrap">{item.productHost}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.currency} {item.price}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.skuTypeName}</Table.Cell>
-                  <Table.Cell className="whitespace-nowrap">{item.periodTypeName}</Table.Cell>
+                  <Table.Cell className="whitespace-nowrap">{item.weight}</Table.Cell>
+                  <Table.Cell className="whitespace-nowrap">{item.skuType === SkuType.Subscription ? item.periodTypeName : item.coinNum}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.desc}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.important === SkuImportant.Yes ? "是" : "否"}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.paypalPlanId}</Table.Cell>

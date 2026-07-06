@@ -11,7 +11,7 @@ import { useUserMemberInfo, useUserSubscriptionInfo } from "@app/mobi-web/hooks/
 export default function UserInfo() {
   const navigate = useNavigate();
   const { t } = useTranslation('', { keyPrefix: 'user-info' });
-  const { userInfo } = useVideoMobiContext();
+  const { userInfo, productInfo } = useVideoMobiContext();
   const { userMemberInfoState, fetchUserMemberInfo } = useUserMemberInfo();
   const { fetchUserSubscriptionInfo } = useUserSubscriptionInfo();
 
@@ -50,7 +50,7 @@ export default function UserInfo() {
 
           <div className="rounded-[1.5rem] bg-gradient-to-b from-[#232323cc] to-black p-4 backdrop-blur-[10px] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5),0_2px_4px_rgba(0,0,0,0.3),inset_0_1px_0_0_rgba(255,255,255,0.15),inset_0_-1px_0_0_rgba(0,0,0,0.3)]">
             <div className="flex flex-row gap-2 mb-4">
-              <Card className="w-2/3 bg-gradient-to-r from-[#3D4AE0] to-[#84A1FF] border-none rounded-[1.5rem]" onClick={() => navigate('/user/store')}>
+              <Card className={`${productInfo?.coinUnlock ? 'w-2/3' : 'w-full'} bg-gradient-to-r from-[#3D4AE0] to-[#84A1FF] border-none rounded-[1.5rem]`} onClick={() => navigate('/user/store')}>
                 <Card.Content className="flex flex-row items-center justify-between gap-4 px-2 py-1">
                   <div className="flex flex-1 items-center gap-4 min-w-0">
                     {/* <img src="https://s01.bluearcshow.com/images/vip.png" alt="premium" className="size-14" /> */}
@@ -70,17 +70,19 @@ export default function UserInfo() {
                   <ChevronRight />
                 </Card.Content>
               </Card>
-              <Card className="w-1/3 bg-gradient-to-br from-[#FFC700] to-[#F89539] border-none rounded-[1.5rem] relative overflow-hidden" onClick={() => navigate('/user/store')}>
-                <Card.Content className="flex flex-row items-center  px-1">
-                  <div className="flex flex-1 items-center gap-4 min-w-0">
-                    <div className="flex flex-1 flex-col gap-1 min-w-0">
-                      <h2 className="text-lg font-bold text-white tracking-wider">{userMemberInfoState.coinNum}</h2>
-                      <img src="https://i.bluearcshow.com/images/right-001.png" alt="icon" className="size-5" />
+              {productInfo?.coinUnlock ? (
+                <Card className="w-1/3 bg-gradient-to-br from-[#FFC700] to-[#F89539] border-none rounded-[1.5rem] relative overflow-hidden" onClick={() => navigate('/user/store')}>
+                  <Card.Content className="flex flex-row items-center  px-1">
+                    <div className="flex flex-1 items-center gap-4 min-w-0">
+                      <div className="flex flex-1 flex-col gap-1 min-w-0">
+                        <h2 className="text-lg font-bold text-white tracking-wider">{userMemberInfoState.coinNum}</h2>
+                        <img src="https://i.bluearcshow.com/images/right-001.png" alt="icon" className="size-5" />
+                      </div>
                     </div>
-                  </div>
-                </Card.Content>
-                <img src="https://i.bluearcshow.com/images/coin.png" alt="coin" className="absolute -bottom-0.5 right-1 size-13" />
-              </Card>
+                  </Card.Content>
+                  <img src="https://i.bluearcshow.com/images/coin.png" alt="coin" className="absolute -bottom-0.5 right-1 size-13" />
+                </Card>
+              ) : null}
             </div>
             <ListBox aria-label="user-actions" className="w-full gap-6 py-6" selectionMode="single">
               <ListBox.Item id="coin" textValue="Coin" className="px-0" onPress={() => navigate('/user/coin')}>

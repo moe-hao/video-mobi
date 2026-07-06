@@ -24,6 +24,7 @@ class ProductService {
                 languageName: LanguageName[item.language as Language],
                 currency: item.currency,
                 currencySign: item.currencySign,
+                coinUnlock: item.coinUnlock,
                 desc: item.desc,
                 collectionTypeList: JSON.parse(item.collectionTypeList || "[]") as CollectionType[],
                 createTime: formatUnixTime(item.createTime),
@@ -44,6 +45,7 @@ class ProductService {
             languageName: LanguageName[item.language as Language],
             currency: item.currency,
             currencySign: item.currencySign,
+            coinUnlock: item.coinUnlock,
             collectionTypeList: JSON.parse(item.collectionTypeList || "[]") as CollectionType[],
             desc: item.desc,
             createTime: formatUnixTime(item.createTime),
@@ -58,6 +60,7 @@ class ProductService {
             language: req.language,
             currency: req.currency,
             currencySign: req.currencySign,
+            coinUnlock: req.coinUnlock,
             desc: req.desc,
             collectionTypeList: JSON.stringify(req.collectionTypeList),
         });
@@ -70,6 +73,7 @@ class ProductService {
             language: req.language,
             currency: req.currency,
             currencySign: req.currencySign,
+            coinUnlock: req.coinUnlock,
             desc: req.desc,
             collectionTypeList: JSON.stringify(req.collectionTypeList),
         });

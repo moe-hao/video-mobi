@@ -6,6 +6,7 @@ export interface ProductInfoResp {
     language: Language;
     currency: string;
     currencySign: string;
+    coinUnlock: number;
 }
 
 export interface ProductListResp {
@@ -24,6 +25,7 @@ export interface ProductListRespItem {
     languageName: string;
     currency: string;
     currencySign: string;
+    coinUnlock: number;
     desc: string;
     collectionTypeList: CollectionType[];
     createTime: string;

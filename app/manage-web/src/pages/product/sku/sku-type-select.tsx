@@ -1,5 +1,5 @@
 import { ListBox, Select } from "@heroui/react";
-import { SkuType } from "@lib/common/consts/sku";
+import { SkuType, SkuTypeName } from "@lib/common/consts/sku";
 
 export function SkuTypeSelect({ className, value, onChange }: { className?: string, value: SkuType, onChange: (value: SkuType) => void }) {
   return (
@@ -10,7 +10,11 @@ export function SkuTypeSelect({ className, value, onChange }: { className?: stri
       </Select.Trigger>
       <Select.Popover>
         <ListBox>
-          <ListBox.Item key={SkuType.Subscription} id={SkuType.Subscription} textValue="订阅">订阅</ListBox.Item>
+          {
+            Object.entries(SkuTypeName).map(([key, value]) => {
+              return <ListBox.Item key={key} id={key} textValue={key}>{value}</ListBox.Item>;
+            })
+          }
         </ListBox>
       </Select.Popover>
     </Select>
