@@ -25,8 +25,10 @@ export default function OrderList() {
       page: req.page.toString(),
       size: req.size.toString(),
       search: req.search.toString(),
+      userId: req.userId.toString(),
       status: req.status.toString(),
-      ...(req.startDate ? { startDate: req.startDate, endDate: req.endDate } : {}),
+      productId: req.productId.toString(),
+      ...(req.startDate ? { startDate: req.startDate, endDate: req.endDate } : { startDate: "", endDate: "" }),
     });
   }
 
