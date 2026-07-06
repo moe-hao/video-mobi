@@ -12,6 +12,7 @@
     "@gravity-ui/icons": "^2.18.0",
     "@heroui/react": "^3.0.3",
     "@heroui/styles": "^3.0.3",
+    "@internationalized/date": "^3.12.2",
     "@lib/common": "workspace:*",
     "@loadable/component": "^5.16.7",
     "framer-motion": "^12.38.0",

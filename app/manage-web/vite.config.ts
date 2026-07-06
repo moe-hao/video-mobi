@@ -21,6 +21,9 @@ export default defineConfig({
       '@app/manage-web': path.resolve(__dirname, './src'),
     }
   },
+  optimizeDeps: {
+    include: ['@internationalized/date'],
+  },
   build: {
     minify: true,
 

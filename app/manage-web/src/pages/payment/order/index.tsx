@@ -7,37 +7,37 @@ import type { OrderListReq } from "@lib/common/dto/order";
 import OrderStatusSelect from "@app/manage-web/components/order-select";
 import type { OrderStatus } from "@lib/common/consts/order";
 import { useSearchParams } from "react-router";
-import DateRange, { dateRangeToUnixTimestamps } from "@app/manage-web/components/date-range";
+import DateRange, { type DateRangeValue } from "@app/manage-web/components/date-range";
 import ProductSelect from "@app/manage-web/components/product-select";
 import { SkuType } from "@lib/common/consts/sku";
 
 export default function OrderList() {
   const { orderListState, fetchOrderList } = useOrderListState();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [orderListReq, setOrderListReq] = useState<OrderListReq>({
+
+  const initialParams = {
     page: Number(searchParams.get('page')) || 1,
     size: Number(searchParams.get('size')) || 20,
-    search: searchParams.get('search') || "",
-    userId: searchParams.get('userId') || "",
-    status: searchParams.get('status') || "",
-    productId: searchParams.get('productId') || "",
-    startDate: searchParams.get('startDate') || "",
-    endDate: searchParams.get('endDate') || "",
-  });
-  const [dateRange, setDateRange] = useState<any>(null);
+    search: searchParams.get('search') || '',
+    userId: searchParams.get('userId') || '',
+    status: searchParams.get('status') || '',
+    productId: searchParams.get('productId') || '',
+    startDate: searchParams.get('startDate') || '',
+    endDate: searchParams.get('endDate') || '',
+  };
+
+  const initDateRange: DateRangeValue | null =
+    initialParams.startDate && initialParams.endDate
+      ? { start: Number(initialParams.startDate), end: Number(initialParams.endDate) }
+      : null;
+
+  const [orderListReq, setOrderListReq] = useState<OrderListReq>(initialParams);
+  const [dateRange, setDateRange] = useState<DateRangeValue | null>(initDateRange);
 
   useEffect(() => {
-    const initReq = {
-      ...orderListReq,
-      ...(searchParams.get('startDate') ? { startDate: searchParams.get('startDate')!, endDate: searchParams.get('endDate')! } : {}),
-    };
-    if (!searchParams.get('startDate')) {
-      handleSearch(orderListReq);
-    } else {
-      changeSearchParams(initReq);
-      fetchOrderList(initReq);
-    }
-  }, [fetchOrderList]);
+    fetchOrderList(initialParams);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const changeSearchParams = (req: OrderListReq) => {
     setSearchParams({
@@ -52,11 +52,10 @@ export default function OrderList() {
   }
 
   const handleSearch = async (req: OrderListReq) => {
-    const timestamps = dateRangeToUnixTimestamps(dateRange);
     const finalReq = {
       ...req,
-      ...(timestamps
-        ? { startDate: timestamps.startTimestamp.toString(), endDate: timestamps.endTimestamp.toString() }
+      ...(dateRange
+        ? { startDate: dateRange.start.toString(), endDate: dateRange.end.toString() }
         : { startDate: "", endDate: "" }),
     };
     changeSearchParams(finalReq);
@@ -79,9 +78,9 @@ export default function OrderList() {
             onChange={(e) => setOrderListReq({ ...orderListReq, search: e.target.value })}
           />
           <Input aria-label="搜索用户" variant="secondary" placeholder="搜索用户ID" className="w-48" value={orderListReq.userId} onChange={(e) => setOrderListReq({ ...orderListReq, userId: e.target.value })} />
-          <OrderStatusSelect className="w-48" value={orderListReq.status as OrderStatus} onChange={(status) => setOrderListReq({ ...orderListReq, status: status as string })} />
-          <ProductSelect className="w-64" value={orderListReq.productId as number} onChange={(productId) => setOrderListReq({ ...orderListReq, productId: productId as number })} />
-          <DateRange className="w-72" onChange={setDateRange} />
+          <OrderStatusSelect className="w-48" value={orderListReq.status ? Number(orderListReq.status) as OrderStatus : ''} onChange={(status) => setOrderListReq({ ...orderListReq, status: status as string })} />
+          <ProductSelect className="w-64" value={orderListReq.productId ? Number(orderListReq.productId) : ""} onChange={(productId) => setOrderListReq({ ...orderListReq, productId: productId as number })} />
+          <DateRange className="w-72" defaultValue={initDateRange} onChange={setDateRange} />
         </div>
         <Button variant="primary" size="sm" onClick={() => handleSearch(orderListReq)}>查询</Button>
         <div className="flex-1"></div>

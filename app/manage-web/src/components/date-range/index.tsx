@@ -1,30 +1,35 @@
+import { CalendarDate, type DateValue } from "@internationalized/date";
 import { DateField, DateRangePicker, I18nProvider, RangeCalendar } from "@heroui/react";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
-/** 与 @internationalized/date CalendarDate 兼容的日期值 */
-interface CalendarDateLike {
-  readonly year: number;
-  readonly month: number;
-  readonly day: number;
-  toDate(timeZone: string): Date;
+/** 时间戳组成的日期范围值 */
+export interface DateRangeValue {
+  start: number;
+  end: number;
 }
-
-/** 与 @react-types/shared RangeValue 兼容的日期范围 */
-interface RangeValueLike<T> {
-  start: T;
-  end: T;
-}
-
-type DateRangeValue = RangeValueLike<CalendarDateLike> | null;
 
 interface DateRangeProps {
   className?: string;
   startName?: string;
   endName?: string;
-  defaultValue?: DateRangeValue;
-  onChange?: (value: DateRangeValue) => void;
+  /** 默认值，传入 Unix 时间戳 */
+  defaultValue?: DateRangeValue | null;
+  /** 回调，返回 Unix 时间戳 */
+  onChange?: (value: DateRangeValue | null) => void;
   /** 最大可选日期范围（天数），不传则不限制 */
   maxRangeDays?: number;
+}
+
+/** 时间戳 -> CalendarDate */
+function timestampToCalendarDate(ts: number): CalendarDate {
+  const d = new Date(ts * 1000);
+  return new CalendarDate(d.getFullYear(), d.getMonth() + 1, d.getDate());
+}
+
+/** CalendarDate -> 时间戳 */
+function calendarDateToTimestamp(date: DateValue, endOfDay = false): number {
+  const d = new Date(date.year, date.month - 1, date.day, endOfDay ? 23 : 0, endOfDay ? 59 : 0, endOfDay ? 59 : 0);
+  return Math.floor(d.getTime() / 1000);
 }
 
 export default function DateRange({
@@ -35,20 +40,35 @@ export default function DateRange({
   onChange,
   maxRangeDays,
 }: DateRangeProps) {
-  const [value, setValue] = useState<DateRangeValue>(defaultValue);
+  const initialValue = useMemo(() => {
+    if (!defaultValue) return null;
+    return {
+      start: timestampToCalendarDate(defaultValue.start),
+      end: timestampToCalendarDate(defaultValue.end),
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const [value, setValue] = useState(initialValue);
 
   const handleChange = useCallback(
-    (val: DateRangeValue) => {
+    (val: typeof initialValue) => {
       setValue(val);
-      onChange?.(val);
+      if (!val) {
+        onChange?.(null);
+        return;
+      }
+      onChange?.({
+        start: calendarDateToTimestamp(val.start),
+        end: calendarDateToTimestamp(val.end, true),
+      });
     },
     [onChange],
   );
 
   const isDateUnavailable = useCallback(
-    (date: CalendarDateLike) => {
+    (date: DateValue) => {
       if (!maxRangeDays || !value?.start || value.end) return false;
-      // 限制选择范围不超过 maxRangeDays 天
       const startMs = value.start.toDate("UTC").getTime();
       const dateMs = date.toDate("UTC").getTime();
       const diffDays = Math.abs(dateMs - startMs) / (1000 * 60 * 60 * 24);
@@ -147,26 +167,7 @@ export default function DateRange({
   );
 }
 
-/** 将日期转为 Unix 时间戳（本地时区 0点0分0秒） */
-export function dateToUnixTimestamp(date: CalendarDateLike, endOfDay = false): number {
-  const year = date.year;
-  const month = date.month - 1; // Date 月份从 0 开始
-  const day = date.day;
-  if (endOfDay) {
-    // 23:59:59
-    return Math.floor(new Date(year, month, day, 23, 59, 59).getTime() / 1000);
-  }
-  // 00:00:00
-  return Math.floor(new Date(year, month, day, 0, 0, 0).getTime() / 1000);
-}
-
-/** 将日期范围转为 Unix 时间戳（开始 00:00:00，结束 23:59:59） */
-export function dateRangeToUnixTimestamps(
-  range: DateRangeValue,
-): { startTimestamp: number; endTimestamp: number } | null {
-  if (!range?.start || !range?.end) return null;
-  return {
-    startTimestamp: dateToUnixTimestamp(range.start),
-    endTimestamp: dateToUnixTimestamp(range.end, true),
-  };
+/** 将日期转为 Unix 时间戳（本地时区） */
+export function dateToUnixTimestamp(date: DateValue, endOfDay = false): number {
+  return calendarDateToTimestamp(date, endOfDay);
 }
