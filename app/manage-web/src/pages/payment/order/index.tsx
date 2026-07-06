@@ -13,12 +13,30 @@ import { SkuType } from "@lib/common/consts/sku";
 
 export default function OrderList() {
   const { orderListState, fetchOrderList } = useOrderListState();
-  const [_searchParams, setSearchParams] = useSearchParams();
-  const [orderListReq, setOrderListReq] = useState<OrderListReq>({ page: 1, size: 20, search: "", userId: "", status: "", productId: "", startDate: "", endDate: "" });
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [orderListReq, setOrderListReq] = useState<OrderListReq>({
+    page: Number(searchParams.get('page')) || 1,
+    size: Number(searchParams.get('size')) || 20,
+    search: searchParams.get('search') || "",
+    userId: searchParams.get('userId') || "",
+    status: searchParams.get('status') || "",
+    productId: searchParams.get('productId') || "",
+    startDate: searchParams.get('startDate') || "",
+    endDate: searchParams.get('endDate') || "",
+  });
   const [dateRange, setDateRange] = useState<any>(null);
 
   useEffect(() => {
-    handleSearch(orderListReq);
+    const initReq = {
+      ...orderListReq,
+      ...(searchParams.get('startDate') ? { startDate: searchParams.get('startDate')!, endDate: searchParams.get('endDate')! } : {}),
+    };
+    if (!searchParams.get('startDate')) {
+      handleSearch(orderListReq);
+    } else {
+      changeSearchParams(initReq);
+      fetchOrderList(initReq);
+    }
   }, [fetchOrderList]);
 
   const changeSearchParams = (req: OrderListReq) => {
