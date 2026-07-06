@@ -85,13 +85,15 @@ export default function UserInfo() {
               ) : null}
             </div>
             <ListBox aria-label="user-actions" className="w-full gap-6 py-6" selectionMode="single">
-              <ListBox.Item id="coin" textValue="Coin" className="px-0" onPress={() => navigate('/user/coin')}>
-                <div className="flex items-start justify-center pt-px">
-                  <img src="https://i.bluearcshow.com/images/wallet.png" alt="wallet" className="size-6" />
-                </div>
-                <div className="flex flex-col">{t('coin-history')}</div>
-                <ChevronRight className="ms-auto size-4 shrink-0 text-muted" />
-              </ListBox.Item>
+              {productInfo?.coinUnlock ? (
+                <ListBox.Item id="coin" textValue="Coin" className="px-0" onPress={() => navigate('/user/coin')}>
+                  <div className="flex items-start justify-center pt-px">
+                    <img src="https://i.bluearcshow.com/images/wallet.png" alt="wallet" className="size-6" />
+                  </div>
+                  <div className="flex flex-col">{t('coin-history')}</div>
+                  <ChevronRight className="ms-auto size-4 shrink-0 text-muted" />
+                </ListBox.Item>
+              ) : null}
               <ListBox.Item id="feedback" textValue="Feedback" className="px-0" onPress={() => navigate('/user/feedback')}>
                 <div className="flex items-start justify-center pt-px">
                   <img src="https://i.bluearcshow.com/images/pencil.png" alt="feedback" className="size-6" />
