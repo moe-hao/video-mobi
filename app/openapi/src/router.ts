@@ -12,4 +12,3 @@ router.route('/paypal', paypal);
 router.route('/payssion', payssion);
 
 export default router;
-

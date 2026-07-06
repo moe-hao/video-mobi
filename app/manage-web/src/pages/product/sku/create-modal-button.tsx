@@ -12,7 +12,7 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
   const [isOpen, setIsOpen] = useState(false);
   const [skuAddReq, setSkuAddReq] = useState<SkuAddReq>({
     coinNum: 0,
-    coinDesc: "",
+    coinBonus: 0,
     periodType: "",
     periodTotal: 0,
     weight: 0,
@@ -78,8 +78,8 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
                   </div>
                 ) : (
                   <div className="flex flex-row items-center gap-4">
-                    <Label className="w-18 shrink-0 text-right">金币描述</Label>
-                    <Input variant="secondary" className="flex-1" placeholder="输入金币描述" value={skuAddReq.coinDesc} onChange={(e) => setSkuAddReq({ ...skuAddReq, coinDesc: e.target.value })} />
+                    <Label className="w-18 shrink-0 text-right">赠送金币</Label>
+                    <Input variant="secondary" className="flex-1" placeholder="输入赠送金币" value={skuAddReq.coinBonus} onChange={(e) => setSkuAddReq({ ...skuAddReq, coinBonus: Number(e.target.value) })} />
                   </div>
                 )
               }

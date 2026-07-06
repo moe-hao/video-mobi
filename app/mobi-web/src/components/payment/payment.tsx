@@ -140,9 +140,13 @@ export default function Payment() {
                 <h2 className="text-[16px] text-white font-bold truncate">
                   {item.coinNum} coins
                 </h2>
-                <div className={`text-[#FFD83D] leading-[20px] h-[20px] ${!item.coinDesc ? "invisible" : ""}`}>
-                  {item.coinDesc || "\u00A0"}
+                <div className={`text-[#FFD83D] leading-[20px] h-[20px] ${!item.coinBonus ? "invisible" : ""}`}>
+                  { item.coinBonus ? `+${item.coinBonus}` : "\u00A0"}
                 </div>
+{/*
+                <div className={`text-[#FFD83D] leading-[20px] h-[20px]`}>
+                  {item.coinBonus}
+                </div> */}
                 <div
                   className={
                     item.important === SkuImportant.Yes

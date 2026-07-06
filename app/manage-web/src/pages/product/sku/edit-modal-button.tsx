@@ -21,7 +21,7 @@ export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageList
       desc: sku.desc,
       skuType: sku.skuType as SkuType,
       coinNum: sku.coinNum,
-      coinDesc: sku.coinDesc,
+      coinBonus: sku.coinBonus,
       periodType: sku.periodType as SkuPeriodType,
       weight: sku.weight,
       important: sku.important as SkuImportant,
@@ -82,8 +82,8 @@ export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageList
                   </div>
                 ) : (
                   <div className="flex flex-row items-center gap-4">
-                    <Label className="w-18 shrink-0 text-right">金币描述</Label>
-                    <Input variant="secondary" className="flex-1" placeholder="输入金币描述" value={skuEditReq.coinDesc} onChange={(e) => setSkuEditReq({ ...skuEditReq, coinDesc: e.target.value })} />
+                    <Label className="w-18 shrink-0 text-right">赠送金币</Label>
+                    <Input variant="secondary" className="flex-1" placeholder="输入赠送金币" value={skuEditReq.coinBonus} onChange={(e) => setSkuEditReq({ ...skuEditReq, coinBonus: Number(e.target.value) })} />
                   </div>
                 )
               }
