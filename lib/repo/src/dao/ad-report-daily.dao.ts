@@ -9,7 +9,7 @@ export class AdReportDailyDao {
         const [result] = await this.conn.select().from(adReportDailyTable).where(
             and(
                 eq(adReportDailyTable.date, date),
-                eq(adReportDailyTable.ad_id, adId),
+                eq(adReportDailyTable.adId, adId),
             )
         );
 
@@ -24,7 +24,7 @@ export class AdReportDailyDao {
         await this.conn.update(adReportDailyTable).set(data).where(
             and(
                 eq(adReportDailyTable.date, date),
-                eq(adReportDailyTable.ad_id, adId),
+                eq(adReportDailyTable.adId, adId),
             )
         );
     }

@@ -10,7 +10,6 @@ const fields = [
     AdsInsights.Fields.adset_name, // 广告组名称
     AdsInsights.Fields.ad_id, // 广告id
     AdsInsights.Fields.ad_name, // 广告名称
-    // AdsInsights.Breakdowns.country, // 国家
     AdsInsights.Fields.spend, // 花费
     AdsInsights.Fields.conversion_values, // 购物次数
     AdsInsights.Fields.impressions, // 展示量
@@ -39,6 +38,7 @@ export const adReportDailyService = {
         const insightsParam = {
             time_range: { since: today, until: today },
             level: 'ad',
+            breakdowns: ['country'],
         }
 
 
@@ -47,45 +47,31 @@ export const adReportDailyService = {
 
         for (const item of insights) {
             const adReportDailyDetail = await adReportDailyDao.getAdReportDailyByDateAndAdId(today, item.ad_id);
+            const adReportData: AdReportDailyInsert = {
+                adAccountName: adAccountInfo.name,
+                campaignId: item.campaign_id,
+                campaignName: item.campaign_name,
+                adsetId: item.adset_id,
+                adsetName: item.adset_name,
+                adId: item.ad_id,
+                adName: item.ad_name,
+                region: item.country,
+                clicksNum: item.clicks,
+                cpc: item.cpc,
+                cpm: item.cpm,
+                ctr: item.ctr,
+                impressions: item.impressions,
+                spend: item.spend,
+                videoP25: item.video_p25_watched_actions?.[0]?.value,
+                videoP50: item.video_p50_watched_actions?.[0]?.value,
+                videoP100: item.video_p100_watched_actions?.[0]?.value,
+            };
+
             if (!adReportDailyDetail) {
-                shouldAddReportList.push({
-                    date: today,
-                    ad_account_name: adAccountInfo.name,
-                    ad_id: item.ad_id,
-                    ad_name: item.ad_name,
-                    adset_id: item.adset_id,
-                    adset_name: item.adset_name,
-                    campaign_id: item.campaign_id,
-                    campaign_name: item.campaign_name,
-                    clicks: item.clicks,
-                    cpc: item.cpc,
-                    cpm: item.cpm,
-                    ctr: item.ctr,
-                    impressions: item.impressions,
-                    spend: item.spend,
-                    video_p25: item.video_p25_watched_actions?.[0]?.value,
-                    video_p50: item.video_p50_watched_actions?.[0]?.value,
-                    video_p100: item.video_p100_watched_actions?.[0]?.value,
-                });
+                adReportData.date = today;
+                shouldAddReportList.push(adReportData);
             } else {
-                await adReportDailyDao.updateAdReportDaily(today, item.ad_id, {
-                    ad_account_name: adAccountInfo.name,
-                    ad_id: item.ad_id,
-                    ad_name: item.ad_name,
-                    adset_id: item.adset_id,
-                    adset_name: item.adset_name,
-                    campaign_id: item.campaign_id,
-                    campaign_name: item.campaign_name,
-                    clicks: item.clicks,
-                    cpc: item.cpc,
-                    cpm: item.cpm,
-                    ctr: item.ctr,
-                    impressions: item.impressions,
-                    spend: item.spend,
-                    video_p25: item.video_p25_watched_actions?.[0]?.value,
-                    video_p50: item.video_p50_watched_actions?.[0]?.value,
-                    video_p100: item.video_p100_watched_actions?.[0]?.value,
-                });
+                await adReportDailyDao.updateAdReportDaily(today, item.ad_id, adReportData);
             }
         }
 
