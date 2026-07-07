@@ -45,6 +45,7 @@ const config = {
     PayssionWebhookSecret: process.env.PAYSSION_WEBHOOK_SECRET || '',
 
     FbAccessToken: process.env.FB_ACCESS_TOKEN || '',
+    FbBusinessAccessToken: process.env.FB_BUSINESS_ACCESS_TOKEN || '',
 }
 
 export default config;

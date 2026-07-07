@@ -1,13 +1,10 @@
 import { OrderStatus } from "@lib/common/consts/order";
 import type { OrderSelect } from "@lib/repo/models/order";
 import { orderDao } from "@lib/repo/dao/order.dao";
-import { PaymentType } from "@lib/common/consts/payment";
 import { subscriptionService } from "../subscription-service";
 import { pixelDao } from "@lib/repo/dao/pixel.dao";
-import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
-import { logger } from "@lib/internal/logger";
-import { PixelPlatform } from "@lib/common/consts/pixel";
 import { MemberDeliveryFactory } from "@app/order/member";
+import { SkuType } from "@lib/common/consts/sku";
 
 class OrderStatusHelper {
     async processChangeOrderStatus(orderInfo: OrderSelect, targetStatus: OrderStatus) {
@@ -20,11 +17,9 @@ class OrderStatusHelper {
                 await MemberDeliveryFactory.create(orderInfo).deliver();
                 await orderDao.updateOrderById(orderInfo.id, { orderStatus: OrderStatus.Completed });
 
-                const pixelInfo = await pixelDao.getPixelById(orderInfo.pixelId);
-                if (orderInfo.paymentType === PaymentType.Pix && pixelInfo.platfrom === PixelPlatform.Facebook) {
-                    logger.info(`OrderStatusHelper.processChangeOrderStatus: use pix logic - send event to fb`);
-                    const subscriptionInfo = await subscriptionDao.getSubscriptionById(orderInfo.subscriptionId);
-                    await subscriptionService.sendFacebookEvent(pixelInfo, subscriptionInfo);
+                if (orderInfo.orderType === SkuType.Coin) {
+                    const pixelInfo = await pixelDao.getPixelById(orderInfo.pixelId);
+                    await subscriptionService.sendFacebookEventCoin(pixelInfo, orderInfo);
                 }
                 break;
             default:

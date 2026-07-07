@@ -20,6 +20,7 @@
       "@app/mobi-web/*": ["./app/mobi-web/src/*"],
       "@app/openapi/*": ["./app/openapi/src/*"],
       "@app/order/*": ["./app/order/src/*"],
+      "@app/task/*": ["./app/task/src/*"],
       "@lib/common/*": ["./lib/common/src/*"],
       "@lib/internal/*": ["./lib/internal/src/*"],
       "@lib/middleware/*": ["./lib/middleware/src/*"],

@@ -19,6 +19,7 @@ import type { SubscriptionSelect } from "@lib/repo/models/subscription";
 import { facebookProxy } from "@lib/repo/proxy/facebook/facebook";
 import type { AdParam } from "@lib/repo/proxy/facebook/facebook.interface";
 import config from "@lib/internal/config";
+import type { OrderSelect } from "@lib/repo/models/order";
 
 class SubscriptionService {
     async receive(req: PayermaxNotificationReq<PayermaxSubscriptionNotificationData>): Promise<OrderPayermaxResultResp> {
@@ -72,6 +73,35 @@ class SubscriptionService {
         const adParam = JSON.parse(orderInfo.ad || '{}') as AdParam;
 
         const fbUserAppId = crypto.createHash("sha256").update(subscriptionInfo.userId.toString()).digest("hex")
+        const req = {
+            access_token: pixel.accessToken,
+            data: [{
+                event_name: PixelEvent.Purchase,
+                event_time: currentTime(),
+                attribution_data: {
+                    ad_id: adParam.ad_id,
+                    adset_id: adParam.adset_id,
+                    campaign_id: adParam.campaign_id
+                },
+                user_data: {
+                    app_user_id: fbUserAppId,
+                    fbc: `fb.1.${currentTime()}.${adParam.fbclid}`
+                },
+                custom_data: {
+                    value: Number(orderInfo.amount),
+                    currency: orderInfo.currency,
+                },
+                action_source: "website",
+            }]
+        };
+        if (config.AppEnv === 'prod') {
+            await facebookProxy.sendEvent(pixel.pixelId, req);
+        }
+    }
+
+    async sendFacebookEventCoin(pixel: PixelSelect, orderInfo: OrderSelect) {
+        const adParam = JSON.parse(orderInfo.ad || '{}') as AdParam;
+        const fbUserAppId = crypto.createHash("sha256").update(orderInfo.userId.toString()).digest("hex");
         const req = {
             access_token: pixel.accessToken,
             data: [{
