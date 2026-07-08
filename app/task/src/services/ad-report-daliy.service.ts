@@ -48,6 +48,7 @@ export const adReportDailyService = {
         for (const item of insights) {
             const adReportDailyDetail = await adReportDailyDao.getAdReportDailyByDateAndAdId(today, item.ad_id);
             const adReportData: AdReportDailyInsert = {
+                adAccountId: adAccountInfo.id,
                 adAccountName: adAccountInfo.name,
                 campaignId: item.campaign_id,
                 campaignName: item.campaign_name,
