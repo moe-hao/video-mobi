@@ -36,6 +36,7 @@ export interface PayssionCreateSubscriptionReq {
     amount: string;
     interval_unit: string;
     times: number;
+    time_trial_end?: string;
 }
 
 export interface PayssionCreateSubscriptionResp {

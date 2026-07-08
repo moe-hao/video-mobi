@@ -5,7 +5,7 @@ import config from "@lib/internal/config";
 class PayssionProxy {
     constructor(
         private readonly baseURL: string = 'https://api.payssion.com/v2',
-        private readonly apiKey: string = config.PayssionApiKey
+        private readonly apiKey: string = 'secret_live_0GWvD0qbXHuDKejbjT5Gu5', // config.PayssionApiKey
     ) { }
 
     private async request<RequestType, ResponseType>(method: string, path: string, data?: RequestType): Promise<ResponseType> {
@@ -56,6 +56,10 @@ class PayssionProxy {
 
     async getSubscriptionPaymentList(subscriptionNo: string): Promise<PayssionSubscriptionInfoResp[]> {
         return await this.request<void, any>('GET', `subscriptions/${subscriptionNo}/payments`);
+    }
+
+    async cancelSubscription(subscriptionNo: string): Promise<PayssionSubscriptionInfoResp> {
+        return await this.request<void, PayssionSubscriptionInfoResp>('POST', `subscriptions/${subscriptionNo}/cancel`);
     }
 }
 
