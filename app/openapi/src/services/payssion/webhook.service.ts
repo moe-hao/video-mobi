@@ -36,7 +36,6 @@ export class PayssionWebhookService {
         await orderDao.updateOrderById(orderInfo.id, {
             paymentId: req.data.object.id,
             orderStatus: OrderStatus.Completed,
-
         });
 
         await MemberDeliveryFactory.create(orderInfo).deliver();
