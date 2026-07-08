@@ -28,55 +28,70 @@ type AdAccountInfo = {
     name: string;
 }
 
-export const adReportDailyService = {
-    asyncAdReportDaily: async () => {
-        FacebookAdsApi.init(config.FbBusinessAccessToken);
-        const adAccount = new AdAccount('act_1333081838411463');
-        const adAccountInfo = await adAccount.read([AdAccount.Fields.id, AdAccount.Fields.name]) as AdAccountInfo;
+async function syncAdReport(date: string) {
+    FacebookAdsApi.init(config.FbBusinessAccessToken);
+    const adAccount = new AdAccount('act_1333081838411463');
+    const adAccountInfo = await adAccount.read([AdAccount.Fields.id, AdAccount.Fields.name]) as AdAccountInfo;
 
-        const today = new Date().toISOString().split('T')[0];
-        const insightsParam = {
-            time_range: { since: today, until: today },
-            level: 'ad',
-            breakdowns: ['country'],
-        }
+    const insightsParam = {
+        time_range: { since: date, until: date },
+        level: 'ad',
+        breakdowns: ['country'],
+    }
 
-        const insights = await adAccount.getInsights(fields, insightsParam);
-        const shouldAddReportList: AdReportDailyInsert[] = [];
+    const insights = await adAccount.getInsights(fields, insightsParam);
+    const shouldAddReportList: AdReportDailyInsert[] = [];
 
-        for (const item of insights) {
-            const adReportDailyDetail = await adReportDailyDao.getAdReportDailyByDateAndAdId(today, item.ad_id);
-            const adReportData: AdReportDailyInsert = {
-                adAccountId: adAccountInfo.id,
-                adAccountName: adAccountInfo.name,
-                campaignId: item.campaign_id,
-                campaignName: item.campaign_name,
-                adsetId: item.adset_id,
-                adsetName: item.adset_name,
-                adId: item.ad_id,
-                adName: item.ad_name,
-                region: item.country,
-                clicksNum: item.clicks,
-                cpc: item.cpc,
-                cpm: item.cpm,
-                ctr: item.ctr,
-                impressions: item.impressions,
-                spend: item.spend,
-                videoP25: item.video_p25_watched_actions?.[0]?.value,
-                videoP50: item.video_p50_watched_actions?.[0]?.value,
-                videoP100: item.video_p100_watched_actions?.[0]?.value,
-            };
+    for (const item of insights) {
+        const adReportDailyDetail = await adReportDailyDao.getAdReportDailyByDateAndAdId(date, item.ad_id);
+        const adReportData: AdReportDailyInsert = {
+            adAccountId: adAccountInfo.id,
+            adAccountName: adAccountInfo.name,
+            campaignId: item.campaign_id,
+            campaignName: item.campaign_name,
+            adsetId: item.adset_id,
+            adsetName: item.adset_name,
+            adId: item.ad_id,
+            adName: item.ad_name,
+            region: item.country,
+            clicksNum: item.clicks,
+            cpc: item.cpc,
+            cpm: item.cpm,
+            ctr: item.ctr,
+            impressions: item.impressions,
+            spend: item.spend,
+            videoP25: item.video_p25_watched_actions?.[0]?.value,
+            videoP50: item.video_p50_watched_actions?.[0]?.value,
+            videoP100: item.video_p100_watched_actions?.[0]?.value,
+        };
 
-            if (!adReportDailyDetail) {
-                adReportData.date = today;
-                shouldAddReportList.push(adReportData);
-            } else {
-                await adReportDailyDao.updateAdReportDaily(today, item.ad_id, adReportData);
-            }
-        }
-
-        if (shouldAddReportList.length > 0) {
-            await adReportDailyDao.addAdReportDailyList(shouldAddReportList);
+        if (!adReportDailyDetail) {
+            adReportData.date = date;
+            shouldAddReportList.push(adReportData);
+        } else {
+            await adReportDailyDao.updateAdReportDaily(date, item.ad_id, adReportData);
         }
     }
+
+    if (shouldAddReportList.length > 0) {
+        await adReportDailyDao.addAdReportDailyList(shouldAddReportList);
+    }
+}
+
+export const adReportDailyService = {
+    asyncAdReportDaily: async () => {
+        const today = new Date().toISOString().split('T')[0];
+        await syncAdReport(today);
+    },
+
+    asyncAdReportYesterday: async () => {
+        const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+        await syncAdReport(yesterday);
+    },
+
+    asyncAdReportWeek: async () => {
+        const week = new Date(Date.now() - 8 * 86400000).toISOString().split('T')[0];
+        await syncAdReport(week);
+    }
+
 }

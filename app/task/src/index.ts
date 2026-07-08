@@ -1,9 +1,12 @@
 import schedule from 'node-schedule';
 import { schedulePayssionPaymentClose, schedulePayssionSubscriptionStatus } from './schedules/payssion';
-import { scheduleAdReportDaily } from './schedules/ad-report-daily';
+import { scheduleAdReportDaily, scheduleAdReportWeek, scheduleAdReportYesterday } from './schedules/ad-report-daily';
 
 const tasks = [
     schedule.scheduleJob('*/10 * * * *', async () => { await scheduleAdReportDaily() }),
+    schedule.scheduleJob('0 6 * * *', async () => { await scheduleAdReportYesterday() }),
+    schedule.scheduleJob('0 2 * * *', async () => { await scheduleAdReportWeek() }),
+
     schedule.scheduleJob('*/10 * * * *', async () => { await schedulePayssionSubscriptionStatus() }),
     schedule.scheduleJob('*/10 * * * *', async () => { await schedulePayssionPaymentClose() }),
 ];

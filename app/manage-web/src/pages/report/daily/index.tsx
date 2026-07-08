@@ -107,7 +107,6 @@ export default function AdReportDailyList() {
         <Table.ScrollContainer>
           <Table.Content aria-label="广告日报数据" className="w-max min-w-full">
             <Table.Header>
-              <Table.Column className="whitespace-nowrap">ID</Table.Column>
               <Table.Column className="whitespace-nowrap" isRowHeader>日期</Table.Column>
               <Table.Column className="whitespace-nowrap">广告账户</Table.Column>
               <Table.Column className="whitespace-nowrap">广告系列</Table.Column>
@@ -130,14 +129,12 @@ export default function AdReportDailyList() {
             <Table.Body>
               {adReportDailyListState.list?.map((item) => (
                 <Table.Row key={item.id}>
-                  <Table.Cell className="whitespace-nowrap">{item.id}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.date}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">
                     <Tooltip delay={0}>
                       <Link>{item.adAccountName}</Link>
                       <Tooltip.Content placement="right">
                         <div className="flex items-center gap-2">
-                          <span className="text-muted-foreground font-medium flex-shrink-0">ID:</span>
                           <span className="text-muted-foreground truncate">{item.adAccountId}</span>
                         </div>
                       </Tooltip.Content>
@@ -148,7 +145,6 @@ export default function AdReportDailyList() {
                       <Link>{item.campaignName}</Link>
                       <Tooltip.Content placement="right">
                         <div className="flex items-center gap-2">
-                          <span className="text-muted-foreground font-medium flex-shrink-0">ID:</span>
                           <span className="text-muted-foreground truncate">{item.campaignId}</span>
                         </div>
                       </Tooltip.Content>
@@ -159,7 +155,6 @@ export default function AdReportDailyList() {
                       <Link>{item.adsetName}</Link>
                       <Tooltip.Content placement="right">
                         <div className="flex items-center gap-2">
-                          <span className="text-muted-foreground font-medium flex-shrink-0">ID:</span>
                           <span className="text-muted-foreground truncate">{item.adsetId}</span>
                         </div>
                       </Tooltip.Content>
