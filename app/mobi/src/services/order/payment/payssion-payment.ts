@@ -68,11 +68,11 @@ export class PayssionPayment implements Payment {
             skuId: paymentInfo.skuInfo.id,
             productId: paymentInfo.productInfo.id,
             pixelId: paymentInfo.pixelId,
-            orderType: paymentInfo.skuInfo.skuType,
             paymentId: "",
             subscriptionId: subscriptionId,
             paymentChannel: this.orderPaymentChannel,
             paymentType: paymentInfo.paymentType,
+            orderType: paymentInfo.skuInfo.skuType,
             orderStatus: OrderStatus.Pending,
             ad: paymentInfo.ad || "",
         })
