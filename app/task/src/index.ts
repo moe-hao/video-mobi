@@ -3,7 +3,7 @@ import schedule from 'node-schedule';
 import { schedulePayssionSubscriptionPayment } from './schedules/payssion';
 // import { payssionProxy } from '@lib/repo/proxy/payment/payssion';
 
-await schedulePayssionSubscriptionPayment();
+// await schedulePayssionSubscriptionPayment();
 
 const tasks = [
     // schedule.scheduleJob('* * * * *', async () => { await scheduleAdReportDaily() }),
