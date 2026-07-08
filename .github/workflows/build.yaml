@@ -13,6 +13,7 @@ jobs:
       mobi-web: ${{ steps.filter.outputs.mobi-web }}
       manage: ${{ steps.filter.outputs.manage }}
       manage-web: ${{ steps.filter.outputs.manage-web }}
+      task: ${{ steps.filter.outputs.task }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v6

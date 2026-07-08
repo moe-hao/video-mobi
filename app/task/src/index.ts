@@ -2,7 +2,6 @@ import schedule from 'node-schedule';
 // import { scheduleAdReportDaily } from './schedules/ad-report-daily';
 import { schedulePayssionSubscriptionPayment } from './schedules/payssion';
 // import { payssionProxy } from '@lib/repo/proxy/payment/payssion';
-
 // await schedulePayssionSubscriptionPayment();
 
 const tasks = [
