@@ -102,6 +102,19 @@ export const routers: RouterItem[] = [
     ]
   },
   {
+    name: '报表管理',
+    icon: <CirclePlay />,
+    isMenu: true,
+    children: [
+      {
+        name: '运营日报表',
+        path: '/report/daily',
+        element: loadable(() => import('../pages/report/daily')),
+        isMenu: true,
+      },
+    ]
+  },
+  {
     name: '用户管理',
     icon: <Person />,
     isMenu: true,
