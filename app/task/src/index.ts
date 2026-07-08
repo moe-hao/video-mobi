@@ -1,16 +1,16 @@
 import schedule from 'node-schedule';
 import { schedulePayssionPaymentClose, schedulePayssionSubscriptionStatus } from './schedules/payssion';
 import { scheduleAdReportDaily } from './schedules/ad-report-daily';
+await scheduleAdReportDaily()
+// const tasks = [
+//     schedule.scheduleJob('*/10 * * * *', async () => { await scheduleAdReportDaily() }),
+//     schedule.scheduleJob('*/10 * * * *', async () => { await schedulePayssionSubscriptionStatus() }),
+//     schedule.scheduleJob('*/10 * * * *', async () => { await schedulePayssionPaymentClose() }),
+// ];
 
-const tasks = [
-    schedule.scheduleJob('*/10 * * * *', async () => { await scheduleAdReportDaily() }),
-    schedule.scheduleJob('*/10 * * * *', async () => { await schedulePayssionSubscriptionStatus() }),
-    schedule.scheduleJob('*/10 * * * *', async () => { await schedulePayssionPaymentClose() }),
-];
-
-process.on('SIGINT', () => {
-    console.log('正在停止所有定时任务...');
-    tasks.forEach(job => job.cancel());
-    process.exit(0);
-});
+// process.on('SIGINT', () => {
+//     console.log('正在停止所有定时任务...');
+//     tasks.forEach(job => job.cancel());
+//     process.exit(0);
+// });
 

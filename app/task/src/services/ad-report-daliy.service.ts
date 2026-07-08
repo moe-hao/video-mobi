@@ -41,7 +41,6 @@ export const adReportDailyService = {
             breakdowns: ['country'],
         }
 
-
         const insights = await adAccount.getInsights(fields, insightsParam);
         const shouldAddReportList: AdReportDailyInsert[] = [];
 
