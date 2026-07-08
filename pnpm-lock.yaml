@@ -449,15 +449,6 @@ importers:
 
   app/task:
     dependencies:
-      '@app/order':
-        specifier: workspace:*
-        version: link:../order
-      '@hono/node-server':
-        specifier: ^1.19.14
-        version: 1.19.14(hono@4.12.23)
-      '@hono/zod-validator':
-        specifier: ^0.8.0
-        version: 0.8.0(hono@4.12.23)(zod@4.4.3)
       '@lib/common':
         specifier: workspace:*
         version: link:../../lib/common
@@ -470,21 +461,6 @@ importers:
       '@lib/repo':
         specifier: workspace:*
         version: link:../../lib/repo
-      '@paypal/paypal-server-sdk':
-        specifier: 2.0.0
-        version: 2.0.0
-      '@volcengine/openapi':
-        specifier: ^1.36.2
-        version: 1.36.2
-      '@volcengine/tos-sdk':
-        specifier: ^2.9.1
-        version: 2.9.1
-      bcrypt:
-        specifier: ^6.0.0
-        version: 6.0.0
-      date-fns:
-        specifier: ^4.3.0
-        version: 4.4.0
       dotenv:
         specifier: ^17.4.2
         version: 17.4.2
@@ -494,9 +470,6 @@ importers:
       facebook-nodejs-business-sdk:
         specifier: ^24.0.1
         version: 24.0.1
-      hono:
-        specifier: ^4.12.18
-        version: 4.12.23
       ioredis:
         specifier: ^5.10.1
         version: 5.11.0
