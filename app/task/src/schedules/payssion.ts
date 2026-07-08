@@ -4,9 +4,19 @@ import { subscriptionPaymentService } from "../services/payssion/subscription-pa
 export async function schedulePayssionSubscriptionStatus() {
     logger.info('[Start Run]: schedulePayssionSubscriptionStatus');
     try {
-        await subscriptionPaymentService.asynSubscriptionStatus();
+        await subscriptionPaymentService.asyncSubscriptionStatus();
     } catch (error) {
         logger.error(`[Failed] ${error}`);
     }
     logger.info('[End Run]: schedulePayssionSubscriptionStatus');
+}
+
+export async function schedulePayssionPaymentClose() {
+    logger.info('[Start Run]: schedulePayssionPaymentClose');
+    try {
+        await subscriptionPaymentService.closeExpiredPayment();
+    } catch (error) {
+        logger.error(`[Failed] ${error}`);
+    }
+    logger.info('[End Run]: schedulePayssionPaymentClose');
 }

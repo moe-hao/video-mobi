@@ -130,6 +130,16 @@ class OrderDao {
         return order;
     }
 
+    async getOrderByChannelAndStatus(channel: PaymentChannel, status: OrderStatus, time: number): Promise<OrderSelect[]> {
+        return await this.conn.select().from(orderTable).where(
+            and(
+                eq(orderTable.paymentChannel, channel),
+                eq(orderTable.orderStatus, status),
+                lte(orderTable.updateTime, time)
+            )
+        ).orderBy(desc(orderTable.id));
+    }
+
     async getOrderCountBySubscriptionId(subscriptionId: number): Promise<number> {
         const [result] = await this.conn.select({ count: count() }).from(orderTable).where(
             and(
