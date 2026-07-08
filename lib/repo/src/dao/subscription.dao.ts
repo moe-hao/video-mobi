@@ -3,6 +3,7 @@ import { and, count, desc, eq } from "drizzle-orm";
 import { database, type DatabaseConn } from "@lib/internal/database";
 import { currentTime } from "@lib/common/utils/time";
 import { SubscriptionStatus } from "@lib/common/consts/subscription";
+import type { PaymentChannel } from "@lib/common/consts/payment";
 
 export type SubscriptionSearchReq = {
     id: number | string;
@@ -70,6 +71,15 @@ export class SubscriptionDao {
 
     async getSubscriptionListByUserId(userId: number): Promise<SubscriptionSelect[]> {
         return await this.conn.select().from(subscriptionTable).where(eq(subscriptionTable.userId, userId));
+    }
+
+    async getSubscriptionListByChannelAndStatus(channel: PaymentChannel, status: SubscriptionStatus): Promise<SubscriptionSelect[]> {
+        return await this.conn.select().from(subscriptionTable).where(
+            and(
+                eq(subscriptionTable.subscriptionChannel, channel),
+                eq(subscriptionTable.subscriptionStatus, status)
+            )
+        );
     }
 
     async updateSubscriptionById(id: number, data: SubscriptionInsert): Promise<void> {

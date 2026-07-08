@@ -1,11 +1,13 @@
 import schedule from 'node-schedule';
-import { scheduleAdReportDaily } from './schedules/ad-report-daily';
+// import { scheduleAdReportDaily } from './schedules/ad-report-daily';
+import { schedulePayssionSubscriptionPayment } from './schedules/payssion';
+// import { payssionProxy } from '@lib/repo/proxy/payment/payssion';
+
+await schedulePayssionSubscriptionPayment();
 
 const tasks = [
-    schedule.scheduleJob('* * * * *', async () => { await scheduleAdReportDaily() }),
-    schedule.scheduleJob('0 0 * * *', () => {
-        console.log('hello world');
-    }),
+    // schedule.scheduleJob('* * * * *', async () => { await scheduleAdReportDaily() }),
+    schedule.scheduleJob('* * * * *', async () => { await schedulePayssionSubscriptionPayment() }),
 ];
 
 process.on('SIGINT', () => {
@@ -13,3 +15,11 @@ process.on('SIGINT', () => {
     tasks.forEach(job => job.cancel());
     process.exit(0);
 });
+
+// import { payssionProxy } from '@lib/repo/proxy/payment/payssion';
+
+// await payssionProxy.createPaymentBySubscription();
+// await payssionProxy.getMandateDetail();
+
+// const paymentList = await payssionProxy.getSubscriptionPaymentList('sub_fTuvDGnbP4y1r9iD');
+// console.log(paymentList);

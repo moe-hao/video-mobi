@@ -1,3 +1,5 @@
+import type { PayssionMandateStatus } from '@lib/common/consts/payment';
+
 export interface PayssionCreateCustomerReq {
     document: PayssionCreateCustomerDocument;
     first_name: string;
@@ -49,6 +51,33 @@ export interface PayssionCreateSubscriptionResp {
 
 export interface PayssionSubscriptionInfoResp {
     id: string;
+    mandate_id: string;
     times_completed: number;
     status: string;
+    amount: string;
+    currency: string;
+    time_current_period_start: string;
+    time_current_period_end: string;
+}
+
+export interface PayssionMandateDetailResp {
+    id: string;
+    status: PayssionMandateStatus;
+    payment_method: string;
+}
+
+export interface PayssionCreateSubscriptionPaymentReq {
+    payment_method: string;
+    currency: string;
+    amount: string;
+    mandate_id: string;
+}
+
+export interface PayssionCreateSubscriptionPaymentResp {
+    id: string;
+    status: string;
+    error: {
+        type: string;
+        message: string;
+    }
 }

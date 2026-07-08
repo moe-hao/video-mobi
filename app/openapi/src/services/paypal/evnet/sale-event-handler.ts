@@ -9,6 +9,7 @@ import { OrderStatus } from "@lib/common/consts/order";
 import { MemberDeliveryFactory } from "@app/order/member";
 import { subscriptionService } from "../../payermax/subscription-service";
 import { pixelDao } from "@lib/repo/dao/pixel.dao";
+import { SkuType } from "@lib/common/consts/sku";
 
 export class SaleEventHandler implements EventHandler {
     async handle(req: PaypalEventReq<PaypalEventReourceSale>): Promise<void> {
@@ -33,14 +34,17 @@ export class SaleEventHandler implements EventHandler {
                     bizId: orderBizId,
                     userId: subscriptionInfo.userId,
                     amount: saleInfo.amount.total,
+                    currency: saleInfo.amount.currency,
                     skuId: subscriptionInfo.skuId,
                     productId: subscriptionInfo.productId,
+                    pixelId: subscriptionInfo.pixelId,
                     paymentId: saleInfo.id,
                     subscriptionId: subscriptionId,
                     subscriptionCount: subscriptionOrderCount + 1,
                     paymentChannel: PaymentChannel.Paypal,
                     paymentType: PaymentType.Paypal,
                     orderStatus: OrderStatus.Paid,
+                    orderType: SkuType.Subscription,
                     ad: subscriptionInfo.ad || "",
                 });
 

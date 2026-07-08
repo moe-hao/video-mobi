@@ -20,6 +20,7 @@ import { facebookProxy } from "@lib/repo/proxy/facebook/facebook";
 import type { AdParam } from "@lib/repo/proxy/facebook/facebook.interface";
 import config from "@lib/internal/config";
 import type { OrderSelect } from "@lib/repo/models/order";
+import { SkuType } from "@lib/common/consts/sku";
 
 class SubscriptionService {
     async receive(req: PayermaxNotificationReq<PayermaxSubscriptionNotificationData>): Promise<OrderPayermaxResultResp> {
@@ -184,6 +185,7 @@ class SubscriptionService {
                 paymentChannel: PaymentChannel.Payermax,
                 paymentType: req.data.subscriptionPaymentDetail.paymentMethodType,
                 orderStatus: targetStatus,
+                orderType: SkuType.Subscription,
                 ad: subscriptionInfo.ad || "",
             });
             orderInfo = await orderDao.getOrderById(orderId);

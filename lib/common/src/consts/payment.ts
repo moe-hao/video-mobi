@@ -21,3 +21,15 @@ export const PaymentTypeName: Record<PaymentType, string> = {
     [PaymentType.Pix]: 'Pix',
     [PaymentType.MercadoPago]: 'MercadoPago'
 }
+
+export enum PayssionMandateStatus {
+    Succeeded = 'succeeded',
+    Canceled = 'canceled'
+}
+
+export enum PayssionSubscriptionStatus {
+    Incomplete = 'incomplete',
+    Active = 'active',
+    Canceled = 'canceled',
+    Completed = 'completed'
+}

@@ -1,22 +1,22 @@
 import { logger } from "@lib/internal/logger";
-import type { PayssionCreateCustomerMandateReq, PayssionCreateCustomerMandateResp, PayssionCreateCustomerReq, PayssionCreateCustomerResp, PayssionCreateSubscriptionReq, PayssionCreateSubscriptionResp, PayssionSubscriptionInfoResp } from "./payssion.interface";
+import type { PayssionCreateCustomerMandateReq, PayssionCreateCustomerMandateResp, PayssionCreateCustomerReq, PayssionCreateCustomerResp, PayssionCreateSubscriptionPaymentReq, PayssionCreateSubscriptionPaymentResp, PayssionCreateSubscriptionReq, PayssionCreateSubscriptionResp, PayssionMandateDetailResp, PayssionSubscriptionInfoResp } from "./payssion.interface";
 import config from "@lib/internal/config";
 
 class PayssionProxy {
     constructor(
         private readonly baseURL: string = 'https://api.payssion.com/v2',
-        private readonly apiKey: string = config.PayssionApiKey
+        private readonly apiKey: string = 'secret_live_0GWvD0qbXHuDKejbjT5Gu5',//config.PayssionApiKey
     ) { }
 
-    private async request<RequestType, ResponseType>(path: string, data: RequestType): Promise<ResponseType> {
-        logger.info(`PayssionProxy.request: ${path} ${JSON.stringify(data)}`);
+    private async request<RequestType, ResponseType>(method: string, path: string, data?: RequestType): Promise<ResponseType> {
+        logger.info(`PayssionProxy.request: ${path}${data ? JSON.stringify(data) : ''}`);
         const resp = await fetch(`${this.baseURL}/${path}`, {
-            method: 'POST',
+            method: method,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${this.apiKey}`,
             },
-            body: JSON.stringify(data),
+            body: data ? JSON.stringify(data) : undefined,
         });
 
         const result = await resp.json() as ResponseType;
@@ -25,11 +25,11 @@ class PayssionProxy {
     }
 
     async createCustomer(req: PayssionCreateCustomerReq): Promise<PayssionCreateCustomerResp> {
-        return await this.request<PayssionCreateCustomerReq, PayssionCreateCustomerResp>('customers', req);
+        return await this.request<PayssionCreateCustomerReq, PayssionCreateCustomerResp>('POST', 'customers', req);
     }
 
     async createCustomerMandate(customerId: string, toback: string, unit: string): Promise<PayssionCreateCustomerMandateResp> {
-        return await this.request<PayssionCreateCustomerMandateReq, PayssionCreateCustomerMandateResp>(`customers/${customerId}/mandates`, {
+        return await this.request<PayssionCreateCustomerMandateReq, PayssionCreateCustomerMandateResp>('POST', `customers/${customerId}/mandates`, {
             payment_method: 'pix_br',
             return_url: toback,
             payment_method_details: {
@@ -39,23 +39,28 @@ class PayssionProxy {
     }
 
     async createSubscription(req: PayssionCreateSubscriptionReq): Promise<PayssionCreateSubscriptionResp> {
-        return await this.request<PayssionCreateSubscriptionReq, PayssionCreateSubscriptionResp>('subscriptions', req);
+        return await this.request<PayssionCreateSubscriptionReq, PayssionCreateSubscriptionResp>('POST', 'subscriptions', req);
     }
 
     async getSubscriptionInfo(subscriptionNo: string): Promise<PayssionSubscriptionInfoResp> {
-        logger.info(`PayssionProxy.request: subscriptions/${subscriptionNo}`);
-        const resp = await fetch(`${this.baseURL}/subscriptions/${subscriptionNo}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.apiKey}`,
-            }
-        });
+        return await this.request<void, PayssionSubscriptionInfoResp>('GET', `subscriptions/${subscriptionNo}`);
+    }
 
-        const result = await resp.json() as PayssionSubscriptionInfoResp;
-        logger.info(`PayssionProxy.response: subscriptions/${subscriptionNo}: ${JSON.stringify(result)}`);
-        return result;
+    async getMandateDetail(mandateId: string): Promise<PayssionMandateDetailResp> {
+        return await this.request<void, PayssionMandateDetailResp>('GET', `mandates/${mandateId}`);
+    }
+
+    async createPaymentBySubscription(req: PayssionCreateSubscriptionPaymentReq): Promise<PayssionCreateSubscriptionPaymentResp> {
+        return await this.request<PayssionCreateSubscriptionPaymentReq, PayssionCreateSubscriptionPaymentResp>('POST', 'payments', req);
+    }
+
+    async getSubscriptionPaymentList(subscriptionNo: string): Promise<PayssionSubscriptionInfoResp[]> {
+        return await this.request<void, any>('GET', `subscriptions/${subscriptionNo}/payments`);
     }
 }
 
 export const payssionProxy = new PayssionProxy();
+
+
+// mdt_nH8mH08GiTeHu1mv mdt_vDe9a14OivD00m1a mdt_PKej981u1840vnH4 mdt_nPm9C0uL0ibP9iHa mdt_nzjXjDinX5a9CinD mdt_uz9KWD1CO0KKPyvH mdt_400KeD1OKO8OCGy9 mdt_PyLK4GjDuHqH5GK8 mdt_fvbL804O4aHSb54S
+// mdt_u5GWrDLu5WzHmrTm mdt_OCKabDTm5er1fzDG
