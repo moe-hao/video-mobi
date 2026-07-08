@@ -20,9 +20,3 @@ export async function schedulePayssionPaymentClose() {
     }
     logger.info('[End Run]: schedulePayssionPaymentClose');
 }
-
-export async function onceCreateSubscriptionPayment() {
-    logger.info('[Start Run]: onceCreateSubscriptionPayment');
-    await subscriptionPaymentService.createSubscriptionPayment();
-    logger.info('[End Run]: onceCreateSubscriptionPayment');
-}
