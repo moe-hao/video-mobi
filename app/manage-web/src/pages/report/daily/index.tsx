@@ -1,4 +1,4 @@
-import { Button, Input, Table } from "@heroui/react";
+import { Button, Input, Link, Table, Tooltip } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { useAdReportDailyListState } from "@app/manage-web/hooks/report/use-ad-report-daily-list-state";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
@@ -109,14 +109,10 @@ export default function AdReportDailyList() {
             <Table.Header>
               <Table.Column className="whitespace-nowrap">ID</Table.Column>
               <Table.Column className="whitespace-nowrap" isRowHeader>日期</Table.Column>
-              <Table.Column className="whitespace-nowrap">广告账户ID</Table.Column>
-              <Table.Column className="whitespace-nowrap">广告账户名称</Table.Column>
-              <Table.Column className="whitespace-nowrap">广告系列ID</Table.Column>
-              <Table.Column className="whitespace-nowrap">广告系列名称</Table.Column>
-              <Table.Column className="whitespace-nowrap">广告组ID</Table.Column>
-              <Table.Column className="whitespace-nowrap">广告组名称</Table.Column>
-              <Table.Column className="whitespace-nowrap">广告ID</Table.Column>
-              <Table.Column className="whitespace-nowrap">广告名称</Table.Column>
+              <Table.Column className="whitespace-nowrap">广告账户</Table.Column>
+              <Table.Column className="whitespace-nowrap">广告系列</Table.Column>
+              <Table.Column className="whitespace-nowrap">广告组</Table.Column>
+              <Table.Column className="whitespace-nowrap">广告</Table.Column>
               <Table.Column className="whitespace-nowrap">地区</Table.Column>
               <Table.Column className="whitespace-nowrap">花费</Table.Column>
               <Table.Column className="whitespace-nowrap">展示</Table.Column>
@@ -136,14 +132,50 @@ export default function AdReportDailyList() {
                 <Table.Row key={item.id}>
                   <Table.Cell className="whitespace-nowrap">{item.id}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.date}</Table.Cell>
-                  <Table.Cell className="whitespace-nowrap">{item.adAccountId}</Table.Cell>
-                  <Table.Cell className="whitespace-nowrap">{item.adAccountName}</Table.Cell>
-                  <Table.Cell className="whitespace-nowrap">{item.campaignId}</Table.Cell>
-                  <Table.Cell className="whitespace-nowrap">{item.campaignName}</Table.Cell>
-                  <Table.Cell className="whitespace-nowrap">{item.adsetId}</Table.Cell>
-                  <Table.Cell className="whitespace-nowrap">{item.adsetName}</Table.Cell>
-                  <Table.Cell className="whitespace-nowrap">{item.adId}</Table.Cell>
-                  <Table.Cell className="whitespace-nowrap">{item.adName}</Table.Cell>
+                  <Table.Cell className="whitespace-nowrap">
+                    <Tooltip delay={0}>
+                      <Link>{item.adAccountName}</Link>
+                      <Tooltip.Content placement="right">
+                        <div className="flex items-center gap-2">
+                          <span className="text-muted-foreground font-medium flex-shrink-0">ID:</span>
+                          <span className="text-muted-foreground truncate">{item.adAccountId}</span>
+                        </div>
+                      </Tooltip.Content>
+                    </Tooltip>
+                  </Table.Cell>
+                  <Table.Cell className="whitespace-nowrap">
+                    <Tooltip delay={0}>
+                      <Link>{item.campaignName}</Link>
+                      <Tooltip.Content placement="right">
+                        <div className="flex items-center gap-2">
+                          <span className="text-muted-foreground font-medium flex-shrink-0">ID:</span>
+                          <span className="text-muted-foreground truncate">{item.campaignId}</span>
+                        </div>
+                      </Tooltip.Content>
+                    </Tooltip>
+                  </Table.Cell>
+                  <Table.Cell className="whitespace-nowrap">
+                    <Tooltip delay={0}>
+                      <Link>{item.adsetName}</Link>
+                      <Tooltip.Content placement="right">
+                        <div className="flex items-center gap-2">
+                          <span className="text-muted-foreground font-medium flex-shrink-0">ID:</span>
+                          <span className="text-muted-foreground truncate">{item.adsetId}</span>
+                        </div>
+                      </Tooltip.Content>
+                    </Tooltip>
+                  </Table.Cell>
+                  <Table.Cell className="whitespace-nowrap">
+                    <Tooltip delay={0}>
+                      <Link>{item.adName}</Link>
+                      <Tooltip.Content placement="right">
+                        <div className="flex items-center gap-2">
+                          <span className="text-muted-foreground font-medium flex-shrink-0">ID:</span>
+                          <span className="text-muted-foreground truncate">{item.adId}</span>
+                        </div>
+                      </Tooltip.Content>
+                    </Tooltip>
+                  </Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.region}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.spend}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.impressions}</Table.Cell>
