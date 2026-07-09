@@ -1,4 +1,4 @@
-import { Button, Input, Link, Table } from "@heroui/react";
+import { Button, Input, Link, Spinner, Table } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { Xmark } from "@gravity-ui/icons";
 import EditModalButton from "./edit-modal-button";
@@ -22,6 +22,8 @@ export default function EpisodeList() {
   const { fetchEpisodeDelete } = useDeleteEpisodeState();
   const { fetchEpisodeChangePublish } = useChangePublishState();
 
+  const [loading, setLoading] = useState(false);
+
   const [collectionTableListReq, setCollectionTableListReq] = useState<CollectionTableListReq>({
     page: Number(searchParams.get('page')) || 1,
     size: Number(searchParams.get('size')) || 7,
@@ -43,14 +45,20 @@ export default function EpisodeList() {
   };
 
   useEffect(() => {
-    fetchEpisodeList(collectionTableListReq);
+    setLoading(true);
+    fetchEpisodeList(collectionTableListReq).finally(() => setLoading(false));
     changeSearchParams(collectionTableListReq);
   }, []);
 
   const handleSearch = async (search: CollectionTableListReq) => {
     setCollectionTableListReq(search);
-    await fetchEpisodeList(search);
-    changeSearchParams(search);
+    setLoading(true);
+    try {
+      await fetchEpisodeList(search);
+      changeSearchParams(search);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handlePublish = async (req: CollectionPublishReq) => {
@@ -106,7 +114,13 @@ export default function EpisodeList() {
         <div className="flex-1"></div>
         <CreateModalButton onSuccess={() => fetchEpisodeList(collectionTableListReq)} />
       </div>
-      <Table>
+      <div className="relative">
+        {loading && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/60">
+            <Spinner size="lg" />
+          </div>
+        )}
+        <Table>
         <Table.ScrollContainer>
           <Table.Content aria-label="Team members" className="min-w-[600px]">
             <Table.Header>
@@ -220,6 +234,7 @@ export default function EpisodeList() {
           </Table.Content>
         </Table.ScrollContainer>
       </Table>
+      </div>
       <TablePagination
         page={episodeListState.page || 1}
         size={episodeListState.size || 10}

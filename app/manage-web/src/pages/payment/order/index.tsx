@@ -1,4 +1,4 @@
-import { Button, Input, Link, Table, Tooltip } from "@heroui/react";
+import { Button, Input, Link, Spinner, Table, Tooltip } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { useOrderListState } from "@app/manage-web/hooks/payment/use-order-list-state";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
@@ -33,9 +33,11 @@ export default function OrderList() {
 
   const [orderListReq, setOrderListReq] = useState<OrderListReq>(initialParams);
   const [dateRange, setDateRange] = useState<DateRangeValue | null>(initDateRange);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchOrderList(initialParams);
+    setLoading(true);
+    fetchOrderList(initialParams).finally(() => setLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -59,7 +61,12 @@ export default function OrderList() {
         : { startDate: "", endDate: "" }),
     };
     changeSearchParams(finalReq);
-    await fetchOrderList(finalReq);
+    setLoading(true);
+    try {
+      await fetchOrderList(finalReq);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -85,7 +92,13 @@ export default function OrderList() {
         <Button variant="primary" size="sm" onClick={() => handleSearch(orderListReq)}>查询</Button>
         <div className="flex-1"></div>
       </div>
-      <Table>
+      <div className="relative">
+        {loading && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/60">
+            <Spinner size="lg" />
+          </div>
+        )}
+        <Table>
         <Table.ScrollContainer>
           <Table.Content aria-label="Team members" className="w-max min-w-full">
             <Table.Header>
@@ -168,6 +181,7 @@ export default function OrderList() {
           </Table.Content>
         </Table.ScrollContainer>
       </Table>
+      </div>
       <TablePagination
         page={orderListState.page || 1}
         size={orderListState.size || 10}

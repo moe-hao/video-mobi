@@ -1,4 +1,4 @@
-import { Button, Input, Label, Link, Modal, TextArea } from "@heroui/react";
+import { Button, Input, Label, Link, Modal, Spinner, TextArea } from "@heroui/react";
 import { useEffect, useState } from "react";
 import OperateImage from "./operate-image";
 import type { CollectionEditReq, CollectionTableListRespItem } from "@lib/common/dto/collection";
@@ -13,15 +13,21 @@ export default function EditModalButton({ item, onSuccess }: { item: CollectionT
 
   const [isOpen, setIsOpen] = useState(false);
   const [collectionEditReq, setCollectionEditReq] = useState<CollectionEditReq>(item);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     setCollectionEditReq(item);
   }, [isOpen, item]);
 
   const handleEpisodeEdit = async () => {
-    await fetchEpisodeEdit(collectionEditReq);
-    setIsOpen(false);
-    onSuccess?.();
+    setSubmitting(true);
+    try {
+      await fetchEpisodeEdit(collectionEditReq);
+      setIsOpen(false);
+      onSuccess?.();
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -86,8 +92,13 @@ export default function EditModalButton({ item, onSuccess }: { item: CollectionT
               </div>
             </Modal.Body>
             <Modal.Footer>
-              <Button type="submit" onClick={handleEpisodeEdit}>
-                确认修改
+              <Button type="submit" isPending={submitting} onClick={handleEpisodeEdit}>
+                {({isPending}) => (
+                  <>
+                    {isPending ? <Spinner color="current" size="sm" /> : null}
+                    确认修改
+                  </>
+                )}
               </Button>
             </Modal.Footer>
           </Modal.Dialog>

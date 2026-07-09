@@ -1,4 +1,4 @@
-import { Archive, CirclePlay, FileCheck, House, Person } from '@gravity-ui/icons';
+import { Archive, CirclePlay, Display, FileCheck, House, Person } from '@gravity-ui/icons';
 import loadable from '@loadable/component';
 import { Route, Routes } from 'react-router';
 import type { ReactElement, ComponentType } from 'react';
@@ -102,12 +102,12 @@ export const routers: RouterItem[] = [
     ]
   },
   {
-    name: '报表管理',
-    icon: <CirclePlay />,
+    name: '运营报表',
+    icon: <Display />,
     isMenu: true,
     children: [
       {
-        name: '运营日报表',
+        name: '每日详情',
         path: '/report/daily',
         element: loadable(() => import('../pages/report/daily')),
         isMenu: true,

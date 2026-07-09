@@ -1,5 +1,5 @@
 import { Plus } from "@gravity-ui/icons";
-import { Button, Input, Label, Modal, TextArea } from "@heroui/react";
+import { Button, Input, Label, Modal, Spinner, TextArea } from "@heroui/react";
 import { useEffect, useState } from "react";
 import LanguageSelect from "@app/manage-web/components/language-select";
 import OperateImage from "./operate-image";
@@ -13,15 +13,21 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
 
   const [isOpen, setIsOpen] = useState(false);
   const [collectionAddReq, setCollectionAddReq] = useState<CollectionAddReq>({} as CollectionAddReq);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     setCollectionAddReq({} as CollectionAddReq);
   }, [isOpen]);
 
   const handleCollectionAdd = async () => {
-    await fetchEpisodeAdd(collectionAddReq);
-    setIsOpen(false);
-    onSuccess?.();
+    setSubmitting(true);
+    try {
+      await fetchEpisodeAdd(collectionAddReq);
+      setIsOpen(false);
+      onSuccess?.();
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -82,8 +88,13 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
               </div>
             </Modal.Body>
             <Modal.Footer>
-              <Button type="submit" onClick={handleCollectionAdd}>
-                确认添加
+              <Button type="submit" isPending={submitting} onClick={handleCollectionAdd}>
+                {({isPending}) => (
+                  <>
+                    {isPending ? <Spinner color="current" size="sm" /> : null}
+                    确认添加
+                  </>
+                )}
               </Button>
             </Modal.Footer>
           </Modal.Dialog>
