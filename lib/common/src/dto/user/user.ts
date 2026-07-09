@@ -28,6 +28,8 @@ export interface UserListRespItem {
     username: string;
     email: string;
     memberStatus: string;
+    expireTime: string;
+    coinNum: number;
     productHost: string;
     createTime: string;
     updateTime: string;

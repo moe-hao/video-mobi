@@ -27,7 +27,7 @@ export default function UserList() {
       </div>
       <Table>
         <Table.ScrollContainer>
-          <Table.Content aria-label="Team members" className="min-w-[600px]">
+          <Table.Content aria-label="Team members" className="whitespace-nowrap">
             <Table.Header>
               <Table.Column isRowHeader>ID</Table.Column>
               <Table.Column>编号</Table.Column>
@@ -35,6 +35,8 @@ export default function UserList() {
               <Table.Column>用户名</Table.Column>
               <Table.Column>邮箱</Table.Column>
               <Table.Column>订阅状态</Table.Column>
+              <Table.Column>过期时间</Table.Column>
+              <Table.Column>金币余额</Table.Column>
               <Table.Column>创建日期</Table.Column>
               <Table.Column>更新日期</Table.Column>
             </Table.Header>
@@ -48,6 +50,8 @@ export default function UserList() {
                     <Table.Cell>{item.username}</Table.Cell>
                     <Table.Cell>{item.email}</Table.Cell>
                     <Table.Cell>{item.memberStatus}</Table.Cell>
+                    <Table.Cell>{item.expireTime}</Table.Cell>
+                    <Table.Cell>{item.coinNum}</Table.Cell>
                     <Table.Cell>{item.createTime}</Table.Cell>
                     <Table.Cell>{item.updateTime}</Table.Cell>
                   </Table.Row>
