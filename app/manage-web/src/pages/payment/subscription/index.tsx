@@ -1,4 +1,4 @@
-import { Button, Input, Table } from "@heroui/react";
+import { Button, Input, Spinner, Table } from "@heroui/react";
 import { useEffect, useState } from "react";
 import SubscriptionStatusPoint from "./subscription-status";
 import { useSubscriptionListState } from "@app/manage-web/hooks/payment";
@@ -29,9 +29,11 @@ export default function SubscriptionList() {
 
   const [subscriptionListReq, setSubscriptionListReq] = useState<SubscriptionListReq>(initialParams);
   const [dateRange, setDateRange] = useState<DateRangeValue | null>(initDateRange);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchSubscriptionTable(initialParams);
+    setLoading(true);
+    fetchSubscriptionTable(initialParams).finally(() => setLoading(false));
   }, []);
 
   const changeSearchParams = (req: SubscriptionListReq) => {
@@ -52,7 +54,12 @@ export default function SubscriptionList() {
         : { startDate: "", endDate: "" }),
     };
     changeSearchParams(finalReq);
-    await fetchSubscriptionTable(finalReq);
+    setLoading(true);
+    try {
+      await fetchSubscriptionTable(finalReq);
+    } finally {
+      setLoading(false);
+    }
   }
 
 
@@ -77,7 +84,13 @@ export default function SubscriptionList() {
         <Button variant="primary" size="sm" onClick={() => handleSearchSubscription(subscriptionListReq)}>查询</Button>
         <div className="flex-1"></div>
       </div>
-      <Table>
+      <div className="relative">
+        {loading && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/60">
+            <Spinner size="lg" />
+          </div>
+        )}
+        <Table>
         <Table.ScrollContainer>
           <Table.Content aria-label="Team members" className="min-w-[600px]">
             <Table.Header>
@@ -105,6 +118,7 @@ export default function SubscriptionList() {
           </Table.Content>
         </Table.ScrollContainer>
       </Table>
+      </div>
       <TablePagination
         page={subscriptionListState.page || 1}
         size={subscriptionListState.size || 10}

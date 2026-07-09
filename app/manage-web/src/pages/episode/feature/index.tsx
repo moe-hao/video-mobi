@@ -1,4 +1,4 @@
-import { Button, Input, Table, ToggleButton, Tooltip } from "@heroui/react";
+import { Button, Input, Spinner, Table, ToggleButton, Tooltip } from "@heroui/react";
 import { useFeatureState, useDeleteFeatureState } from "@app/manage-web/hooks/episode";
 import { useEffect, useState } from "react";
 import { BarsDescendingAlignLeftArrowDown, CircleInfo, Xmark } from "@gravity-ui/icons";
@@ -17,6 +17,8 @@ export default function EpisodeFeature() {
 
   const { episodeFeatureListPage, fetchEpisodeFeatureList } = useFeatureState();
   const { fetchEpisodeDelete } = useDeleteFeatureState();
+
+  const [loading, setLoading] = useState(false);
 
   const [collectionFeatureListReq, setCollectionFeatureListReq] = useState<CollectionFeatureListReq>({
     page: Number(searchParams.get('page')) || 1,
@@ -37,14 +39,20 @@ export default function EpisodeFeature() {
   }
 
   useEffect(() => {
-    fetchEpisodeFeatureList(collectionFeatureListReq);
+    setLoading(true);
+    fetchEpisodeFeatureList(collectionFeatureListReq).finally(() => setLoading(false));
     changeSearchParams(collectionFeatureListReq);
   }, [fetchEpisodeFeatureList]);
 
   const handleSearch = async (search: CollectionFeatureListReq) => {
     setCollectionFeatureListReq(search);
-    await fetchEpisodeFeatureList(search);
-    changeSearchParams(search);
+    setLoading(true);
+    try {
+      await fetchEpisodeFeatureList(search);
+      changeSearchParams(search);
+    } finally {
+      setLoading(false);
+    }
   }
 
   const handleWeightSort = async (isSelected: boolean) => {
@@ -54,7 +62,12 @@ export default function EpisodeFeature() {
       collectionFeatureListReq.weightSort = CollectionFeatureSortStatus.Default
     }
     setCollectionFeatureListReq(collectionFeatureListReq);
-    await fetchEpisodeFeatureList(collectionFeatureListReq);
+    setLoading(true);
+    try {
+      await fetchEpisodeFeatureList(collectionFeatureListReq);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -101,7 +114,13 @@ export default function EpisodeFeature() {
         </ToggleButton>
         <CreateModalButton onSuccess={() => handleSearch({ ...collectionFeatureListReq, page: 1 })} />
       </div>
-      <Table>
+      <div className="relative">
+        {loading && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/60">
+            <Spinner size="lg" />
+          </div>
+        )}
+        <Table>
         <Table.ScrollContainer>
           <Table.Content aria-label="Team members" className="min-w-[600px]">
             <Table.Header>
@@ -184,6 +203,7 @@ export default function EpisodeFeature() {
           </Table.Content>
         </Table.ScrollContainer>
       </Table>
+      </div>
       <TablePagination
         page={episodeFeatureListPage.page || 1}
         size={episodeFeatureListPage.size || 10}

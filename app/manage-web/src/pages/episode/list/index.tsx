@@ -121,56 +121,56 @@ export default function EpisodeList() {
           </div>
         )}
         <Table>
-        <Table.ScrollContainer>
-          <Table.Content aria-label="Team members" className="min-w-[600px]">
-            <Table.Header>
-              <Table.Column>ID</Table.Column>
-              <Table.Column isRowHeader>基本信息</Table.Column>
-              <Table.Column>总集数</Table.Column>
-              <Table.Column>卡点集</Table.Column>
-              <Table.Column>语言</Table.Column>
-              <Table.Column>类型</Table.Column>
-              <Table.Column>上架状态</Table.Column>
-              <Table.Column>日期</Table.Column>
-              <Table.Column>操作</Table.Column>
-            </Table.Header>
-            <Table.Body>
-              {
-                episodeListState.list?.map(item => (
-                  <Table.Row key={item.id}>
-                    <Table.Cell>{item.id}</Table.Cell>
-                    <Table.Cell>
-                      <div className="flex items-center gap-4 p-2 transition-colors">
-                        {item.cover ? (
-                          <img
-                            className="h-24 object-cover rounded-md shadow-sm"
-                            src={item.cover}
-                          />
-                        ) : (
-                          <div className="h-24 w-18 border-2 border-dashed border-gray-400 rounded-md flex items-center justify-center shrink-0">
-                            <span className="text-gray-400 text-xs">无封面</span>
-                          </div>
-                        )}
-                        <div className="flex flex-col gap-1.5 min-w-0 items-start">
-                          <div className="flex items-center gap-2">
-                            <span className="text-muted-foreground font-medium w-10 flex-shrink-0">编号:</span>
-                            <span className="text-muted-foreground truncate">{item.bizId}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-muted-foreground font-medium w-10 flex-shrink-0">原名:</span>
-                            <span className="text-muted-foreground truncate">{item.sourceName}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-muted-foreground font-medium w-10 flex-shrink-0">译名:</span>
-                            <span className="text-muted-foreground truncate">{item.name}</span>
+          <Table.ScrollContainer>
+            <Table.Content aria-label="Team members" className="min-w-[600px]">
+              <Table.Header>
+                <Table.Column>ID</Table.Column>
+                <Table.Column isRowHeader>基本信息</Table.Column>
+                <Table.Column>总集数</Table.Column>
+                <Table.Column>卡点集</Table.Column>
+                <Table.Column>语言</Table.Column>
+                <Table.Column>类型</Table.Column>
+                <Table.Column>上架状态</Table.Column>
+                <Table.Column>日期</Table.Column>
+                <Table.Column>操作</Table.Column>
+              </Table.Header>
+              <Table.Body>
+                {
+                  episodeListState.list?.map(item => (
+                    <Table.Row key={item.id}>
+                      <Table.Cell>{item.id}</Table.Cell>
+                      <Table.Cell>
+                        <div className="flex items-center gap-4 p-2 transition-colors">
+                          {item.cover ? (
+                            <img
+                              className="h-24 object-cover rounded-md shadow-sm"
+                              src={item.cover}
+                            />
+                          ) : (
+                            <div className="h-24 w-18 border-2 border-dashed border-gray-400 rounded-md flex items-center justify-center shrink-0">
+                              <span className="text-gray-400 text-xs">无封面</span>
+                            </div>
+                          )}
+                          <div className="flex flex-col gap-1.5 min-w-0 items-start">
+                            <div className="flex items-center gap-2">
+                              <span className="text-muted-foreground font-medium w-10 flex-shrink-0">编号:</span>
+                              <span className="text-muted-foreground truncate">{item.bizId}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-muted-foreground font-medium w-10 flex-shrink-0">原名:</span>
+                              <span className="text-muted-foreground truncate">{item.sourceName}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-muted-foreground font-medium w-10 flex-shrink-0">译名:</span>
+                              <span className="text-muted-foreground truncate">{item.name}</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </Table.Cell>
-                    <Table.Cell>{item.episodes}</Table.Cell>
-                    <Table.Cell>{item.cutPoint}</Table.Cell>
-                    <Table.Cell>
-                      <div className="flex flex-col gap-1.5 min-w-0 items-start">
+                      </Table.Cell>
+                      <Table.Cell>{item.episodes}</Table.Cell>
+                      <Table.Cell>{item.cutPoint}</Table.Cell>
+                      <Table.Cell>
+                        <div className="flex flex-col gap-1.5 min-w-0 items-start">
                           <div className="flex items-center gap-2">
                             <span className="text-muted-foreground font-medium w-10 flex-shrink-0">语言:</span>
                             <span className="text-muted-foreground truncate">{item.language}</span>
@@ -180,60 +180,60 @@ export default function EpisodeList() {
                             <span className="text-muted-foreground truncate">{item.localName}</span>
                           </div>
                         </div>
-                    </Table.Cell>
-                    <Table.Cell>{item.collectionTypeName}</Table.Cell>
-                    <Table.Cell>
-                      {item.publishStatus === PublishStatus.Published ? (
-                        <span className="inline-flex items-center gap-1">
-                          <span className="w-2 h-2 rounded-full bg-green-500 inline-block" />
-                          已上架
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1">
-                          <span className="w-2 h-2 rounded-full bg-red-500 inline-block" />
-                          未上架
-                        </span>
-                      )}
-                    </Table.Cell>
-                    <Table.Cell>
-                      <div className="flex items-center gap-4 p-2 transition-colors">
-                        <div className="flex flex-col gap-1.5 min-w-0 items-start">
-                          <div className="flex items-center gap-2">
-                            <span className="text-muted-foreground font-medium w-18 flex-shrink-0">创建时间:</span>
-                            <span className="text-muted-foreground truncate">{item.createTime}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-muted-foreground font-medium w-18 flex-shrink-0">更新时间:</span>
-                            <span className="text-muted-foreground truncate">{item.updateTime}</span>
+                      </Table.Cell>
+                      <Table.Cell>{item.collectionTypeName}</Table.Cell>
+                      <Table.Cell>
+                        {item.publishStatus === PublishStatus.Published ? (
+                          <span className="inline-flex items-center gap-1">
+                            <span className="w-2 h-2 rounded-full bg-green-500 inline-block" />
+                            已上架
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1">
+                            <span className="w-2 h-2 rounded-full bg-red-500 inline-block" />
+                            未上架
+                          </span>
+                        )}
+                      </Table.Cell>
+                      <Table.Cell>
+                        <div className="flex items-center gap-4 p-2 transition-colors">
+                          <div className="flex flex-col gap-1.5 min-w-0 items-start">
+                            <div className="flex items-center gap-2">
+                              <span className="text-muted-foreground font-medium w-18 flex-shrink-0">创建时间:</span>
+                              <span className="text-muted-foreground truncate">{item.createTime}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-muted-foreground font-medium w-18 flex-shrink-0">更新时间:</span>
+                              <span className="text-muted-foreground truncate">{item.updateTime}</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Link className="no-underline hover:underline text-accent mr-2" onClick={() => navigate(`/episode/video?collectionId=${item.id}`)}>
-                        查看
-                      </Link>
-                      <EditModalButton item={item} onSuccess={async () => await handleSearch(collectionTableListReq)} />
-                      {
-                        item.publishStatus === PublishStatus.Published ? (
-                          <Link className="no-underline hover:underline text-red-500 mr-2" onClick={() => handlePublish({ id: item.id, publishStatus: PublishStatus.Unpublished })}>
-                            下架
-                          </Link>
-                        ) : (
-                          <Link className="no-underline hover:underline text-accent mr-2" onClick={() => handlePublish({ id: item.id, publishStatus: PublishStatus.Published })}>
-                            上架
-                          </Link>
-                        )
-                      }
-                      <DeleteButton id={item.id} onConfirm={(id) => fetchEpisodeDelete(id)} onSuccess={async () => await handleSearch(collectionTableListReq)} />
-                    </Table.Cell>
-                  </Table.Row>
-                ))
-              }
-            </Table.Body>
-          </Table.Content>
-        </Table.ScrollContainer>
-      </Table>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Link className="no-underline hover:underline text-accent mr-2" onClick={() => navigate(`/episode/video?collectionId=${item.id}`)}>
+                          查看
+                        </Link>
+                        <EditModalButton item={item} onSuccess={async () => await handleSearch(collectionTableListReq)} />
+                        {
+                          item.publishStatus === PublishStatus.Published ? (
+                            <Link className="no-underline hover:underline text-red-500 mr-2" onClick={() => handlePublish({ id: item.id, publishStatus: PublishStatus.Unpublished })}>
+                              下架
+                            </Link>
+                          ) : (
+                            <Link className="no-underline hover:underline text-accent mr-2" onClick={() => handlePublish({ id: item.id, publishStatus: PublishStatus.Published })}>
+                              上架
+                            </Link>
+                          )
+                        }
+                        <DeleteButton id={item.id} onConfirm={(id) => fetchEpisodeDelete(id)} onSuccess={async () => await handleSearch(collectionTableListReq)} />
+                      </Table.Cell>
+                    </Table.Row>
+                  ))
+                }
+              </Table.Body>
+            </Table.Content>
+          </Table.ScrollContainer>
+        </Table>
       </div>
       <TablePagination
         page={episodeListState.page || 1}

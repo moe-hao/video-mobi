@@ -79,7 +79,7 @@ class CollectionDao {
         return result[0].count;
     }
 
-    async getCollectionListBySearch(search: string): Promise<CollectionSelect[]> {
+    async getCollectionListBySearch(search: string, language?: Language | ''): Promise<CollectionSelect[]> {
         const conditions = [];
         if (search) {
             const searchConditions = [];
@@ -91,6 +91,10 @@ class CollectionDao {
             searchConditions.push(like(collectionTable.name, `%${search}%`));
             searchConditions.push(like(collectionTable.sourceName, `%${search}%`));
             conditions.push(or(...searchConditions));
+        }
+
+        if (language) {
+            conditions.push(eq(collectionTable.language, language));
         }
 
         conditions.push(eq(collectionTable.isDeleted, DeleteStatus.NotDeleted));

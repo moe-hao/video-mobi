@@ -9,7 +9,7 @@ import { collectionDao } from "@lib/repo/dao/collection.dao";
 
 class CollectionFeatureService {
     async getCollectionFeatureList(req: CollectionFeatureListReq): Promise<CollectionFeatureListResp> {
-        const searchCollectionList = await collectionDao.getCollectionListBySearch(req.episodeSearch);
+        const searchCollectionList = await collectionDao.getCollectionListBySearch(req.episodeSearch, req.languageCode);
         if (searchCollectionList.length === 0) {
             return {
                 page: req.page,
