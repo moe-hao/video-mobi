@@ -57,7 +57,7 @@ export default function AdReportDailyList() {
     adAccountId: searchParams.get('adAccountId') || '',
     campaignId: searchParams.get('campaignId') || '',
     adId: searchParams.get('adId') || '',
-    sortField: (searchParams.get('sortField') as 'spend') || 'spend',
+    sortField: (searchParams.get('sortField') as 'spend') || '',
     sortDir: (searchParams.get('sortDir') as 'asc' | 'desc') || 'desc',
   };
 
@@ -106,8 +106,9 @@ export default function AdReportDailyList() {
   const isVisible = (key: string) => visibleColumns.has(key);
 
   const handleSpendSort = () => {
-    const nextDir = adReportDailyReq.sortDir === 'desc' ? 'asc' : 'desc';
-    const req = { ...adReportDailyReq, sortDir: nextDir as 'asc' | 'desc' };
+    const isCurrentSort = adReportDailyReq.sortField === 'spend';
+    const nextDir = isCurrentSort && adReportDailyReq.sortDir === 'desc' ? 'asc' : 'desc';
+    const req = { ...adReportDailyReq, sortField: 'spend' as const, sortDir: nextDir as 'asc' | 'desc' };
     setAdReportDailyReq(req);
     handleSearch(req);
   };
@@ -205,8 +206,8 @@ export default function AdReportDailyList() {
                 <Table.Column className="whitespace-nowrap">
                   <button className="flex items-center gap-1 cursor-pointer select-none hover:text-gray-900" onClick={handleSpendSort}>
                      花费
-                     {adReportDailyReq.sortDir === 'desc' && <ArrowDown className="size-3" />}
-                     {adReportDailyReq.sortDir === 'asc' && <ArrowUp className="size-3" />}
+                     {adReportDailyReq.sortField === 'spend' && adReportDailyReq.sortDir === 'desc' && <ArrowDown className="size-3" />}
+                   {adReportDailyReq.sortField === 'spend' && adReportDailyReq.sortDir === 'asc' && <ArrowUp className="size-3" />}
                    </button>
                 </Table.Column>
               )}

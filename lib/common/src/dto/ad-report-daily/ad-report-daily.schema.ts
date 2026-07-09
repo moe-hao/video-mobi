@@ -7,7 +7,7 @@ export const adReportDailyListReqSchema = z.object({
     adAccountId: z.string().default(''),
     campaignId: z.string().default(''),
     adId: z.string().default(''),
-    sortField: z.enum(['spend']).default('spend'),
+    sortField: z.enum(['spend', '']).default(''),
     sortDir: z.enum(['asc', 'desc']).default('desc'),
 });
 

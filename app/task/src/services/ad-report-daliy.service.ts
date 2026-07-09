@@ -21,6 +21,7 @@ const fields = [
     AdsInsights.Fields.video_p25_watched_actions, // 视频播放进度 25%
     AdsInsights.Fields.video_p50_watched_actions, // 视频播放进度 50%
     AdsInsights.Fields.video_p100_watched_actions, // 视频播放进度 100%
+    AdsInsights.Fields.average_purchases_conversion_value, // 购物转化价值
 ];
 
 type AdAccountInfo = {
@@ -28,6 +29,7 @@ type AdAccountInfo = {
     name: string;
 }
 
+syncAdReport('2026-07-09')
 async function syncAdReport(date: string) {
     FacebookAdsApi.init(config.FbBusinessAccessToken);
     const adAccount = new AdAccount('act_1333081838411463');
@@ -60,10 +62,13 @@ async function syncAdReport(date: string) {
             ctr: item.ctr,
             impressions: item.impressions,
             spend: item.spend,
+            purchasesConversionValue: item.average_purchases_conversion_value?.[0]?.value,
             videoP25: item.video_p25_watched_actions?.[0]?.value,
             videoP50: item.video_p50_watched_actions?.[0]?.value,
             videoP100: item.video_p100_watched_actions?.[0]?.value,
         };
+
+        console.log(adReportData);
 
         if (!adReportDailyDetail) {
             adReportData.date = date;
@@ -78,7 +83,20 @@ async function syncAdReport(date: string) {
     }
 }
 
+async function syncAdReportRange(startDate: string, endDate: string) {
+    const start = new Date(startDate + 'T00:00:00');
+    const end = new Date(endDate + 'T00:00:00');
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+        const date = d.toISOString().split('T')[0];
+        console.log(`同步日报数据: ${date}`);
+        await syncAdReport(date);
+    }
+    console.log('批量同步完成');
+}
+
 export const adReportDailyService = {
+    syncAdReportRange,
+
     asyncAdReportDaily: async () => {
         const today = new Date().toISOString().split('T')[0];
         await syncAdReport(today);

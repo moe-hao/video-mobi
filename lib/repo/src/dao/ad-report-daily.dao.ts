@@ -1,6 +1,6 @@
 import { database, type DatabaseConn } from "@lib/internal/database";
 import { adReportDailyTable, type AdReportDailyInsert, type AdReportDailySelect } from "../models/ad-report-daily";
-import { and, asc, count, desc, eq, like } from "drizzle-orm";
+import { and, asc, count, desc, eq, like, type AnyColumn } from "drizzle-orm";
 import { currentTime } from "@lib/common/utils/time";
 
 export type SearchAdReportDaily = {
@@ -46,10 +46,11 @@ export class AdReportDailyDao {
         sortField: string = 'spend', sortDir: 'asc' | 'desc' = 'desc'
     ): Promise<AdReportDailySelect[]> {
         const conditions = this.buildSearchConditions(search);
-        const orderColumns: Record<string, typeof adReportDailyTable.spend> = {
+        const orderColumns: Record<string, AnyColumn> = {
             spend: adReportDailyTable.spend,
+            id: adReportDailyTable.id,
         };
-        const orderCol = orderColumns[sortField] ?? adReportDailyTable.spend;
+        const orderCol = orderColumns[sortField] ?? adReportDailyTable.id;
         const orderFn = sortDir === 'asc' ? asc : desc;
         return await this.conn.select().from(adReportDailyTable)
             .where(conditions.length ? and(...conditions) : undefined)

@@ -19,6 +19,7 @@ export const adReportDailyTable = mysqlTable("ad_report_daily", {
     clicksNum: int("clicks_num").notNull().default(0),
     cpc: decimal("cpc", { precision: 10, scale: 6 }).notNull().default('0.000000'),
     ctr: decimal("ctr", { precision: 10, scale: 6 }).notNull().default('0.000000'),
+    purchasesConversionValue: decimal("purchases_conversion_value", { precision: 10, scale: 2 }).notNull().default('0.00'),
     videoP25: int("video_p25").notNull().default(0),
     videoP50: int("video_p50").notNull().default(0),
     videoP100: int("video_p100").notNull().default(0),
