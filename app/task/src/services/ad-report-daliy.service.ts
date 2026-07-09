@@ -54,7 +54,7 @@ async function syncAdReport(date: string) {
             adId: item.ad_id,
             adName: item.ad_name,
             region: item.country,
-            clicksNum: item.clicks,
+            clicksNum: item.inline_link_clicks,
             cpc: item.cpc,
             cpm: item.cpm,
             ctr: item.ctr,

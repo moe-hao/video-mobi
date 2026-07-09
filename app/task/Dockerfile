@@ -9,6 +9,12 @@ RUN pnpm --filter @app/task deploy --prod /deploy
 
 FROM node:24-alpine AS runner
 WORKDIR /app
+
+RUN apk add --no-cache tzdata && \
+    cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo "Asia/Shanghai" > /etc/timezone && \
+    apk del tzdata
+
 COPY --from=builder /deploy/dist ./dist
 COPY --from=builder /deploy/node_modules ./node_modules
 
