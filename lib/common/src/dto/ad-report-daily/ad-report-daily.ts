@@ -19,7 +19,6 @@ export interface AdReportDailyListRespItem {
     region: string;
     spend: string;
     impressions: number;
-    clicks: number;
     cpm: string;
     clicksNum: number;
     cpc: string;

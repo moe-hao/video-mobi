@@ -12,7 +12,7 @@ class AdReportDailyService {
         };
 
         const [list, total] = await Promise.all([
-            adReportDailyDao.getAdReportDailyListPage(req.page, req.size, search),
+            adReportDailyDao.getAdReportDailyListPage(req.page, req.size, search, req.sortField, req.sortDir),
             adReportDailyDao.getAdReportDailyListTotal(search),
         ]);
 
