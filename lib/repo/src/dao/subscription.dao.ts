@@ -1,44 +1,53 @@
 import { type SubscriptionInsert, type SubscriptionSelect, subscriptionTable } from "../models/subscription";
-import { and, count, desc, eq } from "drizzle-orm";
+import { and, count, desc, eq, gte, lte, or } from "drizzle-orm";
 import { database, type DatabaseConn } from "@lib/internal/database";
 import { currentTime } from "@lib/common/utils/time";
 import { SubscriptionStatus } from "@lib/common/consts/subscription";
 import type { PaymentChannel } from "@lib/common/consts/payment";
 
 export type SubscriptionSearchReq = {
-    id: number | string;
     status: SubscriptionStatus | string;
+    subscriptionNo: string;
+    startDate: string;
+    endDate: string;
 }
 
 export class SubscriptionDao {
     constructor(private readonly conn: DatabaseConn = database) { }
 
-    async getSubscriptionPageList(page: number, size: number, search: SubscriptionSearchReq): Promise<SubscriptionSelect[]> {
+    private buildSearchConditions(search: SubscriptionSearchReq) {
         const conditions = [];
-        if (search.id) {
-            conditions.push(eq(subscriptionTable.id, Number(search.id)));
+        if (search.subscriptionNo) {
+            const searchConditions = [];
+            if (!isNaN(Number(search.subscriptionNo))) {
+                searchConditions.push(eq(subscriptionTable.id, Number(search.subscriptionNo)));
+            }
+            searchConditions.push(eq(subscriptionTable.subscriptionNo, search.subscriptionNo));
+            conditions.push(or(...searchConditions));
         }
         if (search.status) {
             conditions.push(eq(subscriptionTable.subscriptionStatus, Number(search.status)));
         }
-        if (conditions.length > 0) {
-            conditions.push(and(...conditions));
+        if (search.startDate && search.endDate) {
+            conditions.push(and(
+                gte(subscriptionTable.createTime, Number(search.startDate)),
+                lte(subscriptionTable.createTime, Number(search.endDate)),
+            ));
         }
-        return await this.conn.select().from(subscriptionTable).where(and(...conditions)).limit(size).offset((page - 1) * size).orderBy(desc(subscriptionTable.id));
+        return conditions;
+    }
+
+    async getSubscriptionPageList(page: number, size: number, search: SubscriptionSearchReq): Promise<SubscriptionSelect[]> {
+        const conditions = this.buildSearchConditions(search);
+        return await this.conn.select().from(subscriptionTable)
+            .where(conditions.length ? and(...conditions) : undefined)
+            .limit(size).offset((page - 1) * size).orderBy(desc(subscriptionTable.id));
     }
 
     async getSubscriptionPageTotal(search: SubscriptionSearchReq): Promise<number> {
-        const conditions = [];
-        if (search.id) {
-            conditions.push(eq(subscriptionTable.id, Number(search.id)));
-        }
-        if (search.status) {
-            conditions.push(eq(subscriptionTable.subscriptionStatus, Number(search.status)));
-        }
-        if (conditions.length > 0) {
-            conditions.push(and(...conditions));
-        }
-        const [result] = await this.conn.select({ count: count() }).from(subscriptionTable).where(and(...conditions));
+        const conditions = this.buildSearchConditions(search);
+        const [result] = await this.conn.select({ count: count() }).from(subscriptionTable)
+            .where(conditions.length ? and(...conditions) : undefined);
         return result.count;
     }
 

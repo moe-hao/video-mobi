@@ -7,8 +7,10 @@ import { userDao } from "@lib/repo/dao/user.dao";
 class SubscriptionService {
     async getSubscriptionList(req: SubscriptionListReq): Promise<SubscriptionListResp> {
         const search = {
-            id: req.id,
             status: req.status,
+            subscriptionNo: req.subscriptionNo ?? '',
+            startDate: req.startDate ?? '',
+            endDate: req.endDate ?? '',
         }
         const [subscriptionList, subscriptionTotal] = await Promise.all([
             subscriptionDao.getSubscriptionPageList(req.page, req.size, search),

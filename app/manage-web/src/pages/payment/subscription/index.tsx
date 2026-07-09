@@ -7,33 +7,53 @@ import type { SubscriptionListReq } from "@lib/common/dto/subscription";
 import { useSearchParams } from "react-router";
 import SubscriptionStatusSelect from "@app/manage-web/components/subscription-select/subscription-status-select";
 import type { SubscriptionStatus } from "@lib/common/consts/subscription";
+import DateRange, { type DateRangeValue } from "@app/manage-web/components/date-range";
 
 export default function SubscriptionList() {
   const { subscriptionListState, fetchSubscriptionTable } = useSubscriptionListState();
-  const [_searchParams, setSearchParams] = useSearchParams();
-  const [subscriptionListReq, setSubscriptionListReq] = useState<SubscriptionListReq>({
-    page: 1,
-    size: 20,
-    id: '',
-    status: '',
-  });
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const initialParams: SubscriptionListReq = {
+    page: Number(searchParams.get('page')) || 1,
+    size: Number(searchParams.get('size')) || 20,
+    status: searchParams.get('status') || '',
+    subscriptionNo: searchParams.get('subscriptionNo') || '',
+    startDate: searchParams.get('startDate') || '',
+    endDate: searchParams.get('endDate') || '',
+  };
+
+  const initDateRange: DateRangeValue | null =
+    initialParams.startDate && initialParams.endDate
+      ? { start: Number(initialParams.startDate), end: Number(initialParams.endDate) }
+      : null;
+
+  const [subscriptionListReq, setSubscriptionListReq] = useState<SubscriptionListReq>(initialParams);
+  const [dateRange, setDateRange] = useState<DateRangeValue | null>(initDateRange);
 
   useEffect(() => {
-    handleSearchSubscription(subscriptionListReq);
-  }, [fetchSubscriptionTable]);
+    fetchSubscriptionTable(initialParams);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const changeSearchParams = (req: SubscriptionListReq) => {
     setSearchParams({
       page: req.page.toString(),
       size: req.size.toString(),
-      id: req.id.toString(),
       status: req.status.toString(),
+      subscriptionNo: req.subscriptionNo.toString(),
+      ...(req.startDate ? { startDate: req.startDate, endDate: req.endDate } : { startDate: "", endDate: "" }),
     });
   }
 
-  const handleSearchSubscription = (req: SubscriptionListReq) => {
-    changeSearchParams(req);
-    fetchSubscriptionTable(req);
+  const handleSearchSubscription = async (req: SubscriptionListReq) => {
+    const finalReq = {
+      ...req,
+      ...(dateRange
+        ? { startDate: dateRange.start.toString(), endDate: dateRange.end.toString() }
+        : { startDate: "", endDate: "" }),
+    };
+    changeSearchParams(finalReq);
+    await fetchSubscriptionTable(finalReq);
   }
 
 
@@ -47,12 +67,13 @@ export default function SubscriptionList() {
           <Input
             aria-label="搜索"
             variant="secondary"
-            placeholder="搜索订阅ID"
+            placeholder="搜索订阅ID/编号"
             className="w-48"
-            value={subscriptionListReq.id}
-            onChange={(e) => setSubscriptionListReq({ ...subscriptionListReq, id: e.target.value })}
+            value={subscriptionListReq.subscriptionNo}
+            onChange={(e) => setSubscriptionListReq({ ...subscriptionListReq, subscriptionNo: e.target.value })}
           />
           <SubscriptionStatusSelect className="w-48" value={subscriptionListReq.status as SubscriptionStatus} onChange={(status) => setSubscriptionListReq({ ...subscriptionListReq, status })} />
+          <DateRange className="w-72" defaultValue={initDateRange} onChange={setDateRange} />
         </div>
         <Button variant="primary" size="sm" onClick={() => handleSearchSubscription(subscriptionListReq)}>查询</Button>
         <div className="flex-1"></div>
@@ -67,7 +88,6 @@ export default function SubscriptionList() {
               <Table.Column>订阅状态</Table.Column>
               <Table.Column>创建时间</Table.Column>
               <Table.Column>更新时间</Table.Column>
-              {/* <Table.Column>操作</Table.Column> */}
             </Table.Header>
             <Table.Body>
               {subscriptionListState.list?.map((item) => (
@@ -80,13 +100,8 @@ export default function SubscriptionList() {
                   </Table.Cell>
                   <Table.Cell>{item.createTime} </Table.Cell>
                   <Table.Cell>{item.updateTime}</Table.Cell>
-                  {/* <Table.Cell> */}
-                  {/* <Button variant="secondary" size="sm">关单</Button> */}
-                  {/* </Table.Cell> */}
                 </Table.Row>
               ))}
-
-
             </Table.Body>
           </Table.Content>
         </Table.ScrollContainer>
