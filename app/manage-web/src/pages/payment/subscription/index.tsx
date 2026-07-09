@@ -32,7 +32,6 @@ export default function SubscriptionList() {
 
   useEffect(() => {
     fetchSubscriptionTable(initialParams);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const changeSearchParams = (req: SubscriptionListReq) => {
