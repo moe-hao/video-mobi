@@ -29,7 +29,6 @@ type AdAccountInfo = {
     name: string;
 }
 
-syncAdReport('2026-07-09')
 async function syncAdReport(date: string) {
     FacebookAdsApi.init(config.FbBusinessAccessToken);
     const adAccount = new AdAccount('act_1333081838411463');
@@ -83,20 +82,7 @@ async function syncAdReport(date: string) {
     }
 }
 
-async function syncAdReportRange(startDate: string, endDate: string) {
-    const start = new Date(startDate + 'T00:00:00');
-    const end = new Date(endDate + 'T00:00:00');
-    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-        const date = d.toISOString().split('T')[0];
-        console.log(`同步日报数据: ${date}`);
-        await syncAdReport(date);
-    }
-    console.log('批量同步完成');
-}
-
 export const adReportDailyService = {
-    syncAdReportRange,
-
     asyncAdReportDaily: async () => {
         const today = new Date().toISOString().split('T')[0];
         await syncAdReport(today);
