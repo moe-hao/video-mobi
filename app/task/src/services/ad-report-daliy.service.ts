@@ -21,6 +21,7 @@ const fields = [
     AdsInsights.Fields.video_p25_watched_actions, // 视频播放进度 25%
     AdsInsights.Fields.video_p50_watched_actions, // 视频播放进度 50%
     AdsInsights.Fields.video_p100_watched_actions, // 视频播放进度 100%
+    AdsInsights.Fields.purchase_roas, // 购物ROAS率
     AdsInsights.Fields.average_purchases_conversion_value, // 购物转化价值
 ];
 
@@ -61,6 +62,7 @@ async function syncAdReport(date: string) {
             ctr: item.ctr,
             impressions: item.impressions,
             spend: item.spend,
+            purchase_roas: item.purchase_roas?.[0]?.value,
             purchasesConversionValue: item.average_purchases_conversion_value?.[0]?.value,
             videoP25: item.video_p25_watched_actions?.[0]?.value,
             videoP50: item.video_p50_watched_actions?.[0]?.value,
