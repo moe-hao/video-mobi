@@ -1,0 +1,86 @@
+{
+    "collection-list": {
+        "all-collections": "Todas las colecciones",
+        "episodes": "Episodios"
+    },
+    "navigation": {
+        "home": "Inicio",
+        "profile": "Perfil",
+        "history": "Historial"
+    },
+    "history": {
+        "up-to": "Hasta el cap. {{epNum}}",
+        "total": "{{totalEpNum}}",
+        "watch-now": "Ver ahora mismo",
+        "continue": "Continuar"
+    },
+    "payment": {
+        "weekly-vip": "Premium semanal",
+        "monthly-vip": "Premium mensual",
+        "yearly-vip": "Premium anual",
+        "credit-debit-card": "Tarjeta de crédito / débito",
+        "google-pay": "Google Pay"
+    },
+    "user-info": {
+        "user": "Usuario",
+        "premium": "Premium",
+        "expiration-time": "Fecha de expiración",
+        "login-now": "Iniciar sesión",
+        "all-ep-free": "Todos los episodios gratis",
+        "feedback": "Comentarios / Feedback",
+        "coin-history": "Historial de monedas",
+        "terms": "Términos de servicio",
+        "privacy": "Política de privacidad"
+    },
+    "user-login": {
+        "email-login": "Iniciar sesión con email"
+    },
+    "user-login-email": {
+        "email-login": "Iniciar sesión con email",
+        "email-address": "Correo electrónico",
+        "enter": "Ingresar / Entrar"
+    },
+    "user-login-verify": {
+        "verify-code": "Código de verificación",
+        "verify-account": "Verificar cuenta",
+        "verify-code-sent-to": "Hemos enviado un código a {{email}}",
+        "verify-code-error": "Verify Code Error",
+        "enter": "Ingresar / Entrar"
+    },
+    "user-store": {
+        "title": "Premium",
+        "subscribe": "Premium",
+        "hd-quality": "Calidad HD",
+        "free": "Ver gratis",
+        "watch-first": "Ver primero",
+        "premium": "Premium"
+    },
+    "video-with-id": {
+        "episode-num": "Cap. {{currentEpisode}}",
+        "episode-select": "Episodios",
+        "completed": "Completado / Finalizado",
+        "total-episodes": "{{totalEpisodes}} episodios",
+        "share": "Compartir",
+        "unlock-toast": "Por favor, desbloquea el episodio anterior primero."
+    },
+    "user-feedback": {
+        "feedback": "Feedback",
+        "bug": "Bug",
+        "suggestion": "Sugerencia",
+        "payment": "Pago",
+        "email": "Correo electrónico",
+        "description": "Descripción",
+        "transaction-id": "ID de transacción",
+        "submit": "Enviar",
+        "cancel-subscription": "Cancelar suscripción"
+    },
+    "coin-history": {
+        "title": "Historial de monedas",
+        "received": "Obtenidas",
+        "spent": "Gastadas",
+        "no-coin-history": "No hay historial de monedas"
+    },
+    "common": {
+        "loading": "Cargando…"
+    }
+}

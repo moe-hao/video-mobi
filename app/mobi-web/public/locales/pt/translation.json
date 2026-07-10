@@ -60,7 +60,8 @@
         "episode-select": "Episódios",
         "completed": "Concluído",
         "total-episodes": "{{totalEpisodes}} episódios",
-        "share": "Compartilhar"
+        "share": "Compartilhar",
+        "unlock-toast": "Por favor, desbloqueie o episódio anterior primeiro."
     },
     "user-feedback": {
         "feedback": "Feedback",

@@ -59,7 +59,8 @@
         "episode-select": "選集",
         "completed": "已完結",
         "total-episodes": "{{totalEpisodes}} 集",
-        "share": "分享"
+        "share": "分享",
+        "unlock-toast": "請先解鎖上一集。"
     },
     "user-feedback": {
         "feedback": "Feedback",

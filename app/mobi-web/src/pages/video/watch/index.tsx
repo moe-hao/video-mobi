@@ -297,7 +297,7 @@ export default function VideoWatch() {
               }, 200);
             } else if (result.status === 'invalid_unlock') {
               toastQueue.add({
-                title: "Please unlock previous episodes first",
+                title: t('unlock-toast'),
                 variant: "warning",
                 timeout: 2000,
               });

@@ -60,7 +60,8 @@
         "episode-select": "Episodes",
         "completed": "Completed",
         "total-episodes": "{{totalEpisodes}} Episodes",
-        "share": "Share"
+        "share": "Share",
+        "unlock-toast": "Please unlock the previous episode first."
     },
     "user-feedback": {
         "feedback": "Feedback",
