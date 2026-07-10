@@ -12,6 +12,7 @@ import { orderBizIdGenerator } from "@app/order/order/order-biz-id-generator";
 import { skuDao } from "@lib/repo/dao/sku.dao";
 import { productDao } from "@lib/repo/dao/product.dao";
 import { currentTime } from "@lib/common/utils/time";
+import { logger } from "@lib/internal/logger";
 
 export class PayssionWebhookService {
     async handle(req: PayssionWebhookReq) {
@@ -74,6 +75,8 @@ export class PayssionWebhookService {
 
             const pixelInfo = await pixelDao.getPixelById(orderInfo.pixelId);
             await subscriptionService.sendFacebookEvent(pixelInfo, subscriptionInfo);
+
+            logger.info(`update subscription data: subscriptionId: ${subscriptionInfo.id} subscriptionNo: ${subscriptionNo} orderId: ${orderInfo.id}`);
             if (payssionSubscriptionInfo.status === 'active') {
                 await subscriptionDao.updateSubscriptionById(subscriptionInfo.id, {
                     subscriptionStatus: SubscriptionStatus.Active,
