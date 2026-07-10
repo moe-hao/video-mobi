@@ -1,5 +1,5 @@
 import { MemberDeliveryFactory } from "@app/order/member";
-import { OrderStatus } from "@lib/common/consts/order";
+import { OrderFinalState, OrderStatus } from "@lib/common/consts/order";
 import { SubscriptionStatus } from "@lib/common/consts/subscription";
 import type { PayssionWebhookPaymentData, PayssionWebhookReq, PayssionWebhookSubscriptionData } from "@lib/common/dto/payssion";
 import { orderDao } from "@lib/repo/dao/order.dao";
@@ -7,7 +7,7 @@ import { pixelDao } from "@lib/repo/dao/pixel.dao";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
 import { subscriptionService } from "../payermax/subscription-service";
 import { payssionProxy } from "@lib/repo/proxy/payment/payssion";
-import { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
+import { PaymentType } from "@lib/common/consts/payment";
 import { orderBizIdGenerator } from "@app/order/order/order-biz-id-generator";
 import { skuDao } from "@lib/repo/dao/sku.dao";
 import { productDao } from "@lib/repo/dao/product.dao";
@@ -39,8 +39,29 @@ export class PayssionWebhookService {
         const subscriptionInfo = await subscriptionDao.getSubscriptionByNo(subscriptionNo);
         const payssionSubscriptionInfo = await payssionProxy.getSubscriptionInfo(subscriptionNo);
 
-        let orderInfo = await orderDao.getOrderByPaymentIdAndChannel(req.data.object.id, PaymentChannel.Payssion);
-        if (!orderInfo) {
+        const [orderInfo] = await orderDao.getOrderListByUserIdAndSubscriptionId(subscriptionInfo.userId, subscriptionInfo.id);
+
+        if (!OrderFinalState.includes(orderInfo.orderStatus)) {
+            await orderDao.updateOrderById(orderInfo.id, {
+                paymentId: req.data.object.id,
+                orderStatus: OrderStatus.Completed,
+            });
+            await MemberDeliveryFactory.create(orderInfo).deliver();
+
+            const pixelInfo = await pixelDao.getPixelById(orderInfo.pixelId);
+            await subscriptionService.sendFacebookEvent(pixelInfo, subscriptionInfo);
+
+            logger.info(`update subscription data: subscriptionId: ${subscriptionInfo.id} subscriptionNo: ${subscriptionNo} orderId: ${orderInfo.id}`);
+            if (payssionSubscriptionInfo.status === 'active') {
+                await subscriptionDao.updateSubscriptionById(subscriptionInfo.id, {
+                    subscriptionStatus: SubscriptionStatus.Active,
+                });
+
+                await orderDao.updateOrderById(orderInfo.id, {
+                    subscriptionCount: payssionSubscriptionInfo.times_completed,
+                });
+            }
+        } else {
             const skuInfo = await skuDao.getSkuById(subscriptionInfo.skuId);
             const [productInfo] = await productDao.getProductListInIds([skuInfo.productId]);
 
@@ -64,28 +85,8 @@ export class PayssionWebhookService {
                 updateTime: currentTime(),
             });
 
-            orderInfo = await orderDao.getOrderById(orderId);
+            const orderInfo = await orderDao.getOrderById(orderId);
             await MemberDeliveryFactory.create(orderInfo).deliver();
-        } else {
-            await orderDao.updateOrderById(orderInfo.id, {
-                paymentId: req.data.object.id,
-                orderStatus: OrderStatus.Completed,
-            });
-            await MemberDeliveryFactory.create(orderInfo).deliver();
-
-            const pixelInfo = await pixelDao.getPixelById(orderInfo.pixelId);
-            await subscriptionService.sendFacebookEvent(pixelInfo, subscriptionInfo);
-
-            logger.info(`update subscription data: subscriptionId: ${subscriptionInfo.id} subscriptionNo: ${subscriptionNo} orderId: ${orderInfo.id}`);
-            if (payssionSubscriptionInfo.status === 'active') {
-                await subscriptionDao.updateSubscriptionById(subscriptionInfo.id, {
-                    subscriptionStatus: SubscriptionStatus.Active,
-                });
-
-                await orderDao.updateOrderById(orderInfo.id, {
-                    subscriptionCount: payssionSubscriptionInfo.times_completed,
-                });
-            }
         }
     }
 
