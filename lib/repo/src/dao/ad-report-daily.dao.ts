@@ -48,9 +48,10 @@ export class AdReportDailyDao {
         const conditions = this.buildSearchConditions(search);
         const orderColumns: Record<string, AnyColumn> = {
             spend: adReportDailyTable.spend,
+            purchasesConversionValue: adReportDailyTable.purchasesConversionValue,
             id: adReportDailyTable.id,
         };
-        const orderCol = orderColumns[sortField] ?? adReportDailyTable.id;
+        const orderCol = orderColumns[sortField] ?? adReportDailyTable.date;
         const orderFn = sortDir === 'asc' ? asc : desc;
         return await this.conn.select().from(adReportDailyTable)
             .where(conditions.length ? and(...conditions) : undefined)

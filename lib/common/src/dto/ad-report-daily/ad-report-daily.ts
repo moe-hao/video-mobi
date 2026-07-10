@@ -23,6 +23,7 @@ export interface AdReportDailyListRespItem {
     clicksNum: number;
     cpc: string;
     ctr: string;
+    purchasesConversionValue: string;
     videoP25: number;
     videoP50: number;
     videoP100: number;

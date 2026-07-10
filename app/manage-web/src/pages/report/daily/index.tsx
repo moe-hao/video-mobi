@@ -21,6 +21,7 @@ const ALL_COLUMNS = [
   { key: 'clicksNum', label: '链接点击量' },
   { key: 'cpc', label: 'CPC' },
   { key: 'ctr', label: 'CTR' },
+  { key: 'purchasesConversionValue', label: '购物转化价值' },
   { key: 'videoP25', label: '视频25%' },
   { key: 'videoP50', label: '视频50%' },
   { key: 'videoP100', label: '视频100%' },
@@ -105,10 +106,10 @@ export default function AdReportDailyList() {
 
   const isVisible = (key: string) => visibleColumns.has(key);
 
-  const handleSpendSort = () => {
-    const isCurrentSort = adReportDailyReq.sortField === 'spend';
+  const handleSort = (field: 'spend' | 'purchasesConversionValue') => {
+    const isCurrentSort = adReportDailyReq.sortField === field;
     const nextDir = isCurrentSort && adReportDailyReq.sortDir === 'desc' ? 'asc' : 'desc';
-    const req = { ...adReportDailyReq, sortField: 'spend' as const, sortDir: nextDir as 'asc' | 'desc' };
+    const req = { ...adReportDailyReq, sortField: field, sortDir: nextDir as 'asc' | 'desc' };
     setAdReportDailyReq(req);
     handleSearch(req);
   };
@@ -204,10 +205,19 @@ export default function AdReportDailyList() {
               {isVisible('region') && <Table.Column className="whitespace-nowrap">地区</Table.Column>}
               {isVisible('spend') && (
                 <Table.Column className="whitespace-nowrap">
-                  <button className="flex items-center gap-1 cursor-pointer select-none hover:text-gray-900" onClick={handleSpendSort}>
+                  <button className="flex items-center gap-1 cursor-pointer select-none hover:text-gray-900" onClick={() => handleSort('spend')}>
                      花费
                      {adReportDailyReq.sortField === 'spend' && adReportDailyReq.sortDir === 'desc' && <ArrowDown className="size-3" />}
                    {adReportDailyReq.sortField === 'spend' && adReportDailyReq.sortDir === 'asc' && <ArrowUp className="size-3" />}
+                   </button>
+                </Table.Column>
+              )}
+              {isVisible('purchasesConversionValue') && (
+                <Table.Column className="whitespace-nowrap">
+                  <button className="flex items-center gap-1 cursor-pointer select-none hover:text-gray-900" onClick={() => handleSort('purchasesConversionValue')}>
+                     购物转化价值
+                     {adReportDailyReq.sortField === 'purchasesConversionValue' && adReportDailyReq.sortDir === 'desc' && <ArrowDown className="size-3" />}
+                   {adReportDailyReq.sortField === 'purchasesConversionValue' && adReportDailyReq.sortDir === 'asc' && <ArrowUp className="size-3" />}
                    </button>
                 </Table.Column>
               )}
@@ -276,7 +286,8 @@ export default function AdReportDailyList() {
                   </Table.Cell>
                   )}
                   {isVisible('region') && <Table.Cell className="whitespace-nowrap">{item.region}</Table.Cell>}
-                  {isVisible('spend') && <Table.Cell className="whitespace-nowrap">{item.spend}</Table.Cell>}
+                  {isVisible('spend') && <Table.Cell className="whitespace-nowrap">${item.spend}</Table.Cell>}
+                  {isVisible('purchasesConversionValue') && <Table.Cell className="whitespace-nowrap">${item.purchasesConversionValue}</Table.Cell>}
                   {isVisible('impressions') && <Table.Cell className="whitespace-nowrap">{item.impressions}</Table.Cell>}
                   {isVisible('cpm') && <Table.Cell className="whitespace-nowrap">{item.cpm}</Table.Cell>}
                   {isVisible('clicksNum') && <Table.Cell className="whitespace-nowrap">{item.clicksNum}</Table.Cell>}
