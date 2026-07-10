@@ -22,6 +22,7 @@ const ALL_COLUMNS = [
   { key: 'cpc', label: 'CPC' },
   { key: 'ctr', label: 'CTR' },
   { key: 'purchasesConversionValue', label: '购物转化价值' },
+  { key: 'purchaseRoas', label: 'Purchase ROAS' },
   { key: 'videoP25', label: '视频25%' },
   { key: 'videoP50', label: '视频50%' },
   { key: 'videoP100', label: '视频100%' },
@@ -221,6 +222,7 @@ export default function AdReportDailyList() {
                    </button>
                 </Table.Column>
               )}
+              {isVisible('purchaseRoas') && <Table.Column className="whitespace-nowrap">ROAS</Table.Column>}
               {isVisible('impressions') && <Table.Column className="whitespace-nowrap">展示</Table.Column>}
               {isVisible('cpm') && <Table.Column className="whitespace-nowrap">CPM</Table.Column>}
               {isVisible('clicksNum') && <Table.Column className="whitespace-nowrap">链接点击量</Table.Column>}
@@ -288,6 +290,7 @@ export default function AdReportDailyList() {
                   {isVisible('region') && <Table.Cell className="whitespace-nowrap">{item.region}</Table.Cell>}
                   {isVisible('spend') && <Table.Cell className="whitespace-nowrap">${item.spend}</Table.Cell>}
                   {isVisible('purchasesConversionValue') && <Table.Cell className="whitespace-nowrap">${item.purchasesConversionValue}</Table.Cell>}
+                  {isVisible('purchaseRoas') && <Table.Cell className="whitespace-nowrap">{item.purchaseRoas}</Table.Cell>}
                   {isVisible('impressions') && <Table.Cell className="whitespace-nowrap">{item.impressions}</Table.Cell>}
                   {isVisible('cpm') && <Table.Cell className="whitespace-nowrap">{item.cpm}</Table.Cell>}
                   {isVisible('clicksNum') && <Table.Cell className="whitespace-nowrap">{item.clicksNum}</Table.Cell>}

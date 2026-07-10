@@ -106,7 +106,7 @@ class PayermaxProxy {
         const body = generatePayermaxRequestBody(data);
         const resp = await this.request(path.OrderAndPay, body);
         const result = await resp.json() as PayermaxResponse<PayermaxOrderAndPayResult>;
-        logger.info(`PayOrder result: ${result.data}`);
+        logger.info(`PayOrder result: ${JSON.stringify(result)}`);
         return result.data;
     }
 
