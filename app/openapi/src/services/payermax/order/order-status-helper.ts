@@ -21,6 +21,7 @@ class OrderStatusHelper {
                     const pixelInfo = await pixelDao.getPixelById(orderInfo.pixelId);
                     await subscriptionService.sendFacebookEventCoin(pixelInfo, orderInfo);
                 }
+
                 break;
             default:
                 await orderDao.updateOrderById(orderInfo.id, { orderStatus: targetStatus });
