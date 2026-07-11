@@ -19,17 +19,17 @@ export class CoinMemberDelivery implements MemberDelivery {
                 userId: this.orderInfo.userId,
                 coinNum: skuInfo.coinNum + skuInfo.coinBonus,
             });
-
-            await userCoinHistoryDao.addUserCoinHistory({
-                userId: this.orderInfo.userId,
-                collectionId: 0,
-                coinNum: skuInfo.coinNum + skuInfo.coinBonus,
-                commType: UnlockCommType.Charge
-            })
         } else {
             await memberDao.updateMemberById(memberInfo.id, {
                 coinNum: memberInfo.coinNum + skuInfo.coinNum + skuInfo.coinBonus,
             });
         }
+
+        await userCoinHistoryDao.addUserCoinHistory({
+            userId: this.orderInfo.userId,
+            collectionId: 0,
+            coinNum: skuInfo.coinNum + skuInfo.coinBonus,
+            commType: UnlockCommType.Charge
+        });
     }
 }
