@@ -11,7 +11,6 @@ const fields = [
     AdsInsights.Fields.ad_id, // 广告id
     AdsInsights.Fields.ad_name, // 广告名称
     AdsInsights.Fields.spend, // 花费
-    AdsInsights.Fields.conversion_values, // 购物次数
     AdsInsights.Fields.impressions, // 展示量
     AdsInsights.Fields.clicks, // 点击量
     AdsInsights.Fields.cpm, // 千次点击费用
@@ -22,7 +21,7 @@ const fields = [
     AdsInsights.Fields.video_p50_watched_actions, // 视频播放进度 50%
     AdsInsights.Fields.video_p100_watched_actions, // 视频播放进度 100%
     AdsInsights.Fields.purchase_roas, // 购物ROAS率
-    AdsInsights.Fields.average_purchases_conversion_value, // 购物转化价值
+    AdsInsights.Fields.action_values, // 转化价值
 ];
 
 type AdAccountInfo = {
@@ -63,13 +62,11 @@ async function syncAdReport(date: string) {
             impressions: item.impressions,
             spend: item.spend,
             purchaseRoas: item.purchase_roas?.[0]?.value,
-            purchasesConversionValue: item.average_purchases_conversion_value?.[0]?.value,
+            purchasesConversionValue: item.action_values?.find((v: any) => v.action_type === 'purchase')?.value,
             videoP25: item.video_p25_watched_actions?.[0]?.value,
             videoP50: item.video_p50_watched_actions?.[0]?.value,
             videoP100: item.video_p100_watched_actions?.[0]?.value,
         };
-
-        console.log(adReportData);
 
         if (!adReportDailyDetail) {
             adReportData.date = date;
