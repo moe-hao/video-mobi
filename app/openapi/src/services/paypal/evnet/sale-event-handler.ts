@@ -10,6 +10,7 @@ import { MemberDeliveryFactory } from "@app/order/member";
 import { subscriptionService } from "../../payermax/subscription-service";
 import { pixelDao } from "@lib/repo/dao/pixel.dao";
 import { SkuType } from "@lib/common/consts/sku";
+import { PixelPlatform } from "@lib/common/consts/pixel";
 
 export class SaleEventHandler implements EventHandler {
     async handle(req: PaypalEventReq<PaypalEventReourceSale>): Promise<void> {
@@ -55,7 +56,13 @@ export class SaleEventHandler implements EventHandler {
                 });
 
                 const pixelInfo = await pixelDao.getPixelById(subscriptionInfo.pixelId);
-                await subscriptionService.sendFacebookEvent(pixelInfo, subscriptionInfo);
+                if (pixelInfo.platfrom === PixelPlatform.Facebook) {
+                    await subscriptionService.sendFacebookEvent(pixelInfo, subscriptionInfo);
+                }
+
+                if (pixelInfo.platfrom === PixelPlatform.TikTok) {
+                    await subscriptionService.sendTikTokEvent(pixelInfo, subscriptionInfo);
+                }
             }
         }
     }
