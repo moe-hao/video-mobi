@@ -3,7 +3,6 @@ import { Button, Label, Link } from "@heroui/react";
 import { useEffect, useState } from "react";
 import PaymentPolicyTips from "./policy";
 import { useTranslation } from "react-i18next";
-import PayPalButton from "./paypal-button";
 import { useUserOrderCreate } from "@app/mobi-web/hooks/user";
 import { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
 import { useSkuListState } from "@app/mobi-web/hooks/sku";
@@ -141,12 +140,8 @@ export default function Payment() {
                   {item.coinNum} coins
                 </h2>
                 <div className={`text-[#FFD83D] leading-[20px] h-[20px] ${!item.coinBonus ? "invisible" : ""}`}>
-                  { item.coinBonus ? `+${item.coinBonus}` : "\u00A0"}
+                  {item.coinBonus ? `+${item.coinBonus}` : "\u00A0"}
                 </div>
-{/*
-                <div className={`text-[#FFD83D] leading-[20px] h-[20px]`}>
-                  {item.coinBonus}
-                </div> */}
                 <div
                   className={
                     item.important === SkuImportant.Yes
@@ -201,7 +196,7 @@ export default function Payment() {
             </div>
             <Button
               size="lg"
-              className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
+              className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
               onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.Card)}
             >
               <img src="https://i.bluearcshow.com/images/B0_Card.png" alt="Credit Card" className="w-8" />
@@ -211,7 +206,7 @@ export default function Payment() {
             </Button>
             <Button
               size="lg"
-              className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
+              className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
               onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.GooglePay)}
             >
               <img src="https://i.bluearcshow.com/images/Google_Pay_Global.png" alt="Google Pay" className="w-8" />
@@ -221,7 +216,7 @@ export default function Payment() {
             </Button>
             <Button
               size="lg"
-              className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
+              className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
               onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.ApplePay)}
             >
               <img src="https://i.bluearcshow.com/images/Apple_Pay_Global.png" alt="Apple Pay" className="w-8" />
@@ -229,13 +224,26 @@ export default function Payment() {
                 Apple Pay
               </span>
             </Button>
+            { productInfo?.region === Region.US && skuInfo.skuType === SkuType.Subscription &&
+              <Button
+                size="lg"
+                className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
+                onPress={() => handleClickPayment(PaymentChannel.Paypal, PaymentType.Card)}
+              >
+                <img src="https://i.bluearcshow.com/images/paypal.webp" alt="Apple Pay" className="w-8" />
+                <span className="ml-2">
+                  PayPal
+                </span>
+              </Button>
+            }
+
             {productInfo?.region === Region.BR && (
               <>
                 {
                   skuInfo.skuType === SkuType.Subscription ? <PixButton onSubmit={handlePixSubmit} /> : (
                     <Button
                       size="lg"
-                      className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
+                      className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
                       onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.Pix)}
                     >
                       <img src="https://i.bluearcshow.com/images/PIX_BR.png" alt="Pix" className="w-8" />
@@ -248,7 +256,7 @@ export default function Payment() {
 
                 <Button
                   size="lg"
-                  className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
+                  className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
                   onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.MercadoPago)}
                 >
                   <img src="https://i.bluearcshow.com/images/Mercado_Pago_BR.png" alt="MercadoPago" className="w-8" />
@@ -258,7 +266,6 @@ export default function Payment() {
                 </Button>
               </>
             )}
-            {productInfo?.region === Region.US && skuInfo.skuType === SkuType.Subscription && <PayPalButton skuInfo={skuInfo} />}
             <PaymentPolicyTips />
             {
               productInfo?.region === Region.JP && (

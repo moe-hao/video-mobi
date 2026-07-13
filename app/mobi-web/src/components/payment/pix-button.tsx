@@ -29,7 +29,7 @@ export default function PixButton({ onSubmit }: PixButtonProps) {
     <Modal>
       <Button
         size="lg"
-        className="w-full h-[52px] bg-[rgba(45,46,47)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
+        className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
       >
         <img src="https://i.bluearcshow.com/images/PIX_BR.png" alt="Pix" className="w-8" />
         <span className="ml-2">

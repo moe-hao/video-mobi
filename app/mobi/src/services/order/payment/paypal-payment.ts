@@ -13,6 +13,7 @@ import { ResultCode } from "@lib/common/consts/result";
 import { PaypalOrderStatus } from "@lib/common/consts/paypal";
 import { orderBizIdGenerator } from "@app/order/order/order-biz-id-generator";
 import { MemberDeliveryFactory } from "@app/order/member/member-delivery";
+import { uuid } from "@lib/common/utils/uuid";
 
 export class PaypalPayment implements Payment {
     private paymentChannel: PaymentChannel = PaymentChannel.Paypal;
@@ -28,7 +29,7 @@ export class PaypalPayment implements Payment {
             logging: {
                 logLevel: LogLevel.Info,
             }
-        })
+        });
     }
 
     async createOrder(paymentInfo: PaymentInfo): Promise<PaymentOrder> {
@@ -40,14 +41,24 @@ export class PaypalPayment implements Payment {
 
     private async createSubscriptionOrder(paymentInfo: PaymentInfo) {
         const subscriptionsController = new SubscriptionsController(this.client);
+        console.log(`${paymentInfo.productInfo.host}${paymentInfo.reback}`);
         const resp = await subscriptionsController.createSubscription({
             body: {
                 planId: paymentInfo.skuInfo.paypalPlanId,
                 customId: paymentInfo.userInfo.bizId,
+                applicationContext: {
+                    locale: paymentInfo.productInfo.language,
+                    returnUrl: `https://${paymentInfo.productInfo.host}${paymentInfo.reback}`,
+                    cancelUrl: `https://${paymentInfo.productInfo.host}${paymentInfo.reback}`,
+                }
             }
         });
 
+
+        const redirectUrl = resp.result.links?.find((link) => link.rel === 'approve')?.href || '';
+
         await subscriptionDao.addSubscription({
+            bizId: uuid(),
             userId: paymentInfo.userInfo.id,
             subscriptionNo: resp.result.id || '',
             subscriptionStatus: SubscriptionStatus.InActive,
@@ -63,7 +74,7 @@ export class PaypalPayment implements Payment {
             orderBizId: '',
             subscriptionNo: resp.result.id as string,
             paymentId: '',
-            redirectUrl: '',
+            redirectUrl: redirectUrl,
         };
     }
 
