@@ -1,13 +1,8 @@
 import schedule from 'node-schedule';
 import { schedulePayssionPaymentClose, schedulePayssionSubscriptionStatus } from './schedules/payssion';
 import { scheduleAdReportDaily, scheduleAdReportWeek, scheduleAdReportYesterday } from './schedules/ad-report-daily';
-import { adReportDailyService } from './services/ad-report-daliy.service';
 
 const tasks = [
-    schedule.scheduleJob(new Date(Date.now() + 1_000), async () => {
-        await adReportDailyService.asyncHistoryData();
-    }),
-
     schedule.scheduleJob('*/10 * * * *', async () => { await scheduleAdReportDaily() }),
     schedule.scheduleJob('0 6 * * *', async () => { await scheduleAdReportYesterday() }),
     schedule.scheduleJob('0 2 * * *', async () => { await scheduleAdReportWeek() }),

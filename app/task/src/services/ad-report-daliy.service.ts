@@ -108,12 +108,6 @@ function formatChinaDate(d: Date): string {
 }
 
 export const adReportDailyService = {
-
-    asyncHistoryData: async () => {
-        const dates = ['2026-06-24', '2026-06-25', '2026-06-26', '2026-06-27', '2026-06-28', '2026-06-29', '2026-06-30', '2026-07-01', '2026-07-02', '2026-07-03', '2026-07-04', '2026-07-05', '2026-07-06', '2026-07-07', '2026-07-08', '2026-07-09', '2026-07-10', '2026-07-11', '2026-07-12'];
-        await Promise.all(dates.map(async (date) => await syncAdReport(date)));
-    },
-
     asyncAdReportDaily: async () => {
         const today = formatChinaDate(new Date());
         await syncAdReport(today);
