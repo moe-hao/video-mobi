@@ -93,11 +93,19 @@ async function syncAdReport(date: string) {
     }
 }
 
+function toChinaDate(dateStr: string): Date {
+    return new Date(dateStr + 'T00:00:00+08:00');
+}
+
+function formatChinaDate(d: Date): string {
+    return d.toLocaleDateString('sv-SE', { timeZone: 'Asia/Shanghai' });
+}
+
 async function syncAdReportRange(startDate: string, endDate: string) {
-    const start = new Date(startDate + 'T00:00:00');
-    const end = new Date(endDate + 'T00:00:00');
+    const start = toChinaDate(startDate);
+    const end = toChinaDate(endDate);
     for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-        const date = d.toISOString().split('T')[0];
+        const date = formatChinaDate(d);
         console.log(`同步日报数据: ${date}`);
         await syncAdReport(date);
     }
@@ -108,17 +116,17 @@ export const adReportDailyService = {
     syncAdReportRange,
 
     asyncAdReportDaily: async () => {
-        const today = new Date().toISOString().split('T')[0];
+        const today = formatChinaDate(new Date());
         await syncAdReport(today);
     },
 
     asyncAdReportYesterday: async () => {
-        const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+        const yesterday = formatChinaDate(new Date(Date.now() - 86400000));
         await syncAdReport(yesterday);
     },
 
     asyncAdReportWeek: async () => {
-        const week = new Date(Date.now() - 8 * 86400000).toISOString().split('T')[0];
+        const week = formatChinaDate(new Date(Date.now() - 8 * 86400000));
         await syncAdReport(week);
     }
 
