@@ -28,11 +28,12 @@ export const paypalSignatureService = {
         const cert = await paypalSignatureService.fetchCertificate(certUrl);
         console.log(cert);
         console.log(verificationString);
+        console.log(webhookSignature);
+        console.log(webhookBody);
 
         const verifier = crypto.createVerify("RSA-SHA256");
         verifier.update(verificationString);
-        console.log(verifier.verify(cert, webhookSignature, "base64"));
-        // return verifier.verify(cert, webhookSignature, "hex");
+        console.log(verifier.verify(cert, webhookSignature, "hex"));
         return true;
     },
 
@@ -50,16 +51,6 @@ export const paypalSignature = createMiddleware(async (c, next) => {
     const webhookId = config.PaypalWebhookId;
 
     const body = await c.req.text();
-    console.log(body);
-
-    logger.info(`${JSON.stringify({
-        transmissionId,
-        transmissionTime,
-        certURL,
-        webhookId,
-        webhookSignature,
-        body,
-    })}`);
     const isValid = await paypalSignatureService.validate(
         transmissionId,
         transmissionTime,
