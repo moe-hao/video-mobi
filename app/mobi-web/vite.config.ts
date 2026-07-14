@@ -21,6 +21,8 @@ export default defineConfig({
   },
   build: {
     minify: 'oxc',
+    cssCodeSplit: true,
+    sourcemap: false,
     rolldownOptions: {
       output: {
         codeSplitting: {

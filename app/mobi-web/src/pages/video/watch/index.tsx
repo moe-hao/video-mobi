@@ -480,7 +480,7 @@ export default function VideoWatch() {
           />
           <div
             ref={episodeModalRef}
-            className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white rounded-t-3xl p-4 z-50 overflow-y-auto max-h-[70vh]"
+            className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white rounded-t-3xl p-4 z-50 overflow-y-auto min-h-[55vh]"
             style={{
               animation: 'slideUp 0.3s ease-out',
               transform: `translateY(${modalOffsetY}px)`,
