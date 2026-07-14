@@ -40,6 +40,7 @@ const config = {
 
     PaypalClientId: process.env.PAYPAL_CLIENT_ID || '',
     PaypalSecret: process.env.PAYPAL_SECRET || '',
+    PaypalWebhookId: process.env.PAYPAL_WEBHOOK_ID || '',
 
     PayssionApiKey: process.env.PAYSSION_API_KEY || '',
     PayssionWebhookSecret: process.env.PAYSSION_WEBHOOK_SECRET || '',

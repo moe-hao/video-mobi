@@ -1,6 +1,9 @@
 import crypto from "crypto";
 import { logger } from "@lib/internal/logger";
 import { createMiddleware } from "hono/factory";
+import { InternalException } from "@lib/common/exceptions/internal-exception";
+import { ResultCode } from "@lib/common/consts/result";
+import config from "@lib/internal/config";
 
 export const paypalSignatureService = {
     validate: async (
@@ -41,17 +44,23 @@ export const paypalSignature = createMiddleware(async (c, next) => {
     const transmissionTime = c.req.header("PAYPAL-TRANSMISSION-TIME") as string;
     const certURL = c.req.header("PAYPAL-CERT-URL") as string;
     const webhookSignature = c.req.header("PAYPAL-TRANSMISSION-SIG") as string;
+    const webhookId = config.PaypalWebhookId;
 
     const body = await c.req.text();
-    const data = JSON.parse(body);
-    const webhookId = data.id;
 
-    paypalSignatureService.validate(
+    const isValid = await paypalSignatureService.validate(
         transmissionId,
         transmissionTime,
         certURL,
         webhookId,
         webhookSignature,
         body,
-    )
+    );
+
+    if (!isValid) {
+        logger.error("Webhook signature validation failed");
+        throw new InternalException(ResultCode.AuthFailed.code, "Webhook signature validation failed");
+    }
+
+    await next();
 });
