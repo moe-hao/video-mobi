@@ -14,6 +14,7 @@ export const paypalSignatureService = {
         webhookSignature: string,
         webhookBody: string
     ): Promise<boolean> => {
+        console.log(webhookSignature);
         const eventTime = new Date(transmissionTime);
         const now = new Date();
         const diffSeconds = Math.abs((now.getTime() - eventTime.getTime()) / 1000);
@@ -29,8 +30,9 @@ export const paypalSignatureService = {
 
         const verifier = crypto.createVerify("RSA-SHA256");
         verifier.update(verificationString);
+        console.log(verifier.verify(cert, webhookSignature, "hex"));
+        console.log(verifier.verify(cert, webhookSignature, "base64"));
         return verifier.verify(cert, webhookSignature, "hex");
-
     },
 
     fetchCertificate: async (url: string): Promise<string> => {
