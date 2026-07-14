@@ -28,18 +28,8 @@ export type PaymentInfo = {
     lastName: string;
 }
 
-export type PaymentApproveInfo = {
-    paymentId: string;
-    subscriptionNo: string;
-    paymentType: PaymentType;
-}
-
 export interface Payment {
     createOrder(paymentInfo: PaymentInfo): Promise<PaymentOrder>;
-    approveOrder(approveInfo: PaymentApproveInfo): Promise<void>;
-    closeOrder(paymentId: string): Promise<void>;
-    completeOrder(paymentId: string): Promise<void>;
-    failedOrder(paymentId: string): Promise<void>;
 }
 
 export class PaymentFactory {

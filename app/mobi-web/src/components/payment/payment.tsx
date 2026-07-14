@@ -224,7 +224,7 @@ export default function Payment() {
                 Apple Pay
               </span>
             </Button>
-            { productInfo?.region === Region.US && skuInfo.skuType === SkuType.Subscription &&
+            { (productInfo?.region === Region.US || productInfo?.region === Region.TW) && skuInfo.skuType === SkuType.Subscription &&
               <Button
                 size="lg"
                 className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"

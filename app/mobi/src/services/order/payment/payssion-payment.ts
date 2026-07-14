@@ -1,5 +1,5 @@
 import { payssionProxy } from "@lib/repo/proxy/payment";
-import type { Payment, PaymentApproveInfo, PaymentInfo, PaymentOrder } from "./payment";
+import type { Payment, PaymentInfo, PaymentOrder } from "./payment";
 import { SkuPeriodType, SkuPeriodTypeToPayssionPeriodType } from "@lib/common/consts/sku";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
 import { uuid } from "@lib/common/utils/uuid";
@@ -84,21 +84,5 @@ export class PayssionPayment implements Payment {
             paymentId: '',
             redirectUrl: subscription.mandate.action.redirect_to_url.url,
         };
-    }
-
-    approveOrder(approveInfo: PaymentApproveInfo): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-
-    closeOrder(paymentId: string): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-
-    completeOrder(paymentId: string): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-
-    failedOrder(paymentId: string): Promise<void> {
-        throw new Error("Method not implemented.");
     }
 }

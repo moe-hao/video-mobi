@@ -1,18 +1,13 @@
 import { OrderStatus } from "@lib/common/consts/order";
 import { PaymentChannel } from "@lib/common/consts/payment";
-import type { Payment, PaymentApproveInfo, PaymentInfo, PaymentOrder } from "./payment";
+import type { Payment, PaymentInfo, PaymentOrder } from "./payment";
 import { CheckoutPaymentIntent, Client, Environment, LogLevel, OrdersController, SubscriptionsController } from "@paypal/paypal-server-sdk";
 import config from "@lib/internal/config";
 import { SkuType } from "@lib/common/consts/sku";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
 import { SubscriptionStatus } from "@lib/common/consts/subscription";
 import { orderDao } from "@lib/repo/dao/order.dao";
-import { InternalException } from "@lib/common/exceptions/internal-exception";
-import { logger } from "@lib/internal/logger";
-import { ResultCode } from "@lib/common/consts/result";
-import { PaypalOrderStatus } from "@lib/common/consts/paypal";
 import { orderBizIdGenerator } from "@app/order/order/order-biz-id-generator";
-import { MemberDeliveryFactory } from "@app/order/member/member-delivery";
 import { uuid } from "@lib/common/utils/uuid";
 
 export class PaypalPayment implements Payment {
@@ -117,56 +112,5 @@ export class PaypalPayment implements Payment {
             paymentId: resp.result.id || '',
             redirectUrl: '',
         };
-    }
-
-    async approveOrder(approveInfo: PaymentApproveInfo): Promise<void> {
-        if (approveInfo.subscriptionNo) {
-            await subscriptionDao.updateSubscriptionByNo(approveInfo.subscriptionNo, {
-                subscriptionStatus: SubscriptionStatus.Active,
-                subscriptionChannel: this.paymentChannel,
-            });
-            return;
-        }
-
-        const orderInfo = await orderDao.getOrderByPaymentIdAndChannel(approveInfo.paymentId, this.paymentChannel);
-        if (!orderInfo) {
-            logger.error(`Order Not Found - paymentId: ${approveInfo.paymentId}`);
-            throw new InternalException(ResultCode.ResourceNotFound.code, `Order Not Found - paymentId: ${approveInfo.paymentId}`);
-        }
-
-        logger.info(`Approve Order Info ${JSON.stringify(orderInfo)}`);
-        const ordersController = new OrdersController(this.client);
-        const resp = await ordersController.captureOrder({ id: approveInfo.paymentId });
-        const paypalOrderStatus = resp.result.status as string;
-
-        if (paypalOrderStatus && paypalOrderStatus === PaypalOrderStatus.Completed) {
-            await orderDao.updateOrderById(orderInfo.id, {
-                orderStatus: OrderStatus.Paid,
-                paymentType: approveInfo.paymentType,
-            });
-
-            await this.completeOrder(approveInfo.paymentId);
-        }
-    }
-
-    async closeOrder(paymentId: string): Promise<void> {
-        await orderDao.updateOrderByPaymentId(paymentId, {
-            orderStatus: OrderStatus.Closed,
-        });
-    }
-
-    async completeOrder(paymentId: string): Promise<void> {
-        const orderInfo = await orderDao.getOrderByPaymentIdAndChannel(paymentId, this.paymentChannel);
-
-        await MemberDeliveryFactory.create(orderInfo).deliver();
-        await orderDao.updateOrderByPaymentId(paymentId, {
-            orderStatus: OrderStatus.Completed,
-        });
-    }
-
-    async failedOrder(paymentId: string): Promise<void> {
-        await orderDao.updateOrderByPaymentId(paymentId, {
-            orderStatus: OrderStatus.Failed,
-        });
     }
 }

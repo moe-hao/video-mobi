@@ -1,13 +1,11 @@
 import { OrderStatus } from "@lib/common/consts/order";
 import { PaymentChannel } from "@lib/common/consts/payment";
-import type { Payment, PaymentApproveInfo, PaymentInfo, PaymentOrder } from "./payment";
+import type { Payment, PaymentInfo, PaymentOrder } from "./payment";
 import { uuid } from "@lib/common/utils/uuid";
 import { payermaxProxy } from "@lib/repo/proxy/payment";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
 import { PayermaxToSubscriptionStatus } from "@lib/common/consts/subscription";
 import { orderDao } from "@lib/repo/dao/order.dao";
-import { InternalException } from "@lib/common/exceptions/internal-exception";
-import { ResultCode } from "@lib/common/consts/result";
 import { orderBizIdGenerator } from "@app/order/order/order-biz-id-generator";
 import { SkuType } from "@lib/common/consts/sku";
 
@@ -86,21 +84,5 @@ export class PayermaxPayment implements Payment {
 
         const subscriptionNo = subscriptionCreateResult.subscriptionNo;
         return { subscriptionId, subscriptionNo };
-    }
-
-    async approveOrder(approveInfo: PaymentApproveInfo): Promise<void> {
-        throw new InternalException(ResultCode.MethodNotSupported);
-    }
-
-    async closeOrder(paymentId: string): Promise<void> {
-        throw new InternalException(ResultCode.MethodNotSupported);
-    }
-
-    async completeOrder(paymentId: string): Promise<void> {
-        throw new InternalException(ResultCode.MethodNotSupported);
-    }
-
-    async failedOrder(paymentId: string): Promise<void> {
-        throw new InternalException(ResultCode.MethodNotSupported);
     }
 }
