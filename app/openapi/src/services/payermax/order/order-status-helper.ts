@@ -5,6 +5,7 @@ import { subscriptionService } from "../subscription-service";
 import { pixelDao } from "@lib/repo/dao/pixel.dao";
 import { MemberDeliveryFactory } from "@app/order/member";
 import { SkuType } from "@lib/common/consts/sku";
+import { PixelPlatform } from "@lib/common/consts/pixel";
 
 class OrderStatusHelper {
     async processChangeOrderStatus(orderInfo: OrderSelect, targetStatus: OrderStatus) {
@@ -19,7 +20,14 @@ class OrderStatusHelper {
 
                 if (orderInfo.orderType === SkuType.Coin) {
                     const pixelInfo = await pixelDao.getPixelById(orderInfo.pixelId);
-                    await subscriptionService.sendFacebookEventCoin(pixelInfo, orderInfo);
+
+                    if (pixelInfo.platfrom === PixelPlatform.Facebook) {
+                        await subscriptionService.sendFacebookEventCoin(pixelInfo, orderInfo);
+                    }
+
+                    if (pixelInfo.platfrom === PixelPlatform.TikTok) {
+                        await subscriptionService.sendTikTokEventCoin(pixelInfo, orderInfo);
+                    }
                 }
 
                 break;

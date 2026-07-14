@@ -161,6 +161,37 @@ class SubscriptionService {
         }
     }
 
+    async sendTikTokEventCoin(pixel: PixelSelect, orderInfo: OrderSelect) {
+        const [productInfo] = await productDao.getProductListInIds([orderInfo.productId]);
+        const ttUserId = crypto.createHash("sha256").update(orderInfo.userId.toString()).digest("hex");
+        const ad = JSON.parse(orderInfo.ad || '{}');
+
+        const req = {
+            event_source: "web",
+            event_source_id: pixel.pixelId,
+            data: [{
+                event: PixelEvent.Purchase,
+                event_time: currentTime(),
+                event_id: orderInfo.bizId,
+                user: {
+                    external_id: ttUserId,
+                    ttclid: ad.ttclid || '',
+                },
+                properties: {
+                    content_ids: [orderInfo.skuId.toString()],
+                    currency: orderInfo.currency,
+                    value: Number(orderInfo.amount),
+                },
+                page: {
+                    url: productInfo.host || '',
+                }
+            }]
+        };
+        if (config.AppEnv === 'prod') {
+            await tikTokBusinessProxy.sendEvent(pixel.accessToken, req);
+        }
+    }
+
     private async processSubscriptionPayment(req: PayermaxNotificationReq<PayermaxSubscriptionNotificationData>) {
         const subscriptionNo = req.data.subscriptionPlan.subscriptionNo;
         const subscriptionInfo = await subscriptionDao.getSubscriptionByNo(subscriptionNo);
