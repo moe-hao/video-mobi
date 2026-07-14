@@ -11,4 +11,10 @@ export const adReportDailyListReqSchema = z.object({
     sortDir: z.enum(['asc', 'desc']).default('desc'),
 });
 
+export const adReportDailySummaryReqSchema = z.object({
+    date: z.string().default(''),
+});
+
+
 export type AdReportDailyListReq = z.infer<typeof adReportDailyListReqSchema>;
+export type AdReportDailySummaryReq = z.infer<typeof adReportDailySummaryReqSchema>;

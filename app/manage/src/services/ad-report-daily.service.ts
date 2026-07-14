@@ -1,4 +1,4 @@
-import type { AdReportDailyListReq, AdReportDailyListResp } from "@lib/common/dto/ad-report-daily";
+import type { AdReportDailyListReq, AdReportDailyListResp, AdReportDailySummaryResp } from "@lib/common/dto/ad-report-daily";
 import { adReportDailyDao } from "@lib/repo/dao/ad-report-daily.dao";
 import { formatUnixTime } from "@lib/common/utils/time";
 
@@ -25,6 +25,15 @@ class AdReportDailyService {
                 createTime: formatUnixTime(item.createTime),
                 updateTime: formatUnixTime(item.updateTime),
             })),
+        };
+    }
+
+    async getAdReportDailySummary(date: string): Promise<AdReportDailySummaryResp> {
+        const result = await adReportDailyDao.getAdReportDailySummary(date);
+        return {
+            spend: result.spend ?? '0',
+            purchasesConversionValue: result.purchasesConversionValue ?? '0',
+            roi: result.spend && Number(result.spend) !== 0 ? (Number(result.purchasesConversionValue) / Number(result.spend) * 100).toFixed(2) + '%' : '0',
         };
     }
 }

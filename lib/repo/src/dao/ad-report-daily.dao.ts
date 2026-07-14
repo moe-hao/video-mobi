@@ -1,6 +1,6 @@
 import { database, type DatabaseConn } from "@lib/internal/database";
 import { adReportDailyTable, type AdReportDailyInsert, type AdReportDailySelect } from "../models/ad-report-daily";
-import { and, asc, count, desc, eq, like, type AnyColumn } from "drizzle-orm";
+import { and, asc, count, desc, eq, like, sum, type AnyColumn } from "drizzle-orm";
 import { currentTime } from "@lib/common/utils/time";
 
 export type SearchAdReportDaily = {
@@ -83,6 +83,15 @@ export class AdReportDailyDao {
                 eq(adReportDailyTable.adId, adId),
             )
         );
+    }
+
+    async getAdReportDailySummary(date: string) {
+        const [result] = await this.conn
+            .select({
+                spend: sum(adReportDailyTable.spend),
+                purchasesConversionValue: sum(adReportDailyTable.purchasesConversionValue),
+            }).from(adReportDailyTable).where(eq(adReportDailyTable.date, date));
+        return result;
     }
 }
 

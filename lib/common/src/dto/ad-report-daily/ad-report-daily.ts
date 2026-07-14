@@ -31,3 +31,9 @@ export interface AdReportDailyListRespItem {
     createTime: string;
     updateTime: string;
 }
+
+export interface AdReportDailySummaryResp {
+    spend: string;
+    purchasesConversionValue: string;
+    roi: string;
+}
