@@ -51,6 +51,14 @@ export const paypalSignature = createMiddleware(async (c, next) => {
 
     const body = await c.req.text();
 
+    logger.info(`${JSON.stringify({
+        transmissionId,
+        transmissionTime,
+        certURL,
+        webhookId,
+        webhookSignature,
+        body,
+    })}`);
     const isValid = await paypalSignatureService.validate(
         transmissionId,
         transmissionTime,
