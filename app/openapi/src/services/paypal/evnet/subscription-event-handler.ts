@@ -37,7 +37,7 @@ export class SubscriptionEventHandler implements EventHandler {
                 subscriptionStatus: SubscriptionStatus.InActive,
                 subscriptionChannel: PaymentChannel.Paypal,
                 ad: "",
-            })
+            });
         }
     }
 

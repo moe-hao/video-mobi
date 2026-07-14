@@ -83,7 +83,12 @@ export class PaypalPayment implements Payment {
                         currencyCode: paymentInfo.productInfo.currency,
                         value: paymentInfo.skuInfo.price,
                     }
-                }]
+                }],
+                applicationContext: {
+                    locale: paymentInfo.productInfo.language,
+                    returnUrl: `https://${paymentInfo.productInfo.host}${paymentInfo.reback}`,
+                    cancelUrl: `https://${paymentInfo.productInfo.host}${paymentInfo.reback}`,
+                }
             }
         });
 
@@ -110,7 +115,7 @@ export class PaypalPayment implements Payment {
             orderBizId: orderBizId,
             subscriptionNo: '',
             paymentId: resp.result.id || '',
-            redirectUrl: '',
+            redirectUrl: resp.result.links?.find((link) => link.rel === 'approve')?.href || '',
         };
     }
 }

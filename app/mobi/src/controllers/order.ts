@@ -5,7 +5,6 @@ import { success } from "@lib/common/dto/result";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
 import { orderPlacementService } from "../services/order/order-placement.service";
 
-
 const order = new Hono();
 
 order.post('/create', validated('json', orderCreateReqSchema), async (c) => {

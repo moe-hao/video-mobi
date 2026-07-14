@@ -9,7 +9,6 @@ import { orderDao } from "@lib/repo/dao/order.dao";
 import { orderBizIdGenerator } from "@app/order/order/order-biz-id-generator";
 import { SkuType } from "@lib/common/consts/sku";
 
-
 export class PayermaxPayment implements Payment {
     private readonly orderPaymentChannel = PaymentChannel.Payermax;
 
