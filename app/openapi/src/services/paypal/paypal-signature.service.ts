@@ -4,6 +4,7 @@ import { createMiddleware } from "hono/factory";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { ResultCode } from "@lib/common/consts/result";
 import config from "@lib/internal/config";
+import zlib from "zlib";
 
 export const paypalSignatureService = {
     validate: async (
@@ -23,18 +24,11 @@ export const paypalSignatureService = {
             return false;
         }
 
-        const bodyHash = crypto.createHash("sha256").update(webhookBody).digest("hex");
+        const bodyHash = zlib.crc32(webhookBody);
         const verificationString = `${transmissionId}|${transmissionTime}|${webhookId}|${bodyHash}`;
-        const cert = await paypalSignatureService.fetchCertificate(certUrl);
-        console.log(cert);
-        console.log(verificationString);
-        console.log(webhookSignature);
-        console.log(webhookBody);
 
-        const verifier = crypto.createVerify("RSA-SHA256");
-        verifier.update(verificationString);
-        console.log(verifier.verify(cert, webhookSignature, "hex"));
-        return true;
+        const cert = await paypalSignatureService.fetchCertificate(certUrl);
+        return crypto.verify('RSA-SHA256', Buffer.from(verificationString, 'utf-8'), cert, Buffer.from(webhookSignature, 'base64'));
     },
 
     fetchCertificate: async (url: string): Promise<string> => {
