@@ -111,7 +111,7 @@ export default function Payment() {
               </div>
               <div className="flex shrink-0 flex-col gap-1 items-end">
                 <h2 className="text-[16px] text-white font-[Anton] whitespace-nowrap tracking-wider">
-                  {productInfo?.currencySign}{item.price}
+                  {productInfo?.currencySign}{String(item.price).endsWith('.00') ? String(item.price).slice(0, -3) : item.price}
                 </h2>
               </div>
             </div>
@@ -149,7 +149,7 @@ export default function Payment() {
                       : 'w-[88px] h-[36px] rounded-[14px] bg-white/10 flex items-center justify-center'
                   }
                 >
-                  {productInfo?.currencySign}{item.price}
+                  {productInfo?.currencySign}{String(item.price).endsWith('.00') ? String(item.price).slice(0, -3) : item.price}
                 </div>
               </div>
             </div>
@@ -186,7 +186,7 @@ export default function Payment() {
                 {productInfo?.currency}
               </span>
               <span className="text-[50px] font-[Anton] bg-gradient-to-r from-[#FFA200] via-amber-400 to-[#FFEC75] bg-clip-text text-transparent">
-                {skuInfo.price}
+                {String(skuInfo.price).endsWith('.00') ? String(skuInfo.price).slice(0, -3) : skuInfo.price}
               </span>
             </div>
             <div className="flex items-end justify-center gap-1">
