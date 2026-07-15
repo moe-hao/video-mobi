@@ -10,6 +10,7 @@ import { useSearchParams } from "react-router";
 import DateRange, { type DateRangeValue } from "@app/manage-web/components/date-range";
 import { SkuType } from "@lib/common/consts/sku";
 import ProductMultipleSelect from "@app/manage-web/components/product-select/product-multiple-select";
+import OrderTypeSelect from "@app/manage-web/components/order-type-select";
 
 export default function OrderList() {
   const { orderListState, fetchOrderList } = useOrderListState();
@@ -24,6 +25,8 @@ export default function OrderList() {
     productId: searchParams.get('productId') || '',
     startDate: searchParams.get('startDate') || '',
     endDate: searchParams.get('endDate') || '',
+    orderType: searchParams.get('orderType') || '',
+    subscriptionCount: searchParams.get('subscriptionCount') || '',
   };
 
   const initDateRange: DateRangeValue | null =
@@ -43,7 +46,6 @@ export default function OrderList() {
   useEffect(() => {
     setLoading(true);
     fetchOrderList(initialParams).finally(() => setLoading(false));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const changeSearchParams = (req: OrderListReq) => {
@@ -54,6 +56,8 @@ export default function OrderList() {
       userId: req.userId.toString(),
       status: req.status.toString(),
       productId: req.productId.toString(),
+      orderType: req.orderType.toString(),
+      subscriptionCount: req.subscriptionCount.toString(),
       ...(req.startDate ? { startDate: req.startDate, endDate: req.endDate } : { startDate: "", endDate: "" }),
     });
   }
@@ -81,17 +85,12 @@ export default function OrderList() {
       </div>
       <div className="flex items-center gap-4 mb-4">
         <div className="flex items-center gap-2">
-          <Input
-            aria-label="搜索"
-            variant="secondary"
-            placeholder="搜索订单ID/编号"
-            className="w-48"
-            value={orderListReq.search}
-            onChange={(e) => setOrderListReq({ ...orderListReq, search: e.target.value })}
-          />
+          <Input aria-label="搜索" variant="secondary" placeholder="搜索订单ID/编号" className="w-48" value={orderListReq.search} onChange={(e) => setOrderListReq({ ...orderListReq, search: e.target.value })}/>
           <Input aria-label="搜索用户" variant="secondary" placeholder="搜索用户ID" className="w-48" value={orderListReq.userId} onChange={(e) => setOrderListReq({ ...orderListReq, userId: e.target.value })} />
           <OrderStatusSelect className="w-48" value={orderListReq.status ? Number(orderListReq.status) as OrderStatus : ''} onChange={(status) => setOrderListReq({ ...orderListReq, status: status as string })} />
           <ProductMultipleSelect className="w-64" value={selectedProductIds} onChange={(productIds) => { setSelectedProductIds(productIds); setOrderListReq({ ...orderListReq, productId: productIds.join(',') }) }} />
+          <OrderTypeSelect className="w-48" value={initialParams.orderType as SkuType | ''} onChange={(val) => setOrderListReq({ ...orderListReq, orderType: val })} />
+          <Input aria-label="订阅期数" variant="secondary" placeholder="订阅期数" className="w-40" value={orderListReq.subscriptionCount} onChange={(e) => setOrderListReq({ ...orderListReq, subscriptionCount: e.target.value })}/>
           <DateRange className="w-72" defaultValue={initDateRange} onChange={setDateRange} />
         </div>
         <Button variant="primary" size="sm" onClick={() => handleSearch(orderListReq)}>查询</Button>

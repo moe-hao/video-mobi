@@ -13,6 +13,8 @@ export type SearchOrder = {
     productId: string;
     startDate: string;
     endDate: string;
+    orderType: string;
+    subscriptionCount: string;
 }
 
 class OrderDao {
@@ -58,6 +60,14 @@ class OrderDao {
             ));
         }
 
+        if (search.orderType) {
+            conditions.push(eq(orderTable.orderType, search.orderType));
+        }
+
+        if (search.subscriptionCount) {
+            conditions.push(eq(orderTable.subscriptionCount, Number(search.subscriptionCount)));
+        }
+
         return await this.conn.select().from(orderTable).where(and(...conditions)).orderBy(desc(orderTable.id)).offset((page - 1) * size).limit(size);
     }
 
@@ -99,6 +109,14 @@ class OrderDao {
                 gte(orderTable.createTime, Number(search.startDate)),
                 lte(orderTable.createTime, Number(search.endDate)),
             ));
+        }
+
+        if (search.orderType) {
+            conditions.push(eq(orderTable.orderType, search.orderType));
+        }
+
+        if (search.subscriptionCount) {
+            conditions.push(eq(orderTable.subscriptionCount, Number(search.subscriptionCount)));
         }
 
         const [result] = await this.conn.select({ count: count() }).from(orderTable).where(and(...conditions));

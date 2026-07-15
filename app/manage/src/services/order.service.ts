@@ -18,6 +18,8 @@ class OrderService {
             productId: req.productId ?? '',
             startDate: req.startDate,
             endDate: req.endDate,
+            orderType: req.orderType ?? '',
+            subscriptionCount: req.subscriptionCount ?? '',
         };
 
         const [orderList, orderTotal] = await Promise.all([

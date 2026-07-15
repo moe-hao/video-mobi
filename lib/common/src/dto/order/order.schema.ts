@@ -22,6 +22,8 @@ export const orderListReqSchema = z.object({
     productId: z.string().default(''),
     startDate: z.string().default(''),
     endDate: z.string().default(''),
+    orderType: z.string().default(''),
+    subscriptionCount: z.string().default(''),
 });
 
 export type OrderCreateReq = z.infer<typeof orderCreateReqSchema>;
