@@ -59,7 +59,14 @@ async function syncAdReport(date: string) {
                 breakdowns: ['country'],
             }
 
-            const insights = await adAccount.getInsights(fields, insightsParam);
+            const insights: any[] = [];
+            let cursor = await adAccount.getInsights(fields, { ...insightsParam, limit: 500 });
+            insights.push(...cursor);
+            while (cursor.hasNext()) {
+                cursor = await cursor.next();
+                insights.push(...cursor);
+            }
+            logger.info(`syncAdReport: ${adAccountId} ${date} insights count: ${insights.length}`);
             const shouldAddReportList: AdReportDailyInsert[] = [];
 
             for (const item of insights) {
