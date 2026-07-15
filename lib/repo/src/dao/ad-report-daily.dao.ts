@@ -14,11 +14,12 @@ export type SearchAdReportDaily = {
 export class AdReportDailyDao {
     constructor(private readonly conn: DatabaseConn = database) { }
 
-    async getAdReportDailyByDateAndAdId(date: string, adId: string): Promise<AdReportDailySelect> {
+    async getAdReportDailyByDateAndAdId(date: string, adId: string, region: string): Promise<AdReportDailySelect> {
         const [result] = await this.conn.select().from(adReportDailyTable).where(
             and(
                 eq(adReportDailyTable.date, date),
                 eq(adReportDailyTable.adId, adId),
+                eq(adReportDailyTable.region, region),
             )
         );
 
@@ -79,12 +80,13 @@ export class AdReportDailyDao {
         await this.conn.insert(adReportDailyTable).values(list);
     }
 
-    async updateAdReportDaily(date: string, adId: string, data: AdReportDailyInsert): Promise<void> {
+    async updateAdReportDaily(date: string, adId: string, region: string, data: AdReportDailyInsert): Promise<void> {
         data.updateTime = currentTime();
         await this.conn.update(adReportDailyTable).set(data).where(
             and(
                 eq(adReportDailyTable.date, date),
                 eq(adReportDailyTable.adId, adId),
+                eq(adReportDailyTable.region, region),
             )
         );
     }

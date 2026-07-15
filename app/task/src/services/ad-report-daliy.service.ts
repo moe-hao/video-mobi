@@ -63,7 +63,7 @@ async function syncAdReport(date: string) {
             const shouldAddReportList: AdReportDailyInsert[] = [];
 
             for (const item of insights) {
-                const adReportDailyDetail = await adReportDailyDao.getAdReportDailyByDateAndAdId(date, item.ad_id);
+                const adReportDailyDetail = await adReportDailyDao.getAdReportDailyByDateAndAdId(date, item.ad_id, item.country);
                 const adReportData: AdReportDailyInsert = {
                     adAccountId: adAccountInfo.id,
                     adAccountName: adAccountInfo.name,
@@ -92,7 +92,7 @@ async function syncAdReport(date: string) {
                     adReportData.date = date;
                     shouldAddReportList.push(adReportData);
                 } else {
-                    await adReportDailyDao.updateAdReportDaily(date, item.ad_id, adReportData);
+                    await adReportDailyDao.updateAdReportDaily(date, item.ad_id, item.country, adReportData);
                 }
             }
 
