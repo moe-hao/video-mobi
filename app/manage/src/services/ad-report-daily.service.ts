@@ -33,7 +33,7 @@ class AdReportDailyService {
         return {
             spend: result.spend ?? '0',
             purchasesConversionValue: result.purchasesConversionValue ?? '0',
-            roi: result.spend && Number(result.spend) !== 0 ? (Number(result.purchasesConversionValue) / Number(result.spend) * 100).toFixed(2) + '%' : '0',
+            purchaseRoas: result.spend && Number(result.spend) !== 0 ? (Number(result.purchasesConversionValue) / Number(result.spend) * 100).toFixed(2) + '%' : '0',
         };
     }
 }

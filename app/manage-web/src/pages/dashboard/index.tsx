@@ -3,6 +3,7 @@ import { useAdReportDailySummaryState } from "@app/manage-web/hooks/report/use-a
 import { Spinner } from "@heroui/react";
 import { type DateValue, today } from "@internationalized/date";
 import SingleDatePicker from "@app/manage-web/components/date-picker";
+import SummaryCard from "./summary-card";
 
 export default function Dashboard() {
   const { adReportDailySummaryState, fetchAdReportDailySummary } = useAdReportDailySummaryState();
@@ -47,7 +48,7 @@ export default function Dashboard() {
         <div className="grid grid-cols-3 gap-4">
           <SummaryCard label="总花费" value={`$${Number(adReportDailySummaryState.spend).toLocaleString()}`} />
           <SummaryCard label="总购物转化价值" value={`$${Number(adReportDailySummaryState.purchasesConversionValue).toLocaleString()}`} />
-          <SummaryCard label="ROI" value={adReportDailySummaryState.roi} />
+          <SummaryCard label="ROAS" value={adReportDailySummaryState.purchaseRoas} />
         </div>
       ) : (
         <div className="text-sm text-gray-400">暂无数据</div>
@@ -56,11 +57,11 @@ export default function Dashboard() {
   );
 }
 
-function SummaryCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex flex-col gap-1 rounded-lg bg-gray-50 px-4 py-3">
-      <span className="text-xs text-gray-500">{label}</span>
-      <span className="text-lg font-semibold text-gray-800">{value}</span>
-    </div>
-  )
-}
+// function SummaryCard({ label, value }: { label: string; value: string }) {
+//   return (
+//     <div className="flex flex-col gap-1 rounded-lg bg-gray-50 px-4 py-3">
+//       <span className="text-xs text-gray-500">{label}</span>
+//       <span className="text-lg font-semibold text-gray-800">{value}</span>
+//     </div>
+//   )
+// }

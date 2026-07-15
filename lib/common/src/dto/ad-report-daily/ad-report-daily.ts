@@ -35,5 +35,5 @@ export interface AdReportDailyListRespItem {
 export interface AdReportDailySummaryResp {
     spend: string;
     purchasesConversionValue: string;
-    roi: string;
+    purchaseRoas: string;
 }
