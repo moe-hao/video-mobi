@@ -19,7 +19,9 @@ class AdReportDailyService {
         return {
             page: req.page,
             size: req.size,
-            total,
+            total: total.count,
+            sumSpend: Number(total.spend),
+            sumPurchasesConversionValue: Number(total.purchasesConversionValue),
             list: list.map((item) => ({
                 ...item,
                 createTime: formatUnixTime(item.createTime),

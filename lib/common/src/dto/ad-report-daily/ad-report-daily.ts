@@ -2,6 +2,8 @@ export interface AdReportDailyListResp {
     page: number;
     size: number;
     total: number;
+    sumSpend: number;
+    sumPurchasesConversionValue: number;
     list: AdReportDailyListRespItem[];
 }
 

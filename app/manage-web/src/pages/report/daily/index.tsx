@@ -120,6 +120,11 @@ export default function AdReportDailyList() {
       <div className="flex items-center justify-between mb-5">
         <div className="text-lg font-semibold text-gray-700">运营日报表</div>
       </div>
+      <div className="flex gap-6 mb-4 text-sm">
+        <div>总花费: <span className="font-semibold">${Number(adReportDailyListState?.sumSpend ?? 0).toFixed(2)}</span></div>
+        <div>总购物转化价值: <span className="font-semibold">${Number(adReportDailyListState?.sumPurchasesConversionValue ?? 0).toFixed(2)}</span></div>
+        <div>总ROAS: <span className="font-semibold">{(Number(adReportDailyListState?.sumPurchasesConversionValue ?? 0) / Number(adReportDailyListState?.sumSpend || 1)).toFixed(6)}</span></div>
+      </div>
       <div className="flex items-center gap-4 mb-4">
         <div className="flex items-center gap-2">
           <Input
