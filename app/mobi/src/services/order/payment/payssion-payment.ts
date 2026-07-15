@@ -59,6 +59,7 @@ export class PayssionPayment implements Payment {
             ad: paymentInfo.ad || "",
         });
 
+        const collectionBizId = (() => { try { return JSON.parse(paymentInfo.ad || "{}").collectionId || ""; } catch { return ""; } })();
         const orderBizId = await orderBizIdGenerator.generate();
         const orderId = await orderDao.addOrder({
             bizId: orderBizId,
@@ -74,6 +75,7 @@ export class PayssionPayment implements Payment {
             paymentType: paymentInfo.paymentType,
             orderType: paymentInfo.skuInfo.skuType,
             orderStatus: OrderStatus.Pending,
+            collectionBizId: collectionBizId,
             ad: paymentInfo.ad || "",
         })
 

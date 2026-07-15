@@ -33,6 +33,7 @@ export class PayermaxPayment implements Payment {
             reback: paymentInfo.reback,
         }
         const paymentResult = await payermaxProxy.payOrder(paymentInfo.productInfo, payermaxPaymentInfo);
+        const collectionBizId = (() => { try { return JSON.parse(paymentInfo.ad || "{}").collectionId || ""; } catch { return ""; } })();
 
         const orderId = await orderDao.addOrder({
             bizId: orderBizId,
@@ -48,6 +49,7 @@ export class PayermaxPayment implements Payment {
             paymentType: paymentInfo.paymentType,
             orderType: paymentInfo.skuInfo.skuType,
             orderStatus: OrderStatus.Pending,
+            collectionBizId: collectionBizId,
             ad: paymentInfo.ad || "",
         });
 

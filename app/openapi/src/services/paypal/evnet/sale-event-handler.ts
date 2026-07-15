@@ -30,6 +30,7 @@ export class SaleEventHandler implements EventHandler {
                 const subscriptionId = subscriptionInfo.id;
                 const subscriptionOrderCount = await orderDao.getOrderCountBySubscriptionId(subscriptionId);
 
+                const collectionBizId = (() => { try { return JSON.parse(subscriptionInfo.ad || "{}").collectionId || ""; } catch { return ""; } })();
                 const orderBizId = await orderBizIdGenerator.generate();
                 await orderDao.addOrder({
                     bizId: orderBizId,
@@ -47,6 +48,7 @@ export class SaleEventHandler implements EventHandler {
                     orderStatus: OrderStatus.Paid,
                     orderType: SkuType.Subscription,
                     ad: subscriptionInfo.ad || "",
+                    collectionBizId: collectionBizId,
                 });
 
                 const orderInfo = await orderDao.getOrderByBizId(orderBizId);

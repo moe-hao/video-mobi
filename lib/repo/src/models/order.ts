@@ -16,6 +16,7 @@ export const orderTable = mysqlTable("order", {
     paymentType: varchar("payment_type", { length: 50 }).notNull().default(""),
     orderType: varchar("order_type", { length: 20 }).notNull().default(""),
     orderStatus: int("order_status").notNull().default(0),
+    collectionBizId: varchar("collection_biz_id", { length: 32 }).notNull().default(""),
     ad: text("ad").notNull().default(""),
     createTime: int("create_time").notNull().default(0),
     updateTime: int("update_time").notNull().default(0),
