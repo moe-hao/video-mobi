@@ -8,6 +8,7 @@ import type { PaymentChannel } from "@lib/common/consts/payment";
 export type SubscriptionSearchReq = {
     status: SubscriptionStatus | string;
     subscriptionNo: string;
+    userId: string;
     startDate: string;
     endDate: string;
 }
@@ -27,6 +28,9 @@ export class SubscriptionDao {
         }
         if (search.status) {
             conditions.push(eq(subscriptionTable.subscriptionStatus, Number(search.status)));
+        }
+        if (search.userId) {
+            conditions.push(eq(subscriptionTable.userId, Number(search.userId)));
         }
         if (search.startDate && search.endDate) {
             conditions.push(and(

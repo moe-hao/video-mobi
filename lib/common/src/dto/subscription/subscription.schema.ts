@@ -5,6 +5,7 @@ export const subscriptionListReqSchema = z.object({
     size: z.coerce.number().int().min(1).default(10),
     status: z.string().default('').or(z.coerce.number().int()),
     subscriptionNo: z.string().default(''),
+    userId: z.string().default(''),
     startDate: z.string().default(''),
     endDate: z.string().default(''),
 })

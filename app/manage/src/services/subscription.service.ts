@@ -9,6 +9,7 @@ class SubscriptionService {
         const search = {
             status: req.status,
             subscriptionNo: req.subscriptionNo ?? '',
+            userId: req.userId ?? '',
             startDate: req.startDate ?? '',
             endDate: req.endDate ?? '',
         }

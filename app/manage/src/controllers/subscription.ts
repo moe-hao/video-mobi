@@ -10,6 +10,6 @@ subscription.get('/list', validated('query', subscriptionListReqSchema), async (
     const req = c.req.valid('query');
     const resp = await subscriptionService.getSubscriptionList(req);
     return c.json(success(resp));
-})
+});
 
 export default subscription;

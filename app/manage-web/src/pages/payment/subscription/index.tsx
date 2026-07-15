@@ -18,6 +18,7 @@ export default function SubscriptionList() {
     size: Number(searchParams.get('size')) || 20,
     status: searchParams.get('status') || '',
     subscriptionNo: searchParams.get('subscriptionNo') || '',
+    userId: searchParams.get('userId') || '',
     startDate: searchParams.get('startDate') || '',
     endDate: searchParams.get('endDate') || '',
   };
@@ -42,6 +43,7 @@ export default function SubscriptionList() {
       size: req.size.toString(),
       status: req.status.toString(),
       subscriptionNo: req.subscriptionNo.toString(),
+      userId: req.userId.toString(),
       ...(req.startDate ? { startDate: req.startDate, endDate: req.endDate } : { startDate: "", endDate: "" }),
     });
   }
@@ -77,6 +79,14 @@ export default function SubscriptionList() {
             className="w-48"
             value={subscriptionListReq.subscriptionNo}
             onChange={(e) => setSubscriptionListReq({ ...subscriptionListReq, subscriptionNo: e.target.value })}
+          />
+          <Input
+            aria-label="用户ID"
+            variant="secondary"
+            placeholder="搜索用户ID"
+            className="w-48"
+            value={subscriptionListReq.userId}
+            onChange={(e) => setSubscriptionListReq({ ...subscriptionListReq, userId: e.target.value })}
           />
           <SubscriptionStatusSelect className="w-48" value={subscriptionListReq.status as SubscriptionStatus} onChange={(status) => setSubscriptionListReq({ ...subscriptionListReq, status })} />
           <DateRange className="w-72" defaultValue={initDateRange} onChange={setDateRange} />
