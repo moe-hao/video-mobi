@@ -38,6 +38,8 @@ const adAccountIds = [
     'act_2293389774821206',
     'act_1343768931195456',
     'act_1318458003326846',
+    'act_2254515465088685',
+    'act_1398471105534892',
 ];
 
 async function syncAdReport(date: string) {

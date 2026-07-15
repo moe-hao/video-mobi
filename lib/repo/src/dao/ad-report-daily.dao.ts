@@ -8,6 +8,7 @@ export type SearchAdReportDaily = {
     adAccountId: string;
     campaignId: string;
     adId: string;
+    region: string;
 }
 
 export class AdReportDailyDao {
@@ -37,6 +38,9 @@ export class AdReportDailyDao {
         }
         if (search.adId) {
             conditions.push(like(adReportDailyTable.adId, `%${search.adId}%`));
+        }
+        if (search.region) {
+            conditions.push(eq(adReportDailyTable.region, search.region));
         }
         return conditions;
     }

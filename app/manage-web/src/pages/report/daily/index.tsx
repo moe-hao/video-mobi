@@ -6,6 +6,8 @@ import type { AdReportDailyListReq } from "@lib/common/dto/ad-report-daily";
 import { useSearchParams } from "react-router";
 import { CalendarDate, type DateValue } from "@internationalized/date";
 import SingleDatePicker from "@app/manage-web/components/date-picker";
+import RegionSelect from "@app/manage-web/components/region-select";
+import { Region } from "@lib/common/consts/region";
 import { ArrowDown, ArrowUp, Gear } from "@gravity-ui/icons";
 
 const ALL_COLUMNS = [
@@ -59,6 +61,7 @@ export default function AdReportDailyList() {
     adAccountId: searchParams.get('adAccountId') || '',
     campaignId: searchParams.get('campaignId') || '',
     adId: searchParams.get('adId') || '',
+    region: searchParams.get('region') || '',
     sortField: (searchParams.get('sortField') as 'spend') || '',
     sortDir: (searchParams.get('sortDir') as 'asc' | 'desc') || 'desc',
   };
@@ -90,6 +93,7 @@ export default function AdReportDailyList() {
       adAccountId: req.adAccountId.toString(),
       campaignId: req.campaignId.toString(),
       adId: req.adId.toString(),
+      region: req.region.toString(),
       sortField: req.sortField,
       sortDir: req.sortDir,
     });
@@ -151,6 +155,7 @@ export default function AdReportDailyList() {
             value={adReportDailyReq.adId}
             onChange={(e) => setAdReportDailyReq({ ...adReportDailyReq, adId: e.target.value })}
           />
+          <RegionSelect className="w-48" value={adReportDailyReq.region as Region | ''} onChange={(region) => setAdReportDailyReq({ ...adReportDailyReq, region })} />
           <SingleDatePicker
             className="w-72"
             value={selectedDate}

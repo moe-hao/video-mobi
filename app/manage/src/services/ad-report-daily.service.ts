@@ -1,6 +1,7 @@
 import type { AdReportDailyListReq, AdReportDailyListResp, AdReportDailySummaryResp } from "@lib/common/dto/ad-report-daily";
 import { adReportDailyDao } from "@lib/repo/dao/ad-report-daily.dao";
 import { formatUnixTime } from "@lib/common/utils/time";
+import { Region, RegionName } from "@lib/common/consts/region";
 
 class AdReportDailyService {
     async getAdReportDailyList(req: AdReportDailyListReq): Promise<AdReportDailyListResp> {
@@ -9,6 +10,7 @@ class AdReportDailyService {
             adAccountId: req.adAccountId ?? '',
             campaignId: req.campaignId ?? '',
             adId: req.adId ?? '',
+            region: req.region ?? '',
         };
 
         const [list, total] = await Promise.all([
@@ -24,6 +26,7 @@ class AdReportDailyService {
             sumPurchasesConversionValue: Number(total.purchasesConversionValue),
             list: list.map((item) => ({
                 ...item,
+                region: RegionName[item.region as Region] || '',
                 createTime: formatUnixTime(item.createTime),
                 updateTime: formatUnixTime(item.updateTime),
             })),
