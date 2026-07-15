@@ -26,7 +26,7 @@ class AdReportDailyService {
             sumPurchasesConversionValue: Number(total.purchasesConversionValue),
             list: list.map((item) => ({
                 ...item,
-                region: RegionName[item.region as Region] || '',
+                region: RegionName[item.region as Region] || item.region,
                 createTime: formatUnixTime(item.createTime),
                 updateTime: formatUnixTime(item.updateTime),
             })),
