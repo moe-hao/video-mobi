@@ -10,7 +10,7 @@ export type SearchOrder = {
     search: string;
     userId: string;
     status: OrderStatus | string;
-    productId: number | string;
+    productId: string;
     startDate: string;
     endDate: string;
 }
@@ -42,9 +42,13 @@ class OrderDao {
             conditions.push(eq(orderTable.orderStatus, Number(search.status) as OrderStatus));
         }
 
-        const productId = Number(search.productId);
-        if (!isNaN(productId) && productId !== 0) {
-            conditions.push(eq(orderTable.productId, productId));
+        if (search.productId) {
+            const productIds = search.productId.split(',').map(Number).filter((id) => !isNaN(id) && id !== 0);
+            if (productIds.length === 1) {
+                conditions.push(eq(orderTable.productId, productIds[0]));
+            } else if (productIds.length > 1) {
+                conditions.push(inArray(orderTable.productId, productIds));
+            }
         }
 
         if (search.startDate && search.endDate) {
@@ -81,9 +85,13 @@ class OrderDao {
             conditions.push(eq(orderTable.orderStatus, Number(search.status) as OrderStatus));
         }
 
-        const productId = Number(search.productId);
-        if (!isNaN(productId) && productId !== 0) {
-            conditions.push(eq(orderTable.productId, productId));
+        if (search.productId) {
+            const productIds = search.productId.split(',').map(Number).filter((id) => !isNaN(id) && id !== 0);
+            if (productIds.length === 1) {
+                conditions.push(eq(orderTable.productId, productIds[0]));
+            } else if (productIds.length > 1) {
+                conditions.push(inArray(orderTable.productId, productIds));
+            }
         }
 
         if (search.startDate && search.endDate) {

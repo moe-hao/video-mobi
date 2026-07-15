@@ -8,8 +8,8 @@ import OrderStatusSelect from "@app/manage-web/components/order-select";
 import type { OrderStatus } from "@lib/common/consts/order";
 import { useSearchParams } from "react-router";
 import DateRange, { type DateRangeValue } from "@app/manage-web/components/date-range";
-import ProductSelect from "@app/manage-web/components/product-select";
 import { SkuType } from "@lib/common/consts/sku";
+import ProductMultipleSelect from "@app/manage-web/components/product-select/product-multiple-select";
 
 export default function OrderList() {
   const { orderListState, fetchOrderList } = useOrderListState();
@@ -31,7 +31,12 @@ export default function OrderList() {
       ? { start: Number(initialParams.startDate), end: Number(initialParams.endDate) }
       : null;
 
+  const initProductIds: number[] = initialParams.productId
+    ? initialParams.productId.split(',').map(Number).filter((id) => !isNaN(id) && id !== 0)
+    : [];
+
   const [orderListReq, setOrderListReq] = useState<OrderListReq>(initialParams);
+  const [selectedProductIds, setSelectedProductIds] = useState<number[]>(initProductIds);
   const [dateRange, setDateRange] = useState<DateRangeValue | null>(initDateRange);
   const [loading, setLoading] = useState(false);
 
@@ -86,7 +91,7 @@ export default function OrderList() {
           />
           <Input aria-label="搜索用户" variant="secondary" placeholder="搜索用户ID" className="w-48" value={orderListReq.userId} onChange={(e) => setOrderListReq({ ...orderListReq, userId: e.target.value })} />
           <OrderStatusSelect className="w-48" value={orderListReq.status ? Number(orderListReq.status) as OrderStatus : ''} onChange={(status) => setOrderListReq({ ...orderListReq, status: status as string })} />
-          <ProductSelect className="w-64" value={orderListReq.productId ? Number(orderListReq.productId) : ""} onChange={(productId) => setOrderListReq({ ...orderListReq, productId: productId as number })} />
+          <ProductMultipleSelect className="w-64" value={selectedProductIds} onChange={(productIds) => { setSelectedProductIds(productIds); setOrderListReq({ ...orderListReq, productId: productIds.join(',') }) }} />
           <DateRange className="w-72" defaultValue={initDateRange} onChange={setDateRange} />
         </div>
         <Button variant="primary" size="sm" onClick={() => handleSearch(orderListReq)}>查询</Button>

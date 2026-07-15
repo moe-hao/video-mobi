@@ -19,7 +19,7 @@ export const orderListReqSchema = z.object({
     search: z.string().default(''),
     userId: z.string().default(''),
     status: z.string().default('').or(z.coerce.number().int()),
-    productId: z.string().default('').or(z.coerce.number().int()),
+    productId: z.string().default(''),
     startDate: z.string().default(''),
     endDate: z.string().default(''),
 });

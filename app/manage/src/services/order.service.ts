@@ -15,7 +15,7 @@ class OrderService {
             search: req.search,
             userId: req.userId,
             status: req.status ?? '' as OrderStatus | '',
-            productId: req.productId ?? '' as number | '',
+            productId: req.productId ?? '',
             startDate: req.startDate,
             endDate: req.endDate,
         };
