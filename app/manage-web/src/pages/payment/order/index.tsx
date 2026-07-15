@@ -27,6 +27,7 @@ export default function OrderList() {
     endDate: searchParams.get('endDate') || '',
     orderType: searchParams.get('orderType') || '',
     subscriptionCount: searchParams.get('subscriptionCount') || '',
+    collectionBizId: searchParams.get('collectionBizId') || '',
   };
 
   const initDateRange: DateRangeValue | null =
@@ -58,6 +59,7 @@ export default function OrderList() {
       productId: req.productId.toString(),
       orderType: req.orderType.toString(),
       subscriptionCount: req.subscriptionCount.toString(),
+      collectionBizId: req.collectionBizId.toString(),
       ...(req.startDate ? { startDate: req.startDate, endDate: req.endDate } : { startDate: "", endDate: "" }),
     });
   }
@@ -87,6 +89,7 @@ export default function OrderList() {
         <div className="flex items-center gap-2">
           <Input aria-label="搜索" variant="secondary" placeholder="搜索订单ID/编号" className="w-48" value={orderListReq.search} onChange={(e) => setOrderListReq({ ...orderListReq, search: e.target.value })}/>
           <Input aria-label="搜索用户" variant="secondary" placeholder="搜索用户ID" className="w-48" value={orderListReq.userId} onChange={(e) => setOrderListReq({ ...orderListReq, userId: e.target.value })} />
+          <Input aria-label="剧集编号" variant="secondary" placeholder="剧集编号" className="w-48" value={orderListReq.collectionBizId} onChange={(e) => setOrderListReq({ ...orderListReq, collectionBizId: e.target.value })}/>
           <OrderStatusSelect className="w-48" value={orderListReq.status ? Number(orderListReq.status) as OrderStatus : ''} onChange={(status) => setOrderListReq({ ...orderListReq, status: status as string })} />
           <ProductMultipleSelect className="w-64" value={selectedProductIds} onChange={(productIds) => { setSelectedProductIds(productIds); setOrderListReq({ ...orderListReq, productId: productIds.join(',') }) }} />
           <OrderTypeSelect className="w-48" value={initialParams.orderType as SkuType | ''} onChange={(val) => setOrderListReq({ ...orderListReq, orderType: val })} />

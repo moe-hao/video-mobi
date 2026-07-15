@@ -20,6 +20,7 @@ class OrderService {
             endDate: req.endDate,
             orderType: req.orderType ?? '',
             subscriptionCount: req.subscriptionCount ?? '',
+            collectionBizId: req.collectionBizId ?? '',
         };
 
         const [orderList, orderTotal] = await Promise.all([
@@ -39,11 +40,11 @@ class OrderService {
         const exchangeRateMap = new Map<string, number>();
         const orderIdToPlatfrom = new Map<number, string>();
         for (const item of orderList) {
-            const ad = JSON.parse(item.ad || '{}');
-
-            if (ad.collectionId) {
-                collectionBizIds.push(ad.collectionId);
+            if (item.collectionBizId) {
+                collectionBizIds.push(item.collectionBizId);
             }
+
+            const ad = JSON.parse(item.ad || '{}');
 
             if (ad.fbclid) {
                 orderIdToPlatfrom.set(item.id, 'Facebook');
@@ -86,9 +87,9 @@ class OrderService {
                 paymentTypeName: PaymentTypeName[item.paymentType as PaymentType],
                 orderStatus: item.orderStatus as OrderStatus,
                 orderStatusName: OrderStatusName[item.orderStatus as OrderStatus],
-                collectionBizId: JSON.parse(item.ad || '{}').collectionId || '',
-                collectionName: collectionBizIdToInfoMap.get(JSON.parse(item.ad || '{}').collectionId || '')?.name || '',
-                collectionSourceName: collectionBizIdToInfoMap.get(JSON.parse(item.ad || '{}').collectionId || '')?.sourceName || '',
+                collectionBizId: item.collectionBizId,
+                collectionName: collectionBizIdToInfoMap.get(item.collectionBizId)?.name || '',
+                collectionSourceName: collectionBizIdToInfoMap.get(item.collectionBizId)?.sourceName || '',
                 createTime: formatUnixTime(item.createTime),
                 updateTime: formatUnixTime(item.updateTime),
             }))

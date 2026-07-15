@@ -15,6 +15,7 @@ export type SearchOrder = {
     endDate: string;
     orderType: string;
     subscriptionCount: string;
+    collectionBizId: string;
 }
 
 class OrderDao {
@@ -68,6 +69,10 @@ class OrderDao {
             conditions.push(eq(orderTable.subscriptionCount, Number(search.subscriptionCount)));
         }
 
+        if (search.collectionBizId) {
+            conditions.push(eq(orderTable.collectionBizId, search.collectionBizId));
+        }
+
         return await this.conn.select().from(orderTable).where(and(...conditions)).orderBy(desc(orderTable.id)).offset((page - 1) * size).limit(size);
     }
 
@@ -117,6 +122,10 @@ class OrderDao {
 
         if (search.subscriptionCount) {
             conditions.push(eq(orderTable.subscriptionCount, Number(search.subscriptionCount)));
+        }
+
+        if (search.collectionBizId) {
+            conditions.push(eq(orderTable.collectionBizId, search.collectionBizId));
         }
 
         const [result] = await this.conn.select({ count: count() }).from(orderTable).where(and(...conditions));
