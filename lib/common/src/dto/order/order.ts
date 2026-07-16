@@ -18,6 +18,7 @@ export interface OrderListResp {
 export interface OrderListRespItem {
     id: number;
     bizId: string;
+    paymentId: string;
     host: string;
     platfrom: string;
     userId: number;

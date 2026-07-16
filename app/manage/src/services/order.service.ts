@@ -71,6 +71,7 @@ class OrderService {
             list: orderList.map((item) => ({
                 id: item.id,
                 bizId: item.bizId,
+                paymentId: item.paymentId || '',
                 host: productIdToInfoMap.get(item.productId)?.host || '',
                 platfrom: orderIdToPlatfrom.get(item.id) || '',
                 userId: item.userId,
