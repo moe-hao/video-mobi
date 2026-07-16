@@ -36,7 +36,7 @@ export default function SkuList() {
     changeSearchParams(skuManageListReq);
   }, []);
 
-  const handleSearch = async(req: SkuManageListReq) => {
+  const handleSearch = async (req: SkuManageListReq) => {
     setSkuManageListReq(req);
     changeSearchParams(req);
     await fetchSkuList(req);
@@ -76,6 +76,7 @@ export default function SkuList() {
               <Table.Column className="whitespace-nowrap">周总数/金币赠送</Table.Column>
               <Table.Column className="whitespace-nowrap">横幅描述</Table.Column>
               <Table.Column className="whitespace-nowrap">重点展示</Table.Column>
+              <Table.Column className="whitespace-nowrap">支付选项</Table.Column>
               <Table.Column className="whitespace-nowrap">PayPal计划ID</Table.Column>
               <Table.Column className="whitespace-nowrap">创建时间</Table.Column>
               <Table.Column className="whitespace-nowrap">更新时间</Table.Column>
@@ -94,6 +95,7 @@ export default function SkuList() {
                   <Table.Cell className="whitespace-nowrap">{item.skuType === SkuType.Subscription ? item.periodTotal : item.coinBonus}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.desc}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.important === SkuImportant.Yes ? "是" : "否"}</Table.Cell>
+                  <Table.Cell className="whitespace-nowrap">{item.paymentOptionId === 0 ? '' : `${item.paymentOptionId} - ${item.paymentOptionName}`}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.paypalPlanId}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.createTime} </Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.updateTime}</Table.Cell>
@@ -108,13 +110,13 @@ export default function SkuList() {
         </Table.ScrollContainer>
       </Table>
       <TablePagination
-            page={skuManageListReq.page || 1}
-            size={skuManageListReq.size || 20}
-            total={skuManageListResp.total || 0}
-            sizeOptions={[20, 50, 100]}
-            onPageChange={(page) => handleSearch({ ...skuManageListReq, page })}
-            onSizeChange={(size) => handleSearch({ ...skuManageListReq, size })}
-          />
+        page={skuManageListReq.page || 1}
+        size={skuManageListReq.size || 20}
+        total={skuManageListResp.total || 0}
+        sizeOptions={[20, 50, 100]}
+        onPageChange={(page) => handleSearch({ ...skuManageListReq, page })}
+        onSizeChange={(size) => handleSearch({ ...skuManageListReq, size })}
+      />
     </div>
   )
 }

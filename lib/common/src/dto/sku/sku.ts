@@ -39,6 +39,8 @@ export interface SkuManageListItem {
     coinNum: number;
     coinBonus: number;
     paypalPlanId: string;
+    paymentOptionId: number;
+    paymentOptionName: string;
     desc: string;
     important: SkuImportant;
     createTime: string;

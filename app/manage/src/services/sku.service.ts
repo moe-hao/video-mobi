@@ -6,6 +6,7 @@ import type { ProductSelect } from "@lib/repo/models/product";
 import { SkuPeriodTypeName, SkuTypeName } from "@lib/common/consts/sku";
 import { uuid } from "@lib/common/utils/uuid";
 import type { DeleteStatus } from "@lib/common/consts/common-status";
+import { paymentOptionDao } from "@lib/repo/dao/payment-option.dao";
 
 class SkuService {
     async getSkuList(req: SkuManageListReq): Promise<SkuManageListResp> {
@@ -20,11 +21,19 @@ class SkuService {
         ]);
 
         const productIds = skuList.map((item) => item.productId);
-        const productList = await productDao.getProductListInIds(productIds);
+        const paymentOptionIds = skuList.map((item) => item.paymentOptionId).filter(Boolean);
+        const [productList, paymentOptionList] = await Promise.all([
+            productDao.getProductListInIds(productIds),
+            paymentOptionIds.length > 0 ? paymentOptionDao.getPaymentOptionTableList() : Promise.resolve([]),
+        ]);
         const productMap = productList.reduce((prev, cur) => {
             prev[cur.id] = cur;
             return prev;
         }, {} as Record<number, ProductSelect>);
+        const paymentOptionMap = paymentOptionList.reduce((prev, cur) => {
+            prev[cur.id] = cur;
+            return prev;
+        }, {} as Record<number, typeof paymentOptionList[number]>);
 
         return {
             page: req.page,
@@ -48,6 +57,8 @@ class SkuService {
                 coinBonus: item.coinBonus,
                 desc: item.desc,
                 important: item.important,
+                paymentOptionId: item.paymentOptionId,
+                paymentOptionName: paymentOptionMap[item.paymentOptionId]?.name || '',
                 createTime: formatUnixTime(item.createTime),
                 updateTime: formatUnixTime(item.updateTime),
             })),
@@ -68,6 +79,7 @@ class SkuService {
             weight: sku.weight,
             important: sku.important,
             paypalPlanId: sku.paypalPlanId,
+            paymentOptionId: sku.paymentOptionId,
         });
     }
 
@@ -84,6 +96,7 @@ class SkuService {
             important: req.important,
             desc: req.desc,
             paypalPlanId: req.paypalPlanId,
+            paymentOptionId: req.paymentOptionId,
         });
     }
 

@@ -7,6 +7,7 @@ import { useAddSku } from "@app/manage-web/hooks/sku";
 import { SkuImportantSelect } from "./sku-important-select";
 import { SkuTypeSelect } from "./sku-type-select";
 import { SkuPeriodSelect } from "./sku-period-select";
+import PaymentOptionSelect from "@app/manage-web/components/payment-option-select";
 
 export default function CreateModalButton({ onSuccess }: { onSuccess?: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -101,6 +102,10 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
                   <Input variant="secondary" className="flex-1" onChange={(e) => setSkuAddReq({ ...skuAddReq, paypalPlanId: e.target.value })} />
                 </div>
               )}
+              <div className="flex flex-row items-center gap-4">
+                <Label className="w-18 shrink-0 text-right">支付选项</Label>
+                <PaymentOptionSelect className="flex-1" value={skuAddReq.paymentOptionId} onChange={(paymentOptionId: number) => setSkuAddReq({ ...skuAddReq, paymentOptionId })} />
+              </div>
             </Modal.Body>
             <Modal.Footer>
               <Button type="submit" onClick={handleProductEditButton}>

@@ -98,7 +98,13 @@ export const routers: RouterItem[] = [
         path: '/product/sku',
         element: loadable(() => import('../pages/product/sku')),
         isMenu: true,
-      }
+      },
+      {
+        name: '支付选项',
+        path: '/product/payment_option',
+        element: loadable(() => import('../pages/product/payment-option')),
+        isMenu: true,
+      },
     ]
   },
   {

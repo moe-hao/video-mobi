@@ -7,6 +7,7 @@ import { useEditSku } from "@app/manage-web/hooks/sku";
 import { SkuImportantSelect } from "./sku-important-select";
 import { SkuPeriodSelect } from "./sku-period-select";
 import { SkuTypeSelect } from "./sku-type-select";
+import PaymentOptionSelect from "@app/manage-web/components/payment-option-select";
 
 export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageListItem, onSuccess?: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,6 +28,7 @@ export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageList
       important: sku.important as SkuImportant,
       paypalPlanId: sku.paypalPlanId,
       periodTotal: sku.periodTotal,
+      paymentOptionId: sku.paymentOptionId,
     });
   }, [isOpen]);
 
@@ -102,6 +104,10 @@ export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageList
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-18 shrink-0 text-right">PayPal计划</Label>
                 <Input variant="secondary" className="flex-1" value={skuEditReq.paypalPlanId} onChange={(e) => setSkuEditReq({ ...skuEditReq, paypalPlanId: e.target.value })} />
+              </div>
+              <div className="flex flex-row items-center gap-4">
+                <Label className="w-18 shrink-0 text-right">支付选项</Label>
+                <PaymentOptionSelect className="flex-1" value={skuEditReq.paymentOptionId || ""} onChange={(paymentOptionId: number) => setSkuEditReq({ ...skuEditReq, paymentOptionId })} />
               </div>
             </Modal.Body>
             <Modal.Footer>

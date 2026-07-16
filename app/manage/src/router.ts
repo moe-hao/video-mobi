@@ -10,6 +10,7 @@ import product from "./controllers/product";
 import { authMiddleware } from "./middlewares/auth-middleware";
 import sku from "./controllers/sku";
 import adReportDaily from "./controllers/ad-report-daily";
+import paymentOption from "./controllers/payment-option";
 
 const router = new Hono();
 router.use(authMiddleware);
@@ -24,5 +25,6 @@ router.route('/subscription', subscription);
 router.route('/product', product);
 router.route('/sku', sku);
 router.route('/report', adReportDaily);
+router.route('/payment_option', paymentOption);
 
 export default router;
