@@ -1,14 +1,14 @@
-import { usePaymentOptionList } from "@app/manage-web/hooks/product";
+import { useNormalPaymentOptionList } from "@app/manage-web/hooks/product";
 import { Autocomplete, Description, EmptyState, Label, ListBox, SearchField, useFilter } from "@heroui/react";
 import { useEffect, useState } from "react";
 
 export default function PaymentOptionSelect({ className, value, onChange }: { className?: string, value: number | "", onChange: (paymentOptionId: number) => void }) {
-  const { paymentOptionListState, fetchPaymentOptionList } = usePaymentOptionList();
+  const { normalPaymentOptionList, fetchNormalPaymentOptionList } = useNormalPaymentOptionList();
   const [searchValue, setSearchValue] = useState("");
   const { contains } = useFilter({ sensitivity: "base" });
 
   useEffect(() => {
-    fetchPaymentOptionList({ page: 1, size: 100, search: '' });
+    fetchNormalPaymentOptionList();
   }, []);
 
   return (
@@ -41,7 +41,7 @@ export default function PaymentOptionSelect({ className, value, onChange }: { cl
             </SearchField.Group>
           </SearchField>
           <ListBox renderEmptyState={() => <EmptyState>没有找到支付选项</EmptyState>}>
-            {(paymentOptionListState?.list || []).map((item) => (
+            {normalPaymentOptionList.map((item) => (
               <ListBox.Item key={item.id} id={item.id} textValue={item.name}>
                 <Label>{item.name}</Label>
                 <ListBox.ItemIndicator />

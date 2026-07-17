@@ -4,6 +4,7 @@ import type { SkuEditReq, SkuManageListItem } from "@lib/common/dto/sku";
 import { SkuImportant, SkuPeriodType, SkuType } from "@lib/common/consts/sku";
 import ProductSelect from "@app/manage-web/components/product-select";
 import { useEditSku } from "@app/manage-web/hooks/sku";
+import { useToast } from "@app/manage-web/contexts/toast-context";
 import { SkuImportantSelect } from "./sku-important-select";
 import { SkuPeriodSelect } from "./sku-period-select";
 import { SkuTypeSelect } from "./sku-type-select";
@@ -12,6 +13,7 @@ import PaymentOptionSelect from "@app/manage-web/components/payment-option-selec
 export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageListItem, onSuccess?: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
   const [skuEditReq, setSkuEditReq] = useState({} as SkuEditReq);
+  const toast = useToast();
   const { fetchEditSku } = useEditSku();
 
   useEffect(() => {
@@ -33,9 +35,14 @@ export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageList
   }, [isOpen]);
 
   const handleProductEditButton = async () => {
-    await fetchEditSku(skuEditReq);
-    setIsOpen(false);
-    onSuccess?.();
+    try {
+      await fetchEditSku(skuEditReq);
+      setIsOpen(false);
+      onSuccess?.();
+      toast.add({ title: "编辑成功", variant: "success" });
+    } catch (e) {
+      toast.add({ title: "编辑失败", description: e instanceof Error ? e.message : "未知错误", variant: "danger" });
+    }
   }
 
   return (

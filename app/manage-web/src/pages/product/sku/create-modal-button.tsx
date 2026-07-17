@@ -4,6 +4,7 @@ import ProductSelect from "@app/manage-web/components/product-select";
 import type { SkuAddReq } from "@lib/common/dto/sku";
 import { SkuImportant, SkuPeriodType, SkuType } from "@lib/common/consts/sku";
 import { useAddSku } from "@app/manage-web/hooks/sku";
+import { useToast } from "@app/manage-web/contexts/toast-context";
 import { SkuImportantSelect } from "./sku-important-select";
 import { SkuTypeSelect } from "./sku-type-select";
 import { SkuPeriodSelect } from "./sku-period-select";
@@ -20,6 +21,7 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
     desc: "",
     paypalPlanId: "",
   } as SkuAddReq);
+  const toast = useToast();
   const { fetchAddSku } = useAddSku();
 
   useEffect(() => {
@@ -27,9 +29,14 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
   }, [isOpen]);
 
   const handleProductEditButton = async () => {
-    await fetchAddSku(skuAddReq);
-    setIsOpen(false);
-    onSuccess?.();
+    try {
+      await fetchAddSku(skuAddReq);
+      setIsOpen(false);
+      onSuccess?.();
+      toast.add({ title: "创建成功", variant: "success" });
+    } catch (e) {
+      toast.add({ title: "创建失败", description: e instanceof Error ? e.message : "未知错误", variant: "danger" });
+    }
   }
 
 

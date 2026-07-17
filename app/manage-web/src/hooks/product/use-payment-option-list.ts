@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { request } from "@lib/common/utils/request-manage";
-import type { PaymentOptionAddReq, PaymentOptionContentItem, PaymentOptionDeleteReq, PaymentOptionEditReq, PaymentOptionListReq, PaymentOptionListResp } from "@lib/common/dto/payment-option";
+import type { PaymentOptionAddReq, PaymentOptionContentItem, PaymentOptionDeleteReq, PaymentOptionEditReq, PaymentOptionListReq, PaymentOptionListResp, PaymentOptionListRespItem } from "@lib/common/dto/payment-option";
 import { convertURLSearchParams } from "@lib/common/utils/param";
 
 export function usePaymentOptionList(): {
@@ -67,5 +67,23 @@ export function usePaymentOptionItems(): {
 
   return {
     fetchPaymentOptionItems,
+  };
+}
+
+export function useNormalPaymentOptionList(): {
+  normalPaymentOptionList: PaymentOptionListRespItem[];
+  fetchNormalPaymentOptionList: () => Promise<PaymentOptionListRespItem[]>;
+} {
+  const [normalPaymentOptionList, setNormalPaymentOptionList] = useState<PaymentOptionListRespItem[]>([]);
+
+  const fetchNormalPaymentOptionList = useCallback(async () => {
+    const result = await request<PaymentOptionListRespItem[]>("/api/payment_option/normal_option_list", "GET");
+    setNormalPaymentOptionList(result);
+    return result;
+  }, []);
+
+  return {
+    normalPaymentOptionList,
+    fetchNormalPaymentOptionList,
   };
 }

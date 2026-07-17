@@ -41,6 +41,11 @@ export class PaymentOptionDao {
         return await this.conn.select().from(paymentOptionTable);
     }
 
+    async getNormalPaymentOptionList() {
+        return await this.conn.select().from(paymentOptionTable)
+            .where(eq(paymentOptionTable.isDeleted, DeleteStatus.NotDeleted));
+    }
+
     async updatePaymentOptionById(id: number, data: PaymentOptionInsert): Promise<void> {
         data.updateTime = currentTime();
         await this.conn.update(paymentOptionTable).set(data).where(eq(paymentOptionTable.id, id));

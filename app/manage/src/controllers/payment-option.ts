@@ -36,4 +36,9 @@ paymentOption.get('/items', validated('query', paymentOptionItemsReqSchema), asy
     return c.json(success(resp));
 });
 
+paymentOption.get('/normal_option_list', async (c) => {
+    const resp = await paymentOptionService.getNormalPaymentOptionList();
+    return c.json(success(resp));
+});
+
 export default paymentOption;

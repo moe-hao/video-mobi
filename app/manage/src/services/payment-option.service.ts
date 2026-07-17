@@ -6,6 +6,7 @@ import type {
     PaymentOptionItemsReq,
     PaymentOptionListReq,
     PaymentOptionListResp,
+    PaymentOptionListRespItem,
 } from "@lib/common/dto/payment-option";
 import { PaymentOptionDao, paymentOptionDao } from "@lib/repo/dao/payment-option.dao";
 import { formatUnixTime } from "@lib/common/utils/time";
@@ -100,6 +101,16 @@ export const paymentOptionService = {
             paymentType: item.paymentType,
             paymentChannel: item.paymentChannel,
             sort: item.sort,
+        }));
+    },
+
+    getNormalPaymentOptionList: async (): Promise<PaymentOptionListRespItem[]> => {
+        const items = await paymentOptionDao.getNormalPaymentOptionList();
+        return items.map((item) => ({
+            id: item.id,
+            name: item.name,
+            createTime: formatUnixTime(item.createTime),
+            updateTime: formatUnixTime(item.updateTime),
         }));
     },
 };
