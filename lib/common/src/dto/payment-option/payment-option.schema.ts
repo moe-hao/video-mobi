@@ -3,6 +3,7 @@ import z from "zod";
 export const paymentOptionContentItemSchema = z.object({
     paymentType: z.string().min(1, '支付类型不能为空'),
     paymentChannel: z.string().min(1, '支付渠道不能为空'),
+    sort: z.number().optional(),
 });
 
 export const paymentOptionListReqSchema = z.object({

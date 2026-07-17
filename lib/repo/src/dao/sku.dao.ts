@@ -85,6 +85,16 @@ class SkuDao {
         ).orderBy(desc(skuTable.weight));
     }
 
+    async getSkuCountByPaymentOptionId(paymentOptionId: number): Promise<number> {
+        const [result] = await this.conn.select({ count: count() }).from(skuTable).where(
+            and(
+                eq(skuTable.paymentOptionId, paymentOptionId),
+                eq(skuTable.isDeleted, DeleteStatus.NotDeleted),
+            )
+        );
+        return result.count;
+    }
+
     async updateSkuById(id: number, data: SkuInsert): Promise<void> {
         data.updateTime = currentTime();
         await this.conn.update(skuTable).set(data).where(eq(skuTable.id, id));

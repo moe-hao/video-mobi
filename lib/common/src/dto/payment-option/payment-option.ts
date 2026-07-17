@@ -18,6 +18,7 @@ export interface PaymentOptionListResp {
 export interface PaymentOptionContentItem {
     paymentType: string;
     paymentChannel: string;
+    sort?: number;
 }
 
 export interface PaymentOptionListRespItem {

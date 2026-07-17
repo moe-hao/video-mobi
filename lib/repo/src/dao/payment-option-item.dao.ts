@@ -2,8 +2,9 @@ import { database, type DatabaseConn } from "@lib/internal/database";
 import { paymentOptionItemTable, type PaymentOptionItemInsert } from "../models/payment-option-item";
 import { and, eq } from "drizzle-orm";
 import { DeleteStatus } from "@lib/common/consts/common-status";
+import { currentTime } from "@lib/common/utils/time";
 
-class PaymentOptionItemDao {
+export class PaymentOptionItemDao {
     constructor(private readonly conn: DatabaseConn = database) { }
 
     async addPaymentOptionItem(items: PaymentOptionItemInsert[]): Promise<void> {
@@ -21,6 +22,15 @@ class PaymentOptionItemDao {
                 eq(paymentOptionItemTable.isDeleted, DeleteStatus.NotDeleted),
             ))
             .orderBy(paymentOptionItemTable.sort);
+    }
+
+    async addPaymentOptionList(items: PaymentOptionItemInsert[]): Promise<void> {
+        const nowTime = currentTime();
+        items.forEach(item => {
+            item.createTime = nowTime;
+            item.updateTime = nowTime;
+        });
+        await this.conn.insert(paymentOptionItemTable).values(items);
     }
 }
 

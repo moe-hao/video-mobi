@@ -95,7 +95,7 @@ export default function SkuList() {
                   <Table.Cell className="whitespace-nowrap">{item.skuType === SkuType.Subscription ? item.periodTotal : item.coinBonus}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.desc}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.important === SkuImportant.Yes ? "是" : "否"}</Table.Cell>
-                  <Table.Cell className="whitespace-nowrap">{item.paymentOptionId === 0 ? '' : `${item.paymentOptionId} - ${item.paymentOptionName}`}</Table.Cell>
+                  <Table.Cell className="whitespace-nowrap">{item.paymentOptionId === 0 ? '' : `[${item.paymentOptionId}] ${item.paymentOptionName}`}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.paypalPlanId}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.createTime} </Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.updateTime}</Table.Cell>

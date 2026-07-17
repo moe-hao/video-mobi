@@ -12,7 +12,8 @@ const pool = mysql.createPool({
 })
 
 export const database = drizzle({ client: pool });
-export type DatabaseConn = typeof database;
+type TxType = Parameters<Parameters<(typeof database)['transaction']>[0]>[0];
+export type DatabaseConn = typeof database | TxType;
 
 export async function connectDatabase() {
     const connection = await pool.getConnection();

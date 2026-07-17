@@ -1,14 +1,15 @@
-import { Button, Input, Label, ListBox, Modal, Select } from "@heroui/react";
+import { Button, Input, Label, Modal, Spinner } from "@heroui/react";
 import { useEffect, useState } from "react";
-import { Minus } from "@gravity-ui/icons";
+import { Reorder } from "framer-motion";
 import type { PaymentOptionContentItem } from "@lib/common/dto/payment-option";
 import { useAddPaymentOption } from "@app/manage-web/hooks/product";
-import { PaymentChannel, PaymentTypeName } from "@lib/common/consts/payment";
+import PaymentOptionItem, { type ReorderItem, toReorderItem, toContentItem } from "./payment-option-item";
 
 export default function CreateModalButton({ onSuccess }: { onSuccess?: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
-  const [contentList, setContentList] = useState<PaymentOptionContentItem[]>([]);
+  const [contentList, setContentList] = useState<ReorderItem[]>([]);
   const { fetchAddPaymentOption } = useAddPaymentOption();
 
   useEffect(() => {
@@ -23,9 +24,14 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
   };
 
   const handleAdd = async () => {
-    await fetchAddPaymentOption({ name, content: contentList });
-    setIsOpen(false);
-    onSuccess?.();
+    setLoading(true);
+    try {
+      await fetchAddPaymentOption({ name, content: contentList.map(toContentItem) });
+      setIsOpen(false);
+      onSuccess?.();
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -33,7 +39,7 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
       <Button variant="primary" size="sm" onClick={() => setIsOpen(true)}>新建支付组</Button>
       <Modal.Backdrop isDismissable={false}>
         <Modal.Container size="lg">
-          <Modal.Dialog aria-label="新建支付组" className="gray-100 min-w-[600px]">
+          <Modal.Dialog aria-label="新建支付组" className="gray-100 min-w-[650px]">
             <Modal.CloseTrigger />
             <Modal.Header className="p-2">
               <Modal.Heading>新建支付组</Modal.Heading>
@@ -44,69 +50,28 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
                 <Input variant="secondary" className="flex-1" value={name} onChange={(e) => setName(e.target.value)} />
               </div>
               {contentList.length === 0 ? (
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center text-gray-400">
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center text-gray-400">
                   暂无支付选项，请点击下方按钮添加
                 </div>
               ) : (
-                contentList.map((item, index) => (
-                  <div key={index} className="flex flex-row items-center gap-4">
-                    <Label className="w-14 shrink-0 text-right">支付类型</Label>
-                    <Select
-                      aria-label="支付类型"
-                      variant="secondary"
-                      className="flex-1"
-                      placeholder="选择支付类型"
-                      value={item.paymentType}
-                      onChange={(value) => updateItem(index, 'paymentType', value as string)}
-                    >
-                      <Select.Trigger>
-                        <Select.Value />
-                        <Select.Indicator />
-                      </Select.Trigger>
-                      <Select.Popover>
-                        <ListBox>
-                          {Object.entries(PaymentTypeName).map(([key, label]) => (
-                            <ListBox.Item key={key} id={key} textValue={label}>{label}</ListBox.Item>
-                          ))}
-                        </ListBox>
-                      </Select.Popover>
-                    </Select>
-                    <Label className="w-14 shrink-0 text-right">支付渠道</Label>
-                    <Select
-                      aria-label="支付渠道"
-                      variant="secondary"
-                      className="flex-1"
-                      placeholder="选择支付渠道"
-                      value={item.paymentChannel}
-                      onChange={(value) => updateItem(index, 'paymentChannel', value as string)}
-                    >
-                      <Select.Trigger>
-                        <Select.Value />
-                        <Select.Indicator />
-                      </Select.Trigger>
-                      <Select.Popover>
-                        <ListBox>
-                          {Object.values(PaymentChannel).map((channel) => (
-                            <ListBox.Item key={channel} id={channel} textValue={channel}>{channel}</ListBox.Item>
-                          ))}
-                        </ListBox>
-                      </Select.Popover>
-                    </Select>
-                    <div className="w-6 shrink-0">
-                      <Button isIconOnly className="w-4 h-4 min-w-4 rounded-full p-0" variant="danger" onClick={() => setContentList(contentList.filter((_, i) => i !== index))}>
-                        <Minus />
-                      </Button>
-                    </div>
-                  </div>
-                ))
+                <Reorder.Group axis="y" values={contentList} onReorder={setContentList} className="flex flex-col gap-4">
+                  {contentList.map((item, index) => (
+                    <PaymentOptionItem key={item._id} item={item} index={index} onUpdate={updateItem} onRemove={(i) => setContentList(contentList.filter((_, j) => j !== i))} />
+                  ))}
+                </Reorder.Group>
               )}
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="outline" className="w-full" onClick={() => setContentList([...contentList, { paymentType: '', paymentChannel: '' }])}>
+              <Button variant="outline" className="w-full" onClick={() => setContentList([...contentList, toReorderItem({ paymentType: '', paymentChannel: '' })])}>
                 添加选项
               </Button>
-              <Button className="w-full" type="submit" onClick={handleAdd}>
-                新建
+              <Button className="w-full" type="submit" isPending={loading} onClick={handleAdd}>
+                {({isPending}) => (
+                  <>
+                    {isPending ? <Spinner color="current" size="sm" /> : null}
+                    新建
+                  </>
+                )}
               </Button>
             </Modal.Footer>
           </Modal.Dialog>

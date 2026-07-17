@@ -1,13 +1,20 @@
-import { Button, Input, Label, Link, ListBox, Modal, Select } from "@heroui/react";
+import { Button, Input, Label, Link, Modal, Spinner } from "@heroui/react";
 import { useEffect, useState } from "react";
-import { Minus } from "@gravity-ui/icons";
+import { Reorder } from "framer-motion";
 import type { PaymentOptionEditReq, PaymentOptionContentItem, PaymentOptionListRespItem } from "@lib/common/dto/payment-option";
 import { useEditPaymentOption, usePaymentOptionItems } from "@app/manage-web/hooks/product";
-import { PaymentChannel, PaymentTypeName } from "@lib/common/consts/payment";
+import { useToast } from "@app/manage-web/contexts/toast-context";
+import PaymentOptionItem, { type ReorderItem, toReorderItem, toContentItem } from "./payment-option-item";
+
+interface EditReqState extends Omit<PaymentOptionEditReq, 'content'> {
+  content: ReorderItem[];
+}
 
 export default function EditModalButton({ item, onSuccess }: { item: PaymentOptionListRespItem, onSuccess?: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [editReq, setEditReq] = useState<PaymentOptionEditReq>({} as PaymentOptionEditReq);
+  const [loading, setLoading] = useState(false);
+  const [editReq, setEditReq] = useState<EditReqState>({} as EditReqState);
+  const toast = useToast();
   const { fetchEditPaymentOption } = useEditPaymentOption();
   const { fetchPaymentOptionItems } = usePaymentOptionItems();
 
@@ -17,7 +24,7 @@ export default function EditModalButton({ item, onSuccess }: { item: PaymentOpti
         setEditReq({
           id: item.id,
           name: item.name,
-          content: items,
+          content: items.map(toReorderItem),
         });
       });
     }
@@ -29,9 +36,17 @@ export default function EditModalButton({ item, onSuccess }: { item: PaymentOpti
   };
 
   const handleEdit = async () => {
-    await fetchEditPaymentOption(editReq);
-    setIsOpen(false);
-    onSuccess?.();
+    setLoading(true);
+    try {
+      await fetchEditPaymentOption({ ...editReq, content: editReq.content.map(toContentItem) });
+      setIsOpen(false);
+      onSuccess?.();
+      toast.add({ title: "编辑成功", variant: "success" });
+    } catch (e) {
+      toast.add({ title: "编辑失败", description: e instanceof Error ? e.message : "未知错误", variant: "danger" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -39,7 +54,7 @@ export default function EditModalButton({ item, onSuccess }: { item: PaymentOpti
       <Link className="no-underline hover:underline text-accent mr-2" onClick={() => setIsOpen(true)}>编辑</Link>
       <Modal.Backdrop isDismissable={false}>
         <Modal.Container size="lg">
-          <Modal.Dialog aria-label="编辑支付组" className="gray-100 min-w-[600px]">
+          <Modal.Dialog aria-label="编辑支付组" className="gray-100 min-w-[650px]">
             <Modal.CloseTrigger />
             <Modal.Header className="p-2">
               <Modal.Heading>编辑支付组</Modal.Heading>
@@ -54,65 +69,24 @@ export default function EditModalButton({ item, onSuccess }: { item: PaymentOpti
                   暂无支付选项，请点击下方按钮添加
                 </div>
               ) : (
-                editReq.content?.map((c, index) => (
-                  <div key={index} className="flex flex-row items-center gap-4">
-                    <Label className="w-14 shrink-0 text-right">支付类型</Label>
-                    <Select
-                      aria-label="支付类型"
-                      variant="secondary"
-                      className="flex-1"
-                      placeholder="选择支付类型"
-                      value={c.paymentType}
-                      onChange={(value) => updateItem(index, 'paymentType', value as string)}
-                    >
-                      <Select.Trigger>
-                        <Select.Value />
-                        <Select.Indicator />
-                      </Select.Trigger>
-                      <Select.Popover>
-                        <ListBox>
-                          {Object.entries(PaymentTypeName).map(([key, label]) => (
-                            <ListBox.Item key={key} id={key} textValue={label}>{label}</ListBox.Item>
-                          ))}
-                        </ListBox>
-                      </Select.Popover>
-                    </Select>
-                    <Label className="w-14 shrink-0 text-right">支付渠道</Label>
-                    <Select
-                      aria-label="支付渠道"
-                      variant="secondary"
-                      className="flex-1"
-                      placeholder="选择支付渠道"
-                      value={c.paymentChannel}
-                      onChange={(value) => updateItem(index, 'paymentChannel', value as string)}
-                    >
-                      <Select.Trigger>
-                        <Select.Value />
-                        <Select.Indicator />
-                      </Select.Trigger>
-                      <Select.Popover>
-                        <ListBox>
-                          {Object.values(PaymentChannel).map((channel) => (
-                            <ListBox.Item key={channel} id={channel} textValue={channel}>{channel}</ListBox.Item>
-                          ))}
-                        </ListBox>
-                      </Select.Popover>
-                    </Select>
-                    <div className="w-6 shrink-0">
-                      <Button isIconOnly className="w-4 h-4 min-w-4 rounded-full p-0" variant="danger" onClick={() => setEditReq({ ...editReq, content: editReq.content.filter((_, i) => i !== index) })}>
-                        <Minus />
-                      </Button>
-                    </div>
-                  </div>
-                ))
+                <Reorder.Group axis="y" values={editReq.content || []} onReorder={(newContent) => setEditReq({ ...editReq, content: newContent })} className="flex flex-col gap-4">
+                  {editReq.content?.map((c, index) => (
+                    <PaymentOptionItem key={c._id} item={c} index={index} onUpdate={updateItem} onRemove={(i) => setEditReq({ ...editReq, content: editReq.content.filter((_, j) => j !== i) })} />
+                  ))}
+                </Reorder.Group>
               )}
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="outline" className="w-full" onClick={() => setEditReq({ ...editReq, content: [...editReq.content, { paymentType: '', paymentChannel: '' }] })}>
+              <Button variant="outline" className="w-full" onClick={() => setEditReq({ ...editReq, content: [...editReq.content, toReorderItem({ paymentType: '', paymentChannel: '' })] })}>
                 添加选项
               </Button>
-              <Button className="w-full" type="submit" onClick={handleEdit}>
-                确认修改
+              <Button className="w-full" type="submit" isPending={loading} onClick={handleEdit}>
+                {({isPending}) => (
+                  <>
+                    {isPending ? <Spinner color="current" size="sm" /> : null}
+                    确认修改
+                  </>
+                )}
               </Button>
             </Modal.Footer>
           </Modal.Dialog>

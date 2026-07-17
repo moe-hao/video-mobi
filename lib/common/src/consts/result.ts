@@ -32,6 +32,10 @@ export const ResultCode = {
         code: 20004,
         message: "Resource Not Found"
     },
+    OperationFailed: {
+        code: 20005,
+        message: "Operation Failed"
+    },
     MethodNotSupported: {
         code: 30002,
         message: "Method Not Supported"
