@@ -1,5 +1,6 @@
 import { createMiddleware } from "hono/factory";
 import { authInfoService } from "../services/auth/auth-info.service";
+import { logger } from "@lib/internal/logger";
 
 export const userAuthInfoMiddleware = createMiddleware(async (c, next) => {
     if (c.req.path === '/api/mobi/auth/guest_login') {
@@ -7,6 +8,8 @@ export const userAuthInfoMiddleware = createMiddleware(async (c, next) => {
         return;
     }
 
+
+    logger.info(`CF-IPCountry: ${c.req.header('CF-IPCountry')}`);
     const headers = c.req.header();
     for (const [key, value] of Object.entries(headers)) {
         const headerKey = key.toLowerCase();
