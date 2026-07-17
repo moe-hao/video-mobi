@@ -57,6 +57,10 @@ export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageList
                 <Label className="w-18 shrink-0 text-right">价格</Label>
                 <Input variant="secondary" className="flex-1" value={skuEditReq.price} onChange={(e) => setSkuEditReq({ ...skuEditReq, price: e.target.value })} />
               </div>
+              <div className="flex flex-row items-center gap-4">
+                <Label className="w-18 shrink-0 text-right">支付选项</Label>
+                <PaymentOptionSelect className="flex-1" value={skuEditReq.paymentOptionId || ""} onChange={(paymentOptionId: number) => setSkuEditReq({ ...skuEditReq, paymentOptionId })} />
+              </div>
               <div className="flex flex-row items-center gap-2">
                 <div className="flex flex-row items-center gap-4 flex-1">
                   <Label className="w-18  shrink-0 text-right">类型</Label>
@@ -104,10 +108,6 @@ export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageList
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-18 shrink-0 text-right">PayPal计划</Label>
                 <Input variant="secondary" className="flex-1" value={skuEditReq.paypalPlanId} onChange={(e) => setSkuEditReq({ ...skuEditReq, paypalPlanId: e.target.value })} />
-              </div>
-              <div className="flex flex-row items-center gap-4">
-                <Label className="w-18 shrink-0 text-right">支付选项</Label>
-                <PaymentOptionSelect className="flex-1" value={skuEditReq.paymentOptionId || ""} onChange={(paymentOptionId: number) => setSkuEditReq({ ...skuEditReq, paymentOptionId })} />
               </div>
             </Modal.Body>
             <Modal.Footer>

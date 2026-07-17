@@ -49,6 +49,10 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
                 <ProductSelect className="flex-1" value={skuAddReq.productId} onChange={(productId) => setSkuAddReq({ ...skuAddReq, productId })} />
               </div>
               <div className="flex flex-row items-center gap-4">
+                <Label className="w-18 shrink-0 text-right">支付选项</Label>
+                <PaymentOptionSelect className="flex-1" value={skuAddReq.paymentOptionId} onChange={(paymentOptionId: number) => setSkuAddReq({ ...skuAddReq, paymentOptionId })} />
+              </div>
+              <div className="flex flex-row items-center gap-4">
                 <Label className="w-18 shrink-0 text-right">价格</Label>
                 <Input variant="secondary" className="flex-1" placeholder="输入价格" onChange={(e) => setSkuAddReq({ ...skuAddReq, price: e.target.value })} />
               </div>
@@ -102,10 +106,6 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
                   <Input variant="secondary" className="flex-1" onChange={(e) => setSkuAddReq({ ...skuAddReq, paypalPlanId: e.target.value })} />
                 </div>
               )}
-              <div className="flex flex-row items-center gap-4">
-                <Label className="w-18 shrink-0 text-right">支付选项</Label>
-                <PaymentOptionSelect className="flex-1" value={skuAddReq.paymentOptionId} onChange={(paymentOptionId: number) => setSkuAddReq({ ...skuAddReq, paymentOptionId })} />
-              </div>
             </Modal.Body>
             <Modal.Footer>
               <Button type="submit" onClick={handleProductEditButton}>
