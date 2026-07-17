@@ -13,6 +13,7 @@ import { useVideoMobiContext } from "@app/mobi-web/contexts/video-mobi-context";
 import { useLocation, useSearchParams } from "react-router";
 import { Region } from "@lib/common/consts/region";
 import PixButton from "./pix-button";
+import PaymentButton from "./payment-button";
 
 export default function Payment() {
   const { t } = useTranslation('', { keyPrefix: 'payment' });
@@ -194,78 +195,87 @@ export default function Payment() {
                 Blue Arc Premium
               </span>
             </div>
-            <Button
-              size="lg"
-              className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
-              onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.Card)}
-            >
-              <img src="https://i.bluearcshow.com/images/B0_Card.png" alt="Credit Card" className="w-8" />
-              <span className="ml-2">
-                {t('credit-debit-card')}
-              </span>
-            </Button>
-            <Button
-              size="lg"
-              className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
-              onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.GooglePay)}
-            >
-              <img src="https://i.bluearcshow.com/images/Google_Pay_Global.png" alt="Google Pay" className="w-8" />
-              <span className="ml-2">
-                {t('google-pay')}
-              </span>
-            </Button>
-            <Button
-              size="lg"
-              className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
-              onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.ApplePay)}
-            >
-              <img src="https://i.bluearcshow.com/images/Apple_Pay_Global.png" alt="Apple Pay" className="w-8" />
-              <span className="ml-2">
-                Apple Pay
-              </span>
-            </Button>
-            { (productInfo?.region === Region.US || productInfo?.region === Region.TW) && skuInfo.skuType === SkuType.Subscription &&
+
+            {productInfo?.region === Region.TW ? (
+              skuInfo.paymentList?.map((item, index) => (
+                <PaymentButton key={index} bizId={skuInfo.bizId} paymentChannel={item.paymentChannel as PaymentChannel} paymentType={item.paymentType as PaymentType} />
+              ))
+            ) : <>
               <Button
                 size="lg"
                 className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
-                onPress={() => handleClickPayment(PaymentChannel.Paypal, PaymentType.Card)}
+                onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.Card)}
               >
-                <img src="https://i.bluearcshow.com/images/paypal.webp" alt="Apple Pay" className="w-8" />
+                <img src="https://i.bluearcshow.com/images/B0_Card.png" alt="Credit Card" className="w-8" />
                 <span className="ml-2">
-                  PayPal
+                  {t('credit-debit-card')}
                 </span>
               </Button>
-            }
-
-            {productInfo?.region === Region.BR && (
-              <>
-                {
-                  skuInfo.skuType === SkuType.Subscription ? <PixButton onSubmit={handlePixSubmit} /> : (
-                    <Button
-                      size="lg"
-                      className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
-                      onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.Pix)}
-                    >
-                      <img src="https://i.bluearcshow.com/images/PIX_BR.png" alt="Pix" className="w-8" />
-                      <span className="ml-2">
-                        Pix
-                      </span>
-                    </Button>
-                  )
-                }
-
+              <Button
+                size="lg"
+                className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
+                onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.GooglePay)}
+              >
+                <img src="https://i.bluearcshow.com/images/Google_Pay_Global.png" alt="Google Pay" className="w-8" />
+                <span className="ml-2">
+                  {t('google-pay')}
+                </span>
+              </Button>
+              <Button
+                size="lg"
+                className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
+                onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.ApplePay)}
+              >
+                <img src="https://i.bluearcshow.com/images/Apple_Pay_Global.png" alt="Apple Pay" className="w-8" />
+                <span className="ml-2">
+                  Apple Pay
+                </span>
+              </Button>
+              {productInfo?.region === Region.US && skuInfo.skuType === SkuType.Subscription &&
                 <Button
                   size="lg"
                   className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
-                  onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.MercadoPago)}
+                  onPress={() => handleClickPayment(PaymentChannel.Paypal, PaymentType.Card)}
                 >
-                  <img src="https://i.bluearcshow.com/images/Mercado_Pago_BR.png" alt="MercadoPago" className="w-8" />
+                  <img src="https://i.bluearcshow.com/images/paypal.webp" alt="Apple Pay" className="w-8" />
                   <span className="ml-2">
-                    MercadoPago
+                    PayPal
                   </span>
                 </Button>
-              </>
-            )}
+              }
+
+              {productInfo?.region === Region.BR && (
+                <>
+                  {
+                    skuInfo.skuType === SkuType.Subscription ? <PixButton onSubmit={handlePixSubmit} /> : (
+                      <Button
+                        size="lg"
+                        className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
+                        onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.Pix)}
+                      >
+                        <img src="https://i.bluearcshow.com/images/PIX_BR.png" alt="Pix" className="w-8" />
+                        <span className="ml-2">
+                          Pix
+                        </span>
+                      </Button>
+                    )
+                  }
+
+                  <Button
+                    size="lg"
+                    className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
+                    onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.MercadoPago)}
+                  >
+                    <img src="https://i.bluearcshow.com/images/Mercado_Pago_BR.png" alt="MercadoPago" className="w-8" />
+                    <span className="ml-2">
+                      MercadoPago
+                    </span>
+                  </Button>
+                </>
+              )}
+            </>
+            }
+
             <PaymentPolicyTips />
             {
               productInfo?.region === Region.JP && (

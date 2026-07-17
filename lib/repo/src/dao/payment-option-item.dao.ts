@@ -1,6 +1,6 @@
 import { database, type DatabaseConn } from "@lib/internal/database";
 import { paymentOptionItemTable, type PaymentOptionItemInsert } from "../models/payment-option-item";
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { DeleteStatus } from "@lib/common/consts/common-status";
 import { currentTime } from "@lib/common/utils/time";
 
@@ -22,6 +22,14 @@ export class PaymentOptionItemDao {
                 eq(paymentOptionItemTable.isDeleted, DeleteStatus.NotDeleted),
             ))
             .orderBy(paymentOptionItemTable.sort);
+    }
+
+    async getNormalPaymentOptionItemListInOptionIds(optionIds: number[]) {
+        return await this.conn.select().from(paymentOptionItemTable)
+            .where(and(
+                inArray(paymentOptionItemTable.paymentOptionId, optionIds),
+                eq(paymentOptionItemTable.isDeleted, DeleteStatus.NotDeleted),
+            )).orderBy(paymentOptionItemTable.sort);
     }
 
     async addPaymentOptionList(items: PaymentOptionItemInsert[]): Promise<void> {

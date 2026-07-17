@@ -1,4 +1,4 @@
-import { and, count, desc, eq, like, or } from "drizzle-orm";
+import { and, count, desc, eq, inArray, like, or } from "drizzle-orm";
 import { database, type DatabaseConn } from "@lib/internal/database";
 import { paymentOptionTable, type PaymentOptionInsert, type PaymentOptionSelect } from "../models/payment-option";
 import { DeleteStatus } from "@lib/common/consts/common-status";
@@ -44,6 +44,11 @@ export class PaymentOptionDao {
     async getNormalPaymentOptionList() {
         return await this.conn.select().from(paymentOptionTable)
             .where(eq(paymentOptionTable.isDeleted, DeleteStatus.NotDeleted));
+    }
+
+    async getPaymentOptionListInIds(ids: number[]): Promise<PaymentOptionSelect[]> {
+        return await this.conn.select().from(paymentOptionTable)
+            .where(inArray(paymentOptionTable.id, ids));
     }
 
     async updatePaymentOptionById(id: number, data: PaymentOptionInsert): Promise<void> {

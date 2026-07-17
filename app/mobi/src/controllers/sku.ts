@@ -8,6 +8,6 @@ sku.get('/sku_list', async (c) => {
     const host = c.req.header("host") || '';
     const skuList = await skuService.getProductSkuList(host);
     return c.json(success(skuList));
-})
+});
 
 export default sku;

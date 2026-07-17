@@ -14,6 +14,12 @@ export interface SkuListItem {
     coinBonus: number;
     desc: string;
     important: SkuImportant;
+    paymentList: SkuPaymentListItem[];
+}
+
+export interface SkuPaymentListItem {
+    paymentChannel: string;
+    paymentType: string;
 }
 
 export interface SkuManageListResp {

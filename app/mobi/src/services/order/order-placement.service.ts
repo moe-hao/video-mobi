@@ -30,7 +30,7 @@ export const orderPlacementService = {
             pixCPF: body.pixCPF,
             firstName: body.firstName,
             lastName: body.lastName,
-        }
+        };
         const payment = PaymentFactory.createPayment(body.paymentChannel);
         const orderInfo = await payment.createOrder(paymentInfo);
 
