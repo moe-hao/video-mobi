@@ -105,6 +105,12 @@ export const routers: RouterItem[] = [
         element: loadable(() => import('../pages/product/payment-option')),
         isMenu: true,
       },
+      {
+        name: '地区管理',
+        path: '/product/region',
+        element: loadable(() => import('../pages/product/region')),
+        isMenu: true,
+      },
     ]
   },
   {

@@ -11,6 +11,7 @@ import { authMiddleware } from "./middlewares/auth-middleware";
 import sku from "./controllers/sku";
 import adReportDaily from "./controllers/ad-report-daily";
 import paymentOption from "./controllers/payment-option";
+import region from "./controllers/region";
 
 const router = new Hono();
 router.use(authMiddleware);
@@ -26,5 +27,6 @@ router.route('/product', product);
 router.route('/sku', sku);
 router.route('/report', adReportDaily);
 router.route('/payment_option', paymentOption);
+router.route('/region', region);
 
 export default router;
