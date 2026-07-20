@@ -8,7 +8,7 @@ export const videoTable = mysqlTable("video", {
     unlockCoinNum: int("unlock_coin_num").notNull().default(0),
     createTime: int("create_time").notNull().default(0),
     updateTime: int("update_time").notNull().default(0),
-})
+});
 
 export type VideoSelect = typeof videoTable.$inferSelect;
 export type VideoInsert = typeof videoTable.$inferInsert;
