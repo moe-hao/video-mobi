@@ -6,6 +6,7 @@ export const skuManageListReqSchema = z.object({
     size: z.coerce.number().int().min(1).default(20),
     search: z.string().default(''),
     productId: z.coerce.number().int().default(0),
+    region: z.string().default(''),
 });
 
 export const skuAddReqSchema = z.object({

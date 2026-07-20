@@ -13,6 +13,7 @@ class SkuService {
         const search = {
             search: req.search,
             productId: req.productId,
+            region: req.region,
         };
 
         const [skuList, skuTotal] = await Promise.all([

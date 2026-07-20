@@ -7,6 +7,7 @@ import CreateModalButton from "./create-modal-button";
 import DeleteButton from "@app/manage-web/components/delete-button";
 import type { SkuManageListReq } from "@lib/common/dto/sku";
 import ProductSelect from "@app/manage-web/components/product-select";
+import RegionSelect from "@app/manage-web/components/region-select";
 import EditModalButton from "./edit-modal-button";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
 import { Region, RegionName } from "@lib/common/consts/region";
@@ -22,6 +23,7 @@ export default function SkuList() {
     size: Number(searchParams.get('size')) || 20,
     search: searchParams.get('search') || '',
     productId: Number(searchParams.get('productId')) || 0,
+    region: searchParams.get('region') || '',
   });
 
   const changeSearchParams = (req: SkuManageListReq) => {
@@ -30,6 +32,7 @@ export default function SkuList() {
       size: req.size.toString(),
       search: req.search,
       productId: req.productId.toString(),
+      region: req.region,
     });
   };
 
@@ -65,6 +68,7 @@ export default function SkuList() {
             onChange={(e) => setSkuManageListReq({ ...skuManageListReq, search: e.target.value })}
           />
           <ProductSelect className="w-64" value={skuManageListReq.productId} onChange={(productId) => setSkuManageListReq({ ...skuManageListReq, productId })} />
+          <RegionSelect className="w-64" value={skuManageListReq.region as Region | ""} onChange={(region) => setSkuManageListReq({ ...skuManageListReq, region })} />
         </div>
         <Button variant="primary" size="sm" onClick={() => handleSearch(skuManageListReq)}>查询</Button>
         <div className="flex-1"></div>

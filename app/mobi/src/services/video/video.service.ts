@@ -12,6 +12,7 @@ import type { UserAuthInfo } from "@lib/repo/redis/user";
 import { currentTime } from "@lib/common/utils/time";
 import { userCoinHistoryDao } from "@lib/repo/dao/user-coin-history.dao";
 import { UnlockCommType } from "@lib/common/consts/unlock-coin";
+import { Language } from "@lib/common/consts/region";
 
 class VideoService {
     async getVideoPlayInfo(userInfo: UserAuthInfo, collectionBizId: string, epNum: number): Promise<VideoPlayInfoResp> {
@@ -66,6 +67,9 @@ class VideoService {
             }
 
             playURL = videoInfo.MainPlayUrl.replace('http://', 'https://');
+            if (collectionInfo.language === Language.Pt) {
+                playURL = playURL.replace('video.bluearcshow.com', 'bluearc-video.b-cdn.net');
+            }
         }
 
         const history = await historyDao.getHistoryByUserIdAndCollection(userInfo.id, collectionInfo.id);

@@ -7,6 +7,7 @@ import { DeleteStatus } from "@lib/common/consts/common-status";
 type SkuManageSearch = {
     search: string;
     productId: number;
+    region: string;
 }
 
 class SkuDao {
@@ -28,6 +29,9 @@ class SkuDao {
         }
         if (search.productId > 0) {
             conditions.push(eq(skuTable.productId, search.productId));
+        }
+        if (search.region) {
+            conditions.push(eq(skuTable.region, search.region));
         }
         conditions.push(eq(skuTable.isDeleted, DeleteStatus.NotDeleted));
 
@@ -51,6 +55,9 @@ class SkuDao {
         }
         if (search.productId > 0) {
             conditions.push(eq(skuTable.productId, search.productId));
+        }
+        if (search.region) {
+            conditions.push(eq(skuTable.region, search.region));
         }
         conditions.push(eq(skuTable.isDeleted, DeleteStatus.NotDeleted));
 

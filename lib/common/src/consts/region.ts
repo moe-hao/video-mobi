@@ -16,12 +16,6 @@ export enum Region {
     DO = "DO",
 }
 
-export type RegionInfo = {
-    name: string;
-    currency: string;
-    currencySign: string;
-}
-
 export const RegionName: Record<Region, string> = {
     [Region.US]: "美国",
     [Region.BR]: "巴西",
