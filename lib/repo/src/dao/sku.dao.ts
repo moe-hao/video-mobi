@@ -43,8 +43,8 @@ class SkuDao {
                 eq(skuTable.bizId, search.search),
             ];
 
-            if (!isNaN(Number(search))) {
-                searchConditions.unshift(eq(skuTable.id, Number(search)));
+            if (!isNaN(Number(search.search))) {
+                searchConditions.unshift(eq(skuTable.id, Number(search.search)));
             }
 
             conditions.push(or(...searchConditions));
@@ -55,9 +55,7 @@ class SkuDao {
         conditions.push(eq(skuTable.isDeleted, DeleteStatus.NotDeleted));
 
         const [result] = await this.conn.select({ count: count() }).from(skuTable).where(
-            and(
-                eq(skuTable.isDeleted, DeleteStatus.NotDeleted),
-            )
+            and(...conditions)
         );
         return result.count;
     }
