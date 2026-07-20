@@ -70,25 +70,34 @@ class CollectionVideoService {
             throw new InternalException(ResultCode.ResourceNotFound.code, 'Collection Not Found');
         }
 
-        const resp = await vod.GetMediaList({
-            Tags: collectionInfo.bizId,
-            SpaceName: config.VolSpaceName,
-            Offset: '0',
-            PageSize: collectionInfo.episodes.toString(),
-        });
+        const pageSize = 50;
+        const total = collectionInfo.episodes;
+        const offsets: number[] = [];
+        for (let i = 0; i < total; i += pageSize) {
+            offsets.push(i);
+        }
 
-        resp.Result?.MediaInfoList?.forEach(async (item) => {
-            const [collectionBizId] = item.BasicInfo?.Tags || [];
-            if (collectionBizId) {
-                await videoDao.addVideo({
-                    collectionId: id,
-                    epNum: Number(item.BasicInfo?.Title),
-                    vid: item.BasicInfo?.Vid || '',
-                    createTime: currentTime(),
-                    updateTime: currentTime(),
-                });
+        await Promise.all(offsets.map(async (offset) => {
+            const resp = await vod.GetMediaList({
+                Tags: collectionInfo.bizId,
+                SpaceName: config.VolSpaceName,
+                Offset: offset.toString(),
+                PageSize: pageSize.toString(),
+            });
+
+            for (const item of resp.Result?.MediaInfoList || []) {
+                const [collectionBizId] = item.BasicInfo?.Tags || [];
+                if (collectionBizId) {
+                    await videoDao.addVideo({
+                        collectionId: id,
+                        epNum: Number(item.BasicInfo?.Title),
+                        vid: item.BasicInfo?.Vid || '',
+                        createTime: currentTime(),
+                        updateTime: currentTime(),
+                    });
+                }
             }
-        });
+        }));
     }
 
     async downloadCollectionVideoToVod(req: VideoDownloadReq): Promise<void> {
