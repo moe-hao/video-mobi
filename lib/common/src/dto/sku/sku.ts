@@ -7,6 +7,8 @@ export interface SkuListResp {
 export interface SkuListItem {
     bizId: string;
     price: string;
+    currency: string;
+    currencySign: string;
     skuType: string;
     periodType: string;
     paypalPlanId: string;
@@ -30,6 +32,7 @@ export interface SkuManageListItem {
     productHost: string;
     price: string;
     currency: string;
+    currencySign: string;
     skuType: string;
     skuTypeName: string;
     periodType: string;
@@ -43,6 +46,7 @@ export interface SkuManageListItem {
     paymentOptionName: string;
     desc: string;
     important: SkuImportant;
+    region: string;
     createTime: string;
     updateTime: string;
 }

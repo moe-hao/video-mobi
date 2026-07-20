@@ -64,7 +64,3 @@ class PayssionProxy {
 }
 
 export const payssionProxy = new PayssionProxy();
-
-
-// mdt_nH8mH08GiTeHu1mv mdt_vDe9a14OivD00m1a mdt_PKej981u1840vnH4 mdt_nPm9C0uL0ibP9iHa mdt_nzjXjDinX5a9CinD mdt_uz9KWD1CO0KKPyvH mdt_400KeD1OKO8OCGy9 mdt_PyLK4GjDuHqH5GK8 mdt_fvbL804O4aHSb54S
-// mdt_u5GWrDLu5WzHmrTm mdt_OCKabDTm5er1fzDG

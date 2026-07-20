@@ -41,7 +41,7 @@ export class PayssionPayment implements Payment {
         const mandate = await payssionProxy.createCustomerMandate(customer.id, url, periodType);
         const subscription = await payssionProxy.createSubscription({
             mandate_id: mandate.id,
-            currency: paymentInfo.productInfo.currency,
+            currency: paymentInfo.skuInfo.currency,
             amount: paymentInfo.skuInfo.price,
             interval_unit: periodType,
             times: paymentInfo.skuInfo.periodTotal,
@@ -65,7 +65,7 @@ export class PayssionPayment implements Payment {
             bizId: orderBizId,
             userId: paymentInfo.userInfo.id,
             amount: paymentInfo.skuInfo.price,
-            currency: paymentInfo.productInfo.currency,
+            currency: paymentInfo.skuInfo.currency,
             skuId: paymentInfo.skuInfo.id,
             productId: paymentInfo.productInfo.id,
             pixelId: paymentInfo.pixelId,

@@ -35,6 +35,7 @@ interface PaymentInfo {
     userBizId: string;
     orderBizId: string;
     amount: string;
+    currency: string;
     paymentChannel: PaymentChannel;
     paymentType: PaymentType;
     subscriptionNo?: string;
@@ -81,7 +82,7 @@ class PayermaxProxy {
             integrate: 'Hosted_Checkout',
             subject: 'Video Mobi Subscription',
             totalAmount: paymentInfo.amount,
-            currency: productInfo.currency,
+            currency: paymentInfo.currency,
             country: productInfo.region,
             userId: paymentInfo.userBizId,
             language: productInfo.language,
@@ -118,7 +119,7 @@ class PayermaxProxy {
 
         const periodAmount: PayermaxSubscriptionCreatePeriodAmount = {
             amount: skuInfo.price,
-            currency: productInfo.currency,
+            currency: skuInfo.currency,
         }
 
         const subscriptionPlan: PayermaxSubscriptionCreatePlan = {

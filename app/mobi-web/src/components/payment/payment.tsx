@@ -111,7 +111,7 @@ export default function Payment() {
               </div>
               <div className="flex shrink-0 flex-col gap-1 items-end">
                 <h2 className="text-[16px] text-white font-[Anton] whitespace-nowrap tracking-wider">
-                  {productInfo?.currencySign}{String(item.price).endsWith('.00') ? String(item.price).slice(0, -3) : item.price}
+                  {item.currencySign}{String(item.price).endsWith('.00') ? String(item.price).slice(0, -3) : item.price}
                 </h2>
               </div>
             </div>
@@ -125,7 +125,7 @@ export default function Payment() {
         {
           skuListRespState.skuList?.map((item) => item.skuType === SkuType.Coin && (
             <div
-              className="bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-4 rounded-[16px] relative shrink-0 w-[140px]"
+              className="bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-4 rounded-[16px] relative shrink-0 min-w-[140px]"
               key={item.bizId}
               onClick={() => handleClickStoreCard(item)}
             >
@@ -145,11 +145,11 @@ export default function Payment() {
                 <div
                   className={
                     item.important === SkuImportant.Yes
-                      ? 'w-[88px] h-[36px] rounded-[14px] bg-gradient-to-r from-[#3D4AE0] to-[#84A1FF] flex items-center justify-center'
-                      : 'w-[88px] h-[36px] rounded-[14px] bg-white/10 flex items-center justify-center'
+                      ? 'min-w-[88px] px-3 h-[36px] rounded-[14px] bg-gradient-to-r from-[#3D4AE0] to-[#84A1FF] flex items-center justify-center whitespace-nowrap'
+                      : 'min-w-[88px] px-3 h-[36px] rounded-[14px] bg-white/10 flex items-center justify-center whitespace-nowrap'
                   }
                 >
-                  {productInfo?.currencySign}{String(item.price).endsWith('.00') ? String(item.price).slice(0, -3) : item.price}
+                  {item.currencySign}{String(item.price).endsWith('.00') ? String(item.price).slice(0, -3) : item.price}
                 </div>
               </div>
             </div>
@@ -183,7 +183,7 @@ export default function Payment() {
             </div>
             <div className="flex items-end justify-center gap-1">
               <span className="text-[14px] pb-3 text-[#FFC525]">
-                {productInfo?.currency}
+                {skuInfo.currency}
               </span>
               <span className="text-[50px] font-[Anton] bg-gradient-to-r from-[#FFA200] via-amber-400 to-[#FFEC75] bg-clip-text text-transparent">
                 {String(skuInfo.price).endsWith('.00') ? String(skuInfo.price).slice(0, -3) : skuInfo.price}

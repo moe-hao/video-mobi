@@ -21,6 +21,9 @@ export const skuAddReqSchema = z.object({
     important: z.enum(SkuImportant, { message: "Important Invalid" }),
     paypalPlanId: z.string().default(''),
     paymentOptionId: z.number().int().default(0),
+    region: z.string().default(''),
+    currency: z.string().default(''),
+    currencySign: z.string().default(''),
 });
 
 export const skuEditReqSchema = z.object({
@@ -37,6 +40,9 @@ export const skuEditReqSchema = z.object({
     important: z.enum(SkuImportant, { message: "Important Invalid" }),
     paypalPlanId: z.string().default(''),
     paymentOptionId: z.number().int().default(0),
+    region: z.string().default(''),
+    currency: z.string().default(''),
+    currencySign: z.string().default(''),
 })
 
 export const skuDeleteReqSchema = z.object({

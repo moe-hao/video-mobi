@@ -45,7 +45,8 @@ class SkuService {
                 productId: item.productId,
                 productHost: productMap[item.productId]?.host,
                 price: item.price,
-                currency: productMap[item.productId]?.currency,
+                currency: item.currency,
+                currencySign: item.currencySign,
                 skuType: item.skuType,
                 skuTypeName: SkuTypeName[item.skuType as keyof typeof SkuTypeName],
                 periodType: item.periodType,
@@ -58,6 +59,7 @@ class SkuService {
                 desc: item.desc,
                 important: item.important,
                 paymentOptionId: item.paymentOptionId,
+                region: item.region,
                 paymentOptionName: paymentOptionMap[item.paymentOptionId]?.name || '',
                 createTime: formatUnixTime(item.createTime),
                 updateTime: formatUnixTime(item.updateTime),
@@ -70,6 +72,8 @@ class SkuService {
             bizId: uuid(),
             productId: sku.productId,
             price: sku.price,
+            currency: sku.currency,
+            currencySign: sku.currencySign,
             desc: sku.desc,
             skuType: sku.skuType,
             coinNum: sku.coinNum,
@@ -80,6 +84,7 @@ class SkuService {
             important: sku.important,
             paypalPlanId: sku.paypalPlanId,
             paymentOptionId: sku.paymentOptionId,
+            region: sku.region,
         });
     }
 
@@ -87,6 +92,8 @@ class SkuService {
         await skuDao.updateSkuById(req.id, {
             productId: req.productId,
             price: req.price,
+            currency: req.currency,
+            currencySign: req.currencySign,
             skuType: req.skuType,
             coinNum: req.coinNum,
             coinBonus: req.coinBonus,
@@ -97,6 +104,7 @@ class SkuService {
             desc: req.desc,
             paypalPlanId: req.paypalPlanId,
             paymentOptionId: req.paymentOptionId,
+            region: req.region,
         });
     }
 

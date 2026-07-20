@@ -80,7 +80,7 @@ export class PaypalPayment implements Payment {
                 intent: CheckoutPaymentIntent.Capture,
                 purchaseUnits: [{
                     amount: {
-                        currencyCode: paymentInfo.productInfo.currency,
+                        currencyCode: paymentInfo.skuInfo.currency,
                         value: paymentInfo.skuInfo.price,
                     }
                 }],
@@ -97,7 +97,7 @@ export class PaypalPayment implements Payment {
             bizId: orderBizId,
             userId: paymentInfo.userInfo.id,
             amount: paymentInfo.skuInfo.price,
-            currency: paymentInfo.productInfo.currency,
+            currency: paymentInfo.skuInfo.currency,
             skuId: paymentInfo.skuInfo.id,
             productId: paymentInfo.productInfo.id,
             paymentId: resp.result.id || '',

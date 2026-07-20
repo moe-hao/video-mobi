@@ -69,7 +69,7 @@ export class PayssionWebhookService {
                 bizId: await orderBizIdGenerator.generate(),
                 userId: subscriptionInfo.userId,
                 amount: skuInfo.price,
-                currency: productInfo.currency,
+                currency: skuInfo.currency,
                 skuId: skuInfo.id,
                 productId: productInfo.id,
                 pixelId: subscriptionInfo.pixelId,

@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import { lazy } from "react";
 import RouteGuard from "../components/route-guard";
+import ErrorFallback from "../components/error-fallback";
 
 
 const routes = [
@@ -19,6 +20,7 @@ const routes = [
 export const router = createBrowserRouter([
     {
         element: <RouteGuard />,
+        errorElement: <ErrorFallback />,
         children: routes,
     }
 ]);
