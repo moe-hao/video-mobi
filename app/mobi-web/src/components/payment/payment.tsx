@@ -3,26 +3,26 @@ import { Button, Label, Link } from "@heroui/react";
 import { useEffect, useState } from "react";
 import PaymentPolicyTips from "./policy";
 import { useTranslation } from "react-i18next";
-import { useUserOrderCreate } from "@app/mobi-web/hooks/user";
+// import { useUserOrderCreate } from "@app/mobi-web/hooks/user";
 import { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
 import { useSkuListState } from "@app/mobi-web/hooks/sku";
 import type { SkuListItem } from "@lib/common/dto/sku";
 import { PeriodType, PeriodTypeToName } from "@lib/common/consts/subscription";
 import { SkuImportant, SkuType } from "@lib/common/consts/sku";
 import { useVideoMobiContext } from "@app/mobi-web/contexts/video-mobi-context";
-import { useLocation, useSearchParams } from "react-router";
+// import { useLocation, useSearchParams } from "react-router";
 import { Region } from "@lib/common/consts/region";
-import PixButton from "./pix-button";
+// import PixButton from "./pix-button";
 import PaymentButton from "./payment-button";
 
 export default function Payment() {
   const { t } = useTranslation('', { keyPrefix: 'payment' });
-  const { fetchUserOrderCreate } = useUserOrderCreate();
+  // const { fetchUserOrderCreate } = useUserOrderCreate();
   const { skuListRespState, fetchSkuList } = useSkuListState();
   const { productInfo } = useVideoMobiContext();
 
-  const location = useLocation();
-  const [searchParams, _setSearchParams] = useSearchParams();
+  // const location = useLocation();
+  // const [searchParams, _setSearchParams] = useSearchParams();
   const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
   const [skuInfo, setSkuInfo] = useState<SkuListItem>({} as SkuListItem);
   const [loading, setLoading] = useState<boolean>(false);
@@ -46,70 +46,70 @@ export default function Payment() {
     setShowPaymentModal(true);
   }
 
-  const handleClickPayment = async (paymentChannel: PaymentChannel, paymentType: PaymentType) => {
-    if (loading) return;
-    setLoading(true);
-    try {
-      const ad = {
-        ad_id: searchParams.get('creative_id') || '',
-        adset_id: searchParams.get('adset_id') || '',
-        campaign_id: searchParams.get('campaign_id') || '',
-        fbclid: searchParams.get('fbclid') || '',
-        ttclid: searchParams.get('ttclid') || '',
-        collectionId: searchParams.get('collectionId') || '',
-      }
+  // const handleClickPayment = async (paymentChannel: PaymentChannel, paymentType: PaymentType) => {
+  //   if (loading) return;
+  //   setLoading(true);
+  //   try {
+  //     const ad = {
+  //       ad_id: searchParams.get('creative_id') || '',
+  //       adset_id: searchParams.get('adset_id') || '',
+  //       campaign_id: searchParams.get('campaign_id') || '',
+  //       fbclid: searchParams.get('fbclid') || '',
+  //       ttclid: searchParams.get('ttclid') || '',
+  //       collectionId: searchParams.get('collectionId') || '',
+  //     }
 
-      const result = await fetchUserOrderCreate({
-        sku: skuInfo.bizId,
-        paymentChannel,
-        paymentType,
-        pixelId: Number(searchParams.get('p')) || 0,
-        reback: `${location.pathname}${location.search || ''}`,
-        ad: JSON.stringify(ad),
-        pixCPF: '',
-        firstName: '',
-        lastName: '',
-      });
+  //     const result = await fetchUserOrderCreate({
+  //       sku: skuInfo.bizId,
+  //       paymentChannel,
+  //       paymentType,
+  //       pixelId: Number(searchParams.get('p')) || 0,
+  //       reback: `${location.pathname}${location.search || ''}`,
+  //       ad: JSON.stringify(ad),
+  //       pixCPF: '',
+  //       firstName: '',
+  //       lastName: '',
+  //     });
 
-      window.location.href = result.redirectUrl;
-    } catch {
-      setLoading(false);
-    }
-  }
+  //     window.location.href = result.redirectUrl;
+  //   } catch {
+  //     setLoading(false);
+  //   }
+  // }
 
-  const handlePixSubmit = async (data: { cpf: string; firstName: string; lastName: string }) => {
-    if (loading) return;
-    setLoading(true);
-    try {
-      if (typeof fbq !== 'undefined') {
-        fbq('track', 'InitiateCheckout');
-      }
-      const ad = {
-        ad_id: searchParams.get('creative_id') || '',
-        adset_id: searchParams.get('adset_id') || '',
-        campaign_id: searchParams.get('campaign_id') || '',
-        fbclid: searchParams.get('fbclid') || '',
-        ttclid: searchParams.get('ttclid') || '',
-        collectionId: searchParams.get('collectionId') || '',
-      }
+  // const handlePixSubmit = async (data: { cpf: string; firstName: string; lastName: string }) => {
+  //   if (loading) return;
+  //   setLoading(true);
+  //   try {
+  //     if (typeof fbq !== 'undefined') {
+  //       fbq('track', 'InitiateCheckout');
+  //     }
+  //     const ad = {
+  //       ad_id: searchParams.get('creative_id') || '',
+  //       adset_id: searchParams.get('adset_id') || '',
+  //       campaign_id: searchParams.get('campaign_id') || '',
+  //       fbclid: searchParams.get('fbclid') || '',
+  //       ttclid: searchParams.get('ttclid') || '',
+  //       collectionId: searchParams.get('collectionId') || '',
+  //     }
 
-      const result = await fetchUserOrderCreate({
-        sku: skuInfo.bizId,
-        paymentChannel: PaymentChannel.Payssion,
-        paymentType: PaymentType.Pix,
-        pixelId: Number(searchParams.get('p')) || 0,
-        reback: `${location.pathname}${location.search || ''}`,
-        ad: JSON.stringify(ad),
-        pixCPF: data.cpf,
-        firstName: data.firstName,
-        lastName: data.lastName,
-      });
+  //     const result = await fetchUserOrderCreate({
+  //       sku: skuInfo.bizId,
+  //       paymentChannel: PaymentChannel.Payssion,
+  //       paymentType: PaymentType.Pix,
+  //       pixelId: Number(searchParams.get('p')) || 0,
+  //       reback: `${location.pathname}${location.search || ''}`,
+  //       ad: JSON.stringify(ad),
+  //       pixCPF: data.cpf,
+  //       firstName: data.firstName,
+  //       lastName: data.lastName,
+  //     });
 
-      window.location.href = result.redirectUrl;
-    } catch {
-      setLoading(false);
-    }
-  }
+  //     window.location.href = result.redirectUrl;
+  //   } catch {
+  //     setLoading(false);
+  //   }
+  // }
 
   return (
     <div className="mt-auto flex w-full flex-col items-start gap-5">
@@ -224,7 +224,13 @@ export default function Payment() {
               </span>
             </div>
 
-            {productInfo?.region === Region.TW ? (
+            {
+              skuInfo.paymentList?.map((item, index) => (
+                <PaymentButton key={index} bizId={skuInfo.bizId} paymentChannel={item.paymentChannel as PaymentChannel} paymentType={item.paymentType as PaymentType} loading={loading} onLoadingChange={setLoading} />
+              ))
+            }
+
+            {/* {productInfo?.region === Region.TW ? (
               skuInfo.paymentList?.map((item, index) => (
                 <PaymentButton key={index} bizId={skuInfo.bizId} paymentChannel={item.paymentChannel as PaymentChannel} paymentType={item.paymentType as PaymentType} loading={loading} onLoadingChange={setLoading} />
               ))
@@ -302,7 +308,7 @@ export default function Payment() {
                 </>
               )}
             </>
-            }
+            } */}
 
             <PaymentPolicyTips />
             {
