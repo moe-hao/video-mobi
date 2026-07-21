@@ -8,7 +8,7 @@ import router from './router';
 import { requestLogger } from '@lib/middleware/request-logger';
 
 await bootstrap();
-const app = new Hono()
+const app = new Hono();
 app.onError(errorHandler);
 app.use(requestLogger);
 

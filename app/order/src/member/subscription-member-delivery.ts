@@ -48,8 +48,9 @@ export class SubscriptionMemberDelivery implements MemberDelivery {
     }
 
     private getMemberExpireTime(currentExpireTime: number, shouldAddExpireTime: number): number {
-        if (currentExpireTime <= shouldAddExpireTime) {
-            return currentTime() + shouldAddExpireTime + 86400;
+        const nowTime = currentTime();
+        if (currentExpireTime <= nowTime) {
+            return nowTime + shouldAddExpireTime + 86400;
         }
         return currentExpireTime + shouldAddExpireTime;
     }
