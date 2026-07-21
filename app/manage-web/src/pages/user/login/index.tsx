@@ -36,7 +36,6 @@ export default function UserLogin() {
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full"
               />
-
               <Input
                 type="password"
                 variant="secondary"
@@ -45,22 +44,7 @@ export default function UserLogin() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full"
               />
-
-              <div className="flex items-center justify-between text-sm">
-                <label className="flex items-center gap-2">
-                  <input type="checkbox" className="w-4 h-4 rounded border-gray-300" />
-                  <span className="text-gray-600">记住我</span>
-                </label>
-              </div>
-
-              <Button
-                variant="primary"
-                className="w-full mt-2"
-                size="lg"
-                onClick={handleLogin}
-              >
-                登录
-              </Button>
+              <Button variant="primary" className="w-full mt-2" size="lg" onClick={handleLogin}>登录</Button>
             </div>
           </div>
         </div>

@@ -24,9 +24,20 @@ export default function Payment() {
   const [searchParams, _setSearchParams] = useSearchParams();
   const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
   const [skuInfo, setSkuInfo] = useState<SkuListItem>({} as SkuListItem);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     fetchSkuList();
+  }, []);
+
+  useEffect(() => {
+    const handlePageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) {
+        setLoading(false);
+      }
+    };
+    window.addEventListener('pageshow', handlePageShow);
+    return () => window.removeEventListener('pageshow', handlePageShow);
   }, []);
 
   const handleClickStoreCard = (skuInfo: SkuListItem) => {
@@ -35,56 +46,68 @@ export default function Payment() {
   }
 
   const handleClickPayment = async (paymentChannel: PaymentChannel, paymentType: PaymentType) => {
-    const ad = {
-      ad_id: searchParams.get('creative_id') || '',
-      adset_id: searchParams.get('adset_id') || '',
-      campaign_id: searchParams.get('campaign_id') || '',
-      fbclid: searchParams.get('fbclid') || '',
-      ttclid: searchParams.get('ttclid') || '',
-      collectionId: searchParams.get('collectionId') || '',
+    if (loading) return;
+    setLoading(true);
+    try {
+      const ad = {
+        ad_id: searchParams.get('creative_id') || '',
+        adset_id: searchParams.get('adset_id') || '',
+        campaign_id: searchParams.get('campaign_id') || '',
+        fbclid: searchParams.get('fbclid') || '',
+        ttclid: searchParams.get('ttclid') || '',
+        collectionId: searchParams.get('collectionId') || '',
+      }
+
+      const result = await fetchUserOrderCreate({
+        sku: skuInfo.bizId,
+        paymentChannel,
+        paymentType,
+        pixelId: Number(searchParams.get('p')) || 0,
+        reback: `${location.pathname}${location.search || ''}`,
+        ad: JSON.stringify(ad),
+        pixCPF: '',
+        firstName: '',
+        lastName: '',
+      });
+
+      window.location.href = result.redirectUrl;
+    } catch {
+      setLoading(false);
     }
-
-    const result = await fetchUserOrderCreate({
-      sku: skuInfo.bizId,
-      paymentChannel,
-      paymentType,
-      pixelId: Number(searchParams.get('p')) || 0,
-      reback: `${location.pathname}${location.search || ''}`,
-      ad: JSON.stringify(ad),
-      pixCPF: '',
-      firstName: '',
-      lastName: '',
-    });
-
-    window.location.href = result.redirectUrl;
   }
 
   const handlePixSubmit = async (data: { cpf: string; firstName: string; lastName: string }) => {
-    if (typeof fbq !== 'undefined') {
-      fbq('track', 'InitiateCheckout');
-    }
-    const ad = {
-      ad_id: searchParams.get('creative_id') || '',
-      adset_id: searchParams.get('adset_id') || '',
-      campaign_id: searchParams.get('campaign_id') || '',
-      fbclid: searchParams.get('fbclid') || '',
-      ttclid: searchParams.get('ttclid') || '',
-      collectionId: searchParams.get('collectionId') || '',
-    }
+    if (loading) return;
+    setLoading(true);
+    try {
+      if (typeof fbq !== 'undefined') {
+        fbq('track', 'InitiateCheckout');
+      }
+      const ad = {
+        ad_id: searchParams.get('creative_id') || '',
+        adset_id: searchParams.get('adset_id') || '',
+        campaign_id: searchParams.get('campaign_id') || '',
+        fbclid: searchParams.get('fbclid') || '',
+        ttclid: searchParams.get('ttclid') || '',
+        collectionId: searchParams.get('collectionId') || '',
+      }
 
-    const result = await fetchUserOrderCreate({
-      sku: skuInfo.bizId,
-      paymentChannel: PaymentChannel.Payssion,
-      paymentType: PaymentType.Pix,
-      pixelId: Number(searchParams.get('p')) || 0,
-      reback: `${location.pathname}${location.search || ''}`,
-      ad: JSON.stringify(ad),
-      pixCPF: data.cpf,
-      firstName: data.firstName,
-      lastName: data.lastName,
-    });
+      const result = await fetchUserOrderCreate({
+        sku: skuInfo.bizId,
+        paymentChannel: PaymentChannel.Payssion,
+        paymentType: PaymentType.Pix,
+        pixelId: Number(searchParams.get('p')) || 0,
+        reback: `${location.pathname}${location.search || ''}`,
+        ad: JSON.stringify(ad),
+        pixCPF: data.cpf,
+        firstName: data.firstName,
+        lastName: data.lastName,
+      });
 
-    window.location.href = result.redirectUrl;
+      window.location.href = result.redirectUrl;
+    } catch {
+      setLoading(false);
+    }
   }
 
   return (
@@ -163,8 +186,13 @@ export default function Payment() {
           <div
             className="fixed inset-0 bg-black/60 z-40 backdrop-blur-sm"
           />
+          {loading && (
+            <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80">
+              <div className="w-10 h-10 border-4 border-white/30 border-t-white rounded-full animate-spin" />
+            </div>
+          )}
           <div
-            className="fixed bottom-0 left-0 right-0 text-white rounded-[16px] p-2 pb-6 z-50"
+            className={`fixed bottom-0 left-0 right-0 text-white rounded-[16px] p-2 pb-6 z-50 ${loading ? 'pointer-events-none' : ''}`}
             style={{
               animation: 'slideUp 0.3s ease-out',
               background: 'linear-gradient(180deg, #2a3e63 0%, #1a1f2e 20%, #0d1117 100%)'
