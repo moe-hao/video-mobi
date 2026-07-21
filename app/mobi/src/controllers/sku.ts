@@ -9,6 +9,6 @@ sku.get('/sku_list', async (c) => {
     const region = c.req.header("CF-IPCountry") || '';
     const skuList = await skuService.getProductSkuList(host, region);
     return c.json(success(skuList));
-})
+});
 
 export default sku;
