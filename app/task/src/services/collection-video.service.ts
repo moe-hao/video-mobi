@@ -58,7 +58,6 @@ export const collectionVideoService = {
                     const result = await resp.json() as FetchVideoResult;
                     await videoDao.updateVideoById(videoInfo.id, { bid: result.id });
                     logger.info(`process success: ${videoInfo.vid} ${videoInfo.epNum}`);
-                    await sleep(500);
                 } catch (e) {
                     logger.error(`process failed: collectionId=${collectionId} videoId=${videoInfo.id} vid=${videoInfo.vid} error=${String(e)}`);
                     fs.appendFileSync(failedLogPath, `collection_id=${collectionId}, video_id=${videoInfo.id}, vid=${videoInfo.vid}, epNum=${videoInfo.epNum}\n`);
