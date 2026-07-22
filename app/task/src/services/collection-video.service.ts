@@ -4,8 +4,11 @@ import { DeleteStatus } from "@lib/common/consts/common-status";
 import config from "@lib/internal/config";
 import { logger } from "@lib/internal/logger";
 import { vod } from "@lib/internal/vod";
+import { concurrencyLimit } from "@lib/common/utils/concurrency";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { videoDao } from "@lib/repo/dao/video.dao";
+
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 type FetchVideoResult = {
     id: string;
@@ -29,7 +32,11 @@ export const collectionVideoService = {
 
             const videoInfoList = await videoDao.getVideoByCollectionId(collectionId);
             const url = `https://video.bunnycdn.com/library/709966/videos/fetch`
-            for (const videoInfo of videoInfoList) {
+            await concurrencyLimit(videoInfoList, 5, async (videoInfo) => {
+                if (videoInfo.bid) {
+                    return;
+                }
+
                 try {
                     logger.info(`process video: ${videoInfo.vid} ${videoInfo.epNum}`);
                     const playInfo = await vod.GetPlayInfo({ Vid: videoInfo.vid });
@@ -50,11 +57,12 @@ export const collectionVideoService = {
                     const result = await resp.json() as FetchVideoResult;
                     await videoDao.updateVideoById(videoInfo.id, { bid: result.id });
                     logger.info(`process success: ${videoInfo.vid} ${videoInfo.epNum}`);
+                    await sleep(1000);
                 } catch (e) {
                     logger.error(`process failed: collectionId=${collectionId} videoId=${videoInfo.id} vid=${videoInfo.vid} error=${String(e)}`);
                     fs.appendFileSync(failedLogPath, `collection_id=${collectionId}, video_id=${videoInfo.id}, vid=${videoInfo.vid}, epNum=${videoInfo.epNum}\n`);
                 }
-            }
+            });
         }
 
     }
