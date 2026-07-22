@@ -17,7 +17,7 @@ type FetchVideoResult = {
 export const collectionVideoService = {
     migrateCollectionVideo: async () => {
         const minCollectionId = 2;
-        const maxCollectionId = 1269;
+        const maxCollectionId = 1265;
         const failedLogPath = path.resolve('migrate-failed.log');
         fs.writeFileSync(failedLogPath, '');
 
