@@ -7,15 +7,16 @@ import { vod } from "@lib/internal/vod";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { videoDao } from "@lib/repo/dao/video.dao";
 import { getVideoAuth, getVideoList } from "./video/video";
+import { bunnyVideoProxy } from "@lib/repo/proxy/bunny";
 import { logger } from "@lib/internal/logger";
 import { uuid } from "@lib/common/utils/uuid";
 import { tos } from "@lib/internal/tos";
 
-type UploadMediaUrl = {
-    SourceUrl: string;
-    Title: string;
-    Tags: string;
-}
+// type UploadMediaUrl = {
+//     SourceUrl: string;
+//     Title: string;
+//     Tags: string;
+// }
 
 class CollectionVideoService {
     async getCollectionVideoList(req: VideoListReq): Promise<VideoListResp> {
@@ -108,37 +109,48 @@ class CollectionVideoService {
 
         const videoAuth = await getVideoAuth();
         const videoList = await getVideoList(videoAuth, collectionInfo.videoId, collectionInfo.episodes);
-
-        let count = 0;
-        let media: UploadMediaUrl[] = [];
-        for (const video of videoList) {
-            count++;
-            media.push({
-                SourceUrl: video.playUrl,
-                Title: video.num.toString(),
-                Tags: collectionInfo.bizId,
+        await Promise.all(videoList.map(async (video) => {
+            const videoName = `${collectionInfo.bizId}-${video.num}`
+            const bid = await bunnyVideoProxy.uploadVideoByURL(video.playUrl, videoName);
+            await videoDao.addVideo({
+                collectionId: collectionInfo.id,
+                epNum: video.num,
+                bid: bid,
             });
+        }));
 
-            if (count === 20) {
-                const result = await vod.UploadMediaByUrl({
-                    URLSets: media,
-                    SpaceName: config.VolSpaceName,
-                });
 
-                logger.info(`Upload Video Success! 20 Videos! result: ${result}`);
-                media = [];
-                count = 0;
-            }
-        }
 
-        if (media.length > 0) {
-            const result = await vod.UploadMediaByUrl({
-                URLSets: media,
-                SpaceName: config.VolSpaceName,
-            });
+        // let count = 0;
+        // let media: UploadMediaUrl[] = [];
+        // for (const video of videoList) {
+        //     count++;
+        //     media.push({
+        //         SourceUrl: video.playUrl,
+        //         Title: video.num.toString(),
+        //         Tags: collectionInfo.bizId,
+        //     });
 
-            logger.info(`Upload Video Success! ${media.length} Videos! result: ${result}`);
-        }
+        //     if (count === 20) {
+        //         const result = await vod.UploadMediaByUrl({
+        //             URLSets: media,
+        //             SpaceName: config.VolSpaceName,
+        //         });
+
+        //         logger.info(`Upload Video Success! 20 Videos! result: ${result}`);
+        //         media = [];
+        //         count = 0;
+        //     }
+        // }
+
+        // if (media.length > 0) {
+        //     const result = await vod.UploadMediaByUrl({
+        //         URLSets: media,
+        //         SpaceName: config.VolSpaceName,
+        //     });
+
+        //     logger.info(`Upload Video Success! ${media.length} Videos! result: ${result}`);
+        // }
 
         const [videoInfo] = videoList;
         const resp = await fetch(videoInfo.coverImage);

@@ -1,5 +1,9 @@
 import { collectionVideoService } from "../services/collection-video.service";
 
 export async function migrateCollectionVideo() {
-    await collectionVideoService.migrateCollectionVideo();
+    await Promise.all([
+        collectionVideoService.migrateCollectionVideo(2, 400),
+        collectionVideoService.migrateCollectionVideo(401, 800),
+        collectionVideoService.migrateCollectionVideo(801, 1281)
+    ]);
 }

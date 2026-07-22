@@ -60,16 +60,18 @@ class VideoService {
                 throw new InternalException(ResultCode.ResourceNotFound.code, 'Video Not Found');
             }
 
-            const playInfo = await vod.GetPlayInfo({ Vid: video.vid });
-            const [videoInfo] = playInfo.Result?.PlayInfoList || [];
-            if (!videoInfo) {
-                throw new InternalException(ResultCode.ResourceNotFound.code, 'Video Not Found');
-            }
+            playURL = `https://vz-b54f49b7-279.b-cdn.net/${video.bid}/playlist.m3u8`
 
-            playURL = videoInfo.MainPlayUrl.replace('http://', 'https://');
-            if (collectionInfo.language === Language.Pt) {
-                playURL = playURL.replace('video.bluearcshow.com', 'bluearc-video.b-cdn.net');
-            }
+            // const playInfo = await vod.GetPlayInfo({ Vid: video.vid });
+            // const [videoInfo] = playInfo.Result?.PlayInfoList || [];
+            // if (!videoInfo) {
+            //     throw new InternalException(ResultCode.ResourceNotFound.code, 'Video Not Found');
+            // }
+
+            // playURL = videoInfo.MainPlayUrl.replace('http://', 'https://');
+            // if (collectionInfo.language === Language.Pt) {
+            //     playURL = playURL.replace('video.bluearcshow.com', 'bluearc-video.b-cdn.net');
+            // }
         }
 
         const history = await historyDao.getHistoryByUserIdAndCollection(userInfo.id, collectionInfo.id);

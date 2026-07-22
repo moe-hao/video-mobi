@@ -40,6 +40,8 @@ class VideoDao {
     }
 
     async addVideo(data: VideoInsert): Promise<void> {
+        data.createTime = currentTime();
+        data.updateTime = currentTime();
         await this.conn.insert(videoTable).values(data);
     }
 
