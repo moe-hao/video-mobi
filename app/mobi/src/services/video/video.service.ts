@@ -2,7 +2,7 @@ import { DeleteStatus } from "@lib/common/consts/common-status";
 import { ResultCode } from "@lib/common/consts/result";
 import type { VideoPlayInfoResp, VideoPlayInfoListItem, VideoLikeResp, VideoUnlockCoinReq, VideoUnlockCoinResp } from "@lib/common/dto/video";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
-import { vod } from "@lib/internal/vod";
+// import { vod } from "@lib/internal/vod";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { memberDao } from "@lib/repo/dao/member.dao";
 import { userLikeDao } from "@lib/repo/dao/user-like.dao";
@@ -12,7 +12,7 @@ import type { UserAuthInfo } from "@lib/repo/redis/user";
 import { currentTime } from "@lib/common/utils/time";
 import { userCoinHistoryDao } from "@lib/repo/dao/user-coin-history.dao";
 import { UnlockCommType } from "@lib/common/consts/unlock-coin";
-import { Language } from "@lib/common/consts/region";
+// import { Language } from "@lib/common/consts/region";
 
 class VideoService {
     async getVideoPlayInfo(userInfo: UserAuthInfo, collectionBizId: string, epNum: number): Promise<VideoPlayInfoResp> {
