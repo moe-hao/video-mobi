@@ -5,18 +5,18 @@ import { migrateCollectionVideo } from './schedules/collection';
 
 await migrateCollectionVideo();
 
-// const tasks = [
-//     schedule.scheduleJob('*/10 * * * *', async () => { await scheduleAdReportDaily() }),
-//     schedule.scheduleJob('0 6 * * *', async () => { await scheduleAdReportYesterday() }),
-//     schedule.scheduleJob('0 2 * * *', async () => { await scheduleAdReportWeek() }),
+const tasks = [
+    schedule.scheduleJob('*/10 * * * *', async () => { await scheduleAdReportDaily() }),
+    schedule.scheduleJob('0 6 * * *', async () => { await scheduleAdReportYesterday() }),
+    schedule.scheduleJob('0 2 * * *', async () => { await scheduleAdReportWeek() }),
 
-//     schedule.scheduleJob('*/10 * * * *', async () => { await schedulePayssionSubscriptionStatus() }),
-//     schedule.scheduleJob('*/10 * * * *', async () => { await schedulePayssionPaymentClose() }),
-// ];
+    schedule.scheduleJob('*/10 * * * *', async () => { await schedulePayssionSubscriptionStatus() }),
+    schedule.scheduleJob('*/10 * * * *', async () => { await schedulePayssionPaymentClose() }),
+];
 
-// process.on('SIGINT', () => {
-//     console.log('正在停止所有定时任务...');
-//     tasks.forEach(job => job.cancel());
-//     process.exit(0);
-// });
+process.on('SIGINT', () => {
+    console.log('正在停止所有定时任务...');
+    tasks.forEach(job => job.cancel());
+    process.exit(0);
+});
 
