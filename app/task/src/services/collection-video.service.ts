@@ -7,6 +7,7 @@ import { vod } from "@lib/internal/vod";
 import { concurrencyLimit } from "@lib/common/utils/concurrency";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { videoDao } from "@lib/repo/dao/video.dao";
+import { VodPublishStatus } from "@lib/common/consts/collection";
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -39,6 +40,7 @@ export const collectionVideoService = {
 
                 try {
                     logger.info(`process video: ${videoInfo.vid} ${videoInfo.epNum}`);
+                    await vod.UpdateMediaPublishStatus({ Vid: videoInfo.vid, Status: VodPublishStatus.Published });
                     const playInfo = await vod.GetPlayInfo({ Vid: videoInfo.vid });
                     const [vodVideoInfo] = playInfo.Result?.PlayInfoList || [];
 
@@ -64,6 +66,5 @@ export const collectionVideoService = {
                 }
             });
         }
-
     }
 }
