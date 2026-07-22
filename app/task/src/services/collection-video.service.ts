@@ -21,7 +21,7 @@ export const collectionVideoService = {
     migrateCollectionVideo: async (minCollectionId: number, maxCollectionId: number) => {
         // const minCollectionId = 2;
         // const maxCollectionId = 1265;
-        const failedLogPath = path.resolve('migrate-failed.log');
+        const failedLogPath = path.resolve(`migrate-failed-${minCollectionId}-${maxCollectionId}.log`);
         fs.writeFileSync(failedLogPath, '');
 
         for (let collectionId = minCollectionId; collectionId <= maxCollectionId; collectionId++) {
