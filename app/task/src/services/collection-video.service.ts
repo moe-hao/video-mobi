@@ -8,7 +8,7 @@ import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { videoDao } from "@lib/repo/dao/video.dao";
 import { VodPublishStatus } from "@lib/common/consts/collection";
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+// const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 type FetchVideoResult = {
     id: string;
