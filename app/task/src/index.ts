@@ -3,8 +3,6 @@ import { schedulePayssionPaymentClose, schedulePayssionSubscriptionStatus } from
 import { scheduleAdReportDaily, scheduleAdReportWeek, scheduleAdReportYesterday } from './schedules/ad-report-daily';
 import { migrateCollectionVideo } from './schedules/collection';
 
-await migrateCollectionVideo();
-
 const tasks = [
     schedule.scheduleJob('*/10 * * * *', async () => { await scheduleAdReportDaily() }),
     schedule.scheduleJob('0 6 * * *', async () => { await scheduleAdReportYesterday() }),
@@ -12,6 +10,9 @@ const tasks = [
 
     schedule.scheduleJob('*/10 * * * *', async () => { await schedulePayssionSubscriptionStatus() }),
     schedule.scheduleJob('*/10 * * * *', async () => { await schedulePayssionPaymentClose() }),
+
+    // 一次性任务：迁移完成后手动移除
+    schedule.scheduleJob(new Date(), async () => { await migrateCollectionVideo() }),
 ];
 
 process.on('SIGINT', () => {

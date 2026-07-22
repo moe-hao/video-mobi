@@ -4,7 +4,6 @@ import { DeleteStatus } from "@lib/common/consts/common-status";
 import config from "@lib/internal/config";
 import { logger } from "@lib/internal/logger";
 import { vod } from "@lib/internal/vod";
-import { concurrencyLimit } from "@lib/common/utils/concurrency";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { videoDao } from "@lib/repo/dao/video.dao";
 import { VodPublishStatus } from "@lib/common/consts/collection";
@@ -33,9 +32,9 @@ export const collectionVideoService = {
 
             const videoInfoList = await videoDao.getVideoByCollectionId(collectionId);
             const url = `https://video.bunnycdn.com/library/709966/videos/fetch`
-            await concurrencyLimit(videoInfoList, 5, async (videoInfo) => {
+            for (const videoInfo of videoInfoList) {
                 if (videoInfo.bid) {
-                    return;
+                    continue;
                 }
 
                 try {
@@ -64,7 +63,7 @@ export const collectionVideoService = {
                     logger.error(`process failed: collectionId=${collectionId} videoId=${videoInfo.id} vid=${videoInfo.vid} error=${String(e)}`);
                     fs.appendFileSync(failedLogPath, `collection_id=${collectionId}, video_id=${videoInfo.id}, vid=${videoInfo.vid}, epNum=${videoInfo.epNum}\n`);
                 }
-            });
+            }
         }
     }
 }
