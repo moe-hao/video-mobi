@@ -49,6 +49,11 @@ class VideoDao {
             and(eq(videoTable.collectionId, collectionId), eq(videoTable.epNum, epNum))
         );
     }
+
+    async updateVideoById(id: number, data: VideoInsert): Promise<void> {
+        data.updateTime = currentTime();
+        await this.conn.update(videoTable).set(data).where(eq(videoTable.id, id));
+    }
 }
 
 export const videoDao = new VideoDao();

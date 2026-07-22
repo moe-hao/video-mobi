@@ -47,6 +47,8 @@ const config = {
 
     FbAccessToken: process.env.FB_ACCESS_TOKEN || '',
     FbBusinessAccessToken: process.env.FB_BUSINESS_ACCESS_TOKEN || '',
+
+    BunnyApiAccessKey: process.env.BUNNY_API_ACCESS_KEY || '',
 }
 
 export default config;

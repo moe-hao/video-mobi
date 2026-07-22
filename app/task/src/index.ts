@@ -1,6 +1,9 @@
 import schedule from 'node-schedule';
 import { schedulePayssionPaymentClose, schedulePayssionSubscriptionStatus } from './schedules/payssion';
 import { scheduleAdReportDaily, scheduleAdReportWeek, scheduleAdReportYesterday } from './schedules/ad-report-daily';
+import { migrateCollectionVideo } from './schedules/collection';
+
+await migrateCollectionVideo();
 
 const tasks = [
     schedule.scheduleJob('*/10 * * * *', async () => { await scheduleAdReportDaily() }),
