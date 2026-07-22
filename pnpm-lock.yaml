@@ -461,6 +461,9 @@ importers:
       '@lib/repo':
         specifier: workspace:*
         version: link:../../lib/repo
+      '@volcengine/openapi':
+        specifier: ^1.36.2
+        version: 1.36.2
       dotenv:
         specifier: ^17.4.2
         version: 17.4.2

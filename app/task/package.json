@@ -12,6 +12,7 @@
     "@lib/internal": "workspace:*",
     "@lib/middleware": "workspace:*",
     "@lib/repo": "workspace:*",
+    "@volcengine/openapi": "^1.36.2",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
     "ioredis": "^5.10.1",
