@@ -7,3 +7,8 @@ export async function migrateCollectionVideo() {
         collectionVideoService.migrateCollectionVideo(801, 1281)
     ]);
 }
+
+
+export async function asyncCollectionVideoUploadStatus() {
+    await collectionVideoService.asyncCollectionVideoUploadStatus(1, 1281);
+}

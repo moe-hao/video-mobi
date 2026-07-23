@@ -7,6 +7,9 @@ import { vod } from "@lib/internal/vod";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { videoDao } from "@lib/repo/dao/video.dao";
 import { VodPublishStatus } from "@lib/common/consts/collection";
+import { bunnyVideoProxy } from "@lib/repo/proxy/bunny/bunny-video";
+import { BunnyVideoStatus, VideoUploadStatus } from "@lib/common/consts/video";
+
 
 // const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -64,5 +67,37 @@ export const collectionVideoService = {
                 }
             }
         }
-    }
+    },
+
+    asyncCollectionVideoUploadStatus: async (minCollectionId: number, maxCollectionId: number) => {
+        for (let collectionId = minCollectionId; collectionId <= maxCollectionId; collectionId++) {
+            const collectionInfo = await collectionDao.getCollectionById(collectionId);
+            if (!collectionInfo || collectionInfo.isDeleted === DeleteStatus.Deleted) {
+                continue;
+            }
+
+            const videoInfoList = await videoDao.getVideoByCollectionId(collectionId);
+            let successCount = 0;
+            for (const videoInfo of videoInfoList) {
+                if (videoInfo.uploadStatus === VideoUploadStatus.Succeed) {
+                    successCount++;
+                    continue;
+                }
+
+                const videoInfoResult = await bunnyVideoProxy.getVideoInfo(videoInfo.bid);
+                if (videoInfoResult.status === BunnyVideoStatus.Finished) {
+                    await videoDao.updateVideoById(videoInfo.id, { uploadStatus: VideoUploadStatus.Succeed });
+                }
+
+                if (videoInfoResult.status === BunnyVideoStatus.Error || videoInfoResult.status === BunnyVideoStatus.UploadFailed) {
+                    await videoDao.updateVideoById(videoInfo.id, { uploadStatus: VideoUploadStatus.Failed });
+                }
+            }
+
+
+            if (successCount === collectionInfo.episodes) {
+                collectionDao.updateCollectionById(collectionId, { uploadStatus: VideoUploadStatus.Succeed });
+            }
+        }
+    },
 }

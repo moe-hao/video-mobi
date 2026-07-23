@@ -1,7 +1,7 @@
 import schedule from 'node-schedule';
 import { schedulePayssionPaymentClose, schedulePayssionSubscriptionStatus } from './schedules/payssion';
 import { scheduleAdReportDaily, scheduleAdReportWeek, scheduleAdReportYesterday } from './schedules/ad-report-daily';
-import { migrateCollectionVideo } from './schedules/collection';
+import { asyncCollectionVideoUploadStatus } from './schedules/collection';
 
 const tasks = [
     schedule.scheduleJob('*/10 * * * *', async () => { await scheduleAdReportDaily() }),
@@ -12,7 +12,7 @@ const tasks = [
     schedule.scheduleJob('*/10 * * * *', async () => { await schedulePayssionPaymentClose() }),
 
     // 一次性任务：迁移完成后手动移除
-    schedule.scheduleJob(new Date(), async () => { await migrateCollectionVideo() }),
+    schedule.scheduleJob(new Date(), async () => { await asyncCollectionVideoUploadStatus() }),
 ];
 
 process.on('SIGINT', () => {
