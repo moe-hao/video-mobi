@@ -79,6 +79,7 @@ export const collectionVideoService = {
             const videoInfoList = await videoDao.getVideoByCollectionId(collectionId);
             let successCount = 0;
             for (const videoInfo of videoInfoList) {
+                logger.info(`process video: ${videoInfo.vid} ${videoInfo.epNum}`);
                 if (videoInfo.uploadStatus === VideoUploadStatus.Succeed) {
                     successCount++;
                     continue;
@@ -86,17 +87,21 @@ export const collectionVideoService = {
 
                 const videoInfoResult = await bunnyVideoProxy.getVideoInfo(videoInfo.bid);
                 if (videoInfoResult.status === BunnyVideoStatus.Finished) {
+                    successCount++;
                     await videoDao.updateVideoById(videoInfo.id, { uploadStatus: VideoUploadStatus.Succeed });
+                    logger.info(`process success: ${videoInfo.vid} ${videoInfo.epNum}`);
                 }
 
                 if (videoInfoResult.status === BunnyVideoStatus.Error || videoInfoResult.status === BunnyVideoStatus.UploadFailed) {
                     await videoDao.updateVideoById(videoInfo.id, { uploadStatus: VideoUploadStatus.Failed });
+                    logger.info(`process failed: ${videoInfo.vid} ${videoInfo.epNum}`);
                 }
             }
 
 
             if (successCount === collectionInfo.episodes) {
                 collectionDao.updateCollectionById(collectionId, { uploadStatus: VideoUploadStatus.Succeed });
+                logger.info(`process success: collectionId=${collectionId}`);
             }
         }
     },
