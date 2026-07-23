@@ -2,7 +2,7 @@ import { DeleteStatus } from "@lib/common/consts/common-status";
 import { ResultCode } from "@lib/common/consts/result";
 import type { VideoPlayInfoResp, VideoPlayInfoListItem, VideoLikeResp, VideoUnlockCoinReq, VideoUnlockCoinResp } from "@lib/common/dto/video";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
-// import { vod } from "@lib/internal/vod";
+import { vod } from "@lib/internal/vod";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { memberDao } from "@lib/repo/dao/member.dao";
 import { userLikeDao } from "@lib/repo/dao/user-like.dao";
@@ -60,18 +60,13 @@ class VideoService {
                 throw new InternalException(ResultCode.ResourceNotFound.code, 'Video Not Found');
             }
 
-            playURL = `https://vz-b54f49b7-279.b-cdn.net/${video.bid}/playlist.m3u8`
+            const playInfo = await vod.GetPlayInfo({ Vid: video.vid });
+            const [videoInfo] = playInfo.Result?.PlayInfoList || [];
+            if (!videoInfo) {
+                throw new InternalException(ResultCode.ResourceNotFound.code, 'Video Not Found');
+            }
 
-            // const playInfo = await vod.GetPlayInfo({ Vid: video.vid });
-            // const [videoInfo] = playInfo.Result?.PlayInfoList || [];
-            // if (!videoInfo) {
-            //     throw new InternalException(ResultCode.ResourceNotFound.code, 'Video Not Found');
-            // }
-
-            // playURL = videoInfo.MainPlayUrl.replace('http://', 'https://');
-            // if (collectionInfo.language === Language.Pt) {
-            //     playURL = playURL.replace('video.bluearcshow.com', 'bluearc-video.b-cdn.net');
-            // }
+            playURL = videoInfo.MainPlayUrl.replace('http://video.bluearcshow.com', 'https://bluearc-video.b-cdn.net');
         }
 
         const history = await historyDao.getHistoryByUserIdAndCollection(userInfo.id, collectionInfo.id);
