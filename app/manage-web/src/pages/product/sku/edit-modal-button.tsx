@@ -22,6 +22,7 @@ export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageList
     setSkuEditReq({
       id: sku.id,
       productId: sku.productId,
+      firstPeriodPrice: sku.firstPeriodPrice,
       price: sku.price,
       desc: sku.desc,
       skuType: sku.skuType as SkuType,
@@ -111,10 +112,16 @@ export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageList
               </div>
               {
                 skuEditReq.skuType === SkuType.Subscription ? (
-                  <div className="flex flex-row items-center gap-4">
-                    <Label className="w-18  shrink-0 text-right">周期总数</Label>
-                    <Input variant="secondary" className="flex-1" value={skuEditReq.periodTotal} type="number" onChange={(e) => setSkuEditReq({ ...skuEditReq, periodTotal: Number(e.target.value) })} />
-                  </div>
+                  <>
+                    <div className="flex flex-row items-center gap-4">
+                      <Label className="w-18  shrink-0 text-right">周期总数</Label>
+                      <Input variant="secondary" className="flex-1" value={skuEditReq.periodTotal} type="number" onChange={(e) => setSkuEditReq({ ...skuEditReq, periodTotal: Number(e.target.value) })} />
+                    </div>
+                    <div className="flex flex-row items-center gap-4">
+                      <Label className="w-18 shrink-0 text-right">首订价格</Label>
+                      <Input variant="secondary" className="flex-1" value={skuEditReq.firstPeriodPrice} onChange={(e) => setSkuEditReq({ ...skuEditReq, firstPeriodPrice: e.target.value })} />
+                    </div>
+                  </>
                 ) : (
                   <div className="flex flex-row items-center gap-4">
                     <Label className="w-18 shrink-0 text-right">赠送金币</Label>

@@ -89,6 +89,7 @@ export default function SkuList() {
                 <Table.Column className="whitespace-nowrap">产品域名</Table.Column>
                 <Table.Column className="whitespace-nowrap">展示区域</Table.Column>
                 <Table.Column className="whitespace-nowrap">价格</Table.Column>
+                <Table.Column className="whitespace-nowrap">首订价格</Table.Column>
                 <Table.Column className="whitespace-nowrap">类型</Table.Column>
                 <Table.Column className="whitespace-nowrap">权重</Table.Column>
                 <Table.Column className="whitespace-nowrap">周期/金币</Table.Column>
@@ -114,6 +115,16 @@ export default function SkuList() {
                         <Tooltip.Content placement="right">
                           <div className="flex items-center gap-2">
                             <span className="text-muted-foreground truncate">{item.currencySign} {item.price}</span>
+                          </div>
+                        </Tooltip.Content>
+                      </Tooltip>
+                    </Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">
+                      <Tooltip delay={0} >
+                        <Link>{item.currency} {item.firstPeriodPrice}</Link>
+                        <Tooltip.Content placement="right">
+                          <div className="flex items-center gap-2">
+                            <span className="text-muted-foreground truncate">{item.currency} {item.firstPeriodPrice}</span>
                           </div>
                         </Tooltip.Content>
                       </Tooltip>

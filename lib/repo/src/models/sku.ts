@@ -3,6 +3,7 @@ import { char, decimal, int, mysqlTable, varchar } from "drizzle-orm/mysql-core"
 export const skuTable = mysqlTable("sku", {
     id: int("id").primaryKey().autoincrement(),
     bizId: char("biz_id", { length: 32 }).notNull().default(""),
+    firstPeriodPrice: decimal("first_period_price", { precision: 10, scale: 2 }).notNull().default('0.00'),
     price: decimal("price", { precision: 6, scale: 2 }).notNull().default('0.00'),
     skuType: varchar("sku_type", { length: 20 }).notNull().default(""),
     periodType: varchar("period_type", { length: 2 }).notNull().default(""),

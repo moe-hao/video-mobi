@@ -45,6 +45,7 @@ class SkuService {
                 bizId: item.bizId,
                 productId: item.productId,
                 productHost: productMap[item.productId]?.host,
+                firstPeriodPrice: item.firstPeriodPrice,
                 price: item.price,
                 currency: item.currency,
                 currencySign: item.currencySign,
@@ -72,6 +73,7 @@ class SkuService {
         await skuDao.addSku({
             bizId: uuid(),
             productId: sku.productId,
+            firstPeriodPrice: sku.firstPeriodPrice,
             price: sku.price,
             currency: sku.currency,
             currencySign: sku.currencySign,
@@ -92,6 +94,7 @@ class SkuService {
     async updateSku(req: SkuEditReq): Promise<void> {
         await skuDao.updateSkuById(req.id, {
             productId: req.productId,
+            firstPeriodPrice: req.firstPeriodPrice,
             price: req.price,
             currency: req.currency,
             currencySign: req.currencySign,

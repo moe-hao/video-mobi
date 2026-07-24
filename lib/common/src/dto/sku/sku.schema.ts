@@ -11,6 +11,7 @@ export const skuManageListReqSchema = z.object({
 
 export const skuAddReqSchema = z.object({
     productId: z.number().int().min(1).default(0),
+    firstPeriodPrice: z.string().default(''),
     price: z.string().nonempty({ message: "Price Required" }),
     desc: z.string().default(''),
     skuType: z.enum(SkuType, { message: "Sku Type Invalid" }),
@@ -30,6 +31,7 @@ export const skuAddReqSchema = z.object({
 export const skuEditReqSchema = z.object({
     id: z.number().int().min(1).default(0),
     productId: z.number().int().min(1).default(0),
+    firstPeriodPrice: z.string().default(''),
     price: z.string().nonempty({ message: "Price Required" }),
     desc: z.string().default(''),
     skuType: z.enum(SkuType, { message: "Sku Type Invalid" }),

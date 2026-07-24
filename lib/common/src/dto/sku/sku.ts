@@ -35,6 +35,7 @@ export interface SkuManageListItem {
     id: number;
     bizId: string;
     productId: number;
+    firstPeriodPrice: string;
     productHost: string;
     price: string;
     currency: string;

@@ -103,10 +103,16 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
               </div>
               {
                 skuAddReq.skuType === SkuType.Subscription ? (
-                  <div className="flex flex-row items-center gap-4">
-                    <Label className="w-18  shrink-0 text-right">周期总数</Label>
-                    <Input variant="secondary" className="flex-1" value={skuAddReq.periodTotal} type="number" onChange={(e) => setSkuAddReq({ ...skuAddReq, periodTotal: Number(e.target.value) })} />
-                  </div>
+                  <>
+                    <div className="flex flex-row items-center gap-4">
+                      <Label className="w-18  shrink-0 text-right">周期总数</Label>
+                      <Input variant="secondary" className="flex-1" placeholder="输入周期总数" value={skuAddReq.periodTotal} type="number" onChange={(e) => setSkuAddReq({ ...skuAddReq, periodTotal: Number(e.target.value) })} />
+                    </div>
+                    <div className="flex flex-row items-center gap-4">
+                      <Label className="w-18 shrink-0 text-right">首订价格</Label>
+                      <Input variant="secondary" className="flex-1" placeholder="输入首订价格" value={skuAddReq.firstPeriodPrice} onChange={(e) => setSkuAddReq({ ...skuAddReq, firstPeriodPrice: e.target.value })} />
+                    </div>
+                  </>
                 ) : (
                   <div className="flex flex-row items-center gap-4">
                     <Label className="w-18 shrink-0 text-right">赠送金币</Label>
@@ -116,7 +122,7 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
               }
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-18 shrink-0 text-right">商品权重</Label>
-                <Input variant="secondary" className="flex-1" value={skuAddReq.weight} onChange={(e) => setSkuAddReq({ ...skuAddReq, weight: Number(e.target.value) })} />
+                <Input variant="secondary" className="flex-1" placeholder="输入商品权重" value={skuAddReq.weight} onChange={(e) => setSkuAddReq({ ...skuAddReq, weight: Number(e.target.value) })} />
               </div>
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-18 shrink-0 text-right">重点展示</Label>
@@ -124,12 +130,12 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
               </div>
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-18  shrink-0 text-right">横幅描述</Label>
-                <Input variant="secondary" className="flex-1" onChange={(e) => setSkuAddReq({ ...skuAddReq, desc: e.target.value })} />
+                <Input variant="secondary" className="flex-1" placeholder="输入横幅描述" onChange={(e) => setSkuAddReq({ ...skuAddReq, desc: e.target.value })} />
               </div>
               {skuAddReq.skuType === SkuType.Subscription && (
                 <div className="flex flex-row items-center gap-4">
                   <Label className="w-18 shrink-0 text-right">PayPal计划</Label>
-                  <Input variant="secondary" className="flex-1" onChange={(e) => setSkuAddReq({ ...skuAddReq, paypalPlanId: e.target.value })} />
+                  <Input variant="secondary" className="flex-1" placeholder="在 PayPal 中创建计划" onChange={(e) => setSkuAddReq({ ...skuAddReq, paypalPlanId: e.target.value })} />
                 </div>
               )}
             </Drawer.Body>
