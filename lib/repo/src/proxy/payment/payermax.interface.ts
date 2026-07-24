@@ -62,6 +62,12 @@ export interface PayermaxSubscriptionCreatePlan {
     totalPeriods: number;
     periodRule: PayermaxSubscriptionCreatePeriodRule;
     periodAmount: PayermaxSubscriptionCreatePeriodAmount;
+    trialPeriodConfig?: PayermaxSubscriptionCreatePlanTrialPeriodConfig;
+}
+
+export interface PayermaxSubscriptionCreatePlanTrialPeriodConfig {
+    trialPeriodCount: number;
+    trialPeriodAmount: PayermaxSubscriptionCreatePeriodAmount;
 }
 
 export interface PayermaxSubscriptionCreatePeriodRule {

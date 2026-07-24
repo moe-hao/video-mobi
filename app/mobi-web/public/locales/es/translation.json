@@ -19,7 +19,8 @@
         "monthly-vip": "Premium mensual",
         "yearly-vip": "Premium anual",
         "credit-debit-card": "Tarjeta de crédito / débito",
-        "google-pay": "Google Pay"
+        "google-pay": "Google Pay",
+        "trial": "Prueba"
     },
     "user-info": {
         "user": "Usuario",

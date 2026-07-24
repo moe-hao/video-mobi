@@ -129,6 +129,16 @@ class PayermaxProxy {
             periodAmount: periodAmount,
         }
 
+        if (skuInfo.firstPeriodPrice !== '0.00') {
+            subscriptionPlan.trialPeriodConfig = {
+                trialPeriodCount: 1,
+                trialPeriodAmount: {
+                    amount: skuInfo.firstPeriodPrice,
+                    currency: skuInfo.currency,
+                }
+            }
+        }
+
         const data: PayermaxSubscriptionCreateData = {
             subscriptionRequestId: subscriptionBizId,
             userId: userBizId,
@@ -140,7 +150,7 @@ class PayermaxProxy {
 
         const resp = await this.request(path.SubscriptionCreate, body);
         const result = await resp.json();
-        logger.info(`CreateSubscription result: ${result.data}`);
+        logger.info(`CreateSubscription result: ${JSON.stringify(result.data)}`);
         return {
             subscriptionRequestId: result.data?.subscriptionRequestId || '',
             subscriptionNo: result.data?.subscriptionPlan.subscriptionNo || '',

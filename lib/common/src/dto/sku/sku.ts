@@ -6,6 +6,7 @@ export interface SkuListResp {
 
 export interface SkuListItem {
     bizId: string;
+    firstPeriodPrice: string;
     price: string;
     currency: string;
     currencySign: string;

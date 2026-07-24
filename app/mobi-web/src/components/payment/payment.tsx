@@ -3,26 +3,20 @@ import { Button, Label, Link } from "@heroui/react";
 import { useEffect, useState } from "react";
 import PaymentPolicyTips from "./policy";
 import { useTranslation } from "react-i18next";
-// import { useUserOrderCreate } from "@app/mobi-web/hooks/user";
 import { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
 import { useSkuListState } from "@app/mobi-web/hooks/sku";
 import type { SkuListItem } from "@lib/common/dto/sku";
 import { PeriodType, PeriodTypeToName } from "@lib/common/consts/subscription";
 import { SkuImportant, SkuType } from "@lib/common/consts/sku";
 import { useVideoMobiContext } from "@app/mobi-web/contexts/video-mobi-context";
-// import { useLocation, useSearchParams } from "react-router";
 import { Region } from "@lib/common/consts/region";
-// import PixButton from "./pix-button";
 import PaymentButton from "./payment-button";
 
 export default function Payment() {
   const { t } = useTranslation('', { keyPrefix: 'payment' });
-  // const { fetchUserOrderCreate } = useUserOrderCreate();
+
   const { skuListRespState, fetchSkuList } = useSkuListState();
   const { productInfo } = useVideoMobiContext();
-
-  // const location = useLocation();
-  // const [searchParams, _setSearchParams] = useSearchParams();
   const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
   const [skuInfo, setSkuInfo] = useState<SkuListItem>({} as SkuListItem);
   const [loading, setLoading] = useState<boolean>(false);
@@ -46,78 +40,13 @@ export default function Payment() {
     setShowPaymentModal(true);
   }
 
-  // const handleClickPayment = async (paymentChannel: PaymentChannel, paymentType: PaymentType) => {
-  //   if (loading) return;
-  //   setLoading(true);
-  //   try {
-  //     const ad = {
-  //       ad_id: searchParams.get('creative_id') || '',
-  //       adset_id: searchParams.get('adset_id') || '',
-  //       campaign_id: searchParams.get('campaign_id') || '',
-  //       fbclid: searchParams.get('fbclid') || '',
-  //       ttclid: searchParams.get('ttclid') || '',
-  //       collectionId: searchParams.get('collectionId') || '',
-  //     }
-
-  //     const result = await fetchUserOrderCreate({
-  //       sku: skuInfo.bizId,
-  //       paymentChannel,
-  //       paymentType,
-  //       pixelId: Number(searchParams.get('p')) || 0,
-  //       reback: `${location.pathname}${location.search || ''}`,
-  //       ad: JSON.stringify(ad),
-  //       pixCPF: '',
-  //       firstName: '',
-  //       lastName: '',
-  //     });
-
-  //     window.location.href = result.redirectUrl;
-  //   } catch {
-  //     setLoading(false);
-  //   }
-  // }
-
-  // const handlePixSubmit = async (data: { cpf: string; firstName: string; lastName: string }) => {
-  //   if (loading) return;
-  //   setLoading(true);
-  //   try {
-  //     if (typeof fbq !== 'undefined') {
-  //       fbq('track', 'InitiateCheckout');
-  //     }
-  //     const ad = {
-  //       ad_id: searchParams.get('creative_id') || '',
-  //       adset_id: searchParams.get('adset_id') || '',
-  //       campaign_id: searchParams.get('campaign_id') || '',
-  //       fbclid: searchParams.get('fbclid') || '',
-  //       ttclid: searchParams.get('ttclid') || '',
-  //       collectionId: searchParams.get('collectionId') || '',
-  //     }
-
-  //     const result = await fetchUserOrderCreate({
-  //       sku: skuInfo.bizId,
-  //       paymentChannel: PaymentChannel.Payssion,
-  //       paymentType: PaymentType.Pix,
-  //       pixelId: Number(searchParams.get('p')) || 0,
-  //       reback: `${location.pathname}${location.search || ''}`,
-  //       ad: JSON.stringify(ad),
-  //       pixCPF: data.cpf,
-  //       firstName: data.firstName,
-  //       lastName: data.lastName,
-  //     });
-
-  //     window.location.href = result.redirectUrl;
-  //   } catch {
-  //     setLoading(false);
-  //   }
-  // }
-
   return (
     <div className="mt-auto flex w-full flex-col items-start gap-5">
       {
         skuListRespState.skuList?.map((item) => item.skuType === SkuType.Subscription && (
           <div
             className={
-              item.important === SkuImportant.Yes ? "w-full bg-gradient-to-r from-[#3D4AE0] to-[#84A1FF] h-full px-4 py-4 rounded-[16px] relative" : "w-full bg-white/10 backdrop-blur-sm border-white/20 h-full px-4 py-4 rounded-[16px] relative"
+              item.important === SkuImportant.Yes ? "w-full bg-gradient-to-r from-[#3D4AE0] to-[#84A1FF] min-h-[70px] px-4 rounded-[16px] relative flex flex-col justify-center py-2" : "w-full bg-white/10 backdrop-blur-sm border-white/20 min-h-[70px] px-4 rounded-[16px] relative flex flex-col justify-center py-2"
             }
             key={item.bizId}
             onClick={() => handleClickStoreCard(item)}
@@ -127,17 +56,28 @@ export default function Payment() {
                 {item.desc}
               </span>
             )}
-            <div className="flex flex-row items-center justify-between gap-4 p-2">
-              <div className="flex flex-1 flex-col gap-1">
-                <h2 className="text-[16px] italic text-white font-[Anton] truncate tracking-wider">
-                  {t(`${PeriodTypeToName[item.periodType as PeriodType]}-vip`)}
+            <div className="flex flex-row items-center justify-between gap-2 flex-1">
+              <h2 className="text-[16px] italic text-white font-[Anton] tracking-wider flex-1 min-w-0">
+                {t(`${PeriodTypeToName[item.periodType as PeriodType]}-vip`)}
+              </h2>
+              <div className="flex shrink-0 flex-col items-end">
+                <h2>
+                  <span className="text-[12px] text-white/60 mr-2">
+                    {item.firstPeriodPrice !== '0.00' ? t('trial') : ''}
+                  </span>
+                  <span className="text-[16px] text-white font-[Anton] whitespace-nowrap tracking-wider leading-tight">
+                    {item.currencySign}{item.firstPeriodPrice !== '0.00'
+                      ? (String(item.firstPeriodPrice).endsWith('.00') ? String(item.firstPeriodPrice).slice(0, -3) : item.firstPeriodPrice)
+                      : (String(item.price).endsWith('.00') ? String(item.price).slice(0, -3) : item.price)
+                    }
+                  </span>
                 </h2>
               </div>
-              <div className="flex shrink-0 flex-col gap-1 items-end">
-                <h2 className="text-[16px] text-white font-[Anton] whitespace-nowrap tracking-wider">
-                  {item.currencySign}{String(item.price).endsWith('.00') ? String(item.price).slice(0, -3) : item.price}
-                </h2>
-              </div>
+            </div>
+            <div className="flex justify-end -mt-3">
+              <span className={`text-[12px] line-through leading-tight ${item.firstPeriodPrice !== '0.00' ? 'text-white/60' : 'invisible'}`}>
+                {item.currencySign}{String(item.price).endsWith('.00') ? String(item.price).slice(0, -3) : item.price}
+              </span>
             </div>
           </div>
         ))
@@ -229,86 +169,6 @@ export default function Payment() {
                 <PaymentButton key={index} bizId={skuInfo.bizId} paymentChannel={item.paymentChannel as PaymentChannel} paymentType={item.paymentType as PaymentType} loading={loading} onLoadingChange={setLoading} />
               ))
             }
-
-            {/* {productInfo?.region === Region.TW ? (
-              skuInfo.paymentList?.map((item, index) => (
-                <PaymentButton key={index} bizId={skuInfo.bizId} paymentChannel={item.paymentChannel as PaymentChannel} paymentType={item.paymentType as PaymentType} loading={loading} onLoadingChange={setLoading} />
-              ))
-            ) : <>
-              <Button
-                size="lg"
-                className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
-                onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.Card)}
-              >
-                <img src="https://i.bluearcshow.com/images/B0_Card.png" alt="Credit Card" className="w-8" />
-                <span className="ml-2">
-                  {t('credit-debit-card')}
-                </span>
-              </Button>
-              <Button
-                size="lg"
-                className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
-                onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.GooglePay)}
-              >
-                <img src="https://i.bluearcshow.com/images/Google_Pay_Global.png" alt="Google Pay" className="w-8" />
-                <span className="ml-2">
-                  {t('google-pay')}
-                </span>
-              </Button>
-              <Button
-                size="lg"
-                className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
-                onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.ApplePay)}
-              >
-                <img src="https://i.bluearcshow.com/images/Apple_Pay_Global.png" alt="Apple Pay" className="w-8" />
-                <span className="ml-2">
-                  Apple Pay
-                </span>
-              </Button>
-              {productInfo?.region === Region.US && skuInfo.skuType === SkuType.Subscription &&
-                <Button
-                  size="lg"
-                  className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
-                  onPress={() => handleClickPayment(PaymentChannel.Paypal, PaymentType.Card)}
-                >
-                  <img src="https://i.bluearcshow.com/images/paypal.webp" alt="Apple Pay" className="w-8" />
-                  <span className="ml-2">
-                    PayPal
-                  </span>
-                </Button>
-              }
-
-              {productInfo?.region === Region.BR && (
-                <>
-                  {
-                    skuInfo.skuType === SkuType.Subscription ? <PixButton onSubmit={handlePixSubmit} /> : (
-                      <Button
-                        size="lg"
-                        className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
-                        onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.Pix)}
-                      >
-                        <img src="https://i.bluearcshow.com/images/PIX_BR.png" alt="Pix" className="w-8" />
-                        <span className="ml-2">
-                          Pix
-                        </span>
-                      </Button>
-                    )
-                  }
-
-                  <Button
-                    size="lg"
-                    className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
-                    onPress={() => handleClickPayment(PaymentChannel.Payermax, PaymentType.MercadoPago)}
-                  >
-                    <img src="https://i.bluearcshow.com/images/Mercado_Pago_BR.png" alt="MercadoPago" className="w-8" />
-                    <span className="ml-2">
-                      MercadoPago
-                    </span>
-                  </Button>
-                </>
-              )}
-            </>
-            } */}
 
             <PaymentPolicyTips />
             {
