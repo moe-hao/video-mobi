@@ -515,7 +515,7 @@ importers:
     dependencies:
       '@lib/internal':
         specifier: workspace:*
-        version: link:../internal
+        version: file:lib/internal(@types/node@20.19.41)
       bcrypt:
         specifier: ^6.0.0
         version: 6.0.0
@@ -1027,6 +1027,9 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@lib/internal@file:lib/internal':
+    resolution: {directory: lib/internal, type: directory}
 
   '@loadable/component@5.16.7':
     resolution: {integrity: sha512-XvkFixLUOTEaj8lI7uwc4nf8Wmq3IulYG7SZHCWcPm/Li5gjJDFfIkgWOLPnD7jqPJVtAG9bEz4SCek+SpHYYg==}
@@ -3306,6 +3309,48 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
+
+  '@lib/internal@file:lib/internal(@types/node@20.19.41)':
+    dependencies:
+      '@volcengine/openapi': 1.36.2
+      '@volcengine/tos-sdk': 2.9.1
+      drizzle-orm: 0.45.2(mysql2@3.22.4(@types/node@20.19.41))
+      ioredis: 5.11.0
+      mysql2: 3.22.4(@types/node@20.19.41)
+      pino: 10.3.1
+    transitivePeerDependencies:
+      - '@aws-sdk/client-rds-data'
+      - '@cloudflare/workers-types'
+      - '@electric-sql/pglite'
+      - '@libsql/client'
+      - '@libsql/client-wasm'
+      - '@neondatabase/serverless'
+      - '@op-engineering/op-sqlite'
+      - '@opentelemetry/api'
+      - '@planetscale/database'
+      - '@prisma/client'
+      - '@tidbcloud/serverless'
+      - '@types/better-sqlite3'
+      - '@types/express'
+      - '@types/node'
+      - '@types/pg'
+      - '@types/sql.js'
+      - '@upstash/redis'
+      - '@vercel/postgres'
+      - '@xata.io/client'
+      - better-sqlite3
+      - buffer
+      - bun-types
+      - expo-sqlite
+      - gel
+      - knex
+      - kysely
+      - pg
+      - postgres
+      - prisma
+      - sql.js
+      - sqlite3
+      - supports-color
 
   '@loadable/component@5.16.7(react@19.2.7)':
     dependencies:

@@ -66,7 +66,7 @@ class VideoService {
                 throw new InternalException(ResultCode.ResourceNotFound.code, 'Video Not Found');
             }
 
-            playURL = videoInfo.MainPlayUrl.replace('http://video.bluearcshow.com', 'https://bluearc-video.b-cdn.net');
+            playURL = videoInfo.MainPlayUrl.replace('http://video.bluearcshow.com', 'https://s02.bluearcshow.com');
         }
 
         const history = await historyDao.getHistoryByUserIdAndCollection(userInfo.id, collectionInfo.id);

@@ -50,6 +50,9 @@ const config = {
 
     BunnyApiAccessKey: process.env.BUNNY_API_ACCESS_KEY || '',
     BunnyVideoLibraryId: process.env.BUNNY_VIDEO_LIBRARY_ID || '',
+
+    FfmpegCommandPath: process.env.FFMPEG_COMMAND_PATH || '',
+    M3U8TempBasePath: process.env.M3U8_TEMP_BASE_PATH || '',
 }
 
 export default config;

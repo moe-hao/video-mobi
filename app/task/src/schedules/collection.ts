@@ -8,7 +8,6 @@ export async function migrateCollectionVideo() {
     ]);
 }
 
-
-export async function asyncCollectionVideoUploadStatus() {
-    await collectionVideoService.asyncCollectionVideoUploadStatus(1, 1281);
-}
+// export async function asyncCollectionVideoUploadStatus() {
+//     await collectionVideoService.asyncCollectionVideoUploadStatus(1, 1281);
+// }
