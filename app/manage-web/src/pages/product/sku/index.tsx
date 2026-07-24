@@ -120,14 +120,16 @@ export default function SkuList() {
                       </Tooltip>
                     </Table.Cell>
                     <Table.Cell className="whitespace-nowrap">
-                      <Tooltip delay={0} >
-                        <Link>{item.currency} {item.firstPeriodPrice}</Link>
-                        <Tooltip.Content placement="right">
-                          <div className="flex items-center gap-2">
-                            <span className="text-muted-foreground truncate">{item.currency} {item.firstPeriodPrice}</span>
-                          </div>
-                        </Tooltip.Content>
-                      </Tooltip>
+                      {item.firstPeriodPrice === '0.00' ? '--' : (
+                        <Tooltip delay={0} >
+                          <Link>{item.currency} {item.firstPeriodPrice}</Link>
+                          <Tooltip.Content placement="right">
+                            <div className="flex items-center gap-2">
+                              <span className="text-muted-foreground truncate">{item.currency} {item.firstPeriodPrice}</span>
+                            </div>
+                          </Tooltip.Content>
+                        </Tooltip>
+                      )}
                     </Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.skuTypeName}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.weight}</Table.Cell>
