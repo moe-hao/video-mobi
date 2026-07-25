@@ -155,7 +155,10 @@ export default function Payment() {
                 {skuInfo.currency}
               </span>
               <span className="text-[50px] font-[Anton] bg-gradient-to-r from-[#FFA200] via-amber-400 to-[#FFEC75] bg-clip-text text-transparent">
-                {String(skuInfo.price).endsWith('.00') ? String(skuInfo.price).slice(0, -3) : skuInfo.price}
+                {skuInfo.firstPeriodPrice !== '0.00' ?
+                  (String(skuInfo.firstPeriodPrice).endsWith('.00') ? String(skuInfo.firstPeriodPrice).slice(0, -3) : skuInfo.firstPeriodPrice) :
+                  (String(skuInfo.price).endsWith('.00') ? String(skuInfo.price).slice(0, -3) : skuInfo.price)
+                }
               </span>
             </div>
             <div className="flex items-end justify-center gap-1">
@@ -165,9 +168,14 @@ export default function Payment() {
             </div>
 
             {
-              skuInfo.paymentList?.map((item, index) => (
-                <PaymentButton key={index} bizId={skuInfo.bizId} paymentChannel={item.paymentChannel as PaymentChannel} paymentType={item.paymentType as PaymentType} loading={loading} onLoadingChange={setLoading} />
-              ))
+              skuInfo.paymentList?.map((item, index) => {
+                if (item.paymentType === PaymentType.ApplePay && !(window as any).ApplePaySession) {
+                  return null;
+                }
+                return (
+                  <PaymentButton key={`${item.paymentType}-${index}`} bizId={skuInfo.bizId} paymentChannel={item.paymentChannel as PaymentChannel} paymentType={item.paymentType as PaymentType} loading={loading} onLoadingChange={setLoading} />
+                );
+              })
             }
 
             <PaymentPolicyTips />
