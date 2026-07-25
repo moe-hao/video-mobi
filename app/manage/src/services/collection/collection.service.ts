@@ -38,7 +38,7 @@ class CollectionService {
                 episodes: item.episodes,
                 cutPoint: item.cutPoint,
                 publishStatus: item.publishStatus,
-                cover: item.cover,
+                cover: item.cover.replace('s01.bluearcshow.com', 's03.bluearcshow.com'),
                 languageCode: item.language as Language,
                 language: LanguageName[item.language as Language],
                 videoId: item.videoId,
