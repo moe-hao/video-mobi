@@ -19,7 +19,8 @@
         "monthly-vip": "月會員",
         "yearly-vip": "年會員",
         "credit-debit-card": "信用卡 / 借記卡",
-        "google-pay": "Google Pay"
+        "google-pay": "Google Pay",
+        "trial": "試用價"
     },
     "user-info": {
         "user": "用戶",

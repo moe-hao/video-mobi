@@ -22,11 +22,16 @@ export class PayermaxPayment implements Payment {
             subscriptionNo = subscriptionResult.subscriptionNo;
         }
 
+        let orderAmount = paymentInfo.skuInfo.price;
+        if (paymentInfo.skuInfo.firstPeriodPrice !== '0.00') {
+            orderAmount = paymentInfo.skuInfo.firstPeriodPrice;
+        }
+
         const orderBizId = await orderBizIdGenerator.generate();
         const payermaxPaymentInfo = {
             userBizId: paymentInfo.userInfo.bizId,
             orderBizId: orderBizId,
-            amount: paymentInfo.skuInfo.price,
+            amount: orderAmount,
             currency: paymentInfo.skuInfo.currency,
             paymentChannel: this.orderPaymentChannel,
             paymentType: paymentInfo.paymentType,
@@ -39,7 +44,7 @@ export class PayermaxPayment implements Payment {
         const orderId = await orderDao.addOrder({
             bizId: orderBizId,
             userId: paymentInfo.userInfo.id,
-            amount: paymentInfo.skuInfo.price,
+            amount: orderAmount,
             currency: paymentInfo.skuInfo.currency,
             skuId: paymentInfo.skuInfo.id,
             productId: paymentInfo.productInfo.id,

@@ -22,6 +22,7 @@ export const skuService = {
             if (item.region === region || item.region === '') {
                 resultList.push({
                     bizId: item.bizId,
+                    firstPeriodPrice: item.firstPeriodPrice,
                     price: item.price,
                     currency: item.currency,
                     currencySign: item.currencySign,
