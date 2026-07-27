@@ -56,7 +56,7 @@ export default function SkuList() {
   return (
     <div>
       <div className="flex items-center justify-between mb-5">
-        <div className="text-lg font-semibold text-gray-700">SKU商品管理</div>
+        <div className="text-lg font-semibold text-gray-700">商品管理</div>
       </div>
       <div className="flex items-center gap-4 mb-4">
         <div className="flex items-center gap-2">
@@ -85,7 +85,6 @@ export default function SkuList() {
             <Table.Content aria-label="Team members" className="w-max min-w-full">
               <Table.Header>
                 <Table.Column className="whitespace-nowrap">ID</Table.Column>
-                <Table.Column className="whitespace-nowrap" isRowHeader>编号</Table.Column>
                 <Table.Column className="whitespace-nowrap">产品域名</Table.Column>
                 <Table.Column className="whitespace-nowrap">展示区域</Table.Column>
                 <Table.Column className="whitespace-nowrap">价格</Table.Column>
@@ -105,8 +104,17 @@ export default function SkuList() {
               <Table.Body>
                 {skuManageListResp.list?.map((item) => (
                   <Table.Row key={item.id}>
-                    <Table.Cell className="whitespace-nowrap">{item.id}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">{item.bizId}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">
+                      {item.id}
+                      <Tooltip delay={0} >
+                        <Link>{item.id}</Link>
+                        <Tooltip.Content placement="right">
+                          <div className="flex items-center gap-2">
+                            <span className="text-muted-foreground truncate">{item.bizId}</span>
+                          </div>
+                        </Tooltip.Content>
+                      </Tooltip>
+                    </Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.productHost}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.region ? RegionName[item.region as Region] : '产品范围全部'}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">
