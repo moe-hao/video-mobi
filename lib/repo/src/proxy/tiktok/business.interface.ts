@@ -41,8 +41,8 @@ export interface TikTokBusinessReportReq {
     advertiser_id: string;
     report_type: TikTokBusinessReportType;
     data_level: TikTokBusinessReportDataLevel;
-    dimensions: string[];
-    metrics: string[];
+    dimensions: string;
+    metrics: string;
     start_date: string;
     end_date: string;
     page: number;
