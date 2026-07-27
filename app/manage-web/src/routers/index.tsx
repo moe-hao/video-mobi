@@ -1,6 +1,6 @@
 import { Archive, CirclePlay, Display, FileCheck, House, Person } from '@gravity-ui/icons';
 import loadable from '@loadable/component';
-import { Route, Routes } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router';
 import type { ReactElement, ComponentType } from 'react';
 
 export interface RouterItem {
@@ -158,6 +158,7 @@ export const routers: RouterItem[] = [
 export default function ViewRouter() {
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/dashboard/view" replace />} />
       {renderRoutes(routers)}
     </Routes>
   )

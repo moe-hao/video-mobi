@@ -3,47 +3,53 @@ import { useAdReportDailySummaryState } from "@app/manage-web/hooks/report/use-a
 import { Spinner } from "@heroui/react";
 import { type DateValue, today } from "@internationalized/date";
 import SingleDatePicker from "@app/manage-web/components/date-picker";
-import PlatformSelect from "@app/manage-web/components/platform-select";
 import SummaryCard from "./summary-card";
+import type { AdReportDailySummaryResp } from "@lib/common/dto/ad-report-daily";
+
+const emptySummary: AdReportDailySummaryResp = { spend: '', purchasesConversionValue: '', purchaseRoas: '' };
 
 export default function Dashboard() {
-  const { adReportDailySummaryState, fetchAdReportDailySummary } = useAdReportDailySummaryState();
+  const { fetchAdReportDailySummary } = useAdReportDailySummaryState();
   const [loading, setLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState<DateValue | null>(() => today('Asia/Shanghai'));
-  const [platform, setPlatform] = useState('');
+  const [facebookSummary, setFacebookSummary] = useState<AdReportDailySummaryResp>(emptySummary);
+  const [tiktokSummary, setTiktokSummary] = useState<AdReportDailySummaryResp>(emptySummary);
+  const [totalSummary, setTotalSummary] = useState<AdReportDailySummaryResp>(emptySummary);
 
   const formatDate = (date: DateValue) =>
     `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`;
 
-  const fetchSummary = (date: string, platform: string) => {
+  const fetchAllSummaries = (date: string) => {
     setLoading(true);
-    fetchAdReportDailySummary({ date, platform }).finally(() => setLoading(false));
+    Promise.all([
+      fetchAdReportDailySummary({ date, platform: '' }),
+      fetchAdReportDailySummary({ date, platform: '1' }),
+      fetchAdReportDailySummary({ date, platform: '2' }),
+    ]).then(([total, facebook, tiktok]) => {
+      setTotalSummary(total);
+      setFacebookSummary(facebook);
+      setTiktokSummary(tiktok);
+    }).finally(() => setLoading(false));
   };
 
   useEffect(() => {
-    fetchSummary(formatDate(selectedDate!), platform);
+    fetchAllSummaries(formatDate(selectedDate!));
   }, []);
 
   const handleDateChange = (date: DateValue | null) => {
     setSelectedDate(date);
     if (date) {
-      fetchSummary(formatDate(date), platform);
+      fetchAllSummaries(formatDate(date));
     }
   };
 
-  const handlePlatformChange = (value: string) => {
-    setPlatform(value);
-    if (selectedDate) {
-      fetchSummary(formatDate(selectedDate), value);
-    }
-  };
+  const hasData = (summary: AdReportDailySummaryResp): boolean => !!summary.spend && Number(summary.spend) > 0;
 
   return (
     <div>
       <div className="text-lg font-semibold text-gray-700 mb-5">欢迎使用后台管理系统</div>
-      <div className="flex items-center gap-3 mb-4">
+      <div className="flex items-center gap-3 mb-6">
         <span className="text-base text-gray-600">广告数据汇总</span>
-        <PlatformSelect className="w-64" value={platform} onChange={handlePlatformChange} />
         <SingleDatePicker
           className="w-72"
           value={selectedDate}
@@ -54,11 +60,26 @@ export default function Dashboard() {
         <div className="flex items-center justify-center py-10">
           <Spinner size="lg" />
         </div>
-      ) : adReportDailySummaryState && adReportDailySummaryState.spend ? (
+      ) : (
+        <div className="flex flex-col gap-6">
+           <SummarySection title="Facebook" summary={facebookSummary} hasData={hasData(facebookSummary)} />
+           <SummarySection title="TikTok" summary={tiktokSummary} hasData={hasData(tiktokSummary)} />
+           <SummarySection title="汇总" summary={totalSummary} hasData={hasData(totalSummary)} />
+         </div>
+      )}
+    </div>
+  );
+}
+
+function SummarySection({ title, summary, hasData }: { title: string; summary: AdReportDailySummaryResp; hasData: boolean }) {
+  return (
+    <div>
+      <div className="text-sm font-medium text-gray-600 mb-2">{title}</div>
+      {hasData ? (
         <div className="grid grid-cols-3 gap-4">
-          <SummaryCard label="总花费" value={`$${Number(adReportDailySummaryState.spend).toLocaleString()}`} />
-          <SummaryCard label="总购物转化价值" value={`$${Number(adReportDailySummaryState.purchasesConversionValue).toLocaleString()}`} />
-          <SummaryCard label="ROAS" value={adReportDailySummaryState.purchaseRoas} />
+          <SummaryCard label="总花费" value={`$${Number(summary.spend).toLocaleString()}`} />
+          <SummaryCard label="总购物转化价值" value={`$${Number(summary.purchasesConversionValue).toLocaleString()}`} />
+          <SummaryCard label="ROAS" value={summary.purchaseRoas} />
         </div>
       ) : (
         <div className="text-sm text-gray-400">暂无数据</div>
