@@ -105,7 +105,6 @@ export default function SkuList() {
                 {skuManageListResp.list?.map((item) => (
                   <Table.Row key={item.id}>
                     <Table.Cell className="whitespace-nowrap">
-                      {item.id}
                       <Tooltip delay={0} >
                         <Link>{item.id}</Link>
                         <Tooltip.Content placement="right">
