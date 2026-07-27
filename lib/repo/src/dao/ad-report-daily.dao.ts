@@ -68,6 +68,7 @@ export class AdReportDailyDao {
             purchasesConversionValue: adReportDailyTable.purchasesConversionValue,
             id: adReportDailyTable.id,
         };
+
         const orderCol = orderColumns[sortField] ?? adReportDailyTable.date;
         const orderFn = sortDir === 'asc' ? asc : desc;
         return await this.conn.select().from(adReportDailyTable)
