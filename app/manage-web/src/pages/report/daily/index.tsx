@@ -58,6 +58,7 @@ export default function AdReportDailyList() {
     page: Number(searchParams.get('page')) || 1,
     size: Number(searchParams.get('size')) || 20,
     date: initialDateStr,
+    platform: searchParams.get('platform') || '',
     adAccountId: searchParams.get('adAccountId') || '',
     campaignId: searchParams.get('campaignId') || '',
     adId: searchParams.get('adId') || '',
@@ -90,6 +91,7 @@ export default function AdReportDailyList() {
       page: req.page.toString(),
       size: req.size.toString(),
       date: req.date.toString(),
+      platform: req.platform.toString(),
       adAccountId: req.adAccountId.toString(),
       campaignId: req.campaignId.toString(),
       adId: req.adId.toString(),
@@ -131,6 +133,14 @@ export default function AdReportDailyList() {
       </div>
       <div className="flex items-center gap-4 mb-4">
         <div className="flex items-center gap-2">
+          <Input
+            aria-label="平台"
+            variant="secondary"
+            placeholder="平台(如1,2)"
+            className="w-36"
+            value={adReportDailyReq.platform}
+            onChange={(e) => setAdReportDailyReq({ ...adReportDailyReq, platform: e.target.value })}
+          />
           <Input
             aria-label="广告账户ID"
             variant="secondary"
