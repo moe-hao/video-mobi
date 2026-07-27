@@ -42,6 +42,7 @@ export interface TikTokBusinessReportReq {
     report_type: TikTokBusinessReportType;
     data_level: TikTokBusinessReportDataLevel;
     dimensions: string[];
+    metrics: string[];
     start_date: string;
     end_date: string;
     page: number;
@@ -65,5 +66,30 @@ export interface TikTokBusinessReportRespData {
 }
 
 export interface TikTokBusinessReportRespDataListItem {
-
+    dimensions: {
+        advertiser_id: string;
+        country_code: string;
+    };
+    metrics: {
+        advertiser_id: string;
+        advertiser_name: string;
+        campaign_id: string;
+        campaign_name: string;
+        adgroup_id: string;
+        adgroup_name: string;
+        ad_id_v2: string;
+        ad_name: string;
+        spend: string;
+        conversion: string;
+        cost_per_conversion: string;
+        complete_payment_roas: string;
+        impressions: string;
+        cpm: string;
+        clicks: string;
+        cpc: string;
+        ctr: string;
+        video_views_p25: string;
+        video_views_p50: string;
+        video_views_p100: string;
+    };
 }
