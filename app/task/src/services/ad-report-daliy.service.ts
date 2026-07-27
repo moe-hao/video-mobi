@@ -150,12 +150,12 @@ async function syncFacebookAdReport(date: string) {
  * adgroup_id: 广告组id adgroup_name: 广告组名称
  * ad_id_v2: 广告id ad_name: 广告名称
  * spend: 广告花费 conversion: 转化次数 cost_per_conversion: 平均转化成本
- * complete_payment_roas: 完成支付ROAS率
+ * complete_payment_roas: 完成支付ROAS率 total_complete_payment_rate 付费价值
  * impressions: 展示次数 cpm: 每次展示成本 clicks: 点击次数 cpc: 每次点击成本 ctr: 点击率
  * video_views_p25: 视频播放进度 25% video_views_p50: 视频播放进度 50% video_views_p100: 视频播放进度 100%
  */
 export async function syncTikTokAdReport(date: string) {
-    const metrics = ['advertiser_id', 'advertiser_name', 'campaign_id', 'campaign_name', 'adgroup_id', 'adgroup_name', 'ad_id_v2', 'ad_name', 'spend', 'conversion', 'cost_per_conversion', 'complete_payment_roas', 'impressions', 'cpm', 'clicks', 'cpc', 'ctr', 'video_views_p25', 'video_views_p50', 'video_views_p100'];
+    const metrics = ['advertiser_id', 'advertiser_name', 'campaign_id', 'campaign_name', 'adgroup_id', 'adgroup_name', 'ad_id_v2', 'ad_name', 'spend', 'conversion', 'cost_per_conversion', 'complete_payment_roas', 'impressions', 'cpm', 'clicks', 'cpc', 'ctr', 'video_views_p25', 'video_views_p50', 'video_views_p100', 'total_complete_payment_rate'];
 
     for (const advertiserId of tikTokAdvertiserIds) {
         logger.info(`syncTikTokAdReport: ${advertiserId} ${date}`);
@@ -213,7 +213,7 @@ export async function syncTikTokAdReport(date: string) {
                         cpc: item.metrics.cpc,
                         ctr: item.metrics.ctr,
                         purchaseRoas: item.metrics.complete_payment_roas,
-                        purchasesConversionValue: (Number(item.metrics.conversion) * Number(item.metrics.cost_per_conversion)).toString(),
+                        purchasesConversionValue: item.metrics.total_complete_payment_rate,
                         videoP25: Number(item.metrics.video_views_p25),
                         videoP50: Number(item.metrics.video_views_p50),
                         videoP100: Number(item.metrics.video_views_p100),

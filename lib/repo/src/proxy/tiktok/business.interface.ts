@@ -91,5 +91,6 @@ export interface TikTokBusinessReportRespDataListItem {
         video_views_p25: string;
         video_views_p50: string;
         video_views_p100: string;
+        total_complete_payment_rate: string;
     };
 }
