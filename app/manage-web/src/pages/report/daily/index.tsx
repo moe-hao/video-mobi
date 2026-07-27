@@ -135,7 +135,6 @@ export default function AdReportDailyList() {
       </div>
       <div className="flex items-center gap-4 mb-4">
         <div className="flex items-center gap-2">
-          <PlatformSelect className="w-36" value={adReportDailyReq.platform} onChange={(platform) => setAdReportDailyReq({ ...adReportDailyReq, platform })} />
           <Input
             aria-label="广告账户ID"
             variant="secondary"
@@ -160,12 +159,9 @@ export default function AdReportDailyList() {
             value={adReportDailyReq.adId}
             onChange={(e) => setAdReportDailyReq({ ...adReportDailyReq, adId: e.target.value })}
           />
-          <RegionSelect className="w-48" value={adReportDailyReq.region as Region | ''} onChange={(region) => setAdReportDailyReq({ ...adReportDailyReq, region })} />
-          <SingleDatePicker
-            className="w-72"
-            value={selectedDate}
-            onChange={handleDateChange}
-          />
+          <PlatformSelect className="w-64" value={adReportDailyReq.platform} onChange={(platform) => setAdReportDailyReq({ ...adReportDailyReq, platform })} />
+          <RegionSelect className="w-64" value={adReportDailyReq.region as Region | ''} onChange={(region) => setAdReportDailyReq({ ...adReportDailyReq, region })} />
+          <SingleDatePicker className="w-72" value={selectedDate} onChange={handleDateChange}/>
         </div>
         <Button variant="primary" size="sm" onClick={() => handleSearch(adReportDailyReq)}>查询</Button>
         <div className="flex-1"></div>
