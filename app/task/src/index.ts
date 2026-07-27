@@ -2,6 +2,12 @@ import schedule from 'node-schedule';
 import { schedulePayssionPaymentClose, schedulePayssionSubscriptionStatus } from './schedules/payssion';
 import { scheduleAdReportDaily, scheduleAdReportWeek, scheduleAdReportYesterday } from './schedules/ad-report-daily';
 // import { asyncCollectionVideoUploadStatus } from './schedules/collection';
+import { syncTikTokAdReport } from './services/ad-report-daliy.service';
+
+
+
+// 测试用：手动同步一次
+await syncTikTokAdReport('2026-07-27');
 
 const tasks = [
     schedule.scheduleJob('*/10 * * * *', async () => { await scheduleAdReportDaily() }),

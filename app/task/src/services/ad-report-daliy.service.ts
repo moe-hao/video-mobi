@@ -3,6 +3,8 @@ import { AdAccount, AdsInsights, FacebookAdsApi } from "facebook-nodejs-business
 import { adReportDailyDao } from "@lib/repo/dao/ad-report-daily.dao";
 import type { AdReportDailyInsert } from "@lib/repo/models/ad-report-daily";
 import { logger } from "@lib/internal/logger";
+import { tikTokBusinessProxy } from "@lib/repo/proxy/tiktok/business";
+import { TikTokBusinessReportDataLevel, TikTokBusinessReportType } from "@lib/common/consts/tiktok";
 
 const fields = [
     AdsInsights.Fields.campaign_id, // 广告系列id
@@ -110,6 +112,19 @@ async function syncAdReport(date: string) {
             logger.error(`[Failed] ${error}`);
         }
     }
+}
+
+export async function syncTikTokAdReport(date: string) {
+    const result = await tikTokBusinessProxy.getReportDataByDate({
+        advertiser_id: '',
+        report_type: TikTokBusinessReportType.Basic,
+        data_level: TikTokBusinessReportDataLevel.AuctionAd,
+        dimensions: ['ad_id', 'stat_time_day'],
+        start_date: date,
+        end_date: date,
+        page: 1,
+        page_size: 100,
+    });
 }
 
 function formatChinaDate(d: Date): string {
