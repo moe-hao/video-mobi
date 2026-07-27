@@ -7,11 +7,13 @@ import { useSearchParams } from "react-router";
 import { CalendarDate, type DateValue } from "@internationalized/date";
 import SingleDatePicker from "@app/manage-web/components/date-picker";
 import RegionSelect from "@app/manage-web/components/region-select";
+import PlatformSelect, { PlatformName } from "@app/manage-web/components/platform-select";
 import { Region } from "@lib/common/consts/region";
 import { ArrowDown, ArrowUp, Gear } from "@gravity-ui/icons";
 
 const ALL_COLUMNS = [
   { key: 'date', label: '日期' },
+  { key: 'platform', label: '平台' },
   { key: 'adAccount', label: '广告账户' },
   { key: 'campaign', label: '广告系列' },
   { key: 'adset', label: '广告组' },
@@ -133,14 +135,7 @@ export default function AdReportDailyList() {
       </div>
       <div className="flex items-center gap-4 mb-4">
         <div className="flex items-center gap-2">
-          <Input
-            aria-label="平台"
-            variant="secondary"
-            placeholder="平台(如1,2)"
-            className="w-36"
-            value={adReportDailyReq.platform}
-            onChange={(e) => setAdReportDailyReq({ ...adReportDailyReq, platform: e.target.value })}
-          />
+          <PlatformSelect className="w-36" value={adReportDailyReq.platform} onChange={(platform) => setAdReportDailyReq({ ...adReportDailyReq, platform })} />
           <Input
             aria-label="广告账户ID"
             variant="secondary"
@@ -219,6 +214,7 @@ export default function AdReportDailyList() {
           <Table.Content aria-label="广告日报数据" className="w-max min-w-full">
             <Table.Header>
               {isVisible('date') && <Table.Column className="whitespace-nowrap" isRowHeader>日期</Table.Column>}
+              {isVisible('platform') && <Table.Column className="whitespace-nowrap">平台</Table.Column>}
               {isVisible('adAccount') && <Table.Column className="whitespace-nowrap">广告账户</Table.Column>}
               {isVisible('campaign') && <Table.Column className="whitespace-nowrap">广告系列</Table.Column>}
               {isVisible('adset') && <Table.Column className="whitespace-nowrap">广告组</Table.Column>}
@@ -258,6 +254,7 @@ export default function AdReportDailyList() {
               {(adReportDailyListState.list ?? []).map((item) => (
                 <Table.Row key={item.id}>
                   {isVisible('date') && <Table.Cell className="whitespace-nowrap">{item.date}</Table.Cell>}
+                  {isVisible('platform') && <Table.Cell className="whitespace-nowrap">{PlatformName[item.platform as keyof typeof PlatformName] || item.platform}</Table.Cell>}
                   {isVisible('adAccount') && (
                   <Table.Cell className="whitespace-nowrap">
                     <Tooltip delay={0}>

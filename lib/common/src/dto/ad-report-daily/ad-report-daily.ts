@@ -10,6 +10,7 @@ export interface AdReportDailyListResp {
 export interface AdReportDailyListRespItem {
     id: number;
     date: string;
+    platform: number;
     adAccountId: string;
     adAccountName: string;
     campaignId: string;
