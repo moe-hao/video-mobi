@@ -15,6 +15,7 @@ export const adReportDailyListReqSchema = z.object({
 
 export const adReportDailySummaryReqSchema = z.object({
     date: z.string().default(''),
+    platform: z.string().default(''),
 });
 
 

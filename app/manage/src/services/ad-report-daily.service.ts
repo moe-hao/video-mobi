@@ -34,8 +34,8 @@ class AdReportDailyService {
         };
     }
 
-    async getAdReportDailySummary(date: string): Promise<AdReportDailySummaryResp> {
-        const result = await adReportDailyDao.getAdReportDailySummary(date);
+    async getAdReportDailySummary(date: string, platform?: string): Promise<AdReportDailySummaryResp> {
+        const result = await adReportDailyDao.getAdReportDailySummary(date, platform);
         return {
             spend: result.spend ?? '0',
             purchasesConversionValue: result.purchasesConversionValue ?? '0',

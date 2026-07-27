@@ -3,29 +3,38 @@ import { useAdReportDailySummaryState } from "@app/manage-web/hooks/report/use-a
 import { Spinner } from "@heroui/react";
 import { type DateValue, today } from "@internationalized/date";
 import SingleDatePicker from "@app/manage-web/components/date-picker";
+import PlatformSelect from "@app/manage-web/components/platform-select";
 import SummaryCard from "./summary-card";
 
 export default function Dashboard() {
   const { adReportDailySummaryState, fetchAdReportDailySummary } = useAdReportDailySummaryState();
   const [loading, setLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState<DateValue | null>(() => today('Asia/Shanghai'));
+  const [platform, setPlatform] = useState('');
 
   const formatDate = (date: DateValue) =>
     `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`;
 
-  const fetchSummary = (date: string) => {
+  const fetchSummary = (date: string, platform: string) => {
     setLoading(true);
-    fetchAdReportDailySummary({ date }).finally(() => setLoading(false));
+    fetchAdReportDailySummary({ date, platform }).finally(() => setLoading(false));
   };
 
   useEffect(() => {
-    fetchSummary(formatDate(selectedDate!));
+    fetchSummary(formatDate(selectedDate!), platform);
   }, []);
 
   const handleDateChange = (date: DateValue | null) => {
     setSelectedDate(date);
     if (date) {
-      fetchSummary(formatDate(date));
+      fetchSummary(formatDate(date), platform);
+    }
+  };
+
+  const handlePlatformChange = (value: string) => {
+    setPlatform(value);
+    if (selectedDate) {
+      fetchSummary(formatDate(selectedDate), value);
     }
   };
 
@@ -34,6 +43,7 @@ export default function Dashboard() {
       <div className="text-lg font-semibold text-gray-700 mb-5">欢迎使用后台管理系统</div>
       <div className="flex items-center gap-3 mb-4">
         <span className="text-base text-gray-600">广告数据汇总</span>
+        <PlatformSelect className="w-64" value={platform} onChange={handlePlatformChange} />
         <SingleDatePicker
           className="w-72"
           value={selectedDate}

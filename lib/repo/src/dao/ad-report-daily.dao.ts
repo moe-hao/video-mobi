@@ -105,12 +105,16 @@ export class AdReportDailyDao {
         );
     }
 
-    async getAdReportDailySummary(date: string) {
+    async getAdReportDailySummary(date: string, platform?: string) {
+        const conditions = [eq(adReportDailyTable.date, date)];
+        if (platform) {
+            conditions.push(eq(adReportDailyTable.platform, Number(platform)));
+        }
         const [result] = await this.conn
             .select({
                 spend: sum(adReportDailyTable.spend),
                 purchasesConversionValue: sum(adReportDailyTable.purchasesConversionValue),
-            }).from(adReportDailyTable).where(eq(adReportDailyTable.date, date));
+            }).from(adReportDailyTable).where(and(...conditions));
         return result;
     }
 }

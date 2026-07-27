@@ -14,7 +14,7 @@ adReportDaily.get('/daily_list', validated('query', adReportDailyListReqSchema),
 
 adReportDaily.get('/daily_summary', validated('query', adReportDailySummaryReqSchema), async (c) => {
     const req = c.req.valid('query');
-    const resp = await adReportDailyService.getAdReportDailySummary(req.date);
+    const resp = await adReportDailyService.getAdReportDailySummary(req.date, req.platform);
     return c.json(success(resp));
 });
 
