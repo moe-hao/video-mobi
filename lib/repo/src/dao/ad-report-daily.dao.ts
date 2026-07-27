@@ -5,21 +5,30 @@ import { currentTime } from "@lib/common/utils/time";
 
 export type SearchAdReportDaily = {
     date: string;
+    platform: string;
     adAccountId: string;
     campaignId: string;
     adId: string;
     region: string;
-}
+};
+
+export type ReportUpdateCondition = {
+    platform: number;
+    date: string;
+    adId: string;
+    region: string;
+};
 
 export class AdReportDailyDao {
     constructor(private readonly conn: DatabaseConn = database) { }
 
-    async getAdReportDailyByDateAndAdId(date: string, adId: string, region: string): Promise<AdReportDailySelect> {
+    async getAdReportDailyByDateAndAdId(condition: ReportUpdateCondition): Promise<AdReportDailySelect> {
         const [result] = await this.conn.select().from(adReportDailyTable).where(
             and(
-                eq(adReportDailyTable.date, date),
-                eq(adReportDailyTable.adId, adId),
-                eq(adReportDailyTable.region, region),
+                eq(adReportDailyTable.platform, condition.platform),
+                eq(adReportDailyTable.date, condition.date),
+                eq(adReportDailyTable.adId, condition.adId),
+                eq(adReportDailyTable.region, condition.region),
             )
         );
 
@@ -30,6 +39,9 @@ export class AdReportDailyDao {
         const conditions = [];
         if (search.date) {
             conditions.push(eq(adReportDailyTable.date, search.date));
+        }
+        if (search.platform) {
+            conditions.push(eq(adReportDailyTable.platform, Number(search.platform)));
         }
         if (search.adAccountId) {
             conditions.push(like(adReportDailyTable.adAccountId, `%${search.adAccountId}%`));
@@ -80,13 +92,14 @@ export class AdReportDailyDao {
         await this.conn.insert(adReportDailyTable).values(list);
     }
 
-    async updateAdReportDaily(date: string, adId: string, region: string, data: AdReportDailyInsert): Promise<void> {
+    async updateAdReportDaily(condition: ReportUpdateCondition, data: AdReportDailyInsert): Promise<void> {
         data.updateTime = currentTime();
         await this.conn.update(adReportDailyTable).set(data).where(
             and(
-                eq(adReportDailyTable.date, date),
-                eq(adReportDailyTable.adId, adId),
-                eq(adReportDailyTable.region, region),
+                eq(adReportDailyTable.date, condition.date),
+                eq(adReportDailyTable.platform, condition.platform),
+                eq(adReportDailyTable.adId, condition.adId),
+                eq(adReportDailyTable.region, condition.region),
             )
         );
     }

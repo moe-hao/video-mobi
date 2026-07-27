@@ -86,7 +86,13 @@ async function syncFacebookAdReport(date: string) {
             const shouldAddReportList: AdReportDailyInsert[] = [];
 
             for (const item of insights) {
-                const adReportDailyDetail = await adReportDailyDao.getAdReportDailyByDateAndAdId(date, item.ad_id, item.country);
+                const adReportDailyDetail = await adReportDailyDao.getAdReportDailyByDateAndAdId({
+                    platform: PixelPlatform.Facebook,
+                    date,
+                    adId: item.ad_id,
+                    region: item.country,
+                });
+
                 const adReportData: AdReportDailyInsert = {
                     platform: PixelPlatform.Facebook,
                     adAccountId: adAccountInfo.id,
@@ -116,7 +122,12 @@ async function syncFacebookAdReport(date: string) {
                     adReportData.date = date;
                     shouldAddReportList.push(adReportData);
                 } else {
-                    await adReportDailyDao.updateAdReportDaily(date, item.ad_id, item.country, adReportData);
+                    await adReportDailyDao.updateAdReportDaily({
+                        platform: PixelPlatform.Facebook,
+                        date,
+                        adId: item.ad_id,
+                        region: item.country,
+                    }, adReportData);
                 }
             }
 
@@ -177,7 +188,12 @@ export async function syncTikTokAdReport(date: string) {
                 logger.info(`syncTikTokAdReport: ${advertiserId} ${date} page ${page}/${totalPages}, count: ${list.length}`);
 
                 for (const item of list) {
-                    const adReportDailyDetail = await adReportDailyDao.getAdReportDailyByDateAndAdId(date, item.metrics.ad_id_v2, item.dimensions.country_code);
+                    const adReportDailyDetail = await adReportDailyDao.getAdReportDailyByDateAndAdId({
+                        platform: PixelPlatform.TikTok,
+                        date,
+                        adId: item.metrics.ad_id_v2,
+                        region: item.dimensions.country_code,
+                    });
 
                     const adReportData: AdReportDailyInsert = {
                         platform: PixelPlatform.TikTok,
@@ -197,7 +213,7 @@ export async function syncTikTokAdReport(date: string) {
                         cpc: item.metrics.cpc,
                         ctr: item.metrics.ctr,
                         purchaseRoas: item.metrics.complete_payment_roas,
-                        purchasesConversionValue: item.metrics.conversion,
+                        purchasesConversionValue: (Number(item.metrics.conversion) * Number(item.metrics.cost_per_conversion)).toString(),
                         videoP25: Number(item.metrics.video_views_p25),
                         videoP50: Number(item.metrics.video_views_p50),
                         videoP100: Number(item.metrics.video_views_p100),
@@ -207,7 +223,12 @@ export async function syncTikTokAdReport(date: string) {
                         adReportData.date = date;
                         shouldAddReportList.push(adReportData);
                     } else {
-                        await adReportDailyDao.updateAdReportDaily(date, item.metrics.ad_id_v2, item.dimensions.country_code, adReportData);
+                        await adReportDailyDao.updateAdReportDaily({
+                            platform: PixelPlatform.TikTok,
+                            date,
+                            adId: item.metrics.ad_id_v2,
+                            region: item.dimensions.country_code,
+                        }, adReportData);
                     }
                 }
 

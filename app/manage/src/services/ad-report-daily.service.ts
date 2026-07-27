@@ -7,6 +7,7 @@ class AdReportDailyService {
     async getAdReportDailyList(req: AdReportDailyListReq): Promise<AdReportDailyListResp> {
         const search = {
             date: req.date ?? '',
+            platform: req.platform ?? '',
             adAccountId: req.adAccountId ?? '',
             campaignId: req.campaignId ?? '',
             adId: req.adId ?? '',
