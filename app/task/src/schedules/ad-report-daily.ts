@@ -30,13 +30,3 @@ export async function scheduleAdReportWeek() {
     }
     logger.info('[End Run]: scheduleAdReportWeek');
 }
-
-export async function scheduleAdReportOnce() {
-    logger.info('[Start Run]: scheduleAdReportOnce');
-    try {
-        await adReportDailyService.asyncAdReportOnce();
-    } catch (error) {
-        logger.error(`[Failed] ${error}`);
-    }
-    logger.info('[End Run]: scheduleAdReportOnce');
-}
