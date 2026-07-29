@@ -11,7 +11,7 @@ const antomVerifySign = createMiddleware(async (c, next) => {
     const body = await c.req.text();
     const signatureHeader = c.req.header('signature') as string;
     const signature = signatureHeader.match(/signature=([^,]+)/)?.[1] ?? '';
-    const requestTime = c.req.header('request-time') as string;
+    const requestTime = c.req.header('response-time') as string;
     const content = `POST /api/antom/notification\n${clientId}.${requestTime}.${body}`;
     logger.info(`content: ${content}; signature: ${signature}`);
 

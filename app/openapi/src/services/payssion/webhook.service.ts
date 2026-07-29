@@ -48,9 +48,6 @@ export class PayssionWebhookService {
             });
             await MemberDeliveryFactory.create(orderInfo).deliver();
 
-            const pixelInfo = await pixelDao.getPixelById(orderInfo.pixelId);
-            await subscriptionService.sendFacebookEvent(pixelInfo, subscriptionInfo);
-
             logger.info(`update subscription data: subscriptionId: ${subscriptionInfo.id} subscriptionNo: ${subscriptionNo} orderId: ${orderInfo.id}`);
             if (payssionSubscriptionInfo.status === 'active') {
                 await subscriptionDao.updateSubscriptionById(subscriptionInfo.id, {
@@ -61,6 +58,9 @@ export class PayssionWebhookService {
                     subscriptionCount: payssionSubscriptionInfo.times_completed,
                 });
             }
+
+            const pixelInfo = await pixelDao.getPixelById(orderInfo.pixelId);
+            await subscriptionService.sendFacebookEvent(pixelInfo, subscriptionInfo);
         } else {
             const skuInfo = await skuDao.getSkuById(subscriptionInfo.skuId);
             const [productInfo] = await productDao.getProductListInIds([skuInfo.productId]);
