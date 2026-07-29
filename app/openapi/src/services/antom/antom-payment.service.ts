@@ -63,15 +63,17 @@ export async function receive(req: AntomPaymentNotificationReq): Promise<void> {
             const orderBizId = req.captureRequestId;
             if (orderBizId) {
                 const orderInfo = await orderDao.getOrderByBizId(orderBizId);
-                await orderDao.updateOrderById(orderInfo.id, {
-                    paymentId: req.paymentId,
-                    orderStatus: OrderStatus.Paid,
-                });
+                if (orderInfo) {
+                    await orderDao.updateOrderById(orderInfo.id, {
+                        paymentId: req.paymentId,
+                        orderStatus: OrderStatus.Paid,
+                    });
 
-                await MemberDeliveryFactory.create(orderInfo).deliver();
-                await orderDao.updateOrderById(orderInfo.id, {
-                    orderStatus: OrderStatus.Completed,
-                });
+                    await MemberDeliveryFactory.create(orderInfo).deliver();
+                    await orderDao.updateOrderById(orderInfo.id, {
+                        orderStatus: OrderStatus.Completed,
+                    });
+                }
             }
             break;
     }
