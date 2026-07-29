@@ -51,6 +51,7 @@ export async function receive(req: AntomPaymentNotificationReq): Promise<void> {
                         paymentType: lastOrderInfo.paymentType,
                         orderType: SkuType.Subscription,
                         orderStatus: OrderStatus.Completed,
+                        ad: subscriptionInfo.ad || '',
                     });
 
                     const orderInfo = await orderDao.getOrderById(orderId);
