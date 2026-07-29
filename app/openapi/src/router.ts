@@ -3,6 +3,7 @@ import { Hono } from "hono";
 import payermax from "./controllers/payermax";
 import paypal from "./controllers/paypal";
 import payssion from "./controllers/payssion";
+import antom from "./controllers/antom";
 
 const router = new Hono();
 router.onError(errorHandler);
@@ -10,5 +11,6 @@ router.onError(errorHandler);
 router.route('/payermax', payermax);
 router.route('/paypal', paypal);
 router.route('/payssion', payssion);
+router.route('/antom', antom);
 
 export default router;

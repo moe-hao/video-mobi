@@ -30,3 +30,9 @@ export enum SkuImportant {
     No = 0,
     Yes = 1,
 }
+
+export const SkuPeriodTypeToAntomPeriodType = {
+    [SkuPeriodType.Week]: "WEEK",
+    [SkuPeriodType.Month]: "MONTH",
+    [SkuPeriodType.Year]: "YEAR",
+}

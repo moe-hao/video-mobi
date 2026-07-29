@@ -45,6 +45,10 @@ const config = {
     PayssionApiKey: process.env.PAYSSION_API_KEY || '',
     PayssionWebhookSecret: process.env.PAYSSION_WEBHOOK_SECRET || '',
 
+    AntomPrivateKey: process.env.ANTOM_PRIVATE_KEY || '',
+    AntomPublicKey: process.env.ANTOM_PUBLIC_KEY || '',
+    AntomClientId: process.env.ANTOM_CLIENT_ID || '',
+
     FbAccessToken: process.env.FB_ACCESS_TOKEN || '',
     FbBusinessAccessToken: process.env.FB_BUSINESS_ACCESS_TOKEN || '',
     TikTokBusinessAccessToken: process.env.TIKTOK_BUSINESS_ACCESS_TOKEN || '',

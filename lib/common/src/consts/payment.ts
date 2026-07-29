@@ -2,6 +2,7 @@ export enum PaymentChannel {
     Payermax = 'payermax',
     Paypal = 'paypal',
     Payssion = 'payssion',
+    Antom = 'antom',
 }
 
 export enum PaymentType {
