@@ -1,8 +1,9 @@
-import type { AntomNotifyType } from "@lib/common/consts/antom";
+import type { AntomNotifyType, AntomSubscriptionNotificationType } from "@lib/common/consts/antom";
 
 export interface AntomPaymentNotificationReq {
     result: AntomPaymentNotificationResult;
     notifyType: AntomNotifyType;
+    subscriptionNotificationType: AntomSubscriptionNotificationType;
     paymentId: string;
     captureRequestId?: string;
     phaseNo?: string;

@@ -82,8 +82,7 @@ class AntomProxy {
             settlementStrategy: { settlementCurrency: settlementCurrency },
             productCode: 'CASHIER_PAYMENT',
             paymentRedirectUrl: `https://${productInfo.host}${reback}`,
-            // paymentNotifyUrl: 'https://openapi.bluearcshow.com/api/antom/notification',
-            paymentNotifyUrl: 'https://test-openapi-061c7a3.bluearcturus.com/api/antom/notification',
+            paymentNotifyUrl: config.AntomNotifyUrl,
             productScene: 'CHECKOUT_PAYMENT',
             paymentMethod: {
                 paymentMethodType: paymentType,
@@ -108,8 +107,7 @@ class AntomProxy {
                 subscriptionInfo: {
                     subscriptionDescription: "Blue Arc Subscription",
                     subscriptionStartTime: formatISO8601(new Date()),
-                    // subscriptionNotifyUrl: 'https://openapi.bluearcshow.com/api/antom/notification',
-                    subscriptionNotifyUrl: 'https://test-openapi-061c7a3.bluearcturus.com/api/antom/notification',
+                    subscriptionNotifyUrl: config.AntomNotifyUrl,
                     periodRule: {
                         periodType: SkuPeriodTypeToAntomPeriodType[skuInfo.periodType as SkuPeriodType],
                         periodCount: 1

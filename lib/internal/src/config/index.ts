@@ -48,6 +48,7 @@ const config = {
     AntomPrivateKey: process.env.ANTOM_PRIVATE_KEY || '',
     AntomPublicKey: process.env.ANTOM_PUBLIC_KEY || '',
     AntomClientId: process.env.ANTOM_CLIENT_ID || '',
+    AntomNotifyUrl: process.env.ANTOM_NOTIFY_URL || '',
 
     FbAccessToken: process.env.FB_ACCESS_TOKEN || '',
     FbBusinessAccessToken: process.env.FB_BUSINESS_ACCESS_TOKEN || '',
