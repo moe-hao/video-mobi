@@ -73,7 +73,7 @@ class SkuService {
         await skuDao.addSku({
             bizId: uuid(),
             productId: sku.productId,
-            firstPeriodPrice: sku.firstPeriodPrice,
+            firstPeriodPrice: sku.firstPeriodPrice || '0.00',
             price: sku.price,
             currency: sku.currency,
             currencySign: sku.currencySign,
@@ -94,7 +94,7 @@ class SkuService {
     async updateSku(req: SkuEditReq): Promise<void> {
         await skuDao.updateSkuById(req.id, {
             productId: req.productId,
-            firstPeriodPrice: req.firstPeriodPrice,
+            firstPeriodPrice: req.firstPeriodPrice || '0.00',
             price: req.price,
             currency: req.currency,
             currencySign: req.currencySign,
