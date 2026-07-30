@@ -96,7 +96,7 @@ class AntomProxy {
             const trials = [];
             if (skuInfo.firstPeriodPrice !== '0.00') {
                 trials.push({
-                    trialStartPeriod: 1,
+                    trialStartPeriod: "1",
                     trialAmount: { currency: skuInfo.currency, value: antomAmount(skuInfo.currency, skuInfo.firstPeriodPrice).toString() }
                 })
             }
