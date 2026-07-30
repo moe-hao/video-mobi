@@ -75,7 +75,7 @@ class AntomProxy {
                 orderAmount: { currency: skuInfo.currency, value: antomAmount(skuInfo.currency, skuInfo.price).toString() },
                 referenceOrderId: orderInfo.bizId,
                 orderDescription: "Blue Arc Payment",
-                buyer: { referenceBuyerId: orderInfo.userId },
+                buyer: { referenceBuyerId: orderInfo.userId.toString() },
             },
             paymentRequestId: orderInfo.bizId,
             paymentAmount: { currency: skuInfo.currency, value: antomAmount(skuInfo.currency, skuInfo.price).toString() },
