@@ -29,11 +29,7 @@ antom.use(antomVerifySign);
 
 antom.post('/notification', async (c) => {
     const req = await c.req.json<AntomPaymentNotificationReq>();
-
-    if (req.result.resultCode === 'SUCCESS') {
-        await receive(req);
-    }
-
+    await receive(req);
     return c.json({
         result: {
             resultCode: 'SUCCESS',

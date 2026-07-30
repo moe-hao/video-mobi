@@ -5,10 +5,11 @@ export interface AntomPaymentNotificationReq {
     notifyType: AntomNotifyType;
     subscriptionNotificationType: AntomSubscriptionNotificationType;
     paymentId: string;
-    captureRequestId?: string;
-    phaseNo?: string;
-    subscriptionId?: string;
-    subscriptionRequestId?: string;
+    paymentRequestId: string;
+    captureRequestId: string;
+    phaseNo: string;
+    subscriptionId: string;
+    subscriptionRequestId: string;
     paymentAmount: {
         currency: string,
         value: string,

@@ -72,13 +72,13 @@ class AntomProxy {
 
         const paymentSessionInfo = {
             order: {
-                orderAmount: { currency: skuInfo.currency, value: antomAmount(skuInfo.currency, skuInfo.price) },
+                orderAmount: { currency: skuInfo.currency, value: antomAmount(skuInfo.currency, skuInfo.price).toString() },
                 referenceOrderId: orderInfo.bizId,
                 orderDescription: "Blue Arc Payment",
                 buyer: { referenceBuyerId: orderInfo.userId },
             },
             paymentRequestId: orderInfo.bizId,
-            paymentAmount: { currency: skuInfo.currency, value: antomAmount(skuInfo.currency, skuInfo.price) },
+            paymentAmount: { currency: skuInfo.currency, value: antomAmount(skuInfo.currency, skuInfo.price).toString() },
             settlementStrategy: { settlementCurrency: settlementCurrency },
             productCode: 'CASHIER_PAYMENT',
             paymentRedirectUrl: `https://${productInfo.host}${reback}`,
@@ -97,7 +97,7 @@ class AntomProxy {
             if (skuInfo.firstPeriodPrice !== '0.00') {
                 trials.push({
                     trialStartPeriod: 1,
-                    trialAmount: { currency: skuInfo.currency, value: antomAmount(skuInfo.currency, skuInfo.firstPeriodPrice) }
+                    trialAmount: { currency: skuInfo.currency, value: antomAmount(skuInfo.currency, skuInfo.firstPeriodPrice).toString() }
                 })
             }
 
@@ -110,7 +110,7 @@ class AntomProxy {
                     subscriptionNotifyUrl: config.AntomNotifyUrl,
                     periodRule: {
                         periodType: SkuPeriodTypeToAntomPeriodType[skuInfo.periodType as SkuPeriodType],
-                        periodCount: 1
+                        periodCount: "1",
                     },
                     trials: trials,
                 }
