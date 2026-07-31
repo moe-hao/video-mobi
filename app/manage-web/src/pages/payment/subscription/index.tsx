@@ -107,6 +107,7 @@ export default function SubscriptionList() {
               <Table.Column>ID</Table.Column>
               <Table.Column isRowHeader>订阅编号</Table.Column>
               <Table.Column>用户ID</Table.Column>
+              <Table.Column>订阅渠道</Table.Column>
               <Table.Column>订阅状态</Table.Column>
               <Table.Column>创建时间</Table.Column>
               <Table.Column>更新时间</Table.Column>
@@ -117,6 +118,7 @@ export default function SubscriptionList() {
                   <Table.Cell>{item.id}</Table.Cell>
                   <Table.Cell>{item.subscriptionNo}</Table.Cell>
                   <Table.Cell>{item.userId}</Table.Cell>
+                  <Table.Cell>{item.subscriptionChannel}</Table.Cell>
                   <Table.Cell>
                     <SubscriptionStatusPoint status={item.subscriptionStatus} name={item.subscriptionStatusName} />
                   </Table.Cell>

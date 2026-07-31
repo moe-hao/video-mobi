@@ -12,6 +12,7 @@ export interface SubscriptionListResp {
 export interface SubscriptionListRespItem {
     id: number;
     userId: number;
+    subscriptionChannel: string;
     subscriptionNo: string;
     subscriptionStatus: number;
     subscriptionStatusName: string;

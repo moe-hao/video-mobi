@@ -33,6 +33,7 @@ class SubscriptionService {
                 subscriptionNo: item.subscriptionNo,
                 subscriptionStatus: item.subscriptionStatus,
                 subscriptionStatusName: SubscriptionStatusName[item.subscriptionStatus as SubscriptionStatus],
+                subscriptionChannel: item.subscriptionChannel,
                 createTime: formatUnixTime(item.createTime),
                 updateTime: formatUnixTime(item.updateTime),
             })),
