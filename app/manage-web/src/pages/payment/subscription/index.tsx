@@ -1,16 +1,20 @@
 import { Button, Input, Spinner, Table } from "@heroui/react";
 import { useEffect, useState } from "react";
 import SubscriptionStatusPoint from "./subscription-status";
-import { useSubscriptionListState } from "@app/manage-web/hooks/payment";
+import UnsubscribeButton from "./unsubscribe-button";
+import { useSubscriptionCancel, useSubscriptionListState } from "@app/manage-web/hooks/payment";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
 import type { SubscriptionListReq } from "@lib/common/dto/subscription";
 import { useSearchParams } from "react-router";
 import SubscriptionStatusSelect from "@app/manage-web/components/subscription-select/subscription-status-select";
-import type { SubscriptionStatus } from "@lib/common/consts/subscription";
+import SubscriptionChannelSelect from "@app/manage-web/components/subscription-select/subscription-channel-select";
+import { SubscriptionStatus } from "@lib/common/consts/subscription";
+import { PaymentChannel } from "@lib/common/consts/payment";
 import DateRange, { type DateRangeValue } from "@app/manage-web/components/date-range";
 
 export default function SubscriptionList() {
   const { subscriptionListState, fetchSubscriptionTable } = useSubscriptionListState();
+  const { cancelSubscription } = useSubscriptionCancel();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const initialParams: SubscriptionListReq = {
@@ -19,6 +23,7 @@ export default function SubscriptionList() {
     status: searchParams.get('status') || '',
     subscriptionNo: searchParams.get('subscriptionNo') || '',
     userId: searchParams.get('userId') || '',
+    channel: searchParams.get('channel') || '',
     startDate: searchParams.get('startDate') || '',
     endDate: searchParams.get('endDate') || '',
   };
@@ -44,6 +49,7 @@ export default function SubscriptionList() {
       status: req.status.toString(),
       subscriptionNo: req.subscriptionNo.toString(),
       userId: req.userId.toString(),
+      channel: req.channel.toString(),
       ...(req.startDate ? { startDate: req.startDate, endDate: req.endDate } : { startDate: "", endDate: "" }),
     });
   }
@@ -76,7 +82,7 @@ export default function SubscriptionList() {
             aria-label="搜索"
             variant="secondary"
             placeholder="搜索订阅ID/编号"
-            className="w-48"
+            className="w-64"
             value={subscriptionListReq.subscriptionNo}
             onChange={(e) => setSubscriptionListReq({ ...subscriptionListReq, subscriptionNo: e.target.value })}
           />
@@ -88,7 +94,8 @@ export default function SubscriptionList() {
             value={subscriptionListReq.userId}
             onChange={(e) => setSubscriptionListReq({ ...subscriptionListReq, userId: e.target.value })}
           />
-          <SubscriptionStatusSelect className="w-48" value={subscriptionListReq.status as SubscriptionStatus} onChange={(status) => setSubscriptionListReq({ ...subscriptionListReq, status })} />
+          <SubscriptionStatusSelect className="w-64" value={subscriptionListReq.status as SubscriptionStatus} onChange={(status) => setSubscriptionListReq({ ...subscriptionListReq, status })} />
+          <SubscriptionChannelSelect className="w-64" value={subscriptionListReq.channel as PaymentChannel} onChange={(channel) => setSubscriptionListReq({ ...subscriptionListReq, channel })} />
           <DateRange className="w-72" defaultValue={initDateRange} onChange={setDateRange} />
         </div>
         <Button variant="primary" size="sm" onClick={() => handleSearchSubscription(subscriptionListReq)}>查询</Button>
@@ -101,35 +108,46 @@ export default function SubscriptionList() {
           </div>
         )}
         <Table>
-        <Table.ScrollContainer>
-          <Table.Content aria-label="Team members" className="min-w-[600px]">
-            <Table.Header>
-              <Table.Column>ID</Table.Column>
-              <Table.Column isRowHeader>订阅编号</Table.Column>
-              <Table.Column>用户ID</Table.Column>
-              <Table.Column>订阅渠道</Table.Column>
-              <Table.Column>订阅状态</Table.Column>
-              <Table.Column>创建时间</Table.Column>
-              <Table.Column>更新时间</Table.Column>
-            </Table.Header>
-            <Table.Body>
-              {subscriptionListState.list?.map((item) => (
-                <Table.Row key={item.id}>
-                  <Table.Cell>{item.id}</Table.Cell>
-                  <Table.Cell>{item.subscriptionNo}</Table.Cell>
-                  <Table.Cell>{item.userId}</Table.Cell>
-                  <Table.Cell>{item.subscriptionChannel}</Table.Cell>
-                  <Table.Cell>
-                    <SubscriptionStatusPoint status={item.subscriptionStatus} name={item.subscriptionStatusName} />
-                  </Table.Cell>
-                  <Table.Cell>{item.createTime} </Table.Cell>
-                  <Table.Cell>{item.updateTime}</Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table.Content>
-        </Table.ScrollContainer>
-      </Table>
+          <Table.ScrollContainer>
+            <Table.Content aria-label="Team members" className="min-w-[600px]">
+              <Table.Header>
+                <Table.Column>ID</Table.Column>
+                <Table.Column isRowHeader>订阅编号</Table.Column>
+                <Table.Column>用户ID</Table.Column>
+                <Table.Column>订阅渠道</Table.Column>
+                <Table.Column>订阅状态</Table.Column>
+                <Table.Column>创建时间</Table.Column>
+                <Table.Column>更新时间</Table.Column>
+                <Table.Column>操作</Table.Column>
+              </Table.Header>
+              <Table.Body>
+                {subscriptionListState.list?.map((item) => (
+                  <Table.Row key={item.id}>
+                    <Table.Cell>{item.id}</Table.Cell>
+                    <Table.Cell>{item.subscriptionNo}</Table.Cell>
+                    <Table.Cell>{item.userId}</Table.Cell>
+                    <Table.Cell>{item.subscriptionChannel}</Table.Cell>
+                    <Table.Cell>
+                      <SubscriptionStatusPoint status={item.subscriptionStatus} name={item.subscriptionStatusName} />
+                    </Table.Cell>
+                    <Table.Cell>{item.createTime} </Table.Cell>
+                    <Table.Cell>{item.updateTime}</Table.Cell>
+                    <Table.Cell>
+                      {item.subscriptionChannel === PaymentChannel.Antom && item.subscriptionStatus === SubscriptionStatus.Active && (
+                        <UnsubscribeButton
+                          id={item.id}
+                          onConfirm={(id) => cancelSubscription(id)}
+                          onSuccess={() => handleSearchSubscription(subscriptionListReq)}
+                        />
+                      )}
+
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table.Content>
+          </Table.ScrollContainer>
+        </Table>
       </div>
       <TablePagination
         page={subscriptionListState.page || 1}

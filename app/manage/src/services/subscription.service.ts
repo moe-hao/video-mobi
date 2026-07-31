@@ -1,8 +1,11 @@
+import { ResultCode } from "@lib/common/consts/result";
 import { SubscriptionStatus, SubscriptionStatusName } from "@lib/common/consts/subscription";
-import type { SubscriptionListReq, SubscriptionListResp } from "@lib/common/dto/subscription";
+import type { SubscriptionCancelReq, SubscriptionListReq, SubscriptionListResp } from "@lib/common/dto/subscription";
+import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { formatUnixTime } from "@lib/common/utils/time";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
 import { userDao } from "@lib/repo/dao/user.dao";
+import { antomProxy } from "@lib/repo/proxy/payment/antom";
 
 class SubscriptionService {
     async getSubscriptionList(req: SubscriptionListReq): Promise<SubscriptionListResp> {
@@ -10,6 +13,7 @@ class SubscriptionService {
             status: req.status,
             subscriptionNo: req.subscriptionNo ?? '',
             userId: req.userId ?? '',
+            channel: req.channel ?? '',
             startDate: req.startDate ?? '',
             endDate: req.endDate ?? '',
         }
@@ -38,6 +42,18 @@ class SubscriptionService {
                 updateTime: formatUnixTime(item.updateTime),
             })),
         };
+    }
+
+    async cancel(req: SubscriptionCancelReq): Promise<void> {
+        const subscriptionInfo = await subscriptionDao.getSubscriptionById(req.subscriptionId);
+        if (!subscriptionInfo) {
+            throw new InternalException(ResultCode.ResourceNotFound);
+        }
+
+        await antomProxy.cancelSubscription(subscriptionInfo.subscriptionNo);
+        await subscriptionDao.updateSubscriptionById(req.subscriptionId, {
+            subscriptionStatus: SubscriptionStatus.Cancel
+        });
     }
 }
 

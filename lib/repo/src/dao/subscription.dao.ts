@@ -9,6 +9,7 @@ export type SubscriptionSearchReq = {
     status: SubscriptionStatus | string;
     subscriptionNo: string;
     userId: string;
+    channel: string;
     startDate: string;
     endDate: string;
 }
@@ -31,6 +32,9 @@ export class SubscriptionDao {
         }
         if (search.userId) {
             conditions.push(eq(subscriptionTable.userId, Number(search.userId)));
+        }
+        if (search.channel) {
+            conditions.push(eq(subscriptionTable.subscriptionChannel, search.channel));
         }
         if (search.startDate && search.endDate) {
             conditions.push(and(

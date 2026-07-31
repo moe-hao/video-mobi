@@ -6,8 +6,14 @@ export const subscriptionListReqSchema = z.object({
     status: z.string().default('').or(z.coerce.number().int()),
     subscriptionNo: z.string().default(''),
     userId: z.string().default(''),
+    channel: z.string().default(''),
     startDate: z.string().default(''),
     endDate: z.string().default(''),
-})
+});
+
+export const subscriptionCencelReqSchema = z.object({
+    subscriptionId: z.number().int(),
+});
 
 export type SubscriptionListReq = z.infer<typeof subscriptionListReqSchema>;
+export type SubscriptionCancelReq = z.infer<typeof subscriptionCencelReqSchema>;

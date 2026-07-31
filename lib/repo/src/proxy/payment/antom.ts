@@ -1,12 +1,14 @@
 import crypto from "crypto";
 import config from "@lib/internal/config";
 import { readFileSync } from "fs";
-import type { CreateSubscriptionResp } from "./antom.interface";
+import type { CancelSubscriptionResp, CreateSubscriptionResp } from "./antom.interface";
 import { logger } from "@lib/internal/logger";
 import type { SkuSelect } from "@lib/repo/models/sku";
 import { SkuPeriodType, SkuPeriodTypeToAntomPeriodType, SkuType } from "@lib/common/consts/sku";
 import type { OrderSelect } from "@lib/repo/models/order";
 import type { ProductSelect } from "@lib/repo/models/product";
+import { InternalException } from "@lib/common/exceptions/internal-exception";
+import { ResultCode } from "@lib/common/consts/result";
 
 export const antomValueRatio: Map<string, number> = new Map([
     ['CLP', 1],
@@ -28,7 +30,7 @@ function formatISO8601(date: Date): string {
 
 class AntomProxy {
     constructor(
-        private readonly baseURL: string = 'https://open-sea-global.alipay.com/ams',
+        private readonly baseURL: string = 'https://open-sea.alipay.com/ams',
         private readonly clientId: string = config.AntomClientId,
     ) { }
 
@@ -124,6 +126,18 @@ class AntomProxy {
         } else {
             const result = await this.request<CreateSubscriptionResp>('/api/v1/payments/createPaymentSession', JSON.stringify(paymentSessionInfo));
             return result.normalUrl;
+        }
+    }
+
+    async cancelSubscription(subscriptionNo: string): Promise<void> {
+        const cancelData = {
+            subscriptionId: subscriptionNo,
+            cancellationType: 'CANCEL',
+        }
+
+        const result = await this.request<CancelSubscriptionResp>('/api/v1/subscriptions/cancel', JSON.stringify(cancelData));
+        if (result.result.resultStatus !== 'S') {
+            throw new InternalException(ResultCode.OperationFailed.code, result.result.resultMessage);
         }
     }
 }

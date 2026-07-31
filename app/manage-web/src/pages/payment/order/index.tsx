@@ -27,7 +27,7 @@ const ALL_COLUMNS = [
   { key: 'paymentChennel', label: '支付渠道' },
   { key: 'paymentTypeName', label: '支付方式' },
   { key: 'orderStatus', label: '订单状态' },
-   { key: 'collectionBizId', label: '剧集编号' },
+  { key: 'collectionBizId', label: '剧集编号' },
   { key: 'collectionSourceName', label: '剧集原名' },
   { key: 'collectionName', label: '剧集译名' },
   { key: 'createTime', label: '创建时间' },
