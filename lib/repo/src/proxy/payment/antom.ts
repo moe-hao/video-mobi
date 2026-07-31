@@ -89,6 +89,9 @@ class AntomProxy {
                 paymentMethodMetaData: {
                     is3DSAuthenticated: false,
                 }
+            },
+            paymentFactor: {
+                isAuthorization: false,
             }
         };
 
@@ -102,6 +105,7 @@ class AntomProxy {
             }
 
             paymentSessionInfo.paymentMethod.paymentMethodMetaData.is3DSAuthenticated = true;
+            paymentSessionInfo.paymentFactor.isAuthorization = true;
             const subscriptionPaymentSessionInfo = {
                 ...paymentSessionInfo,
                 subscriptionInfo: {
