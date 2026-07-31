@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import type { AntomPaymentNotificationReq } from "@lib/common/dto/antom";
-import { receive } from "../services/antom/antom-payment.service";
+import { antomPaymentService } from "../services/antom/antom-payment.service";
 import { createMiddleware } from "hono/factory";
 import { verifySignature } from "../services/antom/signature.service";
 import { logger } from "@lib/internal/logger";
@@ -29,7 +29,7 @@ antom.use(antomVerifySign);
 
 antom.post('/notification', async (c) => {
     const req = await c.req.json<AntomPaymentNotificationReq>();
-    await receive(req);
+    await antomPaymentService.receive(req);
     return c.json({
         result: {
             resultCode: 'SUCCESS',
