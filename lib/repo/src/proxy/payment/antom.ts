@@ -28,7 +28,7 @@ function formatISO8601(date: Date): string {
 
 class AntomProxy {
     constructor(
-        private readonly baseURL: string = 'https://open-sea-global.alipay.com/ams',
+        private readonly baseURL: string = 'https://open-na-global.alipay.com/ams',
         private readonly clientId: string = config.AntomClientId,
     ) { }
 
