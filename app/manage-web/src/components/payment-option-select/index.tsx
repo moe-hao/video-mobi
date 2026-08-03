@@ -43,7 +43,7 @@ export default function PaymentOptionSelect({ className, value, onChange }: { cl
           <ListBox renderEmptyState={() => <EmptyState>没有找到支付选项</EmptyState>}>
             {normalPaymentOptionList.map((item) => (
               <ListBox.Item key={item.id} id={item.id} textValue={item.name}>
-                <Label>{item.name}</Label>
+                <Label>[{item.id}] {item.name}</Label>
                 <ListBox.ItemIndicator />
               </ListBox.Item>
             ))}

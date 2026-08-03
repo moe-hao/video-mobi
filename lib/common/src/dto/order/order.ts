@@ -33,6 +33,7 @@ export interface OrderListRespItem {
     orderType: SkuType;
     subscriptionId: number;
     subscriptionCount: number;
+    subscriptionPeriod: string;
     paymentChennel: string;
     paymentType: PaymentType;
     paymentTypeName: string;

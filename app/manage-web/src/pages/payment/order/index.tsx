@@ -9,9 +9,13 @@ import type { OrderStatus } from "@lib/common/consts/order";
 import { useSearchParams } from "react-router";
 import DateRange, { type DateRangeValue } from "@app/manage-web/components/date-range";
 import { SkuType } from "@lib/common/consts/sku";
+import { PaymentChannel } from "@lib/common/consts/payment";
 import ProductMultipleSelect from "@app/manage-web/components/product-select/product-multiple-select";
 import OrderTypeSelect from "@app/manage-web/components/order-type-select";
 import ColumnSettingsButton from "./column-settings-button";
+import SubscriptionChannelSelect from "@app/manage-web/components/subscription-select/subscription-channel-select";
+import SubscriptionPeriodSelect from "@app/manage-web/components/subscription-period-select";
+import { SkuPeriodType } from "@lib/common/consts/sku";
 
 const ALL_COLUMNS = [
   { key: 'id', label: 'ID' },
@@ -23,6 +27,7 @@ const ALL_COLUMNS = [
   { key: 'amount', label: '支付金额' },
   { key: 'dollar', label: '美元金额' },
   { key: 'orderType', label: '订阅' },
+  { key: 'subscriptionPeriod', label: '订阅周期' },
   { key: 'subscriptionCount', label: '订阅期数' },
   { key: 'paymentChennel', label: '支付渠道' },
   { key: 'paymentTypeName', label: '支付方式' },
@@ -52,6 +57,8 @@ export default function OrderList() {
     orderType: searchParams.get('orderType') || '',
     subscriptionCount: searchParams.get('subscriptionCount') || '',
     collectionBizId: searchParams.get('collectionBizId') || '',
+    channel: searchParams.get('channel') || '',
+    subscriptionPeriod: searchParams.get('subscriptionPeriod') || '',
   };
 
   const initDateRange: DateRangeValue | null =
@@ -86,6 +93,8 @@ export default function OrderList() {
       orderType: req.orderType.toString(),
       subscriptionCount: req.subscriptionCount.toString(),
       collectionBizId: req.collectionBizId.toString(),
+      channel: req.channel.toString(),
+      subscriptionPeriod: req.subscriptionPeriod.toString(),
       advanced: (advanced ?? showAdvanced).toString(),
       ...(req.startDate ? { startDate: req.startDate, endDate: req.endDate } : { startDate: "", endDate: "" }),
     });
@@ -128,6 +137,8 @@ export default function OrderList() {
           <Input aria-label="剧集编号" variant="secondary" placeholder="剧集编号" className="w-64" value={orderListReq.collectionBizId} onChange={(e) => setOrderListReq({ ...orderListReq, collectionBizId: e.target.value })} />
           <Input aria-label="订阅期数" variant="secondary" placeholder="订阅期数" className="w-64" value={orderListReq.subscriptionCount} onChange={(e) => setOrderListReq({ ...orderListReq, subscriptionCount: e.target.value })} />
           <ProductMultipleSelect className="w-72" value={selectedProductIds} onChange={(productIds) => { setSelectedProductIds(productIds); setOrderListReq({ ...orderListReq, productId: productIds.join(',') }) }} />
+          <SubscriptionChannelSelect className="w-64" value={orderListReq.channel as PaymentChannel | ''} onChange={(channel) => setOrderListReq({ ...orderListReq, channel })} />
+          <SubscriptionPeriodSelect className="w-64" value={orderListReq.subscriptionPeriod as SkuPeriodType | ''} onChange={(period) => setOrderListReq({ ...orderListReq, subscriptionPeriod: period })} />
           <div className="flex-1"></div>
         </div>
         )}
@@ -148,11 +159,10 @@ export default function OrderList() {
                 {visibleColumns.has('platfrom') && <Table.Column className="whitespace-nowrap">平台</Table.Column>}
                 {visibleColumns.has('userId') && <Table.Column className="whitespace-nowrap">用户ID</Table.Column>}
                 {visibleColumns.has('email') && <Table.Column className="whitespace-nowrap">邮箱</Table.Column>}
-
-
                 {visibleColumns.has('amount') && <Table.Column className="whitespace-nowrap">支付金额</Table.Column>}
                 {visibleColumns.has('dollar') && <Table.Column className="whitespace-nowrap">美元金额</Table.Column>}
-                {visibleColumns.has('orderType') && <Table.Column className="whitespace-nowrap">订阅</Table.Column>}
+                {visibleColumns.has('orderType') && <Table.Column className="whitespace-nowrap">订单类型</Table.Column>}
+                {visibleColumns.has('subscriptionPeriod') && <Table.Column className="whitespace-nowrap">订阅周期</Table.Column>}
                 {visibleColumns.has('subscriptionCount') && <Table.Column className="whitespace-nowrap">订阅期数</Table.Column>}
                 {visibleColumns.has('paymentChennel') && <Table.Column className="whitespace-nowrap">支付渠道</Table.Column>}
                 {visibleColumns.has('paymentTypeName') && <Table.Column className="whitespace-nowrap">支付方式</Table.Column>}
@@ -183,7 +193,6 @@ export default function OrderList() {
                     {visibleColumns.has('platfrom') && <Table.Cell className="whitespace-nowrap">{item.platfrom}</Table.Cell>}
                     {visibleColumns.has('userId') && <Table.Cell className="whitespace-nowrap">{item.userId}</Table.Cell>}
                     {visibleColumns.has('email') && <Table.Cell className="whitespace-nowrap">{item.email}</Table.Cell>}
-
                     {visibleColumns.has('amount') && <Table.Cell className="whitespace-nowrap">{item.currency} {item.amount}</Table.Cell>}
                     {visibleColumns.has('dollar') && <Table.Cell className="whitespace-nowrap">USD {item.dollar}</Table.Cell>}
                     {visibleColumns.has('orderType') && (
@@ -203,6 +212,7 @@ export default function OrderList() {
                         )}
                       </Table.Cell>
                     )}
+                    {visibleColumns.has('subscriptionPeriod') && <Table.Cell className="whitespace-nowrap">{item.subscriptionPeriod}</Table.Cell>}
                     {visibleColumns.has('subscriptionCount') && <Table.Cell className="whitespace-nowrap">{item.subscriptionCount}</Table.Cell>}
                     {visibleColumns.has('paymentChennel') && <Table.Cell className="whitespace-nowrap">{item.paymentChennel}</Table.Cell>}
                     {visibleColumns.has('paymentTypeName') && <Table.Cell className="whitespace-nowrap">{item.paymentTypeName}</Table.Cell>}

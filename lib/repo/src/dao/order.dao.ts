@@ -16,6 +16,8 @@ export type SearchOrder = {
     orderType: string;
     subscriptionCount: string;
     collectionBizId: string;
+    channel: string;
+    skuIds?: number[];
 }
 
 class OrderDao {
@@ -73,6 +75,14 @@ class OrderDao {
             conditions.push(eq(orderTable.collectionBizId, search.collectionBizId));
         }
 
+        if (search.channel) {
+            conditions.push(eq(orderTable.paymentChannel, search.channel as PaymentChannel));
+        }
+
+        if (search.skuIds && search.skuIds.length > 0) {
+            conditions.push(inArray(orderTable.skuId, search.skuIds));
+        }
+
         return await this.conn.select().from(orderTable).where(and(...conditions)).orderBy(desc(orderTable.id)).offset((page - 1) * size).limit(size);
     }
 
@@ -126,6 +136,14 @@ class OrderDao {
 
         if (search.collectionBizId) {
             conditions.push(eq(orderTable.collectionBizId, search.collectionBizId));
+        }
+
+        if (search.channel) {
+            conditions.push(eq(orderTable.paymentChannel, search.channel as PaymentChannel));
+        }
+
+        if (search.skuIds && search.skuIds.length > 0) {
+            conditions.push(inArray(orderTable.skuId, search.skuIds));
         }
 
         const [result] = await this.conn.select({ count: count() }).from(orderTable).where(and(...conditions));

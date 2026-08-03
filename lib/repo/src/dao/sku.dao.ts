@@ -1,6 +1,6 @@
 import { database, type DatabaseConn } from "@lib/internal/database";
 import { skuTable, type SkuInsert, type SkuSelect } from "../models/sku";
-import { and, count, desc, eq, or } from "drizzle-orm";
+import { and, count, desc, eq, inArray, or } from "drizzle-orm";
 import { currentTime } from "@lib/common/utils/time";
 import { DeleteStatus } from "@lib/common/consts/common-status";
 
@@ -88,6 +88,24 @@ class SkuDao {
                 eq(skuTable.isDeleted, DeleteStatus.NotDeleted),
             )
         ).orderBy(desc(skuTable.weight));
+    }
+
+    async getSkuListByIds(ids: number[]): Promise<SkuSelect[]> {
+        return await this.conn.select().from(skuTable).where(
+            and(
+                inArray(skuTable.id, ids),
+                eq(skuTable.isDeleted, DeleteStatus.NotDeleted),
+            )
+        );
+    }
+
+    async getSkuListByPeriodType(periodType: string): Promise<SkuSelect[]> {
+        return await this.conn.select().from(skuTable).where(
+            and(
+                eq(skuTable.periodType, periodType),
+                eq(skuTable.isDeleted, DeleteStatus.NotDeleted),
+            )
+        );
     }
 
     async getSkuCountByPaymentOptionId(paymentOptionId: number): Promise<number> {

@@ -13,10 +13,10 @@ const ChannelName: Record<PaymentChannel, string> = {
 export default function SubscriptionChannelSelect({ className, value, onChange }: { className?: string, value: PaymentChannel | "", onChange: (channel: PaymentChannel | '') => void }) {
     return (
         <Autocomplete
-            aria-label="选择订阅渠道"
+            aria-label="选择渠道"
             className={className}
             variant="secondary"
-            placeholder="选择订阅渠道"
+            placeholder="选择渠道"
             selectionMode="single"
             defaultValue={value}
             onChange={(channel) => onChange((channel ?? '') as PaymentChannel | '')}

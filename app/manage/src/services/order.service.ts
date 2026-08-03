@@ -8,9 +8,21 @@ import { productDao } from "@lib/repo/dao/product.dao";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { exchangeProxy } from "@lib/repo/proxy/exchange/exchange";
 import type { SkuType } from "@lib/common/consts/sku";
+import { SkuPeriodTypeName, type SkuPeriodType } from "@lib/common/consts/sku";
+import { skuDao } from "@lib/repo/dao/sku.dao";
 
 class OrderService {
     async getOrderList(req: OrderListReq): Promise<OrderListResp> {
+        // 如果有订阅周期筛选，先查询符合条件的 SKU ID
+        let skuIds: number[] | undefined;
+        if (req.subscriptionPeriod) {
+            const skuList = await skuDao.getSkuListByPeriodType(req.subscriptionPeriod);
+            skuIds = skuList.map(s => s.id);
+            if (skuIds.length === 0) {
+                return { page: req.page, size: req.size, total: 0, list: [] };
+            }
+        }
+
         const search = {
             search: req.search,
             userId: req.userId,
@@ -21,6 +33,8 @@ class OrderService {
             orderType: req.orderType ?? '',
             subscriptionCount: req.subscriptionCount ?? '',
             collectionBizId: req.collectionBizId ?? '',
+            channel: req.channel ?? '',
+            skuIds,
         };
 
         const [orderList, orderTotal] = await Promise.all([
@@ -29,12 +43,18 @@ class OrderService {
         ]);
 
         const orderUserIds = orderList.map((item) => item.userId);
-        const userList = await userDao.getUserListByIds(orderUserIds);
-        const userIdToInfoMap = new Map(userList.map((item) => [item.id, item]));
-
         const productIds = orderList.map((item) => item.productId);
-        const productList = await productDao.getProductListInIds(productIds);
+        const orderSkuIds = orderList.map((item) => item.skuId).filter((id) => id > 0);
+
+        const [userList, productList, orderSkuList] = await Promise.all([
+            userDao.getUserListByIds(orderUserIds),
+            productDao.getProductListInIds(productIds),
+            orderSkuIds.length > 0 ? skuDao.getSkuListByIds(orderSkuIds) : Promise.resolve([]),
+        ]);
+
+        const userIdToInfoMap = new Map(userList.map((item) => [item.id, item]));
         const productIdToInfoMap = new Map(productList.map((item) => [item.id, item]));
+        const skuIdToInfoMap = new Map(orderSkuList.map((item) => [item.id, item]));
 
         const collectionBizIds: string[] = [];
         const exchangeRateMap = new Map<string, number>();
@@ -83,6 +103,7 @@ class OrderService {
                 orderType: item.orderType as SkuType,
                 subscriptionId: item.subscriptionId,
                 subscriptionCount: item.subscriptionCount,
+                subscriptionPeriod: SkuPeriodTypeName[skuIdToInfoMap.get(item.skuId)?.periodType as SkuPeriodType] || '',
                 paymentChennel: item.paymentChannel,
                 paymentType: item.paymentType as PaymentType,
                 paymentTypeName: PaymentTypeName[item.paymentType as PaymentType],
