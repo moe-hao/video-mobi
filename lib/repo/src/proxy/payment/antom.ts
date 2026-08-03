@@ -9,6 +9,7 @@ import type { OrderSelect } from "@lib/repo/models/order";
 import type { ProductSelect } from "@lib/repo/models/product";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { ResultCode } from "@lib/common/consts/result";
+import http from "@lib/internal/http";
 
 export const antomValueRatio: Map<string, number> = new Map([
     ['CLP', 1],
@@ -50,20 +51,17 @@ class AntomProxy {
         const requestTime = Date.now().toString();
         const signature = this.signature(path, requestTime, body);
 
-        const resp = await fetch(`${this.baseURL}${path}`, {
-            method: 'POST',
+        const resp = await http.post<ResponseType>(`${this.baseURL}${path}`, body, {
             headers: {
                 'signature': `algorithm=RSA256, keyVersion=1, signature=${signature}`,
                 'client-id': this.clientId,
                 'request-time': requestTime,
                 'content-type': 'application/json; charset=UTF-8',
-            },
-            body: body,
+            }
         });
 
-        const result = await resp.json() as ResponseType;
-        logger.info(`response antom ${path}: ${JSON.stringify(result)}`);
-        return result;
+        logger.info(`response antom ${path}: ${JSON.stringify(resp.data)}`);
+        return resp.data;
     }
 
     async createPaymentSession(productInfo: ProductSelect, skuInfo: SkuSelect, paymentType: string, orderInfo: OrderSelect, reback: string): Promise<string> {
