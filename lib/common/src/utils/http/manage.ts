@@ -25,7 +25,7 @@ http.interceptors.response.use(
         if (response.status >= 200 && response.status < 300) {
             if (response.data.code === ResultCode.AuthFailed.code) {
                 localStorage.removeItem('token');
-                window.location.href = '/login';
+                window.location.href = '/user/login';
                 throw new InternalException(response.data.code, response.data.message);
             }
 

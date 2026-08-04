@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useEffect, useState, createContext, useContext } from "react";
 import type { AdminInfoResp } from "@lib/common/dto/admin";
 import http from "@lib/common/utils/http/manage";
@@ -13,9 +13,14 @@ export const useAuth = () => useContext(AuthContext);
 
 export function useAuthCheck() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [user, setUser] = useState<AdminInfoResp | null>(null);
 
   useEffect(() => {
+    if (location.pathname === '/user/login') {
+      return;
+    }
+
     const checkAuth = async () => {
       try {
         const resp = await http.get<AdminInfoResp>(`/api/auth/info`);
@@ -27,7 +32,7 @@ export function useAuthCheck() {
       }
     };
     checkAuth();
-  }, [navigate]);
+  }, [navigate, location.pathname]);
 
   return { user };
 }
