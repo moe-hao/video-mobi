@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
-import { request } from "@lib/common/utils/request-manage";
 import type { OrderListReq, OrderListResp } from "@lib/common/dto/order";
 import { convertURLSearchParams } from "@lib/common/utils/param";
+import http from "@lib/common/utils/http/manage";
 
 export function useOrderListState(): {
   orderListState: OrderListResp;
@@ -9,9 +9,9 @@ export function useOrderListState(): {
 } {
   const [orderListState, setOrderListState] = useState<OrderListResp>({} as OrderListResp);
   const fetchOrderList = useCallback(async (req: OrderListReq) => {
-    const orderListResult = await request<OrderListResp>(`/api/order/list?${convertURLSearchParams(req)}`, 'GET');
-    setOrderListState(orderListResult);
-    return orderListResult;
+    const resp = await http.get<OrderListResp>(`/api/order/list?${convertURLSearchParams(req)}`);
+    setOrderListState(resp.data);
+    return resp.data;
   }, []);
 
   return {

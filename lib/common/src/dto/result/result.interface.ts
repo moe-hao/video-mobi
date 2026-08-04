@@ -1,7 +1,7 @@
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { ResultCode } from "../../consts/result";
 
-export interface Result<T> {
+export interface Result<T = any> {
     code: number;
     message: string;
     data: T;

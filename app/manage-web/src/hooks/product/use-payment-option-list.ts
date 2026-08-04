@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
-import { request } from "@lib/common/utils/request-manage";
 import type { PaymentOptionAddReq, PaymentOptionContentItem, PaymentOptionDeleteReq, PaymentOptionEditReq, PaymentOptionListReq, PaymentOptionListResp, PaymentOptionListRespItem } from "@lib/common/dto/payment-option";
 import { convertURLSearchParams } from "@lib/common/utils/param";
+import http from "@lib/common/utils/http/manage";
 
 export function usePaymentOptionList(): {
   paymentOptionListState: PaymentOptionListResp;
@@ -10,9 +10,9 @@ export function usePaymentOptionList(): {
   const [paymentOptionListState, setPaymentOptionListState] = useState<PaymentOptionListResp>({} as PaymentOptionListResp);
 
   const fetchPaymentOptionList = useCallback(async (req: PaymentOptionListReq) => {
-    const result = await request<PaymentOptionListResp>(`/api/payment_option/list?${convertURLSearchParams(req)}`, "GET");
-    setPaymentOptionListState(result);
-    return result;
+    const resp = await http.get<PaymentOptionListResp>(`/api/payment_option/list?${convertURLSearchParams(req)}`);
+    setPaymentOptionListState(resp.data);
+    return resp.data;
   }, []);
 
   return {
@@ -25,7 +25,7 @@ export function useAddPaymentOption(): {
   fetchAddPaymentOption: (req: PaymentOptionAddReq) => Promise<void>;
 } {
   const fetchAddPaymentOption = useCallback(async (req: PaymentOptionAddReq) => {
-    await request<void>("/api/payment_option/add", "POST", req);
+    await http.post('/api/payment_option/add', req);
   }, []);
 
   return {
@@ -37,7 +37,7 @@ export function useEditPaymentOption(): {
   fetchEditPaymentOption: (req: PaymentOptionEditReq) => Promise<void>;
 } {
   const fetchEditPaymentOption = useCallback(async (req: PaymentOptionEditReq) => {
-    await request<void>("/api/payment_option/edit", "POST", req);
+    await http.post('/api/payment_option/edit', req);
   }, []);
 
   return {
@@ -49,7 +49,7 @@ export function useDeletePaymentOption(): {
   fetchDeletePaymentOption: (req: PaymentOptionDeleteReq) => Promise<void>;
 } {
   const fetchDeletePaymentOption = useCallback(async (req: PaymentOptionDeleteReq) => {
-    await request<void>("/api/payment_option/delete", "POST", req);
+    await http.post('/api/payment_option/delete', req);
   }, []);
 
   return {
@@ -61,8 +61,8 @@ export function usePaymentOptionItems(): {
   fetchPaymentOptionItems: (paymentOptionId: number) => Promise<PaymentOptionContentItem[]>;
 } {
   const fetchPaymentOptionItems = useCallback(async (paymentOptionId: number) => {
-    const result = await request<PaymentOptionContentItem[]>(`/api/payment_option/items?paymentOptionId=${paymentOptionId}`, "GET");
-    return result;
+    const resp = await http.get<PaymentOptionContentItem[]>(`/api/payment_option/items?paymentOptionId=${paymentOptionId}`);
+    return resp.data;
   }, []);
 
   return {
@@ -77,9 +77,9 @@ export function useNormalPaymentOptionList(): {
   const [normalPaymentOptionList, setNormalPaymentOptionList] = useState<PaymentOptionListRespItem[]>([]);
 
   const fetchNormalPaymentOptionList = useCallback(async () => {
-    const result = await request<PaymentOptionListRespItem[]>("/api/payment_option/normal_option_list", "GET");
-    setNormalPaymentOptionList(result);
-    return result;
+    const resp = await http.get<PaymentOptionListRespItem[]>('/api/payment_option/normal_option_list');
+    setNormalPaymentOptionList(resp.data);
+    return resp.data;
   }, []);
 
   return {

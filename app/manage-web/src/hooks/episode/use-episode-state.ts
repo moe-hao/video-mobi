@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
-import { request } from "@lib/common/utils/request-manage";
 import type { CollectionAddReq, CollectionEditReq, CollectionPublishReq, CollectionTableListReq, CollectionTableListResp } from "@lib/common/dto/collection";
 import { convertURLSearchParams } from "@lib/common/utils/param";
+import http from "@lib/common/utils/http/manage";
 
 export function useEpisodeState(): {
   episodeListState: CollectionTableListResp;
@@ -11,10 +11,9 @@ export function useEpisodeState(): {
 
   const fetchEpisodeList = useCallback(async (req: CollectionTableListReq) => {
     const urlSearchParams = convertURLSearchParams(req)
-    console.log(urlSearchParams);
-    const episodeListResult = await request<CollectionTableListResp>(`/api/collection/list?${urlSearchParams}`, 'GET');
-    setEpisodeListState(episodeListResult);
-    return episodeListResult;
+    const resp = await http.get<CollectionTableListResp>(`/api/collection/list?${urlSearchParams}`);
+    setEpisodeListState(resp.data);
+    return resp.data;
   }, []);
 
   return {
@@ -28,7 +27,7 @@ export function useCreateEpisodeState(): {
 } {
 
   const fetchEpisodeAdd = useCallback(async (state: CollectionAddReq) => {
-    await request(`/api/collection/add`, 'POST', state);
+    await http.post(`/api/collection/add`, state);
   }, []);
 
   return {
@@ -41,7 +40,7 @@ export function useEditEpisodeState(): {
 } {
 
   const fetchEpisodeEdit = useCallback(async (state: CollectionEditReq) => {
-    await request(`/api/collection/edit`, 'POST', state);
+    await http.post(`/api/collection/edit`, state);
   }, []);
 
   return {
@@ -55,7 +54,7 @@ export function useDeleteEpisodeState(): {
 } {
 
   const fetchEpisodeDelete = useCallback(async (id: number) => {
-    await request(`/api/collection/delete`, 'POST', { id });
+    await http.post(`/api/collection/delete`, { id });
   }, []);
 
   return {
@@ -67,7 +66,7 @@ export function useChangePublishState(): {
   fetchEpisodeChangePublish: (req: CollectionPublishReq) => Promise<void>;
 } {
   const fetchEpisodeChangePublish = useCallback(async (req: CollectionPublishReq) => {
-    await request(`/api/collection/update_publish_status`, 'POST', req);
+    await http.post(`/api/collection/update_publish_status`, req);
   }, []);
 
   return {

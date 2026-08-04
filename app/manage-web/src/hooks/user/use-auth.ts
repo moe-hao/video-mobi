@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import { useEffect, useState, createContext, useContext } from "react";
-import { request } from "@lib/common/utils/request-manage";
 import type { AdminInfoResp } from "@lib/common/dto/admin";
+import http from "@lib/common/utils/http/manage";
 
 interface AuthContextType {
   user: AdminInfoResp | null;
@@ -18,9 +18,9 @@ export function useAuthCheck() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const userInfo = await request<AdminInfoResp>(`/api/auth/info`, 'GET');
-        setUser(userInfo);
-        localStorage.setItem('user', JSON.stringify(userInfo));
+        const resp = await http.get<AdminInfoResp>(`/api/auth/info`);
+        setUser(resp.data);
+        localStorage.setItem('user', JSON.stringify(resp.data));
       } catch {
         localStorage.removeItem('user');
         navigate('/user/login');
@@ -37,7 +37,7 @@ export function useAuthLogout(): {
 } {
   const navigate = useNavigate();
   const handleLogout = async () => {
-    await request(`/api/auth/logout`, 'POST');
+    await http.post(`/api/auth/logout`);
     localStorage.removeItem('token');
     navigate('/user/login');
   }
@@ -48,7 +48,7 @@ export function useChangePassword(): {
   fetchChangePassword: (oldPassword: string, newPassword: string) => Promise<void>;
 } {
   const fetchChangePassword = async (oldPassword: string, newPassword: string) => {
-    await request(`/api/auth/change_password`, 'POST', {
+    await http.post(`/api/auth/change_password`, {
       oldPassword,
       newPassword,
     });

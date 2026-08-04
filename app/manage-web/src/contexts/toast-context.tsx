@@ -14,7 +14,7 @@ interface ToastContextType {
 
 const ToastContext = createContext<ToastContextType | null>(null)
 
-const globalQueue = new ToastQueue<ToastContent>()
+const globalQueue = new ToastQueue<ToastContent>();
 
 export function ToastProvider({ children }: { children: ReactNode }) {
   return (

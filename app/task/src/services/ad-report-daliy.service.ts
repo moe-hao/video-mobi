@@ -45,6 +45,8 @@ const adAccountIds = [
     'act_1398471105534892',
     'act_1048291757636814',
     'act_1018077534480614',
+    'act_1275236157889296',
+    'act_1587819412701384',
 ];
 
 const tikTokAdvertiserIds = [

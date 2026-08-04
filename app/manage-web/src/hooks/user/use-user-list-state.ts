@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
-import { request } from "@lib/common/utils/request-manage";
 import type { UserListResp } from "@lib/common/dto/user";
+import http from "@lib/common/utils/http/manage";
 
 export function useUserListState(): {
   userListState: UserListResp;
@@ -9,9 +9,9 @@ export function useUserListState(): {
   const [userListState, setUserListState] = useState<UserListResp>({} as UserListResp);
 
   const fetchUserList = useCallback(async (page: number = 1, size: number = 20, search: string = '') => {
-    const userListResult = await request<UserListResp>(`/api/user/list?page=${page}&size=${size}&search=${search}`, 'GET');
-    setUserListState(userListResult);
-    return userListResult;
+    const resp = await http.get<UserListResp>(`/api/user/list?page=${page}&size=${size}&search=${search}`);
+    setUserListState(resp.data);
+    return resp.data;
   }, []);
 
   return {

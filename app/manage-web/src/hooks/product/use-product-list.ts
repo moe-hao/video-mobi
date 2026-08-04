@@ -1,5 +1,5 @@
 import type { ProductListRespItem } from "@lib/common/dto/product";
-import { request } from "@lib/common/utils/request-manage";
+import http from "@lib/common/utils/http/manage";
 import { useCallback, useState } from "react";
 
 export function useProductList(): {
@@ -8,9 +8,9 @@ export function useProductList(): {
 } {
   const [productList, setProductList] = useState<ProductListRespItem[]>([]);
   const fetchProductList = useCallback(async () => {
-    const result = await request<ProductListRespItem[]>('/api/product/all', 'GET');
-    setProductList(result);
-    return result;
+    const resp = await http.get<ProductListRespItem[]>('/api/product/all');
+    setProductList(resp.data);
+    return resp.data;
   }, []);
 
   return {

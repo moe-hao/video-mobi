@@ -109,6 +109,9 @@ importers:
       '@loadable/component':
         specifier: ^5.16.7
         version: 5.16.7(react@19.2.7)
+      axios:
+        specifier: ^1.19.0
+        version: 1.19.0
       framer-motion:
         specifier: ^12.38.0
         version: 12.40.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -528,6 +531,9 @@ importers:
       '@lib/internal':
         specifier: workspace:*
         version: link:../internal
+      axios:
+        specifier: ^1.19.0
+        version: 1.19.0
       bcrypt:
         specifier: ^6.0.0
         version: 6.0.0
