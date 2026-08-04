@@ -20,3 +20,13 @@ export async function schedulePayssionPaymentClose() {
     }
     logger.info('[End Run]: schedulePayssionPaymentClose');
 }
+
+export async function scheduleSubscriptionOrderConfirm() {
+    logger.info('[Start Run]: scheduleSubscriptionOrderConfirm');
+    try {
+        await subscriptionPaymentService.confirmSubscriptionOrder();
+    } catch (error) {
+        logger.error(`[Failed] ${error}`);
+    }
+    logger.info('[End Run]: scheduleSubscriptionOrderConfirm');
+}

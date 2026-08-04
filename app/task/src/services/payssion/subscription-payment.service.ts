@@ -36,4 +36,20 @@ export const subscriptionPaymentService = {
         }
     },
 
+    confirmSubscriptionOrder: async () => {
+        const shouldConfirmOrderList = await orderDao.getOrderListByPassionConfirm();
+
+        for (const orderInfo of shouldConfirmOrderList) {
+            logger.info(`Confirm order: ${orderInfo.id}`);
+            const subscriptionInfo = await subscriptionDao.getSubscriptionById(orderInfo.subscriptionId);
+            const payssionSubscriptionInfo = await payssionProxy.getSubscriptionInfo(subscriptionInfo.subscriptionNo);
+
+            if (payssionSubscriptionInfo.status === PayssionSubscriptionStatus.Active) {
+                await Promise.all([
+                    subscriptionDao.updateSubscriptionById(subscriptionInfo.id, { subscriptionStatus: SubscriptionStatus.Active }),
+                    orderDao.updateOrderById(orderInfo.id, { subscriptionCount: payssionSubscriptionInfo.times_completed }),
+                ]);
+            }
+        }
+    }
 }

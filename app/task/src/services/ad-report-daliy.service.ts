@@ -270,11 +270,4 @@ export const adReportDailyService = {
         await syncFacebookAdReport(week);
         await syncTikTokAdReport(week);
     },
-
-    asyncAdReportHistory: async () => {
-        await Promise.all([
-            syncFacebookAdReport('2026-08-02'),
-            syncFacebookAdReport('2026-08-03'),
-        ]);
-    },
 }

@@ -5,6 +5,7 @@ import { and, count, desc, eq, gte, inArray, lte, or } from "drizzle-orm";
 import { currentTime } from "@lib/common/utils/time";
 import { PaymentChannel } from "@lib/common/consts/payment";
 import { OrderStatus } from "@lib/common/consts/order";
+import { SkuType } from "@lib/common/consts/sku";
 
 export type SearchOrder = {
     search: string;
@@ -201,6 +202,17 @@ class OrderDao {
             )
         );
         return result.count;
+    }
+
+    async getOrderListByPassionConfirm(): Promise<OrderSelect[]> {
+        return await this.conn.select().from(orderTable).where(
+            and(
+                eq(orderTable.paymentChannel, PaymentChannel.Payssion),
+                eq(orderTable.orderStatus, OrderStatus.Completed),
+                eq(orderTable.orderType, SkuType.Subscription),
+                eq(orderTable.subscriptionCount, 0)
+            )
+        ).orderBy(desc(orderTable.id));
     }
 
     async updateOrderById(id: number, data: OrderInsert): Promise<void> {
