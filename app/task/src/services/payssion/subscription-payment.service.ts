@@ -18,9 +18,9 @@ export const subscriptionPaymentService = {
 
             // 如果用户的授权已经取消 说明订阅也相应取消了 更新订阅状态为已取消
             if (payssionMandateDetail.status === PayssionMandateStatus.Canceled || payssionSubscriptionInfo.status === PayssionSubscriptionStatus.Incomplete) {
-                subscriptionDao.updateSubscriptionById(subscription.id, { subscriptionStatus: SubscriptionStatus.Cancel });
-                await payssionProxy.cancelSubscription(subscription.subscriptionNo);
-                continue;
+                await subscriptionDao.updateSubscriptionById(subscription.id, { subscriptionStatus: SubscriptionStatus.Cancel });
+                // await payssionProxy.cancelSubscription(subscription.subscriptionNo);
+                // continue;
             }
         }
     },
