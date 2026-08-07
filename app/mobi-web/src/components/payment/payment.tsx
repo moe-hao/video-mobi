@@ -25,9 +25,11 @@ export default function Payment() {
 
   const handleClosePayment = () => {
     setShowPaymentModal(false);
-    if (isRetrieveThresholdMet()) {
-      setShowRetrieveAfterPayment(true);
-    }
+    isRetrieveThresholdMet().then((isMet) => {
+      if (isMet) {
+        setShowRetrieveAfterPayment(true);
+      }
+    });
   }
 
   return (

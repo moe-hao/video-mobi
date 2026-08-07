@@ -1,3 +1,4 @@
+import type { RelationType } from "@lib/common/consts/relation";
 import type { SkuImportant } from "@lib/common/consts/sku";
 
 export interface SkuListResp {
@@ -60,4 +61,11 @@ export interface SkuManageListItem {
     retrieveOptionId: number;
     createTime: string;
     updateTime: string;
+}
+
+export interface SkuRetrieveInfo {
+    exist: boolean;
+    orderNum: number;
+    openPaymentNum: number;
+    relation: RelationType;
 }

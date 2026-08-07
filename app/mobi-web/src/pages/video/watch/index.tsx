@@ -574,11 +574,13 @@ export default function VideoWatch() {
             className="fixed inset-0 bg-black/50 z-40"
             onClick={() => {
               setIsUnlockModalOpen(false);
-              if (isRetrieveThresholdMet()) {
-                fetchSkuList().then(() => {
-                  setIsRetrieveModalOpen(true);
-                });
-              }
+              isRetrieveThresholdMet().then((isMet) => {
+                if (isMet) {
+                  fetchSkuList().then(() => {
+                    setIsRetrieveModalOpen(true);
+                  });
+                }
+              });
             }}
           />
           <div

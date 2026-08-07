@@ -1,6 +1,8 @@
 import { Button, Link } from "@heroui/react";
+import { RelationType } from "@lib/common/consts/relation";
 import { PeriodType, PeriodTypeToName } from "@lib/common/consts/subscription";
-import type { SkuListItem } from "@lib/common/dto/sku";
+import type { SkuListItem, SkuRetrieveInfo } from "@lib/common/dto/sku";
+import { request } from "@lib/common/utils/request-mobi";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -32,12 +34,27 @@ export function addRetrieveCount(addNumType: "order" | "payment"): RetrieveCount
   return newData;
 }
 
-export function isRetrieveThresholdMet(): boolean {
-  const storage = localStorage.getItem("retrieve");
-  if (!storage) return false;
+export async function isRetrieveThresholdMet(): Promise<boolean> {
   try {
+    const retrieveInfo = await request<SkuRetrieveInfo>('/api/sku/retrieve_info', 'GET');
+    if (!retrieveInfo.exist) {
+      return false;
+    }
+
+    const storage = localStorage.getItem("retrieve");
+    if (!storage) return false;
+
     const data = JSON.parse(storage) as RetrieveCount;
-    return data.orderNum >= 2 || data.paymentNum >= 3;
+
+    if (retrieveInfo.relation === RelationType.AND) {
+      return data.orderNum >= retrieveInfo.orderNum && data.paymentNum >= retrieveInfo.openPaymentNum;
+    }
+
+    if (retrieveInfo.relation === RelationType.OR) {
+      return data.orderNum >= retrieveInfo.orderNum || data.paymentNum >= retrieveInfo.openPaymentNum;
+    }
+
+    return false;
   } catch {
     return false;
   }

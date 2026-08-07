@@ -44,6 +44,15 @@ class RetrieveOptionDao {
         return conditions;
     }
 
+
+    async getRetrieveOptionById(id: number): Promise<RetrieveOptionSelect> {
+        const [result] = await this.conn.select().from(retrieveOptionTable).where(and(
+            eq(retrieveOptionTable.id, id),
+            eq(retrieveOptionTable.isDeleted, DeleteStatus.NotDeleted),
+        ));
+        return result;
+    }
+
     async updateRetrieveOptionById(id: number, data: RetrieveOptionInsert): Promise<void> {
         data.updateTime = currentTime();
         await this.conn.update(retrieveOptionTable).set(data).where(
@@ -56,7 +65,6 @@ class RetrieveOptionDao {
         data.updateTime = currentTime();
         await this.conn.insert(retrieveOptionTable).values(data);
     }
-
 }
 
 export const retrieveOptionDao = new RetrieveOptionDao();
