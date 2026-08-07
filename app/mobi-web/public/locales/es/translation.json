@@ -83,5 +83,11 @@
     },
     "common": {
         "loading": "Cargando…"
+    },
+    "retrieve": {
+        "limited-time-offer": "Oferta por tiempo limitado",
+        "wait": "¡ESPERA! ¡NO TE LO PIERDAS!",
+        "get-it-now": "Obtener ahora",
+        "no-thanks": "No, gracias"
     }
 }

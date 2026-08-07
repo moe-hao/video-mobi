@@ -15,6 +15,7 @@ export interface SkuListItem {
     paypalPlanId: string;
     coinNum: number;
     coinBonus: number;
+    isRetrieve: number;
     desc: string;
     important: SkuImportant;
     paymentList: SkuPaymentListItem[];
@@ -55,6 +56,8 @@ export interface SkuManageListItem {
     desc: string;
     important: SkuImportant;
     region: string;
+    isRetrieve: number;
+    retrieveOptionId: number;
     createTime: string;
     updateTime: string;
 }

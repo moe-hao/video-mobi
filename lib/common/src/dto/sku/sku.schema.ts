@@ -26,6 +26,8 @@ export const skuAddReqSchema = z.object({
     region: z.string().default(''),
     currency: z.string().default(''),
     currencySign: z.string().default(''),
+    isRetrieve: z.number().int().default(0),
+    retrieveOptionId: z.number().int().default(0),
 });
 
 export const skuEditReqSchema = z.object({
@@ -46,6 +48,8 @@ export const skuEditReqSchema = z.object({
     region: z.string().default(''),
     currency: z.string().default(''),
     currencySign: z.string().default(''),
+    isRetrieve: z.number().int().default(0),
+    retrieveOptionId: z.number().int().default(0),
 })
 
 export const skuDeleteReqSchema = z.object({

@@ -78,5 +78,11 @@
         "title": "金幣紀錄",
         "received": "獲取",
         "spent": "消耗"
+    },
+    "retrieve": {
+        "limited-time-offer": "限時優惠",
+        "wait": "等等！千萬別錯過！",
+        "get-it-now": "立即搶購",
+        "no-thanks": "不了，謝謝"
     }
 }

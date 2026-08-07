@@ -1,4 +1,4 @@
-import { char, decimal, int, mysqlTable, varchar } from "drizzle-orm/mysql-core";
+import { char, decimal, int, mysqlTable, tinyint, varchar } from "drizzle-orm/mysql-core";
 
 export const skuTable = mysqlTable("sku", {
     id: int("id").primaryKey().autoincrement(),
@@ -20,6 +20,8 @@ export const skuTable = mysqlTable("sku", {
     currency: varchar("currency", { length: 10 }).notNull().default(""),
     currencySign: varchar("currency_sign", { length: 10 }).notNull().default(""),
     isDeleted: int("is_deleted").notNull().default(0),
+    isRetrieve: tinyint("is_retrieve").notNull().default(0),
+    retrieveOptionId: int("retrieve_option_id").notNull().default(0),
     createTime: int("create_time").notNull().default(0),
     updateTime: int("update_time").notNull().default(0),
 })

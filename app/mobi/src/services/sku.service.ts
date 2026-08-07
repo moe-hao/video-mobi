@@ -31,6 +31,7 @@ export const skuService = {
                     paypalPlanId: item.paypalPlanId,
                     coinNum: item.coinNum,
                     coinBonus: item.coinBonus,
+                    isRetrieve: item.isRetrieve,
                     desc: item.desc,
                     important: item.important,
                     paymentList: paymentOptionItemList.filter((paymentItem) => paymentItem.paymentOptionId === item.paymentOptionId).map((value) => ({

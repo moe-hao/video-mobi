@@ -1,4 +1,4 @@
-import { Button, Drawer, Input, Label, Spinner } from "@heroui/react";
+import { Button, Drawer, Input, Label, Spinner, Switch } from "@heroui/react";
 import { useEffect, useState } from "react";
 import ProductSelect from "@app/manage-web/components/product-select";
 import type { SkuAddReq } from "@lib/common/dto/sku";
@@ -10,6 +10,7 @@ import { SkuTypeSelect } from "./sku-type-select";
 import { SkuPeriodSelect } from "./sku-period-select";
 import PaymentOptionSelect from "@app/manage-web/components/payment-option-select";
 import { SkuRegionSelect } from "./sku-region-select";
+import RetrieveOptionSelect from "@app/manage-web/components/retrieve-option-select";
 
 export default function CreateModalButton({ onSuccess }: { onSuccess?: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,6 +23,7 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
     weight: 0,
     desc: "",
     paypalPlanId: "",
+    retrieveOptionId: 0,
   } as SkuAddReq);
   const toast = useToast();
   const { fetchAddSku } = useAddSku();
@@ -133,10 +135,26 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
                 <Input variant="secondary" className="flex-1" placeholder="输入横幅描述" onChange={(e) => setSkuAddReq({ ...skuAddReq, desc: e.target.value })} />
               </div>
               {skuAddReq.skuType === SkuType.Subscription && (
-                <div className="flex flex-row items-center gap-4">
-                  <Label className="w-18 shrink-0 text-right">PayPal计划</Label>
-                  <Input variant="secondary" className="flex-1" placeholder="在 PayPal 中创建计划" onChange={(e) => setSkuAddReq({ ...skuAddReq, paypalPlanId: e.target.value })} />
-                </div>
+                <>
+                  <div className="flex flex-row items-center gap-4">
+                    <Label className="w-18 shrink-0 text-right">PayPal计划</Label>
+                    <Input variant="secondary" className="flex-1" placeholder="在 PayPal 中创建计划" onChange={(e) => setSkuAddReq({ ...skuAddReq, paypalPlanId: e.target.value })} />
+                  </div>
+                  <div className="flex flex-row items-center gap-4">
+                    <Label className="w-18 shrink-0 text-right">挽留套餐</Label>
+                    <Switch
+                      isSelected={skuAddReq.isRetrieve === 1}
+                      onChange={(checked: boolean) => setSkuAddReq({ ...skuAddReq, isRetrieve: checked ? 1 : 0 })}
+                    >
+                      <Switch.Content>
+                        <Switch.Control>
+                          <Switch.Thumb />
+                        </Switch.Control>
+                      </Switch.Content>
+                    </Switch>
+                    <RetrieveOptionSelect className={`flex-1 ${skuAddReq.isRetrieve !== 1 ? 'invisible' : ''}`} value={skuAddReq.retrieveOptionId || ""} onChange={(retrieveOptionId) => setSkuAddReq({ ...skuAddReq, retrieveOptionId })} />
+                  </div>
+                </>
               )}
             </Drawer.Body>
             <Drawer.Footer>

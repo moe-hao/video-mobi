@@ -20,7 +20,7 @@ export const antomValueRatio: Map<string, number> = new Map([
 
 function antomAmount(currency: string, amount: string): number {
     const ratio = antomValueRatio.get(currency) || 100;
-    return Number(amount) * ratio;
+    return Math.round(Number(amount) * ratio);
 }
 
 function formatISO8601(date: Date): string {

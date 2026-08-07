@@ -63,6 +63,8 @@ class SkuService {
                 paymentOptionId: item.paymentOptionId,
                 region: item.region,
                 paymentOptionName: paymentOptionMap[item.paymentOptionId]?.name || '',
+                isRetrieve: item.isRetrieve,
+                retrieveOptionId: item.retrieveOptionId,
                 createTime: formatUnixTime(item.createTime),
                 updateTime: formatUnixTime(item.updateTime),
             })),
@@ -88,6 +90,8 @@ class SkuService {
             paypalPlanId: sku.paypalPlanId,
             paymentOptionId: sku.paymentOptionId,
             region: sku.region,
+            isRetrieve: sku.isRetrieve,
+            retrieveOptionId: sku.retrieveOptionId,
         });
     }
 
@@ -109,6 +113,8 @@ class SkuService {
             paypalPlanId: req.paypalPlanId,
             paymentOptionId: req.paymentOptionId,
             region: req.region,
+            isRetrieve: req.isRetrieve,
+            retrieveOptionId: req.retrieveOptionId,
         });
     }
 

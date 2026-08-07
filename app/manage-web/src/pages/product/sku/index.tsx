@@ -97,6 +97,7 @@ export default function SkuList() {
                 <Table.Column className="whitespace-nowrap">重点展示</Table.Column>
                 <Table.Column className="whitespace-nowrap">支付选项</Table.Column>
                 <Table.Column className="whitespace-nowrap">PayPal计划ID</Table.Column>
+                <Table.Column className="whitespace-nowrap">挽留套餐</Table.Column>
                 <Table.Column className="whitespace-nowrap">创建时间</Table.Column>
                 <Table.Column className="whitespace-nowrap">更新时间</Table.Column>
                 <Table.Column>操作</Table.Column>
@@ -146,6 +147,7 @@ export default function SkuList() {
                     <Table.Cell className="whitespace-nowrap">{item.important === SkuImportant.Yes ? "是" : "否"}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.paymentOptionId === 0 ? '' : `[${item.paymentOptionId}] ${item.paymentOptionName}`}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.paypalPlanId}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{item.isRetrieve === 1 ? "是" : "否"}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.createTime} </Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.updateTime}</Table.Cell>
                     <Table.Cell>

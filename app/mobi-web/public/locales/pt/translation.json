@@ -79,5 +79,11 @@
         "title": "Histórico de moedas",
         "received": "Recebidas",
         "spent": "Gastas"
+    },
+    "retrieve": {
+        "limited-time-offer": "Oferta por tempo limitado",
+        "wait": "ESPERE! NÃO PERCA!",
+        "get-it-now": "Garantir agora",
+        "no-thanks": "Não, obrigado"
     }
 }

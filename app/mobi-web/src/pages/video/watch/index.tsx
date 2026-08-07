@@ -5,6 +5,10 @@ import { useNavigate, useSearchParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import Loading from '@app/mobi-web/components/loading';
 import Payment from '@app/mobi-web/components/payment';
+import PaymentModal from '@app/mobi-web/components/payment/payment-modal';
+import RetrieveModal, { isRetrieveThresholdMet } from '@app/mobi-web/components/payment/retrieve-count';
+import { useSkuListState } from '@app/mobi-web/hooks/sku';
+import type { SkuListItem } from '@lib/common/dto/sku';
 import { useCollectionVideo, useLike, useLikeStatus, useUnlockCoin } from '@app/mobi-web/hooks/video';
 import { useToast } from '@app/mobi-web/contexts/toast-context';
 
@@ -21,8 +25,11 @@ export default function VideoWatch() {
   const { fetchLike } = useLike();
   const { likeResp, fetchLikeStatus } = useLikeStatus();
   const { fetchUnlockCoin } = useUnlockCoin();
+  const { skuListRespState, fetchSkuList } = useSkuListState();
 
   const [currentURL, setCurrentURL] = useState('');
+  const [isRetrieveModalOpen, setIsRetrieveModalOpen] = useState(false);
+  const [paymentModalSku, setPaymentModalSku] = useState<SkuListItem | null>(null);
   const [currentEpisode, setCurrentEpisode] = useState(episode);
   const [isEpisodeModalOpen, setIsEpisodeModalOpen] = useState(false);
   const [isUnlockModalOpen, setIsUnlockModalOpen] = useState(false);
@@ -565,7 +572,14 @@ export default function VideoWatch() {
         >
           <div
             className="fixed inset-0 bg-black/50 z-40"
-            onClick={() => setIsUnlockModalOpen(false)}
+            onClick={() => {
+              setIsUnlockModalOpen(false);
+              if (isRetrieveThresholdMet()) {
+                fetchSkuList().then(() => {
+                  setIsRetrieveModalOpen(true);
+                });
+              }
+            }}
           />
           <div
             className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white rounded-t-2xl p-4 z-50 overflow-y-auto"
@@ -582,6 +596,21 @@ export default function VideoWatch() {
             <Payment />
           </div>
         </div>
+      )}
+
+      {isRetrieveModalOpen && (
+        <RetrieveModal
+          skuInfo={skuListRespState?.skuList?.find((item) => item.isRetrieve === 1) || {} as SkuListItem}
+          onPay={(sku) => {
+            setIsRetrieveModalOpen(false);
+            setPaymentModalSku(sku);
+          }}
+          onClose={() => setIsRetrieveModalOpen(false)}
+        />
+      )}
+
+      {paymentModalSku && (
+        <PaymentModal skuInfo={paymentModalSku} onClose={() => setPaymentModalSku(null)} />
       )}
     </div>
   );
