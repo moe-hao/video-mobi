@@ -49,7 +49,7 @@ class OrderService {
         const [userList, productList, orderSkuList] = await Promise.all([
             userDao.getUserListByIds(orderUserIds),
             productDao.getProductListInIds(productIds),
-            orderSkuIds.length > 0 ? skuDao.getSkuListByIds(orderSkuIds) : Promise.resolve([]),
+            orderSkuIds.length > 0 ? skuDao.getSkuListByIdsNoStatus(orderSkuIds) : Promise.resolve([]),
         ]);
 
         const userIdToInfoMap = new Map(userList.map((item) => [item.id, item]));
