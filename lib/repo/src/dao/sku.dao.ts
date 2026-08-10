@@ -90,11 +90,10 @@ class SkuDao {
         ).orderBy(desc(skuTable.weight));
     }
 
-    async getSkuListByIds(ids: number[]): Promise<SkuSelect[]> {
+    async getSkuListByIdsNoStatus(ids: number[]): Promise<SkuSelect[]> {
         return await this.conn.select().from(skuTable).where(
             and(
                 inArray(skuTable.id, ids),
-                eq(skuTable.isDeleted, DeleteStatus.NotDeleted),
             )
         );
     }

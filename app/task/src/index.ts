@@ -3,13 +3,13 @@ import { schedulePayssionPaymentClose, schedulePayssionSubscriptionStatus, sched
 import { scheduleAdReportDaily, scheduleAdReportWeek, scheduleAdReportYesterday } from './schedules/ad-report-daily';
 
 const tasks = [
-    schedule.scheduleJob('*/10 * * * *', async () => { await scheduleAdReportDaily() }),
+    schedule.scheduleJob('0/10 * * * *', async () => { await scheduleAdReportDaily() }),
     schedule.scheduleJob('0 6 * * *', async () => { await scheduleAdReportYesterday() }),
     schedule.scheduleJob('0 2 * * *', async () => { await scheduleAdReportWeek() }),
 
-    schedule.scheduleJob('*/10 * * * *', async () => { await schedulePayssionSubscriptionStatus() }),
-    schedule.scheduleJob('*/10 * * * *', async () => { await schedulePayssionPaymentClose() }),
-    schedule.scheduleJob('*/1 * * * *', async () => { await scheduleSubscriptionOrderConfirm() }),
+    schedule.scheduleJob('3/10 * * * *', async () => { await schedulePayssionSubscriptionStatus() }),
+    schedule.scheduleJob('6/10 * * * *', async () => { await schedulePayssionPaymentClose() }),
+    schedule.scheduleJob('* * * * *', async () => { await scheduleSubscriptionOrderConfirm() }),
 ];
 
 process.on('SIGINT', () => {

@@ -59,6 +59,8 @@ const tikTokAdvertiserIds = [
     '7659353451559600135',
     '7666355755766874130',
     '7666077833304440839',
+    '7670766829551534087',
+    '7670767495560560658',
 ];
 
 async function syncFacebookAdReport(date: string) {
