@@ -17,6 +17,7 @@ export const collectionTable = mysqlTable("collection", {
     desc: text("desc").notNull().default(""),
     mockLike: int("mock_like").notNull().default(0),
     isDeleted: int("is_deleted").notNull().default(0),
+    uploadStatus: tinyint("upload_status").notNull().default(0),
     createTime: int("create_time").notNull().default(0),
     updateTime: int("update_time").notNull().default(0),
 })

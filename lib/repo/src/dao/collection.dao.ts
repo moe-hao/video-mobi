@@ -6,6 +6,7 @@ import { DeleteStatus } from "@lib/common/consts/common-status";
 import { currentTime } from "@lib/common/utils/time";
 import type { Language } from "@lib/common/consts/region";
 import { CollectionType, PublishStatus } from "@lib/common/consts/collection";
+import type { VideoUploadStatus } from "@lib/common/consts/video";
 
 
 export type SearchCollection = {
@@ -162,6 +163,13 @@ class CollectionDao {
     async getCollectionInBizIds(bizIds: string[]): Promise<CollectionSelect[]> {
         const collections = await this.conn.select().from(collectionTable).where(
             inArray(collectionTable.bizId, bizIds)
+        )
+        return collections;
+    }
+
+    async getCollectionByUploadStatus(uploadStatus: VideoUploadStatus): Promise<CollectionSelect[]> {
+        const collections = await this.conn.select().from(collectionTable).where(
+            eq(collectionTable.uploadStatus, uploadStatus)
         )
         return collections;
     }

@@ -494,6 +494,9 @@ importers:
       mysql2:
         specifier: ^3.22.3
         version: 3.22.4(@types/node@20.19.41)
+      nanoid:
+        specifier: ^6.0.1
+        version: 6.0.1
       node-schedule:
         specifier: ^2.1.1
         version: 2.1.1
@@ -2404,6 +2407,11 @@ packages:
   nanoid@3.3.12:
     resolution: {integrity: sha512-ZB9RH/39qpq5Vu6Y+NmUaFhQR6pp+M2Xt76XBnEwDaGcVAqhlvxrl3B2bKS5D3NH3QR76v3aSrKaF/Kiy7lEtQ==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+
+  nanoid@6.0.1:
+    resolution: {integrity: sha512-3wVS3i51pE2pi1k5FFL/95BGfVS0kSsvDVuGXHOtxox/TywUmtgq+3qiTOTbs9J7KfHaXPiN171k/A6dBnaXFw==}
+    engines: {node: ^22 || ^24 || >=26}
     hasBin: true
 
   natural-compare@1.4.0:
@@ -4564,6 +4572,8 @@ snapshots:
       lru.min: 1.1.4
 
   nanoid@3.3.12: {}
+
+  nanoid@6.0.1: {}
 
   natural-compare@1.4.0: {}
 
