@@ -9,19 +9,35 @@ import { currentTime } from "@lib/common/utils/time";
 
 export const subscriptionPaymentService = {
     asyncSubscriptionStatus: async () => {
-        const subscriptionList = await subscriptionDao.getSubscriptionListByChannelAndStatus(PaymentChannel.Payssion, SubscriptionStatus.Active);
+        const pageSize = 100;
+        let page = 1;
 
-        for (const subscription of subscriptionList) {
-            const payssionSubscriptionInfo = await payssionProxy.getSubscriptionInfo(subscription.subscriptionNo);
-            const payssionMandateDetail = await payssionProxy.getMandateDetail(payssionSubscriptionInfo.mandate_id);
-            logger.info(`Payssion subscription: ${payssionSubscriptionInfo.id} ${payssionSubscriptionInfo.status}; mandate ${payssionMandateDetail.id} is ${payssionMandateDetail.status}`);
+        while (true) {
+            const subscriptionList = await subscriptionDao.getSubscriptionListByChannelAndStatus(
+                PaymentChannel.Payssion,
+                SubscriptionStatus.Active,
+                page,
+                pageSize
+            );
 
-            // 如果用户的授权已经取消 说明订阅也相应取消了 更新订阅状态为已取消
-            if (payssionMandateDetail.status === PayssionMandateStatus.Canceled || payssionSubscriptionInfo.status === PayssionSubscriptionStatus.Incomplete) {
-                await subscriptionDao.updateSubscriptionById(subscription.id, { subscriptionStatus: SubscriptionStatus.Cancel });
-                // await payssionProxy.cancelSubscription(subscription.subscriptionNo);
-                // continue;
+            if (subscriptionList.length === 0) {
+                break;
             }
+
+            for (const subscription of subscriptionList) {
+                const payssionSubscriptionInfo = await payssionProxy.getSubscriptionInfo(subscription.subscriptionNo);
+                const payssionMandateDetail = await payssionProxy.getMandateDetail(payssionSubscriptionInfo.mandate_id);
+                logger.info(`Payssion subscription: ${payssionSubscriptionInfo.id} ${payssionSubscriptionInfo.status}; mandate ${payssionMandateDetail.id} is ${payssionMandateDetail.status}`);
+
+                // 如果用户的授权已经取消 说明订阅也相应取消了 更新订阅状态为已取消
+                if (payssionMandateDetail.status === PayssionMandateStatus.Canceled || payssionSubscriptionInfo.status === PayssionSubscriptionStatus.Incomplete) {
+                    await subscriptionDao.updateSubscriptionById(subscription.id, { subscriptionStatus: SubscriptionStatus.Cancel });
+                    // await payssionProxy.cancelSubscription(subscription.subscriptionNo);
+                    // continue;
+                }
+            }
+
+            page++;
         }
     },
 

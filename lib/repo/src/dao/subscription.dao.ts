@@ -90,13 +90,19 @@ export class SubscriptionDao {
         return await this.conn.select().from(subscriptionTable).where(eq(subscriptionTable.userId, userId));
     }
 
-    async getSubscriptionListByChannelAndStatus(channel: PaymentChannel, status: SubscriptionStatus): Promise<SubscriptionSelect[]> {
-        return await this.conn.select().from(subscriptionTable).where(
+    async getSubscriptionListByChannelAndStatus(channel: PaymentChannel, status: SubscriptionStatus, page?: number, size?: number): Promise<SubscriptionSelect[]> {
+        const query = this.conn.select().from(subscriptionTable).where(
             and(
                 eq(subscriptionTable.subscriptionChannel, channel),
                 eq(subscriptionTable.subscriptionStatus, status)
             )
         );
+        
+        if (page !== undefined && size !== undefined) {
+            return await query.limit(size).offset((page - 1) * size);
+        }
+        
+        return await query;
     }
 
     async updateSubscriptionById(id: number, data: SubscriptionInsert): Promise<void> {
