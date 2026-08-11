@@ -7,7 +7,7 @@ const tasks = [
     schedule.scheduleJob('0 6 * * *', async () => { await scheduleAdReportYesterday() }),
     schedule.scheduleJob('0 2 * * *', async () => { await scheduleAdReportWeek() }),
 
-    schedule.scheduleJob('3/10 * * * *', async () => { await schedulePayssionSubscriptionStatus() }),
+    schedule.scheduleJob('6 10,20 * * *', async () => { await schedulePayssionSubscriptionStatus() }),
     schedule.scheduleJob('6/10 * * * *', async () => { await schedulePayssionPaymentClose() }),
     schedule.scheduleJob('* * * * *', async () => { await scheduleSubscriptionOrderConfirm() }),
     // schedule.scheduleJob(Date.now(), async () => { await scheduleVideoUpload() }),
