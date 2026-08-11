@@ -80,7 +80,7 @@ export default function UserLogin() {
         </Button>
       </div>
       <div className="px-4 pb-12 text-center">
-        <img src="/logo.png" alt="logo" className="w-[128px] mx-auto" />
+        <img src="https://s03.bluearcshow.com/images/logo-big.png" alt="logo" className="w-[128px] mx-auto" />
         <p className="text-3xl mb-2 font-[anton] text-[30px]">Blue Arc</p>
       </div>
       <div className="px-4 flex flex-col gap-4">

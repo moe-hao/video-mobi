@@ -1,3 +1,4 @@
+import type { RelationType } from "@lib/common/consts/relation";
 import type { SkuImportant } from "@lib/common/consts/sku";
 
 export interface SkuListResp {
@@ -15,6 +16,7 @@ export interface SkuListItem {
     paypalPlanId: string;
     coinNum: number;
     coinBonus: number;
+    isRetrieve: number;
     desc: string;
     important: SkuImportant;
     paymentList: SkuPaymentListItem[];
@@ -55,6 +57,15 @@ export interface SkuManageListItem {
     desc: string;
     important: SkuImportant;
     region: string;
+    isRetrieve: number;
+    retrieveOptionId: number;
     createTime: string;
     updateTime: string;
+}
+
+export interface SkuRetrieveInfo {
+    exist: boolean;
+    orderNum: number;
+    openPaymentNum: number;
+    relation: RelationType;
 }

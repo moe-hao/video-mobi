@@ -1,4 +1,4 @@
-import { Button, Drawer, Input, Label, Link, Spinner } from "@heroui/react";
+import { Button, Drawer, Input, Label, Link, Spinner, Switch } from "@heroui/react";
 import { useEffect, useState } from "react";
 import type { SkuEditReq, SkuManageListItem } from "@lib/common/dto/sku";
 import { SkuImportant, SkuPeriodType, SkuType } from "@lib/common/consts/sku";
@@ -10,6 +10,7 @@ import { SkuPeriodSelect } from "./sku-period-select";
 import { SkuTypeSelect } from "./sku-type-select";
 import PaymentOptionSelect from "@app/manage-web/components/payment-option-select";
 import { SkuRegionSelect } from "./sku-region-select";
+import RetrieveOptionSelect from "@app/manage-web/components/retrieve-option-select";
 
 export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageListItem, onSuccess?: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,6 +38,8 @@ export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageList
       region: sku.region || '',
       currency: sku.currency || '',
       currencySign: sku.currencySign || '',
+      isRetrieve: sku.isRetrieve || 0,
+      retrieveOptionId: sku.retrieveOptionId || 0,
     });
   }, [isOpen]);
 
@@ -144,6 +147,21 @@ export default function EditModalButton({ sku, onSuccess }: { sku: SkuManageList
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-18 shrink-0 text-right">PayPal计划</Label>
                 <Input variant="secondary" className="flex-1" value={skuEditReq.paypalPlanId} onChange={(e) => setSkuEditReq({ ...skuEditReq, paypalPlanId: e.target.value })} />
+              </div>
+              <div className="flex flex-row items-center gap-4">
+                <Label className="w-18 shrink-0 text-right">挽留套餐</Label>
+                <Switch
+                  isSelected={skuEditReq.isRetrieve === 1}
+                  onChange={(checked: boolean) => setSkuEditReq({ ...skuEditReq, isRetrieve: checked ? 1 : 0 })}
+                  size="lg"
+                >
+                  <Switch.Content>
+                    <Switch.Control>
+                      <Switch.Thumb />
+                    </Switch.Control>
+                  </Switch.Content>
+                </Switch>
+                <RetrieveOptionSelect className={`flex-1 ${skuEditReq.isRetrieve !== 1 ? 'invisible' : ''}`} value={skuEditReq.retrieveOptionId || ""} onChange={(retrieveOptionId) => setSkuEditReq({ ...skuEditReq, retrieveOptionId })} />
               </div>
             </Drawer.Body>
             <Drawer.Footer>

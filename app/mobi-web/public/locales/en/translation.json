@@ -79,5 +79,11 @@
         "title": "Coin History",
         "received": "Received",
         "spent": "Spent"
+    },
+    "retrieve": {
+        "limited-time-offer": "Limited Time Offer",
+        "wait": "WAIT ! ! ! DON'T MISS OUT!",
+        "get-it-now": "Get it Now",
+        "no-thanks": "No Thanks"
     }
 }

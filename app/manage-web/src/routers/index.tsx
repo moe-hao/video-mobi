@@ -100,6 +100,12 @@ export const routers: RouterItem[] = [
         isMenu: true,
       },
       {
+        name: '挽回配置',
+        path: '/product/recover',
+        element: loadable(() => import('../pages/product/retrieve')),
+        isMenu: true,
+      },
+      {
         name: '支付选项',
         path: '/product/payment_option',
         element: loadable(() => import('../pages/product/payment-option')),
