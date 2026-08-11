@@ -12,7 +12,7 @@ class BunnyVideoService {
         for (const collectionInfo of collections) {
             let failedCount = 0;
             const videoList = await getVideoList(videoAuth, collectionInfo.videoId, collectionInfo.episodes);
-            await Promise.all(videoList.map(async (video) => {
+            videoList.map(async (video) => {
                 const videoInfo = await videoDao.getVideoByCollectionIdAndEpNum(collectionInfo.id, video.num);
                 if (videoInfo && videoInfo.uploadStatus === VideoUploadStatus.Succeed) {
                     return;
@@ -41,7 +41,7 @@ class BunnyVideoService {
                     failedCount++;
                     await videoDao.updateVideoById(videoId, { uploadStatus: VideoUploadStatus.Failed });
                 }
-            }));
+            });
 
             if (failedCount === 0) {
                 await collectionDao.updateCollectionById(collectionInfo.id, { uploadStatus: VideoUploadStatus.Succeed });
