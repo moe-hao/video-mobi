@@ -2,6 +2,7 @@ import axios from "axios";
 import https from 'https';
 import http from 'http';
 import { customAlphabet } from 'nanoid';
+import config from "@lib/internal/config";
 
 export type BunnyVideoResult = {
     videoName: string;
@@ -13,7 +14,7 @@ const bunnyVideoFileClient = axios.create({
     httpAgent: new http.Agent({ keepAlive: true }),
     validateStatus: (status) => status >= 200 && status < 300,
     timeout: 30 * 60 * 1000,
-    headers: { 'AccessKey': 'c9d67fe6-afd5-49e3-976779a46add-e3af-4e2a' }
+    headers: { 'AccessKey': config.BunnyVideoAccessKey }
 });
 
 function bunnyVideoName(): string {
@@ -57,7 +58,7 @@ async function uploadM3U8ToBunny(collectionBizId: string, url: string): Promise<
         return trimmed && !trimmed.startsWith('#');
     });
 
-    await bunnyVideoFileClient.put(`https://la.storage.bunnycdn.com/video-storage-001/${videoName}/main.m3u8`, cleanedM3U8);
+    await bunnyVideoFileClient.put(`https://la.storage.bunnycdn.com/${config.BunnyVideoStorage}/${videoName}/main.m3u8`, cleanedM3U8);
 
     const uploadTasks = segmentLines.map(async (line) => {
         const trimmed = line.trim();
@@ -67,7 +68,7 @@ async function uploadM3U8ToBunny(collectionBizId: string, url: string): Promise<
         const resp = await fetch(fullURL);
         if (resp.ok) {
             const fileData = await resp.arrayBuffer();
-            await bunnyVideoFileClient.put(`https://la.storage.bunnycdn.com/video-storage-001/${videoName}/${fileName}`, fileData);
+            await bunnyVideoFileClient.put(`https://la.storage.bunnycdn.com/${config.BunnyVideoStorage}/${videoName}/${fileName}`, fileData);
         }
     });
     await Promise.all(uploadTasks);
@@ -81,7 +82,7 @@ async function uploadSingleVideoToBunny(collectionBizId: string, url: string): P
     const resp = await fetch(url);
     if (resp.ok) {
         const fileData = await resp.arrayBuffer();
-        await bunnyVideoFileClient.put(`https://la.storage.bunnycdn.com/video-storage-001/${videoName}.mp4`, fileData);
+        await bunnyVideoFileClient.put(`https://la.storage.bunnycdn.com/${config.BunnyVideoStorage}/${videoName}.mp4`, fileData);
     }
 
     return videoName;

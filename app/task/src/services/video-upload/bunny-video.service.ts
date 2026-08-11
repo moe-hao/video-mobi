@@ -10,20 +10,44 @@ class BunnyVideoService {
 
         const collections = await collectionDao.getCollectionByUploadStatus(VideoUploadStatus.Created);
         for (const collectionInfo of collections) {
+            let failedCount = 0;
             const videoList = await getVideoList(videoAuth, collectionInfo.videoId, collectionInfo.episodes);
-            for (const video of videoList) {
-                const result = await uploadVideoToBunny(collectionInfo.bizId, video.playUrl);
+            await Promise.all(videoList.map(async (video) => {
+                try {
+                    const videoInfo = await videoDao.getVideoByCollectionIdAndEpNum(collectionInfo.id, video.num);
+                    if (videoInfo && (videoInfo.uploadStatus === VideoUploadStatus.Succeed || videoInfo.uploadStatus === VideoUploadStatus.Failed)) {
+                        return;
+                    }
 
-                let bid = `${result.videoName}.mp4`
-                if (result.videoType === 'm3u8') {
-                    bid = `${result.videoName}/main.m3u8`
+                    let videoId = videoInfo.id;
+                    if (!videoInfo) {
+                        videoId = await videoDao.addVideo({
+                            collectionId: collectionInfo.id,
+                            epNum: video.num,
+                            uploadStatus: VideoUploadStatus.Created,
+                        });
+                    }
+
+
+                    const result = await uploadVideoToBunny(collectionInfo.bizId, video.playUrl);
+                    let bid = `${result.videoName}.mp4`;
+                    if (result.videoType === 'm3u8') {
+                        bid = `${result.videoName}/main.m3u8`;
+                    }
+
+                    await videoDao.updateVideoById(videoId, { bid: bid, uploadStatus: VideoUploadStatus.Succeed });
+                } catch (error) {
+                    failedCount++;
+                    await videoDao.addVideo({
+                        collectionId: collectionInfo.id,
+                        epNum: video.num,
+                        uploadStatus: VideoUploadStatus.Failed,
+                    });
                 }
+            }));
 
-                videoDao.addVideo({
-                    collectionId: collectionInfo.id,
-                    epNum: video.num,
-                    bid: bid,
-                });
+            if (failedCount === 0) {
+                await collectionDao.updateCollectionById(collectionInfo.id, { uploadStatus: VideoUploadStatus.Succeed });
             }
         }
     }

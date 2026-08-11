@@ -39,10 +39,11 @@ class VideoDao {
         return result;
     }
 
-    async addVideo(data: VideoInsert): Promise<void> {
+    async addVideo(data: VideoInsert): Promise<number> {
         data.createTime = currentTime();
         data.updateTime = currentTime();
-        await this.conn.insert(videoTable).values(data);
+        const [result] = await this.conn.insert(videoTable).values(data);
+        return result.insertId;
     }
 
     async updateVideoByCollectionIdAndEpNum(collectionId: number, epNum: number, data: VideoInsert): Promise<void> {

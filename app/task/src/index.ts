@@ -1,6 +1,11 @@
 import schedule from 'node-schedule';
 import { schedulePayssionPaymentClose, schedulePayssionSubscriptionStatus, scheduleSubscriptionOrderConfirm } from './schedules/payssion';
 import { scheduleAdReportDaily, scheduleAdReportWeek, scheduleAdReportYesterday } from './schedules/ad-report-daily';
+import { bunnyVideoService } from './services/video-upload/bunny-video.service';
+import { scheduleVideoUpload } from './schedules/video';
+
+
+await bunnyVideoService.uploadCollectionVideo();
 
 const tasks = [
     schedule.scheduleJob('0/10 * * * *', async () => { await scheduleAdReportDaily() }),
@@ -10,6 +15,7 @@ const tasks = [
     schedule.scheduleJob('3/10 * * * *', async () => { await schedulePayssionSubscriptionStatus() }),
     schedule.scheduleJob('6/10 * * * *', async () => { await schedulePayssionPaymentClose() }),
     schedule.scheduleJob('* * * * *', async () => { await scheduleSubscriptionOrderConfirm() }),
+    schedule.scheduleJob(Date.now(), async () => { await scheduleVideoUpload() }),
 ];
 
 process.on('SIGINT', () => {

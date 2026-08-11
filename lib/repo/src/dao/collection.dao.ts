@@ -1,5 +1,5 @@
 
-import { and, count, desc, eq, inArray, like, or } from "drizzle-orm";
+import { and, count, desc, eq, gte, inArray, like, or } from "drizzle-orm";
 import { collectionTable, type CollectionInsert, type CollectionSelect } from "../models/collection";
 import { database, type DatabaseConn } from "@lib/internal/database";
 import { DeleteStatus } from "@lib/common/consts/common-status";
@@ -168,9 +168,10 @@ class CollectionDao {
     }
 
     async getCollectionByUploadStatus(uploadStatus: VideoUploadStatus): Promise<CollectionSelect[]> {
-        const collections = await this.conn.select().from(collectionTable).where(
-            eq(collectionTable.uploadStatus, uploadStatus)
-        )
+        const collections = await this.conn.select().from(collectionTable).where(and(
+            eq(collectionTable.uploadStatus, uploadStatus),
+            gte(collectionTable.id, 1570),
+        ));
         return collections;
     }
 

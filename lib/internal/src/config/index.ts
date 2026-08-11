@@ -59,6 +59,9 @@ const config = {
 
     FfmpegCommandPath: process.env.FFMPEG_COMMAND_PATH || '',
     M3U8TempBasePath: process.env.M3U8_TEMP_BASE_PATH || '',
+
+    BunnyVideoStorage: process.env.BUNNY_VIDEO_STORAGE || '',
+    BunnyVideoAccessKey: process.env.BUNNY_VIDEO_ACCESS_KEY || '',
 }
 
 export default config;
