@@ -6,6 +6,9 @@ import { paymentOptionItemDao } from "@lib/repo/dao/payment-option-item.dao";
 import { retrieveOptionDao } from "@lib/repo/dao/retrieve-option.dao";
 import type { SkuListItem, SkuListResp, SkuRetrieveInfo } from "@lib/common/dto/sku/index";
 import type { RelationType } from "@lib/common/consts/relation";
+import type { UserAuthInfo } from "@lib/repo/redis/user";
+import { memberDao } from "@lib/repo/dao/member.dao";
+import { currentTime } from "@lib/common/utils/time";
 
 
 export async function getProductSkuList(host: string, region: string): Promise<SkuListResp> {
@@ -49,7 +52,18 @@ export async function getProductSkuList(host: string, region: string): Promise<S
     }
 }
 
-export async function getProductSkuRetrieveInfo(host: string, region: string): Promise<SkuRetrieveInfo> {
+export async function getProductSkuRetrieveInfo(host: string, region: string, user: UserAuthInfo): Promise<SkuRetrieveInfo> {
+    const memberInfo = await memberDao.getMemberByUserId(user.id);
+    if (memberInfo) {
+        // 如果会员没有过期，直接返回false
+        const nowTime = currentTime();
+        if (nowTime <= memberInfo.expireTime) {
+            return {
+                exist: false,
+            } as SkuRetrieveInfo;
+        }
+    }
+
     const productInfo = await productDao.getProductByHost(host);
     if (!productInfo) {
         throw new InternalException(ResultCode.ResourceNotFound);

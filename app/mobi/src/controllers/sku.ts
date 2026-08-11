@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { getProductSkuList, getProductSkuRetrieveInfo } from "../services/sku.service";
 import { success } from "@lib/common/dto/result";
+import type { UserAuthInfo } from "@lib/repo/redis/user";
 
 const sku = new Hono();
 
@@ -14,7 +15,8 @@ sku.get('/sku_list', async (c) => {
 sku.get('/retrieve_info', async (c) => {
     const host = c.req.header("host") || '';
     const region = c.req.header("CF-IPCountry") || '';
-    const retrieveInfo = await getProductSkuRetrieveInfo(host, region);
+    const user = await c.get('user' as never) as UserAuthInfo;
+    const retrieveInfo = await getProductSkuRetrieveInfo(host, region, user);
     return c.json(success(retrieveInfo));
 });
 
