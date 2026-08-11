@@ -13,22 +13,23 @@ class BunnyVideoService {
             let failedCount = 0;
             const videoList = await getVideoList(videoAuth, collectionInfo.videoId, collectionInfo.episodes);
             await Promise.all(videoList.map(async (video) => {
+                const videoInfo = await videoDao.getVideoByCollectionIdAndEpNum(collectionInfo.id, video.num);
+                if (videoInfo && videoInfo.uploadStatus === VideoUploadStatus.Succeed) {
+                    return;
+                }
+
+                let videoId = 0;
+                if (videoInfo) {
+                    videoId = videoInfo.id;
+                } else {
+                    videoId = await videoDao.addVideo({
+                        collectionId: collectionInfo.id,
+                        epNum: video.num,
+                        uploadStatus: VideoUploadStatus.Created,
+                    });
+                }
+
                 try {
-                    const videoInfo = await videoDao.getVideoByCollectionIdAndEpNum(collectionInfo.id, video.num);
-                    if (videoInfo && (videoInfo.uploadStatus === VideoUploadStatus.Succeed || videoInfo.uploadStatus === VideoUploadStatus.Failed)) {
-                        return;
-                    }
-
-                    let videoId = videoInfo.id;
-                    if (!videoInfo) {
-                        videoId = await videoDao.addVideo({
-                            collectionId: collectionInfo.id,
-                            epNum: video.num,
-                            uploadStatus: VideoUploadStatus.Created,
-                        });
-                    }
-
-
                     const result = await uploadVideoToBunny(collectionInfo.bizId, video.playUrl);
                     let bid = `${result.videoName}.mp4`;
                     if (result.videoType === 'm3u8') {
@@ -38,11 +39,7 @@ class BunnyVideoService {
                     await videoDao.updateVideoById(videoId, { bid: bid, uploadStatus: VideoUploadStatus.Succeed });
                 } catch (error) {
                     failedCount++;
-                    await videoDao.addVideo({
-                        collectionId: collectionInfo.id,
-                        epNum: video.num,
-                        uploadStatus: VideoUploadStatus.Failed,
-                    });
+                    await videoDao.updateVideoById(videoId, { uploadStatus: VideoUploadStatus.Failed });
                 }
             }));
 
