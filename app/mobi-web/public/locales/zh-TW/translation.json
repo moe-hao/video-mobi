@@ -39,7 +39,9 @@
     "user-login-email": {
         "email-login": "電子信箱登錄",
         "email-address": "電子信箱",
-        "enter": "確認"
+        "enter": "確認",
+        "error": "錯誤",
+        "error-message": "請檢查您的電子郵件後重試"
     },
     "user-login-verify": {
         "verify-code": "驗證碼",

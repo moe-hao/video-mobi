@@ -1,4 +1,3 @@
-import { Input, Label, TextArea } from "@heroui/react";
 import type { FeedbackAddReq } from "@lib/common/dto/feedback";
 import { useTranslation } from "react-i18next";
 
@@ -8,18 +7,17 @@ export default function PaymentTab({ feedbackAddReq, onChange }: { feedbackAddRe
   return (
     <div className="flex w-full flex-col gap-4">
       <div className="flex flex-col gap-1 w-full mb-4">
-        <Label isRequired htmlFor="input-type-email">{t('email')}</Label>
-        <Input id="input-type-email" type="email" value={feedbackAddReq.email} onChange={(e) => onChange({ ...feedbackAddReq, email: e.target.value })} />
+        <label className="text-white text-sm" htmlFor="input-type-email">{t('email')} *</label>
+        <input id="input-type-email" type="email" value={feedbackAddReq.email} onChange={(e) => onChange({ ...feedbackAddReq, email: e.target.value })} className="w-full px-4 py-2 bg-white/10 text-white rounded-lg border border-white/20 outline-none focus:border-blue-500" />
       </div>
       <div className="flex flex-col gap-1 w-full mb-4">
-        <Label isRequired htmlFor="input-type-transaction-id">{t('transactionId')}</Label>
-        <Input id="input-type-transaction-id" type="text" value={feedbackAddReq.feedbackBusinessId} onChange={(e) => onChange({ ...feedbackAddReq, feedbackBusinessId: e.target.value })} />
+        <label className="text-white text-sm" htmlFor="input-type-transaction-id">{t('transaction-id')} *</label>
+        <input id="input-type-transaction-id" type="text" value={feedbackAddReq.feedbackBusinessId} onChange={(e) => onChange({ ...feedbackAddReq, feedbackBusinessId: e.target.value })} className="w-full px-4 py-2 bg-white/10 text-white rounded-lg border border-white/20 outline-none focus:border-blue-500" />
       </div>
       <div className="flex flex-col gap-1 w-full mb-4">
-        <Label isRequired htmlFor="input-type-description">{t('description')}</Label>
-        <TextArea
-          aria-label="Suggestion description"
-          className="h-48 w-full"
+        <label className="text-white text-sm" htmlFor="input-type-description">{t('description')} *</label>
+        <textarea
+          className="h-48 w-full px-4 py-3 bg-white/10 text-white rounded-lg border border-white/20 outline-none focus:border-blue-500 resize-none"
           value={feedbackAddReq.description}
           onChange={(e) => onChange({ ...feedbackAddReq, description: e.target.value })}
         />

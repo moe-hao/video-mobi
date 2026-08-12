@@ -1,4 +1,3 @@
-import { Button, Link } from "@heroui/react";
 import { RelationType } from "@lib/common/consts/relation";
 import { PeriodType, PeriodTypeToName } from "@lib/common/consts/subscription";
 import type { SkuListItem, SkuRetrieveInfo } from "@lib/common/dto/sku";
@@ -98,7 +97,7 @@ export default function RetrieveModal({ skuInfo, onPay, onClose }: { skuInfo: Sk
                 </div>
                 <div>
                   <img src="https://s03.bluearcshow.com/images/gift.png" alt="" className="absolute top-[-90px] right-[-10px] w-30 h-30 z-5" />
-                  <div className="bg-gradient-to-r from-[#EAFF4C] to-[#23FFE2] rounded-full px-4 py-1 rotate-[10deg] inline-block text-black font-bold absolute top-[-50px] right-[80px] z-0 pr-8">
+                  <div className="bg-gradient-to-r from-[#EAFF4C] to-[#23FFE2] rounded-full px-4 py-1 rotate-[10deg] inline-block text-black font-bold absolute top-[-50px] right-[70px] z-0 pr-8 whitespace-nowrap">
                     {t("retrieve.limited-time-offer")}
                   </div>
                 </div>
@@ -124,10 +123,10 @@ export default function RetrieveModal({ skuInfo, onPay, onClose }: { skuInfo: Sk
                   </div>
                 </div>
               </div>
-              <Button className="w-full h-[56px] bg-gradient-to-r from-[#3A4DFF] to-[#55A7FF] rounded-[16px] mt-4 text-[18px]" onClick={handlePay}>
+              <button className="w-full h-[56px] bg-gradient-to-r from-[#3A4DFF] to-[#55A7FF] rounded-[16px] mt-4 text-[18px] text-white border-none cursor-pointer font-bold" onClick={handlePay}>
                 {t("retrieve.get-it-now")}
-              </Button>
-              <Link className="text-[14px] block text-center text-gray-500 mt-3 w-full" onClick={handleClose}>{t("retrieve.no-thanks")}</Link>
+              </button>
+              <button className="text-[14px] block text-center text-gray-500 mt-3 w-full bg-transparent border-none cursor-pointer" onClick={handleClose}>{t("retrieve.no-thanks")}</button>
             </div>
           </div>
         </div>

@@ -39,7 +39,9 @@
     "user-login-email": {
         "email-login": "Iniciar sesión con email",
         "email-address": "Correo electrónico",
-        "enter": "Ingresar / Entrar"
+        "enter": "Entrar",
+        "error": "Error",
+        "error-message": "Por favor, verifique su correo electrónico e intente de nuevo"
     },
     "user-login-verify": {
         "verify-code": "Código de verificación",

@@ -10,7 +10,6 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:3000',
         secure: false,
-        // rewrite: (path) => path.replace(/^\/api/, '/api/mobi'),
       }
     }
   },
@@ -28,14 +27,29 @@ export default defineConfig({
         codeSplitting: {
           groups: [
             {
-              name: 'react-vendor',
-              test: /node_modules[\\/](react|react-dom|react-router|scheduler)/,
-              priority: 20,
+              name: 'react-dom',
+              test: /node_modules[\\/]react-dom[\\/]/,
+              priority: 35,
             },
             {
-              name: 'ui-vendor',
-              test: /node_modules[\\/]@heroui/,
-              priority: 15,
+              name: 'framer-motion',
+              test: /node_modules[\\/]framer-motion[\\/]/,
+              priority: 35,
+            },
+            {
+              name: 'react-core',
+              test: /node_modules[\\/](react|scheduler)[\\/]/,
+              priority: 30,
+            },
+            {
+              name: 'react-router',
+              test: /node_modules[\\/]react-router[\\/]/,
+              priority: 25,
+            },
+            {
+              name: 'i18n-vendor',
+              test: /node_modules[\\/](i18next|react-i18next|i18next-browser-languagedetector|i18next-http-backend)[\\/]/,
+              priority: 20,
             },
             {
               name: 'vendor',

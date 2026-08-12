@@ -1,5 +1,4 @@
 import { Xmark } from "@gravity-ui/icons";
-import { Button, Label, Link } from "@heroui/react";
 import { useEffect, useState } from "react";
 import PaymentPolicyTips from "./policy";
 import { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
@@ -41,14 +40,12 @@ export default function PaymentModal({ skuInfo, onClose }: { skuInfo: SkuListIte
       >
         <div className="flex justify-between items-center">
           <h1 className="text-xl font-bold text-white"></h1>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-white/70 hover:text-white"
-            onPress={onClose}
+          <button
+            className="bg-transparent border-none cursor-pointer text-white/70 hover:text-white p-2"
+            onClick={onClose}
           >
             <Xmark />
-          </Button>
+          </button>
         </div>
         <div className="flex items-end justify-center gap-1">
           <span className="text-[14px] pb-3 text-[#FFC525]">
@@ -90,14 +87,14 @@ export default function PaymentModal({ skuInfo, onClose }: { skuInfo: SkuListIte
           productInfo?.region === Region.JP && (
             <>
               <div className="flex justify-center pt-1">
-                <Label className="opacity-50 cursor-default text-xs">
-                  <Link href="/terms/settlement.html">資金決済法に基づく表示</Link>
-                </Label>
+                <label className="opacity-50 cursor-default text-xs">
+                  <a href="/terms/settlement.html" className="text-white underline">資金決済法に基づく表示</a>
+                </label>
               </div>
               <div className="flex justify-center pt-1">
-                <Label className="opacity-50 cursor-default text-xs">
-                  <Link href="/terms/specified.html">特定商取引法に基づく表示</Link>
-                </Label>
+                <label className="opacity-50 cursor-default text-xs">
+                  <a href="/terms/specified.html" className="text-white underline">特定商取引法に基づく表示</a>
+                </label>
               </div>
             </>
           )

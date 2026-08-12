@@ -1,6 +1,5 @@
 import { userUserCoinList } from "@app/mobi-web/hooks/user";
 import { ChevronLeft } from "@gravity-ui/icons";
-import { Button } from "@heroui/react";
 import { UnlockCommType } from "@lib/common/consts/unlock-coin";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -42,9 +41,9 @@ export default function Coin() {
   return (
     <div className="h-full -mb-16">
       <div className="fixed top-0 left-0 right-0 flex items-center justify-between backdrop-blur-sm p-2 bg-black/90 z-50">
-        <Button variant="ghost" isIconOnly onPress={() => navigate("/user/info")}>
-          <ChevronLeft />
-        </Button>
+        <button className="bg-transparent border-none cursor-pointer text-white p-2 min-w-[44px] min-h-[44px] flex items-center justify-center" onClick={() => navigate("/user/info")}>
+          <ChevronLeft className="w-5 h-5" />
+        </button>
         <h1 className="text-lg text-white">{t("title")}</h1>
         <div className="w-10" />
       </div>
@@ -54,7 +53,7 @@ export default function Coin() {
           <div className="flex flex-col items-center justify-center min-h-[60vh]">
             <img
               className="w-[160px] object-cover rounded-md shadow-sm rounded-[6px]"
-              src="https://s01.bluearcshow.com/images/no-data.png"
+              src="https://s03.bluearcshow.com/images/no-data.png"
               alt="No Data"
             />
             <span className="text-white text-[12px] mt-2">No Coin History</span>
@@ -64,7 +63,7 @@ export default function Coin() {
             <div key={index} className="bg-[#1c1c1c] p-4 flex gap-4 rounded-[20px] mb-4">
               <img
                 className="size-8 object-cover rounded-md shrink-0"
-                src="https://i.bluearcshow.com/images/coin-img.png"
+                src="https://s03.bluearcshow.com/images/coin-img.png"
               />
               <div className="flex-1 min-w-0">
                 <div className="flex justify-between items-start">

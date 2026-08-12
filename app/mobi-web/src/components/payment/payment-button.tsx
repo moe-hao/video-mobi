@@ -1,5 +1,4 @@
 import { useUserOrderCreate } from "@app/mobi-web/hooks/user";
-import { Button } from "@heroui/react";
 import { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router";
@@ -112,16 +111,15 @@ export default function PaymentButton({ bizId, paymentChannel, paymentType, load
     <>
       {
         paymentChannel === PaymentChannel.Payssion ? <PixButton onSubmit={handlePixSubmit} /> :
-          <Button
-            size="lg"
-            className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative justify-start"
-            onPress={() => handleClickPayment(paymentChannel, paymentType)}
+          <button
+            className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative flex items-center justify-start border-none cursor-pointer"
+            onClick={() => handleClickPayment(paymentChannel, paymentType)}
           >
             <img src={paymentInfo[paymentType].image} alt={paymentInfo[paymentType].name} className="w-8" />
             <span className="ml-2">
               {paymentInfo[paymentType].name}
             </span>
-          </Button>
+          </button>
       }
     </>
   )

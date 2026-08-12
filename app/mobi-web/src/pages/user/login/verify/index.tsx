@@ -1,7 +1,6 @@
 import { useUserVerifyEmail } from "@app/mobi-web/hooks/user";
 import { ChevronLeft } from "@gravity-ui/icons";
-import { Button, FieldError, InputOTP, Label, TextField } from "@heroui/react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router";
 
@@ -12,14 +11,50 @@ export default function VerifyLogin() {
 
   const { userLoginEmailVerifyValid, fetchUserVerifyEmail } = useUserVerifyEmail();
 
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const email = decodeURIComponent(searchParams.get('email') || '');
 
+  const handleOtpChange = (index: number, value: string) => {
+    if (value.length > 1) {
+      value = value.slice(-1);
+    }
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+
+    if (value && index < 5) {
+      inputRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
+    if (e.key === 'Backspace' && !otp[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handlePaste = (e: React.ClipboardEvent) => {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData('text').slice(0, 6);
+    const newOtp = [...otp];
+    for (let i = 0; i < pasted.length; i++) {
+      newOtp[i] = pasted[i];
+    }
+    setOtp(newOtp);
+    if (pasted.length > 0) {
+      inputRefs.current[Math.min(pasted.length, 5)]?.focus();
+    }
+  };
+
   const handleVerify = async () => {
-    fbq('track', 'CompleteRegistration');
+    if (typeof fbq !== 'undefined') {
+      fbq('track', 'CompleteRegistration');
+    }
+    const otpString = otp.join('');
     const result = await fetchUserVerifyEmail({
       email: email,
-      code: otp,
+      code: otpString,
     });
     navigate(`/user/info?code=${result.code}`, { replace: true });
   };
@@ -27,34 +62,45 @@ export default function VerifyLogin() {
   return (
     <div className="min-h-screen flex flex-col justify-start pt-32">
       <div className="fixed top-0 left-0 right-0 flex items-center justify-between backdrop-blur-sm p-2 bg-black/90 z-50">
-        <Button variant="ghost" isIconOnly onPress={() => navigate('/user/login/email')}>
-          <ChevronLeft />
-        </Button>
+        <button className="bg-transparent border-none cursor-pointer text-white p-2 min-w-[44px] min-h-[44px] flex items-center justify-center" onClick={() => navigate('/user/login/email')}>
+          <ChevronLeft className="w-5 h-5" />
+        </button>
       </div>
       <div className="px-2 py-10 text-center">
         <p className="text-3xl mb-2">{t('verify-code')}</p>
       </div>
       <div className="px-4 flex flex-col gap-6">
         <div className="flex flex-col gap-1">
-          <Label>{t('verify-account')}</Label>
-          <p className="text-sm text-muted">{t('verify-code-sent-to', { email })}</p>
+          <label className="text-white font-medium">{t('verify-account')}</label>
+          <p className="text-sm text-white/50">{t('verify-code-sent-to', { email })}</p>
         </div>
         <div className="flex justify-center">
-          <TextField className="w-64" isInvalid={!userLoginEmailVerifyValid}>
-            <InputOTP maxLength={6} value={otp} onChange={setOtp}>
-              <InputOTP.Group>
-                <InputOTP.Slot index={0} />
-                <InputOTP.Slot index={1} />
-                <InputOTP.Slot index={2} />
-                <InputOTP.Slot index={3} />
-                <InputOTP.Slot index={4} />
-                <InputOTP.Slot index={5} />
-              </InputOTP.Group>
-            </InputOTP>
-            <FieldError className="text-right py-2">{t('verify-code-error')}</FieldError>
-          </TextField>
+          <div className="flex gap-2">
+            {otp.map((digit, index) => (
+              <input
+                key={index}
+                ref={(el) => { inputRefs.current[index] = el; }}
+                type="text"
+                inputMode="numeric"
+                maxLength={1}
+                value={digit}
+                onChange={(e) => handleOtpChange(index, e.target.value)}
+                onKeyDown={(e) => handleKeyDown(index, e)}
+                onPaste={handlePaste}
+                className={`w-10 h-12 text-center text-xl font-bold bg-white/10 text-white rounded-lg border ${!userLoginEmailVerifyValid ? 'border-red-500' : 'border-white/20'} outline-none focus:border-blue-500`}
+              />
+            ))}
+          </div>
         </div>
-        <Button className="w-full bg-white text-black" variant="ghost" onPress={handleVerify}>{t('enter')}</Button>
+        {!userLoginEmailVerifyValid && (
+          <p className="text-red-500 text-sm text-right">{t('verify-code-error')}</p>
+        )}
+        <button
+          className="w-full py-3 bg-white text-black rounded-lg border-none cursor-pointer font-bold"
+          onClick={handleVerify}
+        >
+          {t('enter')}
+        </button>
       </div>
     </div>
   );

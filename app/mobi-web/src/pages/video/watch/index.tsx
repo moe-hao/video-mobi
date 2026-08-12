@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Avatar, Badge, Button } from '@heroui/react';
 import { ArrowShapeTurnUpRight, ChevronLeft, Heart, HeartFill, LockFill, PlayFill, TextAlignJustify, Video } from '@gravity-ui/icons';
 import { useNavigate, useSearchParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
@@ -378,12 +377,12 @@ export default function VideoWatch() {
       </div>
       {(!videoLoading && currentURL) ? (
         !isPlay && (
-          <Button
-            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-            onPress={handleTogglePlay}
+          <button
+            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-black/80 rounded-full flex items-center justify-center border-none cursor-pointer"
+            onClick={handleTogglePlay}
           >
-            <PlayFill className="text-2xl" />
-          </Button>
+            <PlayFill className="text-xl text-white" />
+          </button>
         )
       ) : (
         <Loading />
@@ -396,9 +395,9 @@ export default function VideoWatch() {
         onTouchEnd={(e) => e.stopPropagation()}
       >
         <div className="flex items-center space-x-2">
-          <Button variant="ghost" onPress={() => navigate('/')}>
+          <button className="bg-transparent border-none cursor-pointer text-white p-2 min-w-[44px] min-h-[44px] flex items-center justify-center" onClick={() => navigate('/')}>
             <ChevronLeft />
-          </Button>
+          </button>
           <h2 className="text-md font-bold">{t('episode-num', { currentEpisode })}</h2>
         </div>
 
@@ -526,37 +525,33 @@ export default function VideoWatch() {
             <div className="flex justify-between items-center">
               <h4 className="text-sm font-medium">{t('episode-select')}</h4>
             </div>
-            <div className="mt-1 mb-4">
+            <div className="mt-1 mb-4 flex gap-2">
               {Array.from({ length: Math.ceil((videoPlayInfoResp.videoList?.length || 0) / 25) }).map((_, i) => (
-                <Button
+                <button
                   key={i}
-                  size="sm"
-                  variant={i === episodePage ? "primary" : "ghost"}
-                  className={i === episodePage ? "min-w-8 h-8 bg-[#3D77FF]" : "min-w-8 h-8 text-white/60"}
-                  onPress={() => setEpisodePage(i)}
+                  className={i === episodePage ? "min-w-8 h-8 px-2 bg-[#3D77FF] text-white rounded text-sm" : "min-w-8 h-8 px-2 text-white/60 bg-transparent rounded text-sm"}
+                  onClick={() => setEpisodePage(i)}
                 >
                   {`${i * 25 + 1}-${Math.min((i + 1) * 25, videoPlayInfoResp.videoList?.length || 0)}`}
-                </Button>
+                </button>
               ))}
             </div>
             <div className="grid grid-cols-5">
               {videoPlayInfoResp.videoList?.slice(episodePage * 25, (episodePage + 1) * 25).map((video) => (
                 <div className="flex justify-center mb-4" key={video.epNum}>
-                  <Badge.Anchor key={video.epNum} className="w-10 h-10 flex items-center justify-center">
-                    <Avatar className="w-12 h-12 rounded-lg">
-                      <Avatar.Fallback
-                        className={video.epNum === currentEpisode ? "w-12 h-12 rounded-lg bg-[#3D77FF]" : "w-12 h-12 rounded-lg border-white/30 text-white bg-transparent"}
-                        onClick={() => handleEpisodeButton(video.epNum, video.isLock)}
-                      >
-                        {video.epNum}
-                      </Avatar.Fallback>
-                    </Avatar>
+                  <div className="relative w-12 h-12 flex items-center justify-center">
+                    <div
+                      className={video.epNum === currentEpisode ? "w-12 h-12 rounded-lg bg-[#3D77FF] flex items-center justify-center text-white cursor-pointer" : "w-12 h-12 rounded-lg bg-white/10 text-white flex items-center justify-center cursor-pointer"}
+                      onClick={() => handleEpisodeButton(video.epNum, video.isLock)}
+                    >
+                      {video.epNum}
+                    </div>
                     {video.isLock && (
-                      <Badge color="accent" size="sm" placement="top-right" className="w-3 h-3 bg-[#3D77FF]">
+                      <div className="absolute -top-1 -right-1 w-4 h-4 bg-[#3D77FF] rounded-full flex items-center justify-center">
                         <LockFill className="w-2 h-2" />
-                      </Badge>
+                      </div>
                     )}
-                  </Badge.Anchor>
+                  </div>
                 </div>
               ))}
             </div>

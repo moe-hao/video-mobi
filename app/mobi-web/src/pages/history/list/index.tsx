@@ -1,6 +1,5 @@
 import { useDeleteHistoryItem, useHistoryPage } from "@app/mobi-web/hooks/history/use-history-page";
 import { CirclePlay, TrashBin } from "@gravity-ui/icons";
-import { Button, Label, ProgressBar } from "@heroui/react";
 import type { UserHistoryListReq } from "@lib/common/dto/history";
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next";
@@ -105,7 +104,7 @@ export default function HistoryList() {
     <div className="mx-4 pt-16 pb-4 ">
       {!historyUserList.list || historyUserList.list?.length === 0 ? (
         <div className="flex flex-col items-center justify-center min-h-[60vh]">
-          <img className="w-[160px] object-cover rounded-md shadow-sm rounded-[6px]" src="https://s01.bluearcshow.com/images/no-data.png" alt="No Data" />
+          <img className="w-[160px] object-cover rounded-md shadow-sm rounded-[6px]" src="https://s03.bluearcshow.com/images/no-data.png" alt="No Data" />
           <span className="text-white text-[12px] mt-2">No Watch History</span>
         </div>
       ) : historyUserList.list?.map((item, index) => (
@@ -129,21 +128,21 @@ export default function HistoryList() {
             <img className="h-24 object-cover rounded-md shadow-sm rounded-[6px]" src={item.collectionCover} alt={item.collectionName} />
             <div className="flex-1 min-w-0">
               <h3 className="text-white text-[14px] font-medium truncate">{item.collectionName}</h3>
-              <ProgressBar aria-label={item.collectionBizId} size="sm" value={item.epNum / item.collectionEpNum * 100}>
-                <Label>
-                  <span className="text-white text-[10px] mt-1">{t('up-to', { epNum: item.epNum })}</span>
-                  <span className="text-white/50 text-[10px] mt-1"> / {t('total', { totalEpNum: item.collectionEpNum })}</span>
-                </Label>
-                <ProgressBar.Track>
-                  <ProgressBar.Fill className="bg-[#3D77FF]" />
-                </ProgressBar.Track>
-              </ProgressBar>
+              <div>
+                <div className="flex items-center gap-1 mt-1">
+                  <span className="text-white text-[10px]">{t('up-to', { epNum: item.epNum })}</span>
+                  <span className="text-white/50 text-[10px]"> / {t('total', { totalEpNum: item.collectionEpNum })}</span>
+                </div>
+                <div className="w-full h-1 bg-white/10 rounded-full mt-1 overflow-hidden">
+                  <div className="h-full bg-[#3D77FF] rounded-full" style={{ width: `${(item.epNum / item.collectionEpNum) * 100}%` }} />
+                </div>
+              </div>
               <div className="flex justify-between mt-1 pt-2">
                 <p className="text-white/50 text-[10px]">{t('watch-now')}</p>
-                <Button size="sm" className="min-h-0 h-6 px-2 text-xs bg-white text-black" onClick={() => handleContinue(item.collectionBizId, item.epNum)}>
-                  <CirclePlay />
+                <button className="min-h-0 h-6 px-2 text-xs bg-white text-black rounded border-none cursor-pointer flex items-center gap-1" onClick={() => handleContinue(item.collectionBizId, item.epNum)}>
+                  <CirclePlay className="w-3 h-3" />
                   {t('continue')}
-                </Button>
+                </button>
               </div>
             </div>
           </div>

@@ -1,4 +1,3 @@
-import { Card } from '@heroui/react';
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { CircleDashed, CircleCheckFill } from '@gravity-ui/icons';
 import { useNavigate } from 'react-router';
@@ -76,18 +75,18 @@ export default function CollectionListPage() {
               onClick={() => handleVideoClick(collection.bizId)}
               className="cursor-pointer"
             >
-              <Card className="aspect-[3/4] relative">
+              <div className="aspect-[3/4] relative rounded-[6px] overflow-hidden">
                 <img
                   alt={collection.name}
                   aria-hidden="true"
-                  className="absolute inset-0 h-full w-full object-cover rounded-[6px]"
+                  className="absolute inset-0 h-full w-full object-cover"
                   src={collection.cover}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                <Card.Footer className="z-10 absolute bottom-0 right-0 p-2 justify-end">
+                <div className="z-10 absolute bottom-0 right-0 p-2 flex justify-end">
                   <div className="text-xs text-white">{collection.episodes} {t('episodes')}</div>
-                </Card.Footer>
-              </Card>
+                </div>
+              </div>
               <p className="text-xs line-clamp-2 mt-1">{collection.name}</p>
             </div>
           ))}

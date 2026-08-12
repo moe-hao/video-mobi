@@ -1,5 +1,4 @@
 import { ChevronLeft } from "@gravity-ui/icons";
-import { Button, Spinner, Tabs } from "@heroui/react";
 import BugTab from "./bug";
 import SuggestionTab from "./suggestion";
 import PaymentTab from "./payment";
@@ -11,6 +10,12 @@ import type { FeedbackAddReq } from "@lib/common/dto/feedback";
 import { useFeedbackAdd } from "@app/mobi-web/hooks/feedback";
 import { FeedbackType } from "@lib/common/consts/feedback";
 import { useTranslation } from "react-i18next";
+
+const tabs = [
+  { id: FeedbackType.Bug, labelKey: 'bug' },
+  { id: FeedbackType.Suggestion, labelKey: 'suggestion' },
+  { id: FeedbackType.Payment, labelKey: 'payment' },
+];
 
 export default function UserFeedback() {
   const toastQueue = useToast();
@@ -37,50 +42,53 @@ export default function UserFeedback() {
     navigate('/user/info');
   };
 
-
   return (
     <div className="min-h-screen flex flex-col">
       <div className="fixed top-0 left-0 right-0 flex items-center justify-between backdrop-blur-sm p-2 bg-black/90 z-50">
-        <Button variant="ghost" isIconOnly onPress={() => navigate('/user/info')}>
-          <ChevronLeft />
-        </Button>
+        <button className="bg-transparent border-none cursor-pointer text-white p-2 min-w-[44px] min-h-[44px] flex items-center justify-center" onClick={() => navigate('/user/info')}>
+          <ChevronLeft className="w-5 h-5" />
+        </button>
         <h1 className="text-lg text-white">Feedback</h1>
         <div className="w-10" />
       </div>
-      <div className="pt-16 p-4 ">
-        <Tabs className="w-full max-w-md" onSelectionChange={(key) => setFeedbackAddReq({ ...feedbackAddReq, feedbackType: key as FeedbackType })}>
-          <Tabs.ListContainer>
-            <Tabs.List aria-label="Options">
-              <Tabs.Tab id={FeedbackType.Bug}>
-                {t('bug')}
-                <Tabs.Indicator />
-              </Tabs.Tab>
-              <Tabs.Tab id={FeedbackType.Suggestion}>
-                {t('suggestion')}
-                <Tabs.Indicator />
-              </Tabs.Tab>
-              <Tabs.Tab id={FeedbackType.Payment}>
-                {t('payment')}
-                <Tabs.Indicator />
-              </Tabs.Tab>
-            </Tabs.List>
-          </Tabs.ListContainer>
-          <Tabs.Panel className="pt-4" id={FeedbackType.Bug}>
-            <BugTab feedbackAddReq={feedbackAddReq} onChange={setFeedbackAddReq} />
-          </Tabs.Panel>
-          <Tabs.Panel className="pt-4" id={FeedbackType.Suggestion}>
-            <SuggestionTab feedbackAddReq={feedbackAddReq} onChange={setFeedbackAddReq} />
-          </Tabs.Panel>
-          <Tabs.Panel className="pt-4" id={FeedbackType.Payment}>
-            <PaymentTab feedbackAddReq={feedbackAddReq} onChange={setFeedbackAddReq} />
-          </Tabs.Panel>
-        </Tabs>
+      <div className="pt-16 p-4">
+        <div className="w-full max-w-md">
+          <div className="flex border-b border-white/10 mb-4">
+            {tabs.map(tab => (
+              <button
+                key={tab.id}
+                className={`flex-1 py-3 text-sm font-medium bg-transparent border-none cursor-pointer relative ${feedbackAddReq.feedbackType === tab.id ? 'text-white' : 'text-white/50'}`}
+                onClick={() => setFeedbackAddReq({ ...feedbackAddReq, feedbackType: tab.id })}
+              >
+                {t(tab.labelKey)}
+                {feedbackAddReq.feedbackType === tab.id && (
+                  <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-blue-500" />
+                )}
+              </button>
+            ))}
+          </div>
+          <div className="pt-4">
+            {feedbackAddReq.feedbackType === FeedbackType.Bug && (
+              <BugTab feedbackAddReq={feedbackAddReq} onChange={setFeedbackAddReq} />
+            )}
+            {feedbackAddReq.feedbackType === FeedbackType.Suggestion && (
+              <SuggestionTab feedbackAddReq={feedbackAddReq} onChange={setFeedbackAddReq} />
+            )}
+            {feedbackAddReq.feedbackType === FeedbackType.Payment && (
+              <PaymentTab feedbackAddReq={feedbackAddReq} onChange={setFeedbackAddReq} />
+            )}
+          </div>
+        </div>
       </div>
       <div className="px-6">
-        <Button className="w-full bg-white text-black" variant="ghost" onClick={handleSubmit} isDisabled={loading}>
-          {loading && <Spinner color="current" size="sm" />}
+        <button
+          className="w-full py-3 bg-white text-black rounded-lg border-none cursor-pointer font-bold flex items-center justify-center gap-2 disabled:opacity-50"
+          onClick={handleSubmit}
+          disabled={loading}
+        >
+          {loading && <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />}
           {t('submit')}
-        </Button>
+        </button>
       </div>
       {
         feedbackAddReq.feedbackType === FeedbackType.Payment && (
@@ -89,7 +97,6 @@ export default function UserFeedback() {
           </div>
         )
       }
-
     </div>
   );
 }
