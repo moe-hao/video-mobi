@@ -1,5 +1,7 @@
 import type { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
+import type { PeriodType } from "@lib/common/consts/subscription";
 import { orderDao } from "@lib/repo/dao/order.dao";
+import { skuDao } from "@lib/repo/dao/sku.dao";
 import { subscriptionRenewalReportDao } from "@lib/repo/dao/subscription-renewal-report.dao";
 
 export async function statRenewalReport(date: string) {
@@ -11,7 +13,16 @@ export async function statRenewalReport(date: string) {
         const userSubscriptionOrderList = await orderDao.getOrderCountByUserIdAndSubscriptionId(orderInfo.userId, orderInfo.subscriptionId, eTime);
         const periodNum = userSubscriptionOrderList.length;
 
-        const reportInfo = await subscriptionRenewalReportDao.getReportInfo(date, orderInfo.productId, orderInfo.paymentChannel as PaymentChannel, orderInfo.paymentType as PaymentType, periodNum);
+        const skuInfo = await skuDao.getSkuById(orderInfo.skuId);
+        const reportInfo = await subscriptionRenewalReportDao.getReportInfo({
+            date: date,
+            productId: orderInfo.productId,
+            paymentChannel: orderInfo.paymentChannel as PaymentChannel,
+            paymentType: orderInfo.paymentType as PaymentType,
+            periodType: skuInfo.periodType as PeriodType,
+            periodNum: periodNum,
+        });
+
         if (reportInfo) {
             await subscriptionRenewalReportDao.updateReportDataById(reportInfo.id, { subscriptionNum: reportInfo.subscriptionNum + 1 });
         } else {
@@ -20,6 +31,7 @@ export async function statRenewalReport(date: string) {
                 productId: orderInfo.productId,
                 paymentChannel: orderInfo.paymentChannel as PaymentChannel,
                 paymentType: orderInfo.paymentType as PaymentType,
+                periodType: skuInfo.periodType as PeriodType,
                 periodNum: periodNum,
                 subscriptionNum: 1,
             });

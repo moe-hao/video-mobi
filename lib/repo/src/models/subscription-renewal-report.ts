@@ -6,6 +6,7 @@ export const subscriptionRenewalReportTable = mysqlTable("subscription_renewal_r
     productId: int('product_id').notNull().default(0),
     paymentChannel: varchar('payment_channel', { length: 20 }).notNull().default(''),
     paymentType: varchar('payment_type', { length: 20 }).notNull().default(''),
+    periodType: varchar('period_type', { length: 20 }).notNull().default(''),
     periodNum: int('period_num').notNull().default(0),
     subscriptionNum: int('subscription_num').notNull().default(0),
     createTime: int('create_time').notNull().default(0),
