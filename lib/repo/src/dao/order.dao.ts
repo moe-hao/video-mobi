@@ -1,7 +1,7 @@
 
 import { database, type DatabaseConn } from "@lib/internal/database";
 import { orderTable, type OrderInsert, type OrderSelect } from "../models/order";
-import { and, count, desc, eq, gte, inArray, lte, or } from "drizzle-orm";
+import { and, asc, count, desc, eq, gte, inArray, lte, or } from "drizzle-orm";
 import { currentTime } from "@lib/common/utils/time";
 import { PaymentChannel } from "@lib/common/consts/payment";
 import { OrderStatus } from "@lib/common/consts/order";
@@ -213,6 +213,29 @@ class OrderDao {
                 eq(orderTable.subscriptionCount, 0)
             )
         ).orderBy(desc(orderTable.id));
+    }
+
+    async getSubscriptionOrderListByTimeRange(startTime: number, endTime: number): Promise<OrderSelect[]> {
+        return await this.conn.select().from(orderTable).where(
+            and(
+                eq(orderTable.orderType, SkuType.Subscription),
+                eq(orderTable.orderStatus, OrderStatus.Completed),
+                gte(orderTable.createTime, startTime),
+                lte(orderTable.createTime, endTime)
+            )
+        );
+    }
+
+    async getOrderCountByUserIdAndSubscriptionId(userId: number, subscriptionId: number, eTime: number): Promise<OrderSelect[]> {
+        const result = await this.conn.select().from(orderTable).where(
+            and(
+                eq(orderTable.userId, userId),
+                eq(orderTable.subscriptionId, subscriptionId),
+                eq(orderTable.orderStatus, OrderStatus.Completed),
+                lte(orderTable.createTime, eTime)
+            )
+        ).orderBy(asc(orderTable.id));
+        return result;
     }
 
     async updateOrderById(id: number, data: OrderInsert): Promise<void> {
