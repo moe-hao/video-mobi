@@ -2,7 +2,7 @@ import { statRenewalReport } from "../services/subscription/renewal-report.servi
 
 export async function scheduleSubscriptionRenewalReport() {
     try {
-        await statRenewalReport('2026-06-24');
+        await statRenewalReport('2026-06-26');
     } catch (error) {
         console.error('统计订阅续费报告失败:', error);
     }
