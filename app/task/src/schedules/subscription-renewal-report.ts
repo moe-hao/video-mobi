@@ -2,11 +2,6 @@ import { statRenewalReport } from "../services/subscription/renewal-report.servi
 
 export async function scheduleSubscriptionRenewalReport() {
     try {
-        await statRenewalReport('2026-06-27');
-        await statRenewalReport('2026-06-28');
-        await statRenewalReport('2026-06-29');
-        await statRenewalReport('2026-06-30');
-        await statRenewalReport('2026-06-31');
         await statRenewalReport('2026-07-01');
         await statRenewalReport('2026-07-02');
         await statRenewalReport('2026-07-03');
