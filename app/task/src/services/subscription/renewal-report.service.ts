@@ -14,30 +14,32 @@ export async function statRenewalReport(date: string) {
         const periodNum = userSubscriptionOrderList.length;
 
         const skuInfo = await skuDao.getSkuById(orderInfo.skuId);
-        const firstSubscriptionOrder = userSubscriptionOrderList.reduce((min, item) => item.id < min.id ? item : min);
+        if (skuInfo) {
+            const firstSubscriptionOrder = userSubscriptionOrderList.reduce((min, item) => item.id < min.id ? item : min);
 
-        const reportDate = new Date((firstSubscriptionOrder.createTime + 8 * 3600) * 1000).toISOString().slice(0, 10);
-        const reportInfo = await subscriptionRenewalReportDao.getReportInfo({
-            date: reportDate,
-            productId: orderInfo.productId,
-            paymentChannel: orderInfo.paymentChannel as PaymentChannel,
-            paymentType: orderInfo.paymentType as PaymentType,
-            periodType: skuInfo.periodType as PeriodType,
-            periodNum: periodNum,
-        });
-
-        if (reportInfo) {
-            await subscriptionRenewalReportDao.updateReportDataById(reportInfo.id, { subscriptionNum: reportInfo.subscriptionNum + 1 });
-        } else {
-            await subscriptionRenewalReportDao.addNewReportData({
+            const reportDate = new Date((firstSubscriptionOrder.createTime + 8 * 3600) * 1000).toISOString().slice(0, 10);
+            const reportInfo = await subscriptionRenewalReportDao.getReportInfo({
                 date: reportDate,
                 productId: orderInfo.productId,
                 paymentChannel: orderInfo.paymentChannel as PaymentChannel,
                 paymentType: orderInfo.paymentType as PaymentType,
                 periodType: skuInfo.periodType as PeriodType,
                 periodNum: periodNum,
-                subscriptionNum: 1,
             });
+
+            if (reportInfo) {
+                await subscriptionRenewalReportDao.updateReportDataById(reportInfo.id, { subscriptionNum: reportInfo.subscriptionNum + 1 });
+            } else {
+                await subscriptionRenewalReportDao.addNewReportData({
+                    date: reportDate,
+                    productId: orderInfo.productId,
+                    paymentChannel: orderInfo.paymentChannel as PaymentChannel,
+                    paymentType: orderInfo.paymentType as PaymentType,
+                    periodType: skuInfo.periodType as PeriodType,
+                    periodNum: periodNum,
+                    subscriptionNum: 1,
+                });
+            }
         }
     }
 }
