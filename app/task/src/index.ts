@@ -11,7 +11,7 @@ const tasks = [
     schedule.scheduleJob('6 10,20 * * *', async () => { await schedulePayssionSubscriptionStatus() }),
     schedule.scheduleJob('6/10 * * * *', async () => { await schedulePayssionPaymentClose() }),
     schedule.scheduleJob('* * * * *', async () => { await scheduleSubscriptionOrderConfirm() }),
-    schedule.scheduleJob(Date.now(), async () => { await scheduleSubscriptionRenewalReport() }),
+    schedule.scheduleJob('0 10 * * *', async () => { await scheduleSubscriptionRenewalReport() }),
     // schedule.scheduleJob(Date.now(), async () => { await scheduleVideoUpload() }),
 ];
 
