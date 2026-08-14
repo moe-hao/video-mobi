@@ -14,8 +14,11 @@ export async function statRenewalReport(date: string) {
         const periodNum = userSubscriptionOrderList.length;
 
         const skuInfo = await skuDao.getSkuById(orderInfo.skuId);
+        const firstSubscriptionOrder = userSubscriptionOrderList.reduce((min, item) => item.id < min.id ? item : min);
+
+        const reportDate = new Date((firstSubscriptionOrder.createTime + 8 * 3600) * 1000).toISOString().slice(0, 10);
         const reportInfo = await subscriptionRenewalReportDao.getReportInfo({
-            date: date,
+            date: reportDate,
             productId: orderInfo.productId,
             paymentChannel: orderInfo.paymentChannel as PaymentChannel,
             paymentType: orderInfo.paymentType as PaymentType,
@@ -27,7 +30,7 @@ export async function statRenewalReport(date: string) {
             await subscriptionRenewalReportDao.updateReportDataById(reportInfo.id, { subscriptionNum: reportInfo.subscriptionNum + 1 });
         } else {
             await subscriptionRenewalReportDao.addNewReportData({
-                date: date,
+                date: reportDate,
                 productId: orderInfo.productId,
                 paymentChannel: orderInfo.paymentChannel as PaymentChannel,
                 paymentType: orderInfo.paymentType as PaymentType,
