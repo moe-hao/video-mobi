@@ -5,9 +5,10 @@ interface SingleDatePickerProps {
   className?: string;
   value: DateValue | null;
   onChange: (date: DateValue | null) => void;
+  clearable?: boolean;
 }
 
-export default function SingleDatePicker({ className = "w-72", value, onChange }: SingleDatePickerProps) {
+export default function SingleDatePicker({ className = "w-72", value, onChange, clearable = true }: SingleDatePickerProps) {
   return (
     <DatePicker
       aria-label="选择日期"
@@ -21,7 +22,7 @@ export default function SingleDatePicker({ className = "w-72", value, onChange }
           {(segment) => <DateField.Segment segment={segment} />}
         </DateField.Input>
         <DateField.Suffix>
-          {value && (
+          {clearable && value && (
             <button
               type="button"
               aria-label="Clear date"

@@ -124,6 +124,12 @@ export const routers: RouterItem[] = [
         element: loadable(() => import('../pages/report/daily')),
         isMenu: true,
       },
+      {
+        name: '续订统计',
+        path: '/report/subscription_renewal',
+        element: loadable(() => import('../pages/report/subscription-renewal')),
+        isMenu: true,
+      }
     ]
   },
   {

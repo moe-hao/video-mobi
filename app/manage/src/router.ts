@@ -9,7 +9,7 @@ import subscription from "./controllers/subscription";
 import product from "./controllers/product";
 import { authMiddleware } from "./middlewares/auth-middleware";
 import sku from "./controllers/sku";
-import adReportDaily from "./controllers/ad-report-daily";
+import report from "./controllers/report";
 import paymentOption from "./controllers/payment-option";
 import memberRetrieve from "./controllers/member-retrieve";
 
@@ -25,7 +25,7 @@ router.route('/order', order);
 router.route('/subscription', subscription);
 router.route('/product', product);
 router.route('/sku', sku);
-router.route('/report', adReportDaily);
+router.route('/report', report);
 router.route('/payment_option', paymentOption);
 router.route('/member_retrieve', memberRetrieve);
 

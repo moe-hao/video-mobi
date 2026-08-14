@@ -1,7 +1,7 @@
 import { Autocomplete, Label, Description, ListBox, EmptyState } from "@heroui/react";
 import { SkuPeriodType, SkuPeriodTypeName } from "@lib/common/consts/sku";
 
-export default function SubscriptionPeriodSelect({ className, value, onChange }: { className?: string, value: SkuPeriodType | "", onChange: (period: SkuPeriodType | '') => void }) {
+export default function SubscriptionPeriodSelect({ className, value, onChange, clearable = true }: { className?: string, value: SkuPeriodType | "", onChange: (period: SkuPeriodType | '') => void, clearable?: boolean }) {
     return (
         <Autocomplete
             aria-label="选择订阅周期"
@@ -15,7 +15,7 @@ export default function SubscriptionPeriodSelect({ className, value, onChange }:
             <Label />
             <Autocomplete.Trigger>
                 <Autocomplete.Value />
-                <Autocomplete.ClearButton />
+                {clearable && <Autocomplete.ClearButton />}
                 <Autocomplete.Indicator />
             </Autocomplete.Trigger>
             <Description />
