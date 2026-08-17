@@ -69,6 +69,7 @@ export interface ManageUserWatchHistoryItem {
     collectionName: string;
     epNum: number;
     collectionEpisodes: number;
+    isDeleted: number;
     createTime: string;
     updateTime: string;
 }

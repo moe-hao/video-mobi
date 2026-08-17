@@ -16,6 +16,19 @@ class HistoryDao {
         ).orderBy(desc(historyTable.updateTime)).limit(size).offset((page - 1) * size);
     }
 
+    async getHistoryPageByUserIdAll(userId: number, page: number, size: number): Promise<HistorySelect[]> {
+        return await this.conn.select().from(historyTable).where(
+            eq(historyTable.userId, userId)
+        ).orderBy(desc(historyTable.updateTime)).limit(size).offset((page - 1) * size);
+    }
+
+    async getHistoryCountByUserIdAll(userId: number): Promise<number> {
+        const [result] = await this.conn.select({ count: count() }).from(historyTable).where(
+            eq(historyTable.userId, userId)
+        );
+        return result.count;
+    }
+
     async getHistoryCountByUserId(userId: number): Promise<number> {
         const [result] = await this.conn.select({ count: count() }).from(historyTable).where(
             and(

@@ -70,8 +70,8 @@ class UserService {
 
     async getUserWatchHistory(req: ManageUserHistoryReq): Promise<ManageUserWatchHistoryResp> {
         const [historyList, historyTotal] = await Promise.all([
-            historyDao.getHistoryPageByUserId(req.userId, req.page, req.size),
-            historyDao.getHistoryCountByUserId(req.userId),
+            historyDao.getHistoryPageByUserIdAll(req.userId, req.page, req.size),
+            historyDao.getHistoryCountByUserIdAll(req.userId),
         ]);
 
         const collectionIds = historyList.map(item => item.collectionId);
@@ -86,6 +86,7 @@ class UserService {
                 collectionName: collectionIdToInfo.get(item.collectionId)?.name || '--',
                 epNum: item.epNum,
                 collectionEpisodes: collectionIdToInfo.get(item.collectionId)?.episodes || 0,
+                isDeleted: item.isDeleted,
                 createTime: formatUnixTime(item.createTime),
                 updateTime: formatUnixTime(item.updateTime),
             })),
