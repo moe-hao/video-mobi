@@ -16,13 +16,22 @@ export const OrderStatusList = [
     OrderStatus.Closed
 ];
 
+// export const OrderStatusName: Record<OrderStatus, string> = {
+//     [OrderStatus.Created]: '已创建',
+//     [OrderStatus.Pending]: '支付中',
+//     [OrderStatus.Paid]: '已支付',
+//     [OrderStatus.Completed]: '已完成',
+//     [OrderStatus.Failed]: '已失败',
+//     [OrderStatus.Closed]: '已关闭',
+// }
+
 export const OrderStatusName: Record<OrderStatus, string> = {
-    [OrderStatus.Created]: '已创建',
-    [OrderStatus.Pending]: '支付中',
-    [OrderStatus.Paid]: '已支付',
-    [OrderStatus.Completed]: '已完成',
-    [OrderStatus.Failed]: '已失败',
-    [OrderStatus.Closed]: '已关闭',
+    [OrderStatus.Created]: 'Created',
+    [OrderStatus.Pending]: 'Pending',
+    [OrderStatus.Paid]: 'Paid',
+    [OrderStatus.Completed]: 'Completed',
+    [OrderStatus.Failed]: 'Failed',
+    [OrderStatus.Closed]: 'Closed',
 }
 
 export const OrderFinalState = [OrderStatus.Completed, OrderStatus.Failed, OrderStatus.Closed];
