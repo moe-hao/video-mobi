@@ -30,15 +30,15 @@ export default function UserList() {
           <Table.Content aria-label="Team members" className="whitespace-nowrap">
             <Table.Header>
               <Table.Column isRowHeader>ID</Table.Column>
-              <Table.Column>编号</Table.Column>
-              <Table.Column>来源</Table.Column>
-              <Table.Column>用户名</Table.Column>
-              <Table.Column>邮箱</Table.Column>
-              <Table.Column>订阅状态</Table.Column>
-              <Table.Column>过期时间</Table.Column>
-              <Table.Column>金币余额</Table.Column>
-              <Table.Column>创建日期</Table.Column>
-              <Table.Column>更新日期</Table.Column>
+              <Table.Column>Business ID</Table.Column>
+              <Table.Column>Source</Table.Column>
+              <Table.Column>Username</Table.Column>
+              <Table.Column>Email</Table.Column>
+              <Table.Column>Subscription Status</Table.Column>
+              <Table.Column>Expire Time</Table.Column>
+              <Table.Column>Coin Num</Table.Column>
+              <Table.Column>Create Time</Table.Column>
+              <Table.Column>Update Time</Table.Column>
             </Table.Header>
             <Table.Body>
               {
