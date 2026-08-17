@@ -123,24 +123,24 @@ export default function OrderList() {
       </div>
       <div className="mb-4 space-y-3">
         <div className="flex items-center gap-2 flex-wrap">
-          <Input aria-label="搜索" variant="secondary" placeholder="搜索订单ID/编号" className="w-64" value={orderListReq.search} onChange={(e) => setOrderListReq({ ...orderListReq, search: e.target.value })} />
-          <OrderTypeSelect className="w-64" value={initialParams.orderType as SkuType | ''} onChange={(val) => setOrderListReq({ ...orderListReq, orderType: val })} />
-          <OrderStatusSelect className="w-64" value={orderListReq.status ? Number(orderListReq.status) as OrderStatus : ''} onChange={(status) => setOrderListReq({ ...orderListReq, status: status as string })} />
+          <Input aria-label="搜索" variant="secondary" placeholder="搜索订单ID/编号" className="w-72" value={orderListReq.search} onChange={(e) => setOrderListReq({ ...orderListReq, search: e.target.value })} />
+          <OrderTypeSelect className="w-72" value={initialParams.orderType as SkuType | ''} onChange={(val) => setOrderListReq({ ...orderListReq, orderType: val })} />
+          <OrderStatusSelect className="w-72" value={orderListReq.status ? Number(orderListReq.status) as OrderStatus : ''} onChange={(status) => setOrderListReq({ ...orderListReq, status: status as string })} />
           <DateRange className="w-72" defaultValue={initDateRange} onChange={setDateRange} />
           <Button variant="primary" size="sm" onClick={() => handleSearch(orderListReq)}>查询</Button>
           <Button variant={showAdvanced ? "primary" : "secondary"} size="sm" onClick={() => { const next = !showAdvanced; setShowAdvanced(next); changeSearchParams(orderListReq, next); }}>高级筛选</Button>
           <ColumnSettingsButton columns={ALL_COLUMNS} storageKey={STORAGE_KEY} onChange={setVisibleColumns} />
         </div>
         {showAdvanced && (
-        <div className="flex items-center gap-2 flex-wrap">
-          <Input aria-label="搜索用户" variant="secondary" placeholder="搜索用户ID" className="w-64" value={orderListReq.userId} onChange={(e) => setOrderListReq({ ...orderListReq, userId: e.target.value })} />
-          <Input aria-label="剧集编号" variant="secondary" placeholder="剧集编号" className="w-64" value={orderListReq.collectionBizId} onChange={(e) => setOrderListReq({ ...orderListReq, collectionBizId: e.target.value })} />
-          <Input aria-label="订阅期数" variant="secondary" placeholder="订阅期数" className="w-64" value={orderListReq.subscriptionCount} onChange={(e) => setOrderListReq({ ...orderListReq, subscriptionCount: e.target.value })} />
-          <ProductMultipleSelect className="w-72" value={selectedProductIds} onChange={(productIds) => { setSelectedProductIds(productIds); setOrderListReq({ ...orderListReq, productId: productIds.join(',') }) }} />
-          <SubscriptionChannelSelect className="w-64" value={orderListReq.channel as PaymentChannel | ''} onChange={(channel) => setOrderListReq({ ...orderListReq, channel })} />
-          <SubscriptionPeriodSelect className="w-64" value={orderListReq.subscriptionPeriod as SkuPeriodType | ''} onChange={(period) => setOrderListReq({ ...orderListReq, subscriptionPeriod: period })} />
-          <div className="flex-1"></div>
-        </div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <Input aria-label="搜索用户" variant="secondary" placeholder="搜索用户ID" className="w-72" value={orderListReq.userId} onChange={(e) => setOrderListReq({ ...orderListReq, userId: e.target.value })} />
+            <Input aria-label="剧集编号" variant="secondary" placeholder="剧集编号" className="w-72" value={orderListReq.collectionBizId} onChange={(e) => setOrderListReq({ ...orderListReq, collectionBizId: e.target.value })} />
+            <Input aria-label="订阅期数" variant="secondary" placeholder="订阅期数" className="w-72" value={orderListReq.subscriptionCount} onChange={(e) => setOrderListReq({ ...orderListReq, subscriptionCount: e.target.value })} />
+            <ProductMultipleSelect className="w-72" value={selectedProductIds} onChange={(productIds) => { setSelectedProductIds(productIds); setOrderListReq({ ...orderListReq, productId: productIds.join(',') }) }} />
+            <SubscriptionChannelSelect className="w-72" value={orderListReq.channel as PaymentChannel | ''} onChange={(channel) => setOrderListReq({ ...orderListReq, channel })} />
+            <SubscriptionPeriodSelect className="w-72" value={orderListReq.subscriptionPeriod as SkuPeriodType | ''} onChange={(period) => setOrderListReq({ ...orderListReq, subscriptionPeriod: period })} />
+            <div className="flex-1"></div>
+          </div>
         )}
       </div>
       <div className="relative">
@@ -164,7 +164,7 @@ export default function OrderList() {
                 {visibleColumns.has('orderType') && <Table.Column className="whitespace-nowrap">订单类型</Table.Column>}
                 {visibleColumns.has('subscriptionPeriod') && <Table.Column className="whitespace-nowrap">订阅周期</Table.Column>}
                 {visibleColumns.has('subscriptionCount') && <Table.Column className="whitespace-nowrap">订阅期数</Table.Column>}
-                {visibleColumns.has('channel') && <Table.Column className="whitespace-nowrap">支付渠道</Table.Column>}
+                {visibleColumns.has('paymentChennel') && <Table.Column className="whitespace-nowrap">支付渠道</Table.Column>}
                 {visibleColumns.has('paymentTypeName') && <Table.Column className="whitespace-nowrap">支付方式</Table.Column>}
                 {visibleColumns.has('orderStatus') && <Table.Column className="whitespace-nowrap">订单状态</Table.Column>}
                 {visibleColumns.has('collectionBizId') && <Table.Column className="whitespace-nowrap">剧集编号</Table.Column>}
