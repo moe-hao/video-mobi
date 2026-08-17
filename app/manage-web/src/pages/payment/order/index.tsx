@@ -209,7 +209,7 @@ export default function OrderList() {
                             </Tooltip.Content>
                           </Tooltip>
                         ) : (
-                          <span>金币</span>
+                          <span>Coin</span>
                         )}
                       </Table.Cell>
                     )}
