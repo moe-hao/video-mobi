@@ -43,3 +43,24 @@ export interface OrderListRespItem {
     updateTime: string;
 }
 
+
+export interface DisputeOrderResp {
+    id: number;
+    bizId: string;
+    paymentId: string;
+    userId: number;
+    userNo: string;
+    amount: string;
+    currency: string;
+    orderType: SkuType;
+    subscriptionId: number;
+    subscriptionCount: number;
+    subscriptionPeriod: string;
+    paymentChennel: string;
+    paymentType: PaymentType;
+    paymentTypeName: string;
+    orderStatus: OrderStatus;
+    orderStatusName: string;
+    createTime: string;
+    updateTime: string;
+}

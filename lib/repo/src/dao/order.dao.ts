@@ -238,6 +238,22 @@ class OrderDao {
         return result;
     }
 
+    async getDisputeOrderInfo(search: string): Promise<OrderSelect> {
+        const conditions = [];
+        if (search) {
+            const searchConditions = [];
+            if (!isNaN(Number(search))) {
+                searchConditions.push(eq(orderTable.id, Number(search)));
+            }
+            searchConditions.push(eq(orderTable.bizId, search));
+            searchConditions.push(eq(orderTable.paymentId, search));
+            conditions.push(or(...searchConditions));
+        }
+
+        const [result] = await this.conn.select().from(orderTable).where(and(...conditions)).orderBy(desc(orderTable.id));
+        return result;
+    }
+
     async updateOrderById(id: number, data: OrderInsert): Promise<void> {
         data.updateTime = currentTime();
         await this.conn.update(orderTable).set(data).where(

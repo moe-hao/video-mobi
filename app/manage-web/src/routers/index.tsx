@@ -80,6 +80,12 @@ export const routers: RouterItem[] = [
         element: loadable(() => import('../pages/payment/subscription')),
         isMenu: true,
       },
+      {
+        name: '争议证明',
+        path: '/payment/dispute',
+        element: loadable(() => import('../pages/payment/dispute')),
+        isMenu: true,
+      },
     ]
   },
   {

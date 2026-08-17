@@ -29,5 +29,12 @@ export const orderListReqSchema = z.object({
     subscriptionPeriod: z.string().default(''),
 });
 
+export const disputeOrderReqSchema = z.object({
+    search: z.string().default(''),
+}).refine((data) => data.search, {
+    message: "Search condition is required",
+});
+
 export type OrderCreateReq = z.infer<typeof orderCreateReqSchema>;
 export type OrderListReq = z.infer<typeof orderListReqSchema>;
+export type DisputeOrderReq = z.infer<typeof disputeOrderReqSchema>;

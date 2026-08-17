@@ -47,3 +47,43 @@ export interface UserCoinHistoryItem {
     commType: UnlockCommType;
     createTime: string;
 }
+
+export interface ManageUserDetailResp {
+    id: number;
+    bizId: string;
+    username: string;
+    email: string;
+    memberStatus: string;
+    expireTime: string;
+    coinNum: number;
+}
+
+export interface ManageUserWatchHistoryResp {
+    page: number;
+    size: number;
+    total: number;
+    list: ManageUserWatchHistoryItem[];
+}
+
+export interface ManageUserWatchHistoryItem {
+    collectionName: string;
+    epNum: number;
+    collectionEpisodes: number;
+    createTime: string;
+    updateTime: string;
+}
+
+export interface ManageUserCoinHistoryResp {
+    page: number;
+    size: number;
+    total: number;
+    list: ManageUserCoinHistoryItem[];
+}
+
+export interface ManageUserCoinHistoryItem {
+    coinNum: number;
+    commType: UnlockCommType;
+    collectionName: string;
+    epNum: number;
+    createTime: string;
+}
