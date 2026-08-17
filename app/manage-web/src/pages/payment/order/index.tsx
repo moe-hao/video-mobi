@@ -154,24 +154,24 @@ export default function OrderList() {
             <Table.Content aria-label="Team members" className="w-max min-w-full">
               <Table.Header>
                 {visibleColumns.has('id') && <Table.Column className="whitespace-nowrap">ID</Table.Column>}
-                {visibleColumns.has('bizId') && <Table.Column className="whitespace-nowrap" isRowHeader>Order Code</Table.Column>}
-                {visibleColumns.has('host') && <Table.Column className="whitespace-nowrap">Source</Table.Column>}
-                {visibleColumns.has('platfrom') && <Table.Column className="whitespace-nowrap">Platform</Table.Column>}
-                {visibleColumns.has('userId') && <Table.Column className="whitespace-nowrap">User ID</Table.Column>}
-                {visibleColumns.has('email') && <Table.Column className="whitespace-nowrap">Email</Table.Column>}
-                {visibleColumns.has('amount') && <Table.Column className="whitespace-nowrap">Payment Amount</Table.Column>}
-                {visibleColumns.has('dollar') && <Table.Column className="whitespace-nowrap">USD Amount</Table.Column>}
-                {visibleColumns.has('orderType') && <Table.Column className="whitespace-nowrap">Order Type</Table.Column>}
-                {visibleColumns.has('subscriptionPeriod') && <Table.Column className="whitespace-nowrap">Subscription Period</Table.Column>}
-                {visibleColumns.has('subscriptionCount') && <Table.Column className="whitespace-nowrap">Subscription Count</Table.Column>}
-                {visibleColumns.has('paymentChennel') && <Table.Column className="whitespace-nowrap">Payment Chennel</Table.Column>}
-                {visibleColumns.has('paymentTypeName') && <Table.Column className="whitespace-nowrap">Payment Type</Table.Column>}
-                {visibleColumns.has('orderStatus') && <Table.Column className="whitespace-nowrap">Order Status</Table.Column>}
-                {visibleColumns.has('collectionBizId') && <Table.Column className="whitespace-nowrap">Collection Code</Table.Column>}
-                {visibleColumns.has('collectionSourceName') && <Table.Column className="whitespace-nowrap">Origin Name</Table.Column>}
-                {visibleColumns.has('collectionName') && <Table.Column className="whitespace-nowrap">Translate Name</Table.Column>}
-                {visibleColumns.has('createTime') && <Table.Column className="whitespace-nowrap">Create Time</Table.Column>}
-                {visibleColumns.has('updateTime') && <Table.Column className="whitespace-nowrap">Update Time</Table.Column>}
+                {visibleColumns.has('bizId') && <Table.Column className="whitespace-nowrap" isRowHeader>编号</Table.Column>}
+                {visibleColumns.has('host') && <Table.Column className="whitespace-nowrap">来源</Table.Column>}
+                {visibleColumns.has('platfrom') && <Table.Column className="whitespace-nowrap">平台</Table.Column>}
+                {visibleColumns.has('userId') && <Table.Column className="whitespace-nowrap">用户ID</Table.Column>}
+                {visibleColumns.has('email') && <Table.Column className="whitespace-nowrap">邮箱</Table.Column>}
+                {visibleColumns.has('amount') && <Table.Column className="whitespace-nowrap">金额</Table.Column>}
+                {visibleColumns.has('dollar') && <Table.Column className="whitespace-nowrap">美元金额</Table.Column>}
+                {visibleColumns.has('orderType') && <Table.Column className="whitespace-nowrap">订单类型</Table.Column>}
+                {visibleColumns.has('subscriptionPeriod') && <Table.Column className="whitespace-nowrap">订阅周期</Table.Column>}
+                {visibleColumns.has('subscriptionCount') && <Table.Column className="whitespace-nowrap">订阅期数</Table.Column>}
+                {visibleColumns.has('channel') && <Table.Column className="whitespace-nowrap">支付渠道</Table.Column>}
+                {visibleColumns.has('paymentTypeName') && <Table.Column className="whitespace-nowrap">支付方式</Table.Column>}
+                {visibleColumns.has('orderStatus') && <Table.Column className="whitespace-nowrap">订单状态</Table.Column>}
+                {visibleColumns.has('collectionBizId') && <Table.Column className="whitespace-nowrap">剧集编号</Table.Column>}
+                {visibleColumns.has('collectionSourceName') && <Table.Column className="whitespace-nowrap">剧集原名</Table.Column>}
+                {visibleColumns.has('collectionName') && <Table.Column className="whitespace-nowrap">剧集译名</Table.Column>}
+                {visibleColumns.has('createTime') && <Table.Column className="whitespace-nowrap">创建时间</Table.Column>}
+                {visibleColumns.has('updateTime') && <Table.Column className="whitespace-nowrap">更新时间</Table.Column>}
               </Table.Header>
               <Table.Body>
                 {orderListState.list?.map((item) => (
@@ -199,8 +199,7 @@ export default function OrderList() {
                       <Table.Cell className="whitespace-nowrap">
                         {item.orderType === SkuType.Subscription ? (
                           <Tooltip delay={0} >
-                            {/* <Link>{item.orderType === SkuType.Subscription ? '订阅' : '金币'}</Link> */}
-                            <Link>{item.orderType === SkuType.Subscription ? 'Subscription' : 'Coin'}</Link>
+                            <Link>{item.orderType === SkuType.Subscription ? '订阅' : '金币'}</Link>
                             <Tooltip.Content placement="right">
                               <div className="flex items-center gap-2">
                                 <span className="text-muted-foreground font-medium flex-shrink-0">订阅id:</span>
@@ -209,7 +208,7 @@ export default function OrderList() {
                             </Tooltip.Content>
                           </Tooltip>
                         ) : (
-                          <span>Coin</span>
+                          <span>金币</span>
                         )}
                       </Table.Cell>
                     )}

@@ -14,16 +14,10 @@ export enum SkuPeriodType {
     Year = "Y",
 }
 
-// export const SkuPeriodTypeName = {
-//     [SkuPeriodType.Week]: "周",
-//     [SkuPeriodType.Month]: "月",
-//     [SkuPeriodType.Year]: "年",
-// }
-
 export const SkuPeriodTypeName = {
-    [SkuPeriodType.Week]: "Week",
-    [SkuPeriodType.Month]: "Month",
-    [SkuPeriodType.Year]: "Year",
+    [SkuPeriodType.Week]: "周",
+    [SkuPeriodType.Month]: "月",
+    [SkuPeriodType.Year]: "年",
 }
 
 export const SkuPeriodTypeToPayssionPeriodType = {
