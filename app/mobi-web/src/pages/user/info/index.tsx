@@ -72,11 +72,11 @@ export default function UserInfo() {
                     <div className="flex flex-1 items-center gap-4 min-w-0">
                       <div className="flex flex-1 flex-col gap-1 min-w-0">
                         <h2 className="text-lg font-bold text-white tracking-wider">{userMemberInfoState.coinNum}</h2>
-                        <img src="https://i.bluearcshow.com/images/right-001.png" alt="icon" className="size-5" />
+                        <img src="https://s03.bluearcshow.com/images/right-001.png" alt="icon" className="size-5" />
                       </div>
                     </div>
                   </div>
-                  <img src="https://i.bluearcshow.com/images/coin.png" alt="coin" className="absolute -bottom-0.5 right-1 size-13" />
+                  <img src="https://s03.bluearcshow.com/images/coin.png" alt="coin" className="absolute -bottom-0.5 right-1 size-13" />
                 </div>
               ) : null}
             </div>
@@ -84,7 +84,7 @@ export default function UserInfo() {
               {productInfo?.coinUnlock ? (
                 <button className="w-full flex items-center gap-3 px-0 py-3 bg-transparent border-none cursor-pointer text-white" onClick={() => navigate('/user/coin')}>
                   <div className="flex items-start justify-center pt-px">
-                    <img src="https://i.bluearcshow.com/images/wallet.png" alt="wallet" className="size-6" />
+                    <img src="https://s03.bluearcshow.com/images/wallet.png" alt="wallet" className="size-6" />
                   </div>
                   <div className="flex flex-col flex-1 text-left text-sm">{t('coin-history')}</div>
                   <ChevronRight className="size-4 shrink-0 text-white/50" />
@@ -92,21 +92,21 @@ export default function UserInfo() {
               ) : null}
               <button className="w-full flex items-center gap-3 px-0 py-3 bg-transparent border-none cursor-pointer text-white" onClick={() => navigate('/user/feedback')}>
                 <div className="flex items-start justify-center pt-px">
-                  <img src="https://i.bluearcshow.com/images/pencil.png" alt="feedback" className="size-6" />
+                  <img src="https://s03.bluearcshow.com/images/pencil.png" alt="feedback" className="size-6" />
                 </div>
                 <div className="flex flex-col flex-1 text-left text-sm">{t('feedback')}</div>
                 <ChevronRight className="size-4 shrink-0 text-white/50" />
               </button>
               <button className="w-full flex items-center gap-3 px-0 py-3 bg-transparent border-none cursor-pointer text-white" onClick={() => { window.location.href = '/terms/terms-of-service.html'; }}>
                 <div className="flex items-start justify-center pt-px">
-                  <img src="https://i.bluearcshow.com/images/terms.png" alt="terms" className="size-6" />
+                  <img src="https://s03.bluearcshow.com/images/terms.png" alt="terms" className="size-6" />
                 </div>
                 <div className="flex flex-col flex-1 text-left text-sm">{t('terms')}</div>
                 <ChevronRight className="size-4 shrink-0 text-white/50" />
               </button>
               <button className="w-full flex items-center gap-3 px-0 py-3 bg-transparent border-none cursor-pointer text-white" onClick={() => { window.location.href = '/terms/privacy-policy.html'; }}>
                 <div className="flex items-start justify-center pt-px">
-                  <img src="https://i.bluearcshow.com/images/privacy.png" alt="privacy" className="size-6" />
+                  <img src="https://s03.bluearcshow.com/images/privacy.png" alt="privacy" className="size-6" />
                 </div>
                 <div className="flex flex-col flex-1 text-left text-sm">{t('privacy')}</div>
                 <ChevronRight className="size-4 shrink-0 text-white/50" />

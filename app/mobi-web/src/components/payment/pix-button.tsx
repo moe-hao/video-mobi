@@ -31,7 +31,7 @@ export default function PixButton({ onSubmit }: PixButtonProps) {
         className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative flex items-center justify-start border-none cursor-pointer"
         onClick={() => setIsOpen(true)}
       >
-        <img src="https://i.bluearcshow.com/images/PIX_BR.png" alt="Pix" className="w-8" />
+        <img src="https://s03.bluearcshow.com/images/PIX_BR.png" alt="Pix" className="w-8" />
         <span className="ml-2">
           Pix
         </span>
