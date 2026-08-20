@@ -31,7 +31,7 @@ export async function scheduleAdReportWeek() {
     logger.info('[End Run]: scheduleAdReportWeek');
 }
 
-export async function scheduleAdReport(date: string) {
+export async function scheduleAdReport() {
     const dateList = [
         '2026-08-19',
         '2026-08-20',
