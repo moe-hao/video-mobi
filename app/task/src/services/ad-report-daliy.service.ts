@@ -276,4 +276,9 @@ export const adReportDailyService = {
         await syncFacebookAdReport(week);
         await syncTikTokAdReport(week);
     },
+
+    asyncAdReport: async (date: string) => {
+        await syncFacebookAdReport(date);
+        await syncTikTokAdReport(date);
+    }
 }
