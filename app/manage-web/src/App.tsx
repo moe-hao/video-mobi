@@ -30,7 +30,7 @@ export default function App() {
               🌟 Red BlinBlin 后台管理
             </div>
             <div>
-              <Menu accordion={false} />
+              <Menu accordion={true} />
             </div>
             <div className="flex-1"></div>
             <div className="flex items-center gap-3 p-2">

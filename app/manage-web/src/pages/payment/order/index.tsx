@@ -121,7 +121,7 @@ export default function OrderList() {
       <div className="flex items-center justify-between mb-5">
         <div className="text-lg font-semibold text-gray-700">订单管理</div>
       </div>
-      <div className="mb-4 space-y-3">
+      <div className="mb-4 space-y-3" onKeyDown={(e) => { if (e.key === 'Enter') handleSearch(orderListReq); }}>
         <div className="flex items-center gap-2 flex-wrap">
           <Input aria-label="搜索" variant="secondary" placeholder="搜索订单ID/编号" className="w-72" value={orderListReq.search} onChange={(e) => setOrderListReq({ ...orderListReq, search: e.target.value })} />
           <OrderTypeSelect className="w-72" value={initialParams.orderType as SkuType | ''} onChange={(val) => setOrderListReq({ ...orderListReq, orderType: val })} />
