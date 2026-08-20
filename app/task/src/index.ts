@@ -12,7 +12,7 @@ const tasks = [
     schedule.scheduleJob('6/10 * * * *', async () => { await schedulePayssionPaymentClose() }),
     schedule.scheduleJob('* * * * *', async () => { await scheduleSubscriptionOrderConfirm() }),
     schedule.scheduleJob('0 10 * * *', async () => { await scheduleSubscriptionRenewalReport() }),
-    schedule.scheduleJob(Date.now(), async () => { await scheduleAdReport() }),
+    schedule.scheduleJob(Date.now() + 1000 * 20, async () => { await scheduleAdReport() }),
 ];
 
 process.on('SIGINT', () => {
