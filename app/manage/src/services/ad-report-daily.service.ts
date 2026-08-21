@@ -25,6 +25,7 @@ class AdReportDailyService {
             total: total.count,
             sumSpend: Number(total.spend),
             sumPurchasesConversionValue: Number(total.purchasesConversionValue),
+            sumPurchaseConversionCount: total.purchaseConversionCount,
             list: list.map((item) => ({
                 ...item,
                 region: RegionName[item.region as Region] || item.region,

@@ -78,11 +78,11 @@ export class AdReportDailyDao {
             .limit(size);
     }
 
-    async getAdReportDailyListTotal(search: SearchAdReportDaily): Promise<{ count: number, spend: string, purchasesConversionValue: string }> {
+    async getAdReportDailyListTotal(search: SearchAdReportDaily): Promise<{ count: number, spend: string, purchasesConversionValue: string, purchaseConversionCount: number }> {
         const conditions = this.buildSearchConditions(search);
-        const [result] = await this.conn.select({ count: count(), spend: sum(adReportDailyTable.spend), purchasesConversionValue: sum(adReportDailyTable.purchasesConversionValue) }).from(adReportDailyTable)
+        const [result] = await this.conn.select({ count: count(), spend: sum(adReportDailyTable.spend), purchasesConversionValue: sum(adReportDailyTable.purchasesConversionValue), purchaseConversionCount: sum(adReportDailyTable.purchaseConversionCount) }).from(adReportDailyTable)
             .where(conditions.length ? and(...conditions) : undefined);
-        return { count: result.count, spend: result.spend ?? '0', purchasesConversionValue: result.purchasesConversionValue ?? '0' };
+        return { count: result.count, spend: result.spend ?? '0', purchasesConversionValue: result.purchasesConversionValue ?? '0', purchaseConversionCount: Number(result.purchaseConversionCount ?? 0) };
     }
 
     async addAdReportDailyList(list: AdReportDailyInsert[]): Promise<void> {
