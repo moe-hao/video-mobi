@@ -41,4 +41,5 @@ export interface AdReportDailySummaryResp {
     spend: string;
     purchasesConversionValue: string;
     purchaseRoas: string;
+    purchaseConversionCount: number;
 }

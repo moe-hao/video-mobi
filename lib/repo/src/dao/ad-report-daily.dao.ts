@@ -114,6 +114,7 @@ export class AdReportDailyDao {
             .select({
                 spend: sum(adReportDailyTable.spend),
                 purchasesConversionValue: sum(adReportDailyTable.purchasesConversionValue),
+                purchaseConversionCount: sum(adReportDailyTable.purchaseConversionCount),
             }).from(adReportDailyTable).where(and(...conditions));
         return result;
     }

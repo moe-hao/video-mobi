@@ -6,7 +6,7 @@ import SingleDatePicker from "@app/manage-web/components/date-picker";
 import SummaryCard from "./summary-card";
 import type { AdReportDailySummaryResp } from "@lib/common/dto/ad-report-daily";
 
-const emptySummary: AdReportDailySummaryResp = { spend: '', purchasesConversionValue: '', purchaseRoas: '' };
+const emptySummary: AdReportDailySummaryResp = { spend: '', purchasesConversionValue: '', purchaseRoas: '', purchaseConversionCount: 0 };
 
 export default function Dashboard() {
   const { fetchAdReportDailySummary } = useAdReportDailySummaryState();
@@ -76,10 +76,11 @@ function SummarySection({ title, summary, hasData }: { title: string; summary: A
     <div>
       <div className="text-sm font-medium text-gray-600 mb-2">{title}</div>
       {hasData ? (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-4 gap-4">
           <SummaryCard label="总花费" value={`$${Number(summary.spend).toLocaleString()}`} />
           <SummaryCard label="总购物转化价值" value={`$${Number(summary.purchasesConversionValue).toLocaleString()}`} />
           <SummaryCard label="ROAS" value={summary.purchaseRoas} />
+          <SummaryCard label="平均购物转化成本" value={`$${summary.purchaseConversionCount ? (Number(summary.spend) / summary.purchaseConversionCount).toFixed(2) : '0.00'}`} />
         </div>
       ) : (
         <div className="text-sm text-gray-400">暂无数据</div>
