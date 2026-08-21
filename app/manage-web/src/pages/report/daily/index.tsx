@@ -133,7 +133,7 @@ export default function AdReportDailyList() {
         <div>总花费: <span className="font-semibold">${Number(adReportDailyListState?.sumSpend ?? 0).toFixed(2)}</span></div>
         <div>总购物转化价值: <span className="font-semibold">${Number(adReportDailyListState?.sumPurchasesConversionValue ?? 0).toFixed(2)}</span></div>
         <div>总ROAS: <span className="font-semibold">{(Number(adReportDailyListState?.sumPurchasesConversionValue ?? 0) / Number(adReportDailyListState?.sumSpend || 1)).toFixed(6)}</span></div>
-        <div>平均量: <span className="font-semibold">${Number(adReportDailyListState?.sumPurchaseConversionCount ?? 0)}</span></div>
+        <div>转化次数: <span className="font-semibold">{Number(adReportDailyListState?.sumPurchaseConversionCount ?? 0)}</span></div>
         <div>平均购物转化成本: <span className="font-semibold">${adReportDailyListState?.sumPurchaseConversionCount ? (Number(adReportDailyListState?.sumSpend ?? 0) / adReportDailyListState.sumPurchaseConversionCount).toFixed(2) : '0.00'}</span></div>
       </div>
       <div className="flex items-center gap-4 mb-4">
