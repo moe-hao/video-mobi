@@ -1,5 +1,6 @@
 import { logger } from '@lib/internal/logger';
 import { adReportDailyService } from '../services/ad-report-daliy.service';
+import { format, addDays } from "date-fns";
 
 export async function scheduleAdReportDaily() {
     logger.info('[Start Run]: scheduleAdReportDaily');
@@ -32,18 +33,11 @@ export async function scheduleAdReportWeek() {
 }
 
 export async function scheduleAdReport() {
-    const dateList = [
-        '2026-08-19',
-        '2026-08-20',
-    ];
-
     logger.info('[Start Run]: scheduleAdReport');
-    try {
-        for (const date of dateList) {
-            await adReportDailyService.asyncAdReport(date);
-        }
-    } catch (error) {
-        logger.error(`[Failed] ${error}`);
+    let date = new Date('2026-06-24T00:00:00+08:00');
+    while (format(date, 'yyyy-MM-dd') !== '2026-08-21') {
+        await adReportDailyService.asyncAdReport(format(date, 'yyyy-MM-dd'));
+        date = addDays(date, 1);
     }
     logger.info('[End Run]: scheduleAdReport');
 }
