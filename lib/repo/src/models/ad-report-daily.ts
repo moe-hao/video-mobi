@@ -15,7 +15,7 @@ export const adReportDailyTable = mysqlTable("ad_report_daily", {
     region: varchar("region", { length: 10 }).notNull().default(''),
     spend: decimal("spend", { precision: 10, scale: 2 }).notNull().default('0.00'),
     impressions: int("impressions").notNull().default(0),
-    clicks: int("clicks").notNull().default(0),
+    purchaseConversionCount: int("purchase_conversion_count").notNull().default(0),
     cpm: decimal("cpm", { precision: 10, scale: 6 }).notNull().default('0.000000'),
     clicksNum: int("clicks_num").notNull().default(0),
     cpc: decimal("cpc", { precision: 10, scale: 6 }).notNull().default('0.000000'),

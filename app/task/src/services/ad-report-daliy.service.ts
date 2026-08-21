@@ -21,6 +21,7 @@ const fields = [
     AdsInsights.Fields.inline_link_clicks, // 链接点击量
     AdsInsights.Fields.cpc, // 单次点击费用
     AdsInsights.Fields.ctr, // 点击率
+    AdsInsights.Fields.actions, // 转化数量
     AdsInsights.Fields.video_p25_watched_actions, // 视频播放进度 25%
     AdsInsights.Fields.video_p50_watched_actions, // 视频播放进度 50%
     AdsInsights.Fields.video_p100_watched_actions, // 视频播放进度 100%
@@ -67,7 +68,7 @@ const tikTokAdvertiserIds = [
     '7675264825819365383',
 ];
 
-async function syncFacebookAdReport(date: string) {
+export async function syncFacebookAdReport(date: string) {
     FacebookAdsApi.init(config.FbBusinessAccessToken);
 
     for (const adAccountId of adAccountIds) {
@@ -119,6 +120,7 @@ async function syncFacebookAdReport(date: string) {
                     impressions: item.impressions,
                     spend: item.spend,
                     purchaseRoas: item.purchase_roas?.[0]?.value,
+                    purchaseConversionCount: item.actions?.find((v: any) => v.action_type === 'purchase')?.value,
                     purchasesConversionValue: item.action_values?.find((v: any) => v.action_type === 'purchase')?.value,
                     videoP25: item.video_p25_watched_actions?.[0]?.value,
                     videoP50: item.video_p50_watched_actions?.[0]?.value,
@@ -216,7 +218,8 @@ export async function syncTikTokAdReport(date: string) {
                         region: item.dimensions.country_code,
                         spend: item.metrics.spend,
                         impressions: Number(item.metrics.impressions),
-                        clicks: Number(item.metrics.clicks),
+                        clicksNum: Number(item.metrics.clicks),
+                        purchaseConversionCount: Number(item.metrics.conversion),
                         cpm: item.metrics.cpm,
                         cpc: item.metrics.cpc,
                         ctr: item.metrics.ctr,
