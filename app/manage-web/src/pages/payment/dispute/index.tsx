@@ -121,11 +121,12 @@ export default function Dispute() {
             {activeTab === 'watch' && (
               <DataTable
                 emptyText="No watch history"
-                columns={['Collection', 'Episode', 'Total Episodes', 'Status', 'Update Time']}
+                columns={['Collection', 'Episode', 'Total Episodes', 'Cut Point', 'Status', 'Update Time']}
                 rows={watchHistoryState.list?.map((item) => [
                   item.collectionName,
                   `Ep ${item.epNum}`,
                   `${item.collectionEpisodes} eps`,
+                  `${item.cutPoint} eps`,
                   item.isDeleted ? <span key="del" className="text-red-500">Deleted</span> : <span key="ok" className="text-green-600">Normal</span>,
                   item.updateTime,
                 ])}

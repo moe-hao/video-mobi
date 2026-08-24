@@ -86,6 +86,7 @@ class UserService {
                 collectionName: collectionIdToInfo.get(item.collectionId)?.name || '--',
                 epNum: item.epNum,
                 collectionEpisodes: collectionIdToInfo.get(item.collectionId)?.episodes || 0,
+                cutPoint: collectionIdToInfo.get(item.collectionId)?.cutPoint || 0,
                 isDeleted: item.isDeleted,
                 createTime: formatUnixTime(item.createTime),
                 updateTime: formatUnixTime(item.updateTime),
