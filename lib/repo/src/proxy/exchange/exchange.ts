@@ -3,10 +3,6 @@ import { logger } from "@lib/internal/logger";
 import { exchangeRedis } from "@lib/repo/redis/exchange";
 
 class ExchangeProxy {
-    constructor() {
-
-    }
-
     async getExchangeRate(base: string, target: string): Promise<number> {
         const cacheRateData = await exchangeRedis.getExchangeRate(base, target);
         if (cacheRateData) {
