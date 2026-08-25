@@ -226,6 +226,16 @@ class OrderDao {
         );
     }
 
+    async getOrderListByTimeRange(status: number, startTime: number, endTime: number): Promise<OrderSelect[]> {
+        return await this.conn.select().from(orderTable).where(
+            and(
+                eq(orderTable.orderStatus, status),
+                gte(orderTable.createTime, startTime),
+                lte(orderTable.createTime, endTime)
+            )
+        );
+    }
+
     async getOrderCountByUserIdAndSubscriptionId(userId: number, subscriptionId: number, eTime: number): Promise<OrderSelect[]> {
         const result = await this.conn.select().from(orderTable).where(
             and(
