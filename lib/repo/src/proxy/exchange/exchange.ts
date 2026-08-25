@@ -11,6 +11,7 @@ class ExchangeProxy {
 
         logger.info(`ExchangeProxy.getExchangeRate: use api, ${base} -> ${target}`);
         const resp = await fetch(`https://v6.exchangerate-api.com/v6/abfd0efcbdd12f2b49acd998/pair/${base}/${target}`);
+        logger.info(`ExchangeProxy.getExchangeRate: use api, ${base} -> ${target}, ${JSON.stringify(resp)}`);
         const data = await resp.json();
         exchangeRedis.setExchangeRate(base, target, data.conversion_rate);
         return data.conversion_rate;
