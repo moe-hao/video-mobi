@@ -6,10 +6,10 @@ import { OrderStatus, OrderStatusName } from "@lib/common/consts/order";
 import { formatUnixTime } from "@lib/common/utils/time";
 import { productDao } from "@lib/repo/dao/product.dao";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
-import { exchangeProxy } from "@lib/repo/proxy/exchange/exchange";
 import type { SkuType } from "@lib/common/consts/sku";
 import { SkuPeriodTypeName, type SkuPeriodType } from "@lib/common/consts/sku";
 import { skuDao } from "@lib/repo/dao/sku.dao";
+import { antomProxy } from "@lib/repo/proxy/payment/antom";
 
 export async function getOrderList(req: OrderListReq): Promise<OrderListResp> {
     // 如果有订阅周期筛选，先查询符合条件的 SKU ID
@@ -75,7 +75,7 @@ export async function getOrderList(req: OrderListReq): Promise<OrderListResp> {
 
         if (!exchangeRateMap.has(item.currency)) {
             if (item.currency) {
-                exchangeRateMap.set(item.currency, await exchangeProxy.getExchangeRate(item.currency, 'USD'));
+                exchangeRateMap.set(item.currency, await antomProxy.getExchangeRate(item.currency, 'USD'));
             }
         }
     }
