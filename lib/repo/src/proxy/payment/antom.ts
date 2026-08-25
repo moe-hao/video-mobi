@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import config from "@lib/internal/config";
 import { readFileSync } from "fs";
-import type { CancelSubscriptionResp, CreateSubscriptionResp } from "./antom.interface";
+import type { CancelSubscriptionResp, CreateSubscriptionResp, GetExchangeRateResp } from "./antom.interface";
 import { logger } from "@lib/internal/logger";
 import type { SkuSelect } from "@lib/repo/models/sku";
 import { SkuPeriodType, SkuPeriodTypeToAntomPeriodType, SkuType } from "@lib/common/consts/sku";
@@ -137,6 +137,18 @@ class AntomProxy {
         if (result.result.resultStatus !== 'S') {
             throw new InternalException(ResultCode.OperationFailed.code, result.result.resultMessage);
         }
+    }
+
+    async getExchangeRate(base: string, target: string): Promise<number> {
+        const data = {
+            buyCurrency: target,
+            sellCurrency: base,
+            rateType: 'REFERENCE_TRADE',
+            productCode: 'CASHIER_PAYMENT'
+        }
+        const result = await this.request<GetExchangeRateResp>('/v1/payments/inquireExchangeRate', JSON.stringify(data));
+        const [rateInfo] = result.paymentQuotes;
+        return rateInfo.exchangeRate;
     }
 }
 

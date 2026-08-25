@@ -9,3 +9,12 @@ export interface CancelSubscriptionResp {
         resultMessage: string,
     }
 }
+
+export interface GetExchangeRateResp {
+    paymentQuotes: {
+        exchangeRate: number,
+    }[],
+    result: {
+        resultCode: string,
+    }
+}
