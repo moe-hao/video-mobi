@@ -12,7 +12,6 @@ const tasks = [
     schedule.scheduleJob('* * * * *', async () => { await scheduleSubscriptionOrderConfirm() }),
     schedule.scheduleJob('0 10 * * *', async () => { await scheduleSubscriptionRenewalReport() }),
     schedule.scheduleJob(Date.now() + 1000 * 20, async () => { await scheduleTtvReport() }),
-
     // schedule.scheduleJob(Date.now() + 1000 * 20, async () => { await scheduleAdReport() }),
 ];
 
