@@ -55,15 +55,33 @@ export async function scheduleSubscriptionRenewalReport() {
 export async function scheduleTtvReport() {
     logger.info('[Start Run] scheduleTtvReport');
     try {
-        await calculateLTtvReport("2026-06-26");
-        await calculateLTtvReport("2026-06-27");
-        await calculateLTtvReport("2026-06-28");
-        await calculateLTtvReport("2026-06-29");
-        await calculateLTtvReport("2026-06-30");
-        await calculateLTtvReport("2026-07-01");
-        await calculateLTtvReport("2026-07-02");
-        await calculateLTtvReport("2026-07-03");
-        await calculateLTtvReport("2026-07-04");
+        await calculateLTtvReport("2026-07-05");
+        await calculateLTtvReport("2026-07-06");
+        await calculateLTtvReport("2026-07-07");
+        await calculateLTtvReport("2026-07-08");
+        await calculateLTtvReport("2026-07-09");
+        await calculateLTtvReport("2026-07-10");
+        await calculateLTtvReport("2026-07-11");
+        await calculateLTtvReport("2026-07-12");
+        await calculateLTtvReport("2026-07-13");
+        await calculateLTtvReport("2026-07-14");
+        await calculateLTtvReport("2026-07-15");
+        await calculateLTtvReport("2026-07-16");
+        await calculateLTtvReport("2026-07-17");
+        await calculateLTtvReport("2026-07-18");
+        await calculateLTtvReport("2026-07-19");
+        await calculateLTtvReport("2026-07-20");
+        await calculateLTtvReport("2026-07-21");
+        await calculateLTtvReport("2026-07-22");
+        await calculateLTtvReport("2026-07-23");
+        await calculateLTtvReport("2026-07-24");
+        await calculateLTtvReport("2026-07-25");
+        await calculateLTtvReport("2026-07-26");
+        await calculateLTtvReport("2026-07-27");
+        await calculateLTtvReport("2026-07-28");
+        await calculateLTtvReport("2026-07-29");
+        await calculateLTtvReport("2026-07-30");
+        await calculateLTtvReport("2026-07-31");
     } catch (error) {
         logger.error(`[Failed] scheduleTtvReport: ${error}`);
     }
