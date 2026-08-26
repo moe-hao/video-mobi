@@ -4,10 +4,11 @@ import { and, eq } from "drizzle-orm";
 import { currentTime } from "@lib/common/utils/time";
 
 type LtvReportSearch = {
-    date: string;
+    startDate: string;
     productId: number;
     paymentChannel: string;
     paymentType: string;
+    day: number;
 };
 
 class LtvReportDao {
@@ -16,10 +17,11 @@ class LtvReportDao {
     async getReport(search: LtvReportSearch): Promise<LtvReportSelect> {
         const [result] = await this.conn.select().from(ltvReportTable).where(
             and(
-                eq(ltvReportTable.date, search.date),
+                eq(ltvReportTable.startDate, search.startDate),
                 eq(ltvReportTable.productId, search.productId),
                 eq(ltvReportTable.paymentChannel, search.paymentChannel),
                 eq(ltvReportTable.paymentType, search.paymentType),
+                eq(ltvReportTable.day, search.day),
             )
         );
         return result;
@@ -30,6 +32,13 @@ class LtvReportDao {
         report.updateTime = currentTime();
         const [result] = await this.conn.insert(ltvReportTable).values(report);
         return result.insertId;
+    }
+
+    async updateReport(id: number, data: LtvReportInsert): Promise<void> {
+        data.updateTime = currentTime();
+        await this.conn.update(ltvReportTable).set(data).where(
+            eq(ltvReportTable.id, id),
+        );
     }
 }
 

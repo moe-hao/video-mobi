@@ -1,0 +1,71 @@
+import { logger } from "@lib/internal/logger";
+import { statRenewalReport } from "../services/subscription/renewal-report.service";
+import { format, addDays } from "date-fns";
+import { adReportDailyService } from "../services/ad-report-daliy.service";
+import { calculateLTtvReport } from "../services/ltv.service";
+
+export async function scheduleAdReportDaily() {
+    logger.info('[Start Run]: scheduleAdReportDaily');
+    try {
+        await adReportDailyService.asyncAdReportDaily();
+    } catch (error) {
+        logger.error(`[Failed] ${error}`);
+    }
+    logger.info('[End Run]: scheduleAdReportDaily');
+}
+
+export async function scheduleAdReportYesterday() {
+    logger.info('[Start Run]: scheduleAdReportYesterday');
+    try {
+        await adReportDailyService.asyncAdReportYesterday();
+    } catch (error) {
+        logger.error(`[Failed] ${error}`);
+    }
+    logger.info('[End Run]: scheduleAdReportYesterday');
+}
+
+export async function scheduleAdReportWeek() {
+    logger.info('[Start Run]: scheduleAdReportWeek');
+    try {
+        await adReportDailyService.asyncAdReportWeek();
+    } catch (error) {
+        logger.error(`[Failed] ${error}`);
+    }
+    logger.info('[End Run]: scheduleAdReportWeek');
+}
+
+export async function scheduleAdReport() {
+    logger.info('[Start Run]: scheduleAdReport');
+    await adReportDailyService.asyncAdReport("2026-07-01");
+    logger.info('[End Run]: scheduleAdReport');
+}
+
+export async function scheduleSubscriptionRenewalReport() {
+    logger.info('[Start Run] scheduleSubscriptionRenewalReport');
+    try {
+        const date = format(addDays(new Date(), -1), 'yyyy-MM-dd');
+        logger.info(`[Run] scheduleSubscriptionRenewalReport: ${date}`);
+        await statRenewalReport(date);
+    } catch (error) {
+        logger.error(`[Failed] scheduleSubscriptionRenewalReport: ${error}`);
+    }
+    logger.info('[End Run] scheduleSubscriptionRenewalReport');
+}
+
+export async function scheduleTtvReport() {
+    logger.info('[Start Run] scheduleTtvReport');
+    try {
+        await calculateLTtvReport("2026-06-26");
+        await calculateLTtvReport("2026-06-27");
+        await calculateLTtvReport("2026-06-28");
+        await calculateLTtvReport("2026-06-29");
+        await calculateLTtvReport("2026-06-30");
+        await calculateLTtvReport("2026-07-01");
+        await calculateLTtvReport("2026-07-02");
+        await calculateLTtvReport("2026-07-03");
+        await calculateLTtvReport("2026-07-04");
+    } catch (error) {
+        logger.error(`[Failed] scheduleTtvReport: ${error}`);
+    }
+    logger.info('[End Run] scheduleTtvReport');
+}
