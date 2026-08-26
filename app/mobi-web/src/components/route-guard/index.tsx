@@ -18,22 +18,6 @@ const bottomTabs = [
 
 const showTabPath = ['/', '/history/list', '/user/info'];
 
-const logoConfig: Record<string, string> = {
-  'bluearcshow.com': 'https://s03.bluearcshow.com/video_cover/logo-title-01.webp',
-  'vividarcshow.com': 'https://s03.bluearcshow.com/video_cover/vividarcshow.png',
-};
-
-const defaultLogo = logoConfig['bluearcshow.com'];
-
-function getLogoByDomain(): string {
-  if (typeof window === 'undefined') return defaultLogo;
-  const hostname = window.location.hostname;
-  for (const [domain, logo] of Object.entries(logoConfig)) {
-    if (hostname.endsWith(domain)) return logo;
-  }
-  return defaultLogo;
-}
-
 export default function RouteGuard() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -79,9 +63,17 @@ export default function RouteGuard() {
       <div className="flex flex-col flex-1">
         {showTabPath.includes(location.pathname) && (
           <div className="fixed top-0 left-0 right-0 flex items-center justify-between backdrop-blur-sm bg-black/30 z-50 p-[12px] pl-4">
-            <div className="flex items-center gap-2 p-[2px]">
-              <img src={getLogoByDomain()} alt="logo" width={100} height={22} />
-            </div>
+            {
+              window.location.hostname.endsWith('bluearcshow.com') ? (
+                <div className="flex items-center gap-2 p-[2px]">
+                  <img alt="logo" width={100} height={22} src="https://s03.bluearcshow.com/video_cover/logo-title-01.webp" />
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <img alt="logo" width={32} height={22} src="https://s03.bluearcshow.com/video_cover/20260826-171700.png" />
+                </div>
+              )
+            }
           </div>
         )}
         <div className="flex-1 overflow-auto pb-16">

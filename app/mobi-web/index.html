@@ -3,7 +3,15 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/x-icon" href="https://s03.bluearcshow.com/images/favicon.ico?v=2" />
+  <link id="favicon" rel="icon" type="image/x-icon" href="https://s03.bluearcshow.com/images/favicon.ico?v=2" />
+  <script>
+    (function () {
+      if (!window.location.hostname.endsWith('bluearcshow.com')) {
+        document.getElementById('favicon').href = 'https://s03.bluearcshow.com/video_cover/20260826-171700.png?=v3';
+        document.getElementById('favicon').type = 'image/png';
+      }
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Blue Arc</title>
   <link href="https://s03.bluearcshow.com/css/anton.css" rel="stylesheet">
