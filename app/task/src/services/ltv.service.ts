@@ -4,6 +4,7 @@ import { userDao } from '@lib/repo/dao/user.dao';
 import type { UserSelect } from '@lib/repo/models/user';
 import { startOfDay, endOfDay, parseISO, differenceInDays, fromUnixTime, formatDate } from 'date-fns';
 import { ltvReportDao } from '@lib/repo/dao/ltv-report.dao';
+import { exchangeProxy } from '@lib/repo/proxy/exchange/exchange';
 
 export async function calculateLTtvReport(date: string) {
     const day = parseISO(date);
@@ -18,11 +19,21 @@ export async function calculateLTtvReport(date: string) {
         return prev;
     }, new Map<number, UserSelect>());
 
+    const exchangeRateMap = new Map<string, number>();
+    for (const orderInfo of orderList) {
+        if (!exchangeRateMap.has(orderInfo.currency)) {
+            if (orderInfo.currency) {
+                exchangeRateMap.set(orderInfo.currency, await exchangeProxy.getExchangeRate(orderInfo.currency, 'USD'));
+            }
+        }
+    }
+
     for (const orderInfo of orderList) {
         const userInfo = userIdMap.get(orderInfo.userId);
         if (userInfo) {
             const userDate = startOfDay(fromUnixTime(userInfo.createTime));
             const days = differenceInDays(startOfDay(day), startOfDay(fromUnixTime(userInfo.createTime)));
+            const amountInUsd = (parseFloat(orderInfo.amount) * (exchangeRateMap.get(orderInfo.currency) || 0)).toFixed(2);
 
             const dateForDayReport = await ltvReportDao.getReport({
                 startDate: formatDate(userDate, 'yyyy-MM-dd'),
@@ -34,7 +45,7 @@ export async function calculateLTtvReport(date: string) {
 
             if (dateForDayReport) {
                 await ltvReportDao.updateReport(dateForDayReport.id, {
-                    income: (parseFloat(dateForDayReport.income) + parseFloat(orderInfo.amount)).toFixed(2),
+                    income: (parseFloat(dateForDayReport.income) + parseFloat(amountInUsd)).toFixed(2),
                 });
             } else {
                 await ltvReportDao.insertReport({
@@ -43,7 +54,7 @@ export async function calculateLTtvReport(date: string) {
                     paymentChannel: orderInfo.paymentChannel,
                     paymentType: orderInfo.paymentType,
                     day: days,
-                    income: orderInfo.amount,
+                    income: amountInUsd,
                 });
             }
         }
