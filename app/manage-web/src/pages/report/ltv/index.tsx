@@ -47,7 +47,14 @@ export default function LtvReport() {
   };
 
   const handleDateRangeChange = (value: DateRangeValue | null) => {
-    if (!value) return;
+    if (!value) {
+      setReq({
+        ...req,
+        startDateBegin: '',
+        startDateEnd: '',
+      });
+      return;
+    }
     setReq({
       ...req,
       startDateBegin: formatTimestamp(value.start),
@@ -78,17 +85,17 @@ export default function LtvReport() {
             onChange={handleDateRangeChange}
           />
           <ProductSelect
-            className="w-64"
+            className="w-72"
             value={req.productId}
             onChange={(productId) => setReq({ ...req, productId })}
           />
           <SubscriptionChannelSelect
-            className="w-48"
+            className="w-72"
             value={req.paymentChannel as PaymentChannel | ''}
             onChange={(channel) => setReq({ ...req, paymentChannel: channel })}
           />
           <PaymentTypeSelect
-            className="w-48"
+            className="w-72"
             value={req.paymentType as PaymentType | ''}
             onChange={(type) => setReq({ ...req, paymentType: type })}
           />
@@ -120,15 +127,15 @@ export default function LtvReport() {
                 {(ltvListState.list ?? []).map((item, index) => (
                   <Table.Row key={index}>
                     <Table.Cell className="whitespace-nowrap">{item.startDate}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">${item.d0Income}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">${item.d7Income}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">${item.d14Income}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">${item.d21Income}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">${item.d28Income}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">${item.d35Income}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">${item.d42Income}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">${item.d49Income}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">${item.d56Income}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{item.d0Income === '0.00' ? '--' : `$${item.d0Income}`}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{item.d7Income === '0.00' ? '--' : `$${item.d7Income}`}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{item.d14Income === '0.00' ? '--' : `$${item.d14Income}`}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{item.d21Income === '0.00' ? '--' : `$${item.d21Income}`}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{item.d28Income === '0.00' ? '--' : `$${item.d28Income}`}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{item.d35Income === '0.00' ? '--' : `$${item.d35Income}`}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{item.d42Income === '0.00' ? '--' : `$${item.d42Income}`}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{item.d49Income === '0.00' ? '--' : `$${item.d49Income}`}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{item.d56Income === '0.00' ? '--' : `$${item.d56Income}`}</Table.Cell>
                   </Table.Row>
                 ))}
               </Table.Body>
