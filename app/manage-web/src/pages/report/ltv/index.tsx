@@ -4,8 +4,7 @@ import { useLtvListState } from "@app/manage-web/hooks/report/use-ltv-list-state
 import TablePagination from "@app/manage-web/components/pagination/pagination";
 import type { LtvReportListReq } from "@lib/common/dto/ltv-report";
 import type { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
-import { CalendarDate, type DateValue } from "@internationalized/date";
-import SingleDatePicker from "@app/manage-web/components/date-picker";
+import DateRange, { type DateRangeValue } from "@app/manage-web/components/date-range";
 import ProductSelect from "@app/manage-web/components/product-select/product-select";
 import SubscriptionChannelSelect from "@app/manage-web/components/subscription-select/subscription-channel-select";
 import PaymentTypeSelect from "@app/manage-web/components/payment-type-select";
@@ -19,15 +18,14 @@ const formatDate = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).p
 const todayStr = formatDate(today);
 const thirtyDaysAgoStr = formatDate(thirtyDaysAgo);
 
+const defaultDateRange: DateRangeValue = {
+  start: Math.floor(thirtyDaysAgo.getTime() / 1000),
+  end: Math.floor(new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59).getTime() / 1000),
+};
+
 export default function LtvReport() {
   const { ltvListState, fetchLtvList } = useLtvListState();
   const [loading, setLoading] = useState(false);
-  const [startDateBegin, setStartDateBegin] = useState<DateValue | null>(
-    new CalendarDate(thirtyDaysAgo.getFullYear(), thirtyDaysAgo.getMonth() + 1, thirtyDaysAgo.getDate())
-  );
-  const [startDateEnd, setStartDateEnd] = useState<DateValue | null>(
-    new CalendarDate(today.getFullYear(), today.getMonth() + 1, today.getDate())
-  );
   const [req, setReq] = useState<LtvReportListReq>({
     page: 1,
     size: 20,
@@ -43,9 +41,18 @@ export default function LtvReport() {
     fetchLtvList(req).finally(() => setLoading(false));
   }, []);
 
-  const formatDateValue = (date: DateValue | null) => {
-    if (!date) return '';
-    return `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`;
+  const formatTimestamp = (ts: number) => {
+    const d = new Date(ts * 1000);
+    return formatDate(d);
+  };
+
+  const handleDateRangeChange = (value: DateRangeValue | null) => {
+    if (!value) return;
+    setReq({
+      ...req,
+      startDateBegin: formatTimestamp(value.start),
+      startDateEnd: formatTimestamp(value.end),
+    });
   };
 
   const handleSearch = async (params: LtvReportListReq) => {
@@ -65,24 +72,10 @@ export default function LtvReport() {
       </div>
       <div className="flex items-center gap-4 mb-4">
         <div className="flex items-center gap-2">
-          <SingleDatePicker
-            className="w-56"
-            value={startDateBegin}
-            onChange={(date) => {
-              setStartDateBegin(date);
-              setReq({ ...req, startDateBegin: formatDateValue(date) });
-            }}
-            clearable={false}
-          />
-          <span className="text-gray-500">至</span>
-          <SingleDatePicker
-            className="w-56"
-            value={startDateEnd}
-            onChange={(date) => {
-              setStartDateEnd(date);
-              setReq({ ...req, startDateEnd: formatDateValue(date) });
-            }}
-            clearable={false}
+          <DateRange
+            className="w-72"
+            defaultValue={defaultDateRange}
+            onChange={handleDateRangeChange}
           />
           <ProductSelect
             className="w-64"
