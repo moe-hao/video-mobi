@@ -11,6 +11,12 @@ import PaymentTypeSelect from "@app/manage-web/components/payment-type-select";
 
 const formatDate = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 
+const calcRoi = (income: string, spend: string) => {
+  const s = Number(spend);
+  if (!s || s === 0) return '--';
+  return `${(Number(income) / s * 100).toFixed(2)}%`;
+};
+
 const defaultDateRange: DateRangeValue | null = null;
 
 export default function LtvReport() {
@@ -103,29 +109,49 @@ export default function LtvReport() {
             <Table.Content aria-label="LTV报表数据" className="w-max min-w-full">
               <Table.Header>
                 <Table.Column className="whitespace-nowrap" isRowHeader>日期</Table.Column>
+                <Table.Column className="whitespace-nowrap">当日消耗</Table.Column>
                 <Table.Column className="whitespace-nowrap">D0</Table.Column>
+                <Table.Column className="whitespace-nowrap">D0 ROI</Table.Column>
                 <Table.Column className="whitespace-nowrap">D7</Table.Column>
+                <Table.Column className="whitespace-nowrap">D7 ROI</Table.Column>
                 <Table.Column className="whitespace-nowrap">D14</Table.Column>
+                <Table.Column className="whitespace-nowrap">D14 ROI</Table.Column>
                 <Table.Column className="whitespace-nowrap">D21</Table.Column>
+                <Table.Column className="whitespace-nowrap">D21 ROI</Table.Column>
                 <Table.Column className="whitespace-nowrap">D28</Table.Column>
+                <Table.Column className="whitespace-nowrap">D28 ROI</Table.Column>
                 <Table.Column className="whitespace-nowrap">D35</Table.Column>
+                <Table.Column className="whitespace-nowrap">D35 ROI</Table.Column>
                 <Table.Column className="whitespace-nowrap">D42</Table.Column>
+                <Table.Column className="whitespace-nowrap">D42 ROI</Table.Column>
                 <Table.Column className="whitespace-nowrap">D49</Table.Column>
+                <Table.Column className="whitespace-nowrap">D49 ROI</Table.Column>
                 <Table.Column className="whitespace-nowrap">D56</Table.Column>
+                <Table.Column className="whitespace-nowrap">D56 ROI</Table.Column>
               </Table.Header>
               <Table.Body renderEmptyState={() => <div className="py-10 text-center text-gray-400">暂无数据</div>}>
                 {(ltvListState.list ?? []).map((item, index) => (
                   <Table.Row key={index}>
                     <Table.Cell className="whitespace-nowrap">{item.startDate}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{item.spend === '0.00' ? '--' : `$${item.spend}`}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.d0Income === '0.00' ? '--' : `$${item.d0Income}`}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{calcRoi(item.d0Income, item.spend)}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.d7Income === '0.00' ? '--' : `$${item.d7Income}`}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{calcRoi(item.d7Income, item.spend)}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.d14Income === '0.00' ? '--' : `$${item.d14Income}`}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{calcRoi(item.d14Income, item.spend)}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.d21Income === '0.00' ? '--' : `$${item.d21Income}`}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{calcRoi(item.d21Income, item.spend)}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.d28Income === '0.00' ? '--' : `$${item.d28Income}`}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{calcRoi(item.d28Income, item.spend)}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.d35Income === '0.00' ? '--' : `$${item.d35Income}`}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{calcRoi(item.d35Income, item.spend)}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.d42Income === '0.00' ? '--' : `$${item.d42Income}`}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{calcRoi(item.d42Income, item.spend)}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.d49Income === '0.00' ? '--' : `$${item.d49Income}`}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{calcRoi(item.d49Income, item.spend)}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.d56Income === '0.00' ? '--' : `$${item.d56Income}`}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{calcRoi(item.d56Income, item.spend)}</Table.Cell>
                   </Table.Row>
                 ))}
               </Table.Body>

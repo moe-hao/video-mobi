@@ -1,6 +1,7 @@
 import type { LtvReportListReq, LtvReportListResp, LtvReportListItem } from "@lib/common/dto/ltv-report";
 import { ltvReportDao, type LtvReportListSearch } from "@lib/repo/dao/ltv-report.dao";
 import type { LtvReportSelect } from "@lib/repo/models/ltv-report";
+import { adReportDailyDao } from "@lib/repo/dao/ad-report-daily.dao";
 
 function computeCumulativeIncome(rows: LtvReportSelect[]): Map<number, string> {
     const sorted = [...rows].sort((a, b) => a.day - b.day);
@@ -48,9 +49,7 @@ export async function getLtvReportList(req: LtvReportListReq): Promise<LtvReport
         const cumMap = computeCumulativeIncome(mergedRows);
         allItems.push({
             startDate,
-            productId: req.productId,
-            paymentChannel: req.paymentChannel,
-            paymentType: req.paymentType,
+            spend: '0.00',
             d0Income: cumMap.get(0) ?? '0.00',
             d7Income: cumMap.get(7) ?? '0.00',
             d14Income: cumMap.get(14) ?? '0.00',
@@ -69,10 +68,17 @@ export async function getLtvReportList(req: LtvReportListReq): Promise<LtvReport
     const start = (req.page - 1) * req.size;
     const list = allItems.slice(start, start + req.size);
 
+    // 查询当日消耗
+    const dateList = list.map((item) => item.startDate);
+    const spendMap = await adReportDailyDao.getSpendByDates(dateList);
+
     return {
         page: req.page,
         size: req.size,
         total,
-        list,
+        list: list.map(item => ({
+            ...item,
+            spend: Number(spendMap.get(item.startDate) ?? 0).toFixed(2),
+        })),
     };
 }

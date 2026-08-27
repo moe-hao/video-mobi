@@ -7,9 +7,7 @@ export interface LtvReportListResp {
 
 export interface LtvReportListItem {
     startDate: string;
-    productId: number;
-    paymentChannel: string;
-    paymentType: string;
+    spend: string;
     d0Income: string;
     d7Income: string;
     d14Income: string;

@@ -1,6 +1,6 @@
 import { database, type DatabaseConn } from "@lib/internal/database";
 import { adReportDailyTable, type AdReportDailyInsert, type AdReportDailySelect } from "../models/ad-report-daily";
-import { and, asc, count, desc, eq, like, sum, type AnyColumn } from "drizzle-orm";
+import { and, asc, count, desc, eq, inArray, like, sum, type AnyColumn } from "drizzle-orm";
 import { currentTime } from "@lib/common/utils/time";
 
 export type SearchAdReportDaily = {
@@ -117,6 +117,23 @@ export class AdReportDailyDao {
                 purchaseConversionCount: sum(adReportDailyTable.purchaseConversionCount),
             }).from(adReportDailyTable).where(and(...conditions));
         return result;
+    }
+
+    async getSpendByDates(dates: string[]): Promise<Map<string, string>> {
+        if (dates.length === 0) return new Map();
+        const rows = await this.conn
+            .select({
+                date: adReportDailyTable.date,
+                spend: sum(adReportDailyTable.spend),
+            })
+            .from(adReportDailyTable)
+            .where(inArray(adReportDailyTable.date, dates))
+            .groupBy(adReportDailyTable.date);
+        const map = new Map<string, string>();
+        for (const row of rows) {
+            map.set(row.date, row.spend ?? '0');
+        }
+        return map;
     }
 }
 
