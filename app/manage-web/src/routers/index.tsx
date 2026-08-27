@@ -135,6 +135,12 @@ export const routers: RouterItem[] = [
         path: '/report/subscription_renewal',
         element: loadable(() => import('../pages/report/subscription-renewal')),
         isMenu: true,
+      },
+      {
+        name: 'LTV报表',
+        path: '/report/ltv',
+        element: loadable(() => import('../pages/report/ltv')),
+        isMenu: true,
       }
     ]
   },
