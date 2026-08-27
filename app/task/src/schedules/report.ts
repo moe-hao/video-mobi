@@ -1,6 +1,6 @@
 import { logger } from "@lib/internal/logger";
 import { statRenewalReport } from "../services/subscription/renewal-report.service";
-import { format, addDays, eachDayOfInterval, parseISO } from "date-fns";
+import { format, addDays } from "date-fns";
 import { adReportDailyService } from "../services/ad-report-daliy.service";
 import { calculateLTtvReport } from "../services/ltv.service";
 

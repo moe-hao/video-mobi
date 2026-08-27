@@ -2,12 +2,6 @@ import type { LtvReportListReq, LtvReportListResp, LtvReportListItem } from "@li
 import { ltvReportDao, type LtvReportListSearch } from "@lib/repo/dao/ltv-report.dao";
 import type { LtvReportSelect } from "@lib/repo/models/ltv-report";
 
-type GroupKey = string;
-
-function buildGroupKey(item: LtvReportSelect): GroupKey {
-    return `${item.startDate}|${item.productId}|${item.paymentChannel}|${item.paymentType}`;
-}
-
 function computeCumulativeIncome(rows: LtvReportSelect[]): Map<number, string> {
     const sorted = [...rows].sort((a, b) => a.day - b.day);
     const cumMap = new Map<number, string>();
@@ -30,9 +24,10 @@ export async function getLtvReportList(req: LtvReportListReq): Promise<LtvReport
 
     const rows = await ltvReportDao.getLtvReportList(search);
 
-    const groupMap = new Map<GroupKey, LtvReportSelect[]>();
+    // 按 startDate 分组，聚合所有 productId/paymentChannel/paymentType 的数据
+    const groupMap = new Map<string, LtvReportSelect[]>();
     for (const row of rows) {
-        const key = buildGroupKey(row);
+        const key = row.startDate;
         if (!groupMap.has(key)) {
             groupMap.set(key, []);
         }
@@ -40,14 +35,22 @@ export async function getLtvReportList(req: LtvReportListReq): Promise<LtvReport
     }
 
     const allItems: LtvReportListItem[] = [];
-    for (const [key, groupRows] of groupMap) {
-        const [startDate, productId, paymentChannel, paymentType] = key.split('|');
-        const cumMap = computeCumulativeIncome(groupRows);
+    for (const [startDate, groupRows] of groupMap) {
+        // 合并同一天的收入，再计算累计
+        const dayIncomeMap = new Map<number, number>();
+        for (const row of groupRows) {
+            dayIncomeMap.set(row.day, (dayIncomeMap.get(row.day) ?? 0) + Number(row.income));
+        }
+        const mergedRows: LtvReportSelect[] = [];
+        for (const [day, income] of dayIncomeMap) {
+            mergedRows.push({ ...groupRows[0], day, income: income.toFixed(2) });
+        }
+        const cumMap = computeCumulativeIncome(mergedRows);
         allItems.push({
             startDate,
-            productId: Number(productId),
-            paymentChannel,
-            paymentType,
+            productId: req.productId,
+            paymentChannel: req.paymentChannel,
+            paymentType: req.paymentType,
             d0Income: cumMap.get(0) ?? '0.00',
             d7Income: cumMap.get(7) ?? '0.00',
             d14Income: cumMap.get(14) ?? '0.00',
@@ -60,12 +63,7 @@ export async function getLtvReportList(req: LtvReportListReq): Promise<LtvReport
         });
     }
 
-    allItems.sort((a, b) => {
-        if (a.startDate !== b.startDate) return b.startDate.localeCompare(a.startDate);
-        if (a.productId !== b.productId) return a.productId - b.productId;
-        if (a.paymentChannel !== b.paymentChannel) return a.paymentChannel.localeCompare(b.paymentChannel);
-        return a.paymentType.localeCompare(b.paymentType);
-    });
+    allItems.sort((a, b) => b.startDate.localeCompare(a.startDate));
 
     const total = allItems.length;
     const start = (req.page - 1) * req.size;
