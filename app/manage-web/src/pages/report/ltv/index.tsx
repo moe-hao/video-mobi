@@ -9,19 +9,9 @@ import ProductSelect from "@app/manage-web/components/product-select/product-sel
 import SubscriptionChannelSelect from "@app/manage-web/components/subscription-select/subscription-channel-select";
 import PaymentTypeSelect from "@app/manage-web/components/payment-type-select";
 
-const today = new Date();
-const thirtyDaysAgo = new Date(today);
-thirtyDaysAgo.setDate(today.getDate() - 30);
-
 const formatDate = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 
-const todayStr = formatDate(today);
-const thirtyDaysAgoStr = formatDate(thirtyDaysAgo);
-
-const defaultDateRange: DateRangeValue = {
-  start: Math.floor(thirtyDaysAgo.getTime() / 1000),
-  end: Math.floor(new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59).getTime() / 1000),
-};
+const defaultDateRange: DateRangeValue | null = null;
 
 export default function LtvReport() {
   const { ltvListState, fetchLtvList } = useLtvListState();
@@ -29,8 +19,8 @@ export default function LtvReport() {
   const [req, setReq] = useState<LtvReportListReq>({
     page: 1,
     size: 20,
-    startDateBegin: thirtyDaysAgoStr,
-    startDateEnd: todayStr,
+    startDateBegin: '',
+    startDateEnd: '',
     productId: 0,
     paymentChannel: '',
     paymentType: '',
