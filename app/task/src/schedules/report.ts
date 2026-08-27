@@ -55,14 +55,9 @@ export async function scheduleSubscriptionRenewalReport() {
 export async function scheduleTtvReport() {
     logger.info('[Start Run] scheduleTtvReport');
     try {
-        const startDate = parseISO('2026-06-26');
-        const endDate = parseISO('2026-08-26');
-        const days = eachDayOfInterval({ start: startDate, end: endDate });
-
-        for (const day of days) {
-            logger.info(`[Run] scheduleTtvReport: ${format(day, 'yyyy-MM-dd')}`);
-            await calculateLTtvReport(format(day, 'yyyy-MM-dd'));
-        }
+        const date = format(addDays(new Date(), -1), 'yyyy-MM-dd');
+        logger.info(`[Run] scheduleTtvReport: ${date}`);
+        await calculateLTtvReport(date);
     } catch (error) {
         logger.error(`[Failed] scheduleTtvReport: ${error}`);
     }
