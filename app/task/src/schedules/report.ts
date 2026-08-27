@@ -60,6 +60,7 @@ export async function scheduleTtvReport() {
         const days = eachDayOfInterval({ start: startDate, end: endDate });
 
         for (const day of days) {
+            logger.info(`[Run] scheduleTtvReport: ${format(day, 'yyyy-MM-dd')}`);
             await calculateLTtvReport(format(day, 'yyyy-MM-dd'));
         }
     } catch (error) {

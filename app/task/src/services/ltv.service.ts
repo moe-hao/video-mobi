@@ -26,7 +26,7 @@ export async function calculateLTtvReport(date: string) {
 
         const amountInUsd = (parseFloat(orderInfo.amount) * (exchangeRateMap.get(orderInfo.currency) || 0)).toFixed(2);
         const dateForDayReport = await ltvReportDao.getReport({
-            startDate: formatDate(userFirstOrderInfo.createTime, 'yyyy-MM-dd'),
+            startDate: formatDate(fromUnixTime(userFirstOrderInfo.createTime), 'yyyy-MM-dd'),
             productId: orderInfo.productId,
             paymentChannel: orderInfo.paymentChannel,
             paymentType: orderInfo.paymentType,
@@ -39,7 +39,7 @@ export async function calculateLTtvReport(date: string) {
             });
         } else {
             await ltvReportDao.insertReport({
-                startDate: formatDate(userFirstOrderInfo.createTime, 'yyyy-MM-dd'),
+                startDate: formatDate(fromUnixTime(userFirstOrderInfo.createTime), 'yyyy-MM-dd'),
                 productId: orderInfo.productId,
                 paymentChannel: orderInfo.paymentChannel,
                 paymentType: orderInfo.paymentType,
