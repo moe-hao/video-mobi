@@ -264,6 +264,15 @@ class OrderDao {
         return result;
     }
 
+    async getOrderListByUserId(userId: number, status: OrderStatus): Promise<OrderSelect[]> {
+        return await this.conn.select().from(orderTable).where(
+            and(
+                eq(orderTable.userId, userId),
+                eq(orderTable.orderStatus, status)
+            )
+        ).orderBy(asc(orderTable.id));
+    }
+
     async updateOrderById(id: number, data: OrderInsert): Promise<void> {
         data.updateTime = currentTime();
         await this.conn.update(orderTable).set(data).where(

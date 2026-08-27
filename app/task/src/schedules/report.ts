@@ -1,6 +1,6 @@
 import { logger } from "@lib/internal/logger";
 import { statRenewalReport } from "../services/subscription/renewal-report.service";
-import { format, addDays } from "date-fns";
+import { format, addDays, eachDayOfInterval, parseISO } from "date-fns";
 import { adReportDailyService } from "../services/ad-report-daliy.service";
 import { calculateLTtvReport } from "../services/ltv.service";
 
@@ -55,31 +55,13 @@ export async function scheduleSubscriptionRenewalReport() {
 export async function scheduleTtvReport() {
     logger.info('[Start Run] scheduleTtvReport');
     try {
-        await calculateLTtvReport("2026-08-01");
-        await calculateLTtvReport("2026-08-02");
-        await calculateLTtvReport("2026-08-03");
-        await calculateLTtvReport("2026-08-04");
-        await calculateLTtvReport("2026-08-05");
-        await calculateLTtvReport("2026-08-06");
-        await calculateLTtvReport("2026-08-07");
-        await calculateLTtvReport("2026-08-08");
-        await calculateLTtvReport("2026-08-09");
-        await calculateLTtvReport("2026-08-10");
-        await calculateLTtvReport("2026-08-11");
-        await calculateLTtvReport("2026-08-12");
-        await calculateLTtvReport("2026-08-13");
-        await calculateLTtvReport("2026-08-14");
-        await calculateLTtvReport("2026-08-15");
-        await calculateLTtvReport("2026-08-16");
-        await calculateLTtvReport("2026-08-17");
-        await calculateLTtvReport("2026-08-18");
-        await calculateLTtvReport("2026-08-19");
-        await calculateLTtvReport("2026-08-20");
-        await calculateLTtvReport("2026-08-21");
-        await calculateLTtvReport("2026-08-22");
-        await calculateLTtvReport("2026-08-23");
-        await calculateLTtvReport("2026-08-24");
-        await calculateLTtvReport("2026-08-25");
+        const startDate = parseISO('2026-06-26');
+        const endDate = parseISO('2026-08-26');
+        const days = eachDayOfInterval({ start: startDate, end: endDate });
+
+        for (const day of days) {
+            await calculateLTtvReport(format(day, 'yyyy-MM-dd'));
+        }
     } catch (error) {
         logger.error(`[Failed] scheduleTtvReport: ${error}`);
     }
