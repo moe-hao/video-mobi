@@ -111,6 +111,15 @@ export default function UserInfo() {
                 <div className="flex flex-col flex-1 text-left text-sm">{t('privacy')}</div>
                 <ChevronRight className="size-4 shrink-0 text-white/50" />
               </button>
+              {window.location.hostname === 'www.bluearcshow.com' && (
+                <button className="w-full flex items-center gap-3 px-0 py-3 bg-transparent border-none cursor-pointer text-white" onClick={() => { window.location.href = '/terms/about-us.html'; }}>
+                  <div className="flex items-start justify-center pt-px">
+                    <img src="https://s03.bluearcshow.com/images/terms.png" alt="about-us" className="size-6" />
+                  </div>
+                  <div className="flex flex-col flex-1 text-left text-sm">About Us</div>
+                  <ChevronRight className="size-4 shrink-0 text-white/50" />
+                </button>
+              )}
             </div>
           </div>
         </>

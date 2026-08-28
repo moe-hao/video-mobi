@@ -1,0 +1,8 @@
+.arco-table-td {
+  white-space: nowrap;
+}
+
+.arco-table-th {
+  white-space: nowrap;
+  font-size: 12px !important;
+}

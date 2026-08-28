@@ -16,6 +16,7 @@
     "paths": {
       "@app/manage/*": ["./app/manage/src/*"],
       "@app/manage-web/*": ["./app/manage-web/src/*"],
+      "@app/manage-arco-web/*": ["./app/manage-arco-web/src/*"],
       "@app/mobi/*": ["./app/mobi/src/*"],
       "@app/mobi-web/*": ["./app/mobi-web/src/*"],
       "@app/openapi/*": ["./app/openapi/src/*"],
