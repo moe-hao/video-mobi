@@ -4,11 +4,21 @@ import { useAdReportDailyGroupState } from "@app/manage-web/hooks/report/use-ad-
 import TablePagination from "@app/manage-web/components/pagination/pagination";
 import type { AdReportDailyGroupReq } from "@lib/common/dto/ad-report-daily";
 import { useSearchParams } from "react-router";
-import { CalendarDate, type DateValue } from "@internationalized/date";
-import SingleDatePicker from "@app/manage-web/components/date-picker";
+import DateRange, { type DateRangeValue } from "@app/manage-web/components/date-range";
 import RegionSelect from "@app/manage-web/components/region-select";
 import PlatformSelect from "@app/manage-web/components/platform-select";
 import { Region } from "@lib/common/consts/region";
+
+function formatDateFromTimestamp(ts: number): string {
+  const d = new Date(ts * 1000);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+function dateStrToTimestamp(str: string): number {
+  if (!str) return 0;
+  const [y, m, d] = str.split('-').map(Number);
+  return Math.floor(new Date(y, m - 1, d).getTime() / 1000);
+}
 
 export default function DailyGroup() {
   const { adReportDailyGroupState, fetchAdReportDailyGroup } = useAdReportDailyGroupState();
@@ -16,16 +26,6 @@ export default function DailyGroup() {
 
   const initialStartStr = searchParams.get('start') || '';
   const initialEndStr = searchParams.get('end') || '';
-
-  const toDateValue = (str: string): DateValue | null => {
-    if (!str) return null;
-    return new CalendarDate(Number(str.slice(0, 4)), Number(str.slice(5, 7)), Number(str.slice(8, 10)));
-  };
-
-  const formatDate = (date: DateValue | null): string => {
-    if (!date) return '';
-    return `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`;
-  };
 
   const initialParams: AdReportDailyGroupReq = {
     start: initialStartStr,
@@ -36,10 +36,12 @@ export default function DailyGroup() {
     size: Number(searchParams.get('size')) || 20,
   };
 
+  const initialDateRange: DateRangeValue | null = initialStartStr && initialEndStr
+    ? { start: dateStrToTimestamp(initialStartStr), end: dateStrToTimestamp(initialEndStr) }
+    : null;
+
   const [loading, setLoading] = useState(false);
   const [req, setReq] = useState<AdReportDailyGroupReq>(initialParams);
-  const [startDate, setStartDate] = useState<DateValue | null>(toDateValue(initialStartStr));
-  const [endDate, setEndDate] = useState<DateValue | null>(toDateValue(initialEndStr));
 
   useEffect(() => {
     if (initialStartStr && initialEndStr) {
@@ -71,21 +73,15 @@ export default function DailyGroup() {
         <div className="text-lg font-semibold text-gray-700">日报分组</div>
       </div>
       <div className="flex items-center gap-4 mb-4">
-        <SingleDatePicker
-          className="w-60"
-          value={startDate}
-          onChange={(date) => {
-            setStartDate(date);
-            setReq({ ...req, start: formatDate(date) });
-          }}
-        />
-        <span className="text-gray-400">-</span>
-        <SingleDatePicker
-          className="w-60"
-          value={endDate}
-          onChange={(date) => {
-            setEndDate(date);
-            setReq({ ...req, end: formatDate(date) });
+        <DateRange
+          className="w-72"
+          defaultValue={initialDateRange}
+          onChange={(range) => {
+            if (range) {
+              setReq({ ...req, start: formatDateFromTimestamp(range.start), end: formatDateFromTimestamp(range.end) });
+            } else {
+              setReq({ ...req, start: '', end: '' });
+            }
           }}
         />
         <PlatformSelect
