@@ -5,7 +5,7 @@ export const ltvReportListReqSchema = z.object({
     size: z.coerce.number().int().min(1).default(20),
     startDateBegin: z.string().default(''),
     startDateEnd: z.string().default(''),
-    productId: z.coerce.number().int().default(0),
+    productIds: z.string().default(''),
     paymentChannel: z.string().default(''),
     paymentType: z.string().default(''),
 });

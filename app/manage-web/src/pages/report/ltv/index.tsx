@@ -5,7 +5,7 @@ import TablePagination from "@app/manage-web/components/pagination/pagination";
 import type { LtvReportListReq } from "@lib/common/dto/ltv-report";
 import type { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
 import DateRange, { type DateRangeValue } from "@app/manage-web/components/date-range";
-import ProductSelect from "@app/manage-web/components/product-select/product-select";
+import ProductMultipleSelect from "@app/manage-web/components/product-select/product-multiple-select";
 import SubscriptionChannelSelect from "@app/manage-web/components/subscription-select/subscription-channel-select";
 import PaymentTypeSelect from "@app/manage-web/components/payment-type-select";
 
@@ -22,12 +22,13 @@ const defaultDateRange: DateRangeValue | null = null;
 export default function LtvReport() {
   const { ltvListState, fetchLtvList } = useLtvListState();
   const [loading, setLoading] = useState(false);
+  const [selectedProductIds, setSelectedProductIds] = useState<number[]>([]);
   const [req, setReq] = useState<LtvReportListReq>({
     page: 1,
     size: 20,
     startDateBegin: '',
     startDateEnd: '',
-    productId: 0,
+    productIds: '',
     paymentChannel: '',
     paymentType: '',
   });
@@ -80,10 +81,13 @@ export default function LtvReport() {
             defaultValue={defaultDateRange}
             onChange={handleDateRangeChange}
           />
-          <ProductSelect
+          <ProductMultipleSelect
             className="w-72"
-            value={req.productId}
-            onChange={(productId) => setReq({ ...req, productId })}
+            value={selectedProductIds}
+            onChange={(productIds) => {
+              setSelectedProductIds(productIds);
+              setReq({ ...req, productIds: productIds.join(',') });
+            }}
           />
           <SubscriptionChannelSelect
             className="w-72"

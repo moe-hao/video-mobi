@@ -18,7 +18,7 @@ export async function getLtvReportList(req: LtvReportListReq): Promise<LtvReport
     const search: LtvReportListSearch = {
         startDateBegin: req.startDateBegin,
         startDateEnd: req.startDateEnd,
-        productId: req.productId,
+        productIds: req.productIds,
         paymentChannel: req.paymentChannel,
         paymentType: req.paymentType,
     };

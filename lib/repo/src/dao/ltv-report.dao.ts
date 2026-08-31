@@ -1,6 +1,6 @@
 import { database, type DatabaseConn } from "@lib/internal/database";
 import { ltvReportTable, type LtvReportInsert, type LtvReportSelect } from "../models/ltv-report";
-import { and, between, eq } from "drizzle-orm";
+import { and, between, eq, inArray } from "drizzle-orm";
 import { currentTime } from "@lib/common/utils/time";
 
 type LtvReportSearch = {
@@ -14,7 +14,7 @@ type LtvReportSearch = {
 export type LtvReportListSearch = {
     startDateBegin: string;
     startDateEnd: string;
-    productId: number;
+    productIds: string;
     paymentChannel: string;
     paymentType: string;
 };
@@ -54,8 +54,11 @@ class LtvReportDao {
         if (search.startDateBegin && search.startDateEnd) {
             conditions.push(between(ltvReportTable.startDate, search.startDateBegin, search.startDateEnd));
         }
-        if (search.productId) {
-            conditions.push(eq(ltvReportTable.productId, search.productId));
+        if (search.productIds) {
+            const ids = search.productIds.split(',').filter(Boolean).map(Number).filter(n => !isNaN(n));
+            if (ids.length >= 1) {
+                conditions.push(inArray(ltvReportTable.productId, ids));
+            }
         }
         if (search.paymentChannel) {
             conditions.push(eq(ltvReportTable.paymentChannel, search.paymentChannel));
