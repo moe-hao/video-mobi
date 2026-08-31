@@ -43,3 +43,18 @@ export interface AdReportDailySummaryResp {
     purchaseRoas: string;
     purchaseConversionCount: number;
 }
+
+export interface AdReportDailyGroupResp {
+    page: number;
+    size: number;
+    total: number;
+    list: {
+        date: string;
+        region: string;
+        spendSum: number;
+        purchaseConversionCountSum: number;
+        purchasesConversionValueSum: number;
+        impressionsSum: number;
+        clicksNumSum: number;
+    }[];
+}

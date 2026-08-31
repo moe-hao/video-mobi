@@ -141,6 +141,12 @@ export const routers: RouterItem[] = [
         path: '/report/ltv',
         element: loadable(() => import('../pages/report/ltv')),
         isMenu: true,
+      },
+      {
+        name: '日报分组',
+        path: '/report/daily_group',
+        element: loadable(() => import('../pages/report/daily-group')),
+        isMenu: true,
       }
     ]
   },

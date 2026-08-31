@@ -1,7 +1,8 @@
 import { database, type DatabaseConn } from "@lib/internal/database";
 import { adReportDailyTable, type AdReportDailyInsert, type AdReportDailySelect } from "../models/ad-report-daily";
-import { and, asc, count, desc, eq, inArray, like, sum, type AnyColumn } from "drizzle-orm";
+import { and, asc, count, desc, eq, inArray, like, sum, ne, type AnyColumn } from "drizzle-orm";
 import { currentTime } from "@lib/common/utils/time";
+import { between } from "drizzle-orm/sql";
 
 export type SearchAdReportDaily = {
     date: string;
@@ -134,6 +135,56 @@ export class AdReportDailyDao {
             map.set(row.date, row.spend ?? '0');
         }
         return map;
+    }
+
+    private buildGroupConditions(start: string, end: string, country: string, platform: number) {
+        return [
+            between(adReportDailyTable.date, start, end),
+            eq(adReportDailyTable.region, country),
+            eq(adReportDailyTable.platform, platform),
+            ne(adReportDailyTable.region, 'None'),
+            ne(adReportDailyTable.region, 'unknown'),
+        ];
+    }
+
+    async getAdReportDailyGroup(start: string, end: string, country: string, platform: number, page: number, size: number): Promise<{
+        date: string;
+        region: string;
+        spendSum: number;
+        purchaseConversionCountSum: number;
+        purchasesConversionValueSum: number;
+        impressionsSum: number;
+        clicksNumSum: number;
+    }[]> {
+        const conditions = this.buildGroupConditions(start, end, country, platform);
+        const rows = await this.conn.select({
+            date: adReportDailyTable.date,
+            region: adReportDailyTable.region,
+            spendSum: sum(adReportDailyTable.spend),
+            purchaseConversionCountSum: sum(adReportDailyTable.purchaseConversionCount),
+            purchasesConversionValueSum: sum(adReportDailyTable.purchasesConversionValue),
+            impressionsSum: sum(adReportDailyTable.impressions),
+            clicksNumSum: sum(adReportDailyTable.clicksNum),
+        }).from(adReportDailyTable).where(and(...conditions)).groupBy(adReportDailyTable.date, adReportDailyTable.region).orderBy(desc(adReportDailyTable.date)).offset((page - 1) * size).limit(size);
+
+        return rows.map(row => ({
+            date: row.date,
+            region: row.region,
+            spendSum: Number(row.spendSum ?? 0),
+            purchaseConversionCountSum: Number(row.purchaseConversionCountSum ?? 0),
+            purchasesConversionValueSum: Number(row.purchasesConversionValueSum ?? 0),
+            impressionsSum: Number(row.impressionsSum ?? 0),
+            clicksNumSum: Number(row.clicksNumSum ?? 0),
+        }));
+    }
+
+    async getAdReportDailyGroupTotal(start: string, end: string, country: string, platform: number): Promise<number> {
+        const conditions = this.buildGroupConditions(start, end, country, platform);
+        const rows = await this.conn.select({ date: adReportDailyTable.date, region: adReportDailyTable.region })
+            .from(adReportDailyTable)
+            .where(and(...conditions))
+            .groupBy(adReportDailyTable.date, adReportDailyTable.region);
+        return rows.length;
     }
 }
 

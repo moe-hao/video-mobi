@@ -18,6 +18,15 @@ export const adReportDailySummaryReqSchema = z.object({
     platform: z.string().default(''),
 });
 
+export const adReportDailyGroupReqSchema = z.object({
+    start: z.string(),
+    end: z.string(),
+    country: z.string().default(''),
+    platform: z.coerce.number().int(),
+    page: z.coerce.number().int().min(1).default(1),
+    size: z.coerce.number().int().min(1).default(20),
+});
 
 export type AdReportDailyListReq = z.infer<typeof adReportDailyListReqSchema>;
 export type AdReportDailySummaryReq = z.infer<typeof adReportDailySummaryReqSchema>;
+export type AdReportDailyGroupReq = z.infer<typeof adReportDailyGroupReqSchema>;
