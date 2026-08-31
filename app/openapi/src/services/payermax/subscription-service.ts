@@ -75,7 +75,7 @@ class SubscriptionService {
         const adParam = JSON.parse(orderInfo.ad || '{}') as AdParam;
 
         const skuInfo = await skuDao.getSkuById(orderInfo.skuId);
-        if (skuInfo.periodType === SkuPeriodType.Year) {
+        if (skuInfo?.periodType === SkuPeriodType.Year) {
             orderInfo.amount = (Number(orderInfo.amount) / 5).toFixed(2);
         }
 
@@ -111,7 +111,7 @@ class SubscriptionService {
         const fbUserAppId = crypto.createHash("sha256").update(orderInfo.userId.toString()).digest("hex");
 
         const skuInfo = await skuDao.getSkuById(orderInfo.skuId);
-        if (skuInfo.periodType === SkuPeriodType.Year) {
+        if (skuInfo?.periodType === SkuPeriodType.Year) {
             orderInfo.amount = (Number(orderInfo.amount) / 5).toFixed(2);
         }
 
@@ -148,7 +148,7 @@ class SubscriptionService {
         const ad = JSON.parse(orderInfo.ad || '{}');
 
         const skuInfo = await skuDao.getSkuById(orderInfo.skuId);
-        if (skuInfo.periodType === SkuPeriodType.Year) {
+        if (skuInfo?.periodType === SkuPeriodType.Year) {
             orderInfo.amount = (Number(orderInfo.amount) / 5).toFixed(2);
         }
 
@@ -184,7 +184,7 @@ class SubscriptionService {
         const ad = JSON.parse(orderInfo.ad || '{}');
 
         const skuInfo = await skuDao.getSkuById(orderInfo.skuId);
-        if (skuInfo.periodType === SkuPeriodType.Year) {
+        if (skuInfo?.periodType === SkuPeriodType.Year) {
             orderInfo.amount = (Number(orderInfo.amount) / 5).toFixed(2);
         }
 
