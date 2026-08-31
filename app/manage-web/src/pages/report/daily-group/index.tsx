@@ -1,12 +1,10 @@
-import { Button, Spinner, Table } from "@heroui/react";
+import { Button, Spinner, Table, Tabs } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { useAdReportDailyGroupState } from "@app/manage-web/hooks/report/use-ad-report-daily-group-state";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
 import type { AdReportDailyGroupReq } from "@lib/common/dto/ad-report-daily";
-import { useSearchParams } from "react-router";
 import DateRange, { type DateRangeValue } from "@app/manage-web/components/date-range";
 import RegionSelect from "@app/manage-web/components/region-select";
-import PlatformSelect from "@app/manage-web/components/platform-select";
 import { Region } from "@lib/common/consts/region";
 
 function formatDateFromTimestamp(ts: number): string {
@@ -14,51 +12,17 @@ function formatDateFromTimestamp(ts: number): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
-function dateStrToTimestamp(str: string): number {
-  if (!str) return 0;
-  const [y, m, d] = str.split('-').map(Number);
-  return Math.floor(new Date(y, m - 1, d).getTime() / 1000);
-}
-
-export default function DailyGroup() {
+function DailyGroupPanel({ platform }: { platform: number }) {
   const { adReportDailyGroupState, fetchAdReportDailyGroup } = useAdReportDailyGroupState();
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const initialStartStr = searchParams.get('start') || '';
-  const initialEndStr = searchParams.get('end') || '';
-
-  const initialParams: AdReportDailyGroupReq = {
-    start: initialStartStr,
-    end: initialEndStr,
-    country: searchParams.get('country') || '',
-    platform: Number(searchParams.get('platform')) || 1,
-    page: Number(searchParams.get('page')) || 1,
-    size: Number(searchParams.get('size')) || 20,
-  };
-
-  const initialDateRange: DateRangeValue | null = initialStartStr && initialEndStr
-    ? { start: dateStrToTimestamp(initialStartStr), end: dateStrToTimestamp(initialEndStr) }
-    : null;
-
   const [loading, setLoading] = useState(false);
-  const [req, setReq] = useState<AdReportDailyGroupReq>(initialParams);
+  const [req, setReq] = useState<AdReportDailyGroupReq>({ start: '', end: '', country: '', platform, page: 1, size: 20 });
+  const [dateRange, setDateRange] = useState<DateRangeValue | null>(null);
 
   useEffect(() => {
-    if (initialStartStr && initialEndStr) {
-      setLoading(true);
-      fetchAdReportDailyGroup(initialParams).finally(() => setLoading(false));
-    }
+    handleSearch(req);
   }, []);
 
   const handleSearch = async (params: AdReportDailyGroupReq) => {
-    setSearchParams({
-      start: params.start,
-      end: params.end,
-      country: params.country,
-      platform: params.platform.toString(),
-      page: params.page.toString(),
-      size: params.size.toString(),
-    });
     setLoading(true);
     try {
       await fetchAdReportDailyGroup(params);
@@ -69,25 +33,18 @@ export default function DailyGroup() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-5">
-        <div className="text-lg font-semibold text-gray-700">日报分组</div>
-      </div>
       <div className="flex items-center gap-4 mb-4">
         <DateRange
           className="w-72"
-          defaultValue={initialDateRange}
+          defaultValue={dateRange}
           onChange={(range) => {
+            setDateRange(range);
             if (range) {
               setReq({ ...req, start: formatDateFromTimestamp(range.start), end: formatDateFromTimestamp(range.end) });
             } else {
               setReq({ ...req, start: '', end: '' });
             }
           }}
-        />
-        <PlatformSelect
-          className="w-64"
-          value={req.platform.toString()}
-          onChange={(platform) => setReq({ ...req, platform: Number(platform) || 1 })}
         />
         <RegionSelect
           className="w-64"
@@ -139,6 +96,30 @@ export default function DailyGroup() {
         onPageChange={(page) => handleSearch({ ...req, page })}
         onSizeChange={(size) => handleSearch({ ...req, size })}
       />
+    </div>
+  );
+}
+
+export default function DailyGroup() {
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-5">
+        <div className="text-lg font-semibold text-gray-700">日报分组</div>
+      </div>
+      <Tabs variant="secondary" defaultSelectedKey="facebook">
+        <Tabs.ListContainer>
+          <Tabs.List aria-label="平台">
+            <Tabs.Tab id="facebook">Facebook</Tabs.Tab>
+            <Tabs.Tab id="tiktok">TikTok</Tabs.Tab>
+          </Tabs.List>
+        </Tabs.ListContainer>
+        <Tabs.Panel id="facebook">
+          <DailyGroupPanel platform={1} />
+        </Tabs.Panel>
+        <Tabs.Panel id="tiktok">
+          <DailyGroupPanel platform={2} />
+        </Tabs.Panel>
+      </Tabs>
     </div>
   );
 }
