@@ -20,7 +20,8 @@ import { facebookProxy } from "@lib/repo/proxy/facebook/facebook";
 import type { AdParam } from "@lib/repo/proxy/facebook/facebook.interface";
 import config from "@lib/internal/config";
 import type { OrderSelect } from "@lib/repo/models/order";
-import { SkuType } from "@lib/common/consts/sku";
+import { SkuPeriodType, SkuType } from "@lib/common/consts/sku";
+import { skuDao } from "@lib/repo/dao/sku.dao";
 
 class SubscriptionService {
     async receive(req: PayermaxNotificationReq<PayermaxSubscriptionNotificationData>): Promise<OrderPayermaxResultResp> {
@@ -73,6 +74,11 @@ class SubscriptionService {
         const [orderInfo] = await orderDao.getOrderListByUserIdAndSubscriptionId(subscriptionInfo.userId, subscriptionInfo.id);
         const adParam = JSON.parse(orderInfo.ad || '{}') as AdParam;
 
+        const skuInfo = await skuDao.getSkuById(orderInfo.skuId);
+        if (skuInfo.periodType === SkuPeriodType.Year) {
+            orderInfo.amount = (Number(orderInfo.amount) / 5).toFixed(2);
+        }
+
         const fbUserAppId = crypto.createHash("sha256").update(subscriptionInfo.userId.toString()).digest("hex")
         const req = {
             access_token: pixel.accessToken,
@@ -103,6 +109,12 @@ class SubscriptionService {
     async sendFacebookEventCoin(pixel: PixelSelect, orderInfo: OrderSelect) {
         const adParam = JSON.parse(orderInfo.ad || '{}') as AdParam;
         const fbUserAppId = crypto.createHash("sha256").update(orderInfo.userId.toString()).digest("hex");
+
+        const skuInfo = await skuDao.getSkuById(orderInfo.skuId);
+        if (skuInfo.periodType === SkuPeriodType.Year) {
+            orderInfo.amount = (Number(orderInfo.amount) / 5).toFixed(2);
+        }
+
         const req = {
             access_token: pixel.accessToken,
             data: [{
@@ -135,6 +147,11 @@ class SubscriptionService {
         const ttUserId = crypto.createHash("sha256").update(subscriptionInfo.userId.toString()).digest("hex");
         const ad = JSON.parse(orderInfo.ad || '{}');
 
+        const skuInfo = await skuDao.getSkuById(orderInfo.skuId);
+        if (skuInfo.periodType === SkuPeriodType.Year) {
+            orderInfo.amount = (Number(orderInfo.amount) / 5).toFixed(2);
+        }
+
         const req = {
             event_source: "web",
             event_source_id: pixel.pixelId,
@@ -165,6 +182,11 @@ class SubscriptionService {
         const [productInfo] = await productDao.getProductListInIds([orderInfo.productId]);
         const ttUserId = crypto.createHash("sha256").update(orderInfo.userId.toString()).digest("hex");
         const ad = JSON.parse(orderInfo.ad || '{}');
+
+        const skuInfo = await skuDao.getSkuById(orderInfo.skuId);
+        if (skuInfo.periodType === SkuPeriodType.Year) {
+            orderInfo.amount = (Number(orderInfo.amount) / 5).toFixed(2);
+        }
 
         const req = {
             event_source: "web",
