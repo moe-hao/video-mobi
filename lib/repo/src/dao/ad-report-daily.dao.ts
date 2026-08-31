@@ -193,6 +193,31 @@ export class AdReportDailyDao {
             .groupBy(adReportDailyTable.date, adReportDailyTable.region);
         return rows.length;
     }
+
+    async getAdReportDailyGroupSummary(start: string, end: string, country: string, platform: number): Promise<{
+        spendSum: number;
+        purchaseConversionCountSum: number;
+        purchasesConversionValueSum: number;
+        impressionsSum: number;
+        clicksNumSum: number;
+    }> {
+        const conditions = this.buildGroupConditions(start, end, country, platform);
+        const [row] = await this.conn.select({
+            spendSum: sum(adReportDailyTable.spend),
+            purchaseConversionCountSum: sum(adReportDailyTable.purchaseConversionCount),
+            purchasesConversionValueSum: sum(adReportDailyTable.purchasesConversionValue),
+            impressionsSum: sum(adReportDailyTable.impressions),
+            clicksNumSum: sum(adReportDailyTable.clicksNum),
+        }).from(adReportDailyTable).where(and(...conditions));
+
+        return {
+            spendSum: Number(row?.spendSum ?? 0),
+            purchaseConversionCountSum: Number(row?.purchaseConversionCountSum ?? 0),
+            purchasesConversionValueSum: Number(row?.purchasesConversionValueSum ?? 0),
+            impressionsSum: Number(row?.impressionsSum ?? 0),
+            clicksNumSum: Number(row?.clicksNumSum ?? 0),
+        };
+    }
 }
 
 export const adReportDailyDao = new AdReportDailyDao();

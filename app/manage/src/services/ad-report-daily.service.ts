@@ -46,11 +46,12 @@ class AdReportDailyService {
     }
 
     async getAdReportDailyGroup(search: { start: string; end: string; country: string; platform: number; page: number; size: number }): Promise<AdReportDailyGroupResp> {
-        const [list, total] = await Promise.all([
+        const [list, total, summary] = await Promise.all([
             adReportDailyDao.getAdReportDailyGroup(search.start, search.end, search.country, search.platform, search.page, search.size),
             adReportDailyDao.getAdReportDailyGroupTotal(search.start, search.end, search.country, search.platform),
+            adReportDailyDao.getAdReportDailyGroupSummary(search.start, search.end, search.country, search.platform),
         ]);
-        return { page: search.page, size: search.size, total, list };
+        return { page: search.page, size: search.size, total, summary, list };
     }
 }
 

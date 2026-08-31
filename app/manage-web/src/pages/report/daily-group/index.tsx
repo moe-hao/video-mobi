@@ -94,6 +94,25 @@ function DailyGroupPanel({ platform }: { platform: number }) {
                     <Table.Cell className="whitespace-nowrap border-x border-gray-200">{(item.clicksNumSum / item.impressionsSum * 100).toFixed(2)}%</Table.Cell>
                   </Table.Row>
                 ))}
+                {adReportDailyGroupState.summary && (() => {
+                  const s = adReportDailyGroupState.summary;
+                  return (
+                    <Table.Row key="total" className="font-semibold bg-gray-50">
+                      <Table.Cell className="whitespace-nowrap border-x border-gray-200">总计</Table.Cell>
+                      <Table.Cell className="whitespace-nowrap border-x border-gray-200">--</Table.Cell>
+                      <Table.Cell className="whitespace-nowrap border-x border-gray-200">${s.spendSum.toFixed(2)}</Table.Cell>
+                      <Table.Cell className="whitespace-nowrap border-x border-gray-200">{s.purchaseConversionCountSum}</Table.Cell>
+                      <Table.Cell className="whitespace-nowrap border-x border-gray-200">${s.purchaseConversionCountSum ? (s.spendSum / s.purchaseConversionCountSum).toFixed(2) : '0.00'}</Table.Cell>
+                      <Table.Cell className="whitespace-nowrap border-x border-gray-200">${s.purchasesConversionValueSum.toFixed(2)}</Table.Cell>
+                      <Table.Cell className="whitespace-nowrap border-x border-gray-200">${s.spendSum ? (s.purchasesConversionValueSum / s.spendSum * 100).toFixed(2) : '0.00'}%</Table.Cell>
+                      <Table.Cell className="whitespace-nowrap border-x border-gray-200">{s.impressionsSum}</Table.Cell>
+                      <Table.Cell className="whitespace-nowrap border-x border-gray-200">${s.impressionsSum ? (s.spendSum / s.impressionsSum * 1000).toFixed(2) : '0.00'}</Table.Cell>
+                      <Table.Cell className="whitespace-nowrap border-x border-gray-200">{s.clicksNumSum}</Table.Cell>
+                      <Table.Cell className="whitespace-nowrap border-x border-gray-200">${s.clicksNumSum ? (s.spendSum / s.clicksNumSum).toFixed(2) : '0.00'}</Table.Cell>
+                      <Table.Cell className="whitespace-nowrap border-x border-gray-200">{s.impressionsSum ? (s.clicksNumSum / s.impressionsSum * 100).toFixed(2) : '0.00'}%</Table.Cell>
+                    </Table.Row>
+                  );
+                })()}
               </Table.Body>
             </Table.Content>
           </Table.ScrollContainer>

@@ -48,6 +48,13 @@ export interface AdReportDailyGroupResp {
     page: number;
     size: number;
     total: number;
+    summary: {
+        spendSum: number;
+        purchaseConversionCountSum: number;
+        purchasesConversionValueSum: number;
+        impressionsSum: number;
+        clicksNumSum: number;
+    };
     list: {
         date: string;
         region: string;
