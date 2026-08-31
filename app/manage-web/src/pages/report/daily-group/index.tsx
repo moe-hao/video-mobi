@@ -64,34 +64,34 @@ function DailyGroupPanel({ platform }: { platform: number }) {
           <Table.ScrollContainer>
             <Table.Content aria-label="日报分组数据" className="w-max min-w-full">
               <Table.Header>
-                <Table.Column className="whitespace-nowrap" isRowHeader>日期</Table.Column>
-                <Table.Column className="whitespace-nowrap">地区</Table.Column>
-                <Table.Column className="whitespace-nowrap">花费</Table.Column>
-                <Table.Column className="whitespace-nowrap">购物次数</Table.Column>
-                <Table.Column className="whitespace-nowrap">单次购物费用</Table.Column>
-                <Table.Column className="whitespace-nowrap">购物转化价值</Table.Column>
-                <Table.Column className="whitespace-nowrap">ROAS</Table.Column>
-                <Table.Column className="whitespace-nowrap">展示次数</Table.Column>
-                <Table.Column className="whitespace-nowrap">CPM</Table.Column>
-                <Table.Column className="whitespace-nowrap">点击量</Table.Column>
-                <Table.Column className="whitespace-nowrap">单次点击费用</Table.Column>
-                <Table.Column className="whitespace-nowrap">链接点记率</Table.Column>
+                <Table.Column className="whitespace-nowrap border-x border-gray-200" isRowHeader>日期</Table.Column>
+                <Table.Column className="whitespace-nowrap border-x border-gray-200">地区</Table.Column>
+                <Table.Column className="whitespace-nowrap border-x border-gray-200">花费</Table.Column>
+                <Table.Column className="whitespace-nowrap border-x border-gray-200">购物次数</Table.Column>
+                <Table.Column className="whitespace-nowrap border-x border-gray-200">单次购物费用</Table.Column>
+                <Table.Column className="whitespace-nowrap border-x border-gray-200">购物转化价值</Table.Column>
+                <Table.Column className="whitespace-nowrap border-x border-gray-200">ROAS</Table.Column>
+                <Table.Column className="whitespace-nowrap border-x border-gray-200">展示次数</Table.Column>
+                <Table.Column className="whitespace-nowrap border-x border-gray-200">CPM</Table.Column>
+                <Table.Column className="whitespace-nowrap border-x border-gray-200">点击量</Table.Column>
+                <Table.Column className="whitespace-nowrap border-x border-gray-200">单次点击费用</Table.Column>
+                <Table.Column className="whitespace-nowrap border-x border-gray-200">链接点记率</Table.Column>
               </Table.Header>
               <Table.Body>
                 {(adReportDailyGroupState.list ?? []).map((item, index) => (
                   <Table.Row key={`${item.date}-${item.region}-${index}`}>
-                    <Table.Cell className="whitespace-nowrap">{item.date}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">{RegionName[item.region as Region] || item.region}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">${item.spendSum.toFixed(2)}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">{item.purchaseConversionCountSum}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">${(item.spendSum / item.purchaseConversionCountSum).toFixed(2)}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">${item.purchasesConversionValueSum.toFixed(2)}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">${(item.purchasesConversionValueSum / item.spendSum * 100).toFixed(2)}%</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">{item.impressionsSum}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">${(item.spendSum / item.impressionsSum * 1000).toFixed(2)}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">{item.clicksNumSum}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">${(item.spendSum / item.clicksNumSum).toFixed(2)}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">{(item.clicksNumSum / item.impressionsSum * 100).toFixed(2)}%</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap border-x border-gray-200">{item.date}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap border-x border-gray-200">{RegionName[item.region as Region] || item.region}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap border-x border-gray-200">${item.spendSum.toFixed(2)}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap border-x border-gray-200">{item.purchaseConversionCountSum}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap border-x border-gray-200">${(item.spendSum / item.purchaseConversionCountSum).toFixed(2)}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap border-x border-gray-200">${item.purchasesConversionValueSum.toFixed(2)}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap border-x border-gray-200">${(item.purchasesConversionValueSum / item.spendSum * 100).toFixed(2)}%</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap border-x border-gray-200">{item.impressionsSum}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap border-x border-gray-200">${(item.spendSum / item.impressionsSum * 1000).toFixed(2)}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap border-x border-gray-200">{item.clicksNumSum}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap border-x border-gray-200">${(item.spendSum / item.clicksNumSum).toFixed(2)}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap border-x border-gray-200">{(item.clicksNumSum / item.impressionsSum * 100).toFixed(2)}%</Table.Cell>
                   </Table.Row>
                 ))}
               </Table.Body>
