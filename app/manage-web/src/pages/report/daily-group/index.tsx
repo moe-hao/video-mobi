@@ -90,6 +90,7 @@ function DailyGroupPanel({ platform }: { platform: number }) {
                     <Table.Cell className="whitespace-nowrap">{item.impressionsSum}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">${(item.spendSum / item.impressionsSum * 1000).toFixed(2)}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.clicksNumSum}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">${(item.spendSum / item.clicksNumSum).toFixed(2)}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{(item.clicksNumSum / item.impressionsSum * 100).toFixed(2)}%</Table.Cell>
                   </Table.Row>
                 ))}
