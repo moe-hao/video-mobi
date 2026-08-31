@@ -5,7 +5,8 @@ import TablePagination from "@app/manage-web/components/pagination/pagination";
 import type { AdReportDailyGroupReq } from "@lib/common/dto/ad-report-daily";
 import DateRange, { type DateRangeValue } from "@app/manage-web/components/date-range";
 import RegionSelect from "@app/manage-web/components/region-select";
-import { Region } from "@lib/common/consts/region";
+import { Region, RegionName } from "@lib/common/consts/region";
+import { PixelPlatform } from "@lib/common/consts/pixel";
 
 function formatDateFromTimestamp(ts: number): string {
   const d = new Date(ts * 1000);
@@ -75,7 +76,7 @@ function DailyGroupPanel({ platform }: { platform: number }) {
                 {(adReportDailyGroupState.list ?? []).map((item, index) => (
                   <Table.Row key={`${item.date}-${item.region}-${index}`}>
                     <Table.Cell className="whitespace-nowrap">{item.date}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">{item.region}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{RegionName[item.region as Region] || item.region}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">${item.spendSum.toFixed(2)}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.impressionsSum}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.clicksNumSum}</Table.Cell>
@@ -109,15 +110,15 @@ export default function DailyGroup() {
       <Tabs defaultSelectedKey="facebook">
         <Tabs.ListContainer>
           <Tabs.List aria-label="平台">
-            <Tabs.Tab id="facebook">Facebook</Tabs.Tab>
-            <Tabs.Tab id="tiktok">TikTok</Tabs.Tab>
+            <Tabs.Tab id="facebook">Facebook<Tabs.Indicator /></Tabs.Tab>
+            <Tabs.Tab id="tiktok">TikTok<Tabs.Indicator /></Tabs.Tab>
           </Tabs.List>
         </Tabs.ListContainer>
         <Tabs.Panel id="facebook">
-          <DailyGroupPanel platform={1} />
+          <DailyGroupPanel platform={PixelPlatform.Facebook} />
         </Tabs.Panel>
         <Tabs.Panel id="tiktok">
-          <DailyGroupPanel platform={2} />
+          <DailyGroupPanel platform={PixelPlatform.TikTok} />
         </Tabs.Panel>
       </Tabs>
     </div>
