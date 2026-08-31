@@ -48,7 +48,7 @@ function DailyGroupPanel({ platform }: { platform: number }) {
           }}
         />
         <RegionSelect
-          className="w-64"
+          className="w-72"
           value={req.country as Region | ''}
           onChange={(country) => setReq({ ...req, country })}
         />
@@ -67,10 +67,15 @@ function DailyGroupPanel({ platform }: { platform: number }) {
                 <Table.Column className="whitespace-nowrap" isRowHeader>日期</Table.Column>
                 <Table.Column className="whitespace-nowrap">地区</Table.Column>
                 <Table.Column className="whitespace-nowrap">花费</Table.Column>
-                <Table.Column className="whitespace-nowrap">展示</Table.Column>
-                <Table.Column className="whitespace-nowrap">点击量</Table.Column>
+                <Table.Column className="whitespace-nowrap">购物次数</Table.Column>
+                <Table.Column className="whitespace-nowrap">单次购物费用</Table.Column>
                 <Table.Column className="whitespace-nowrap">购物转化价值</Table.Column>
-                <Table.Column className="whitespace-nowrap">转化数</Table.Column>
+                <Table.Column className="whitespace-nowrap">ROAS</Table.Column>
+                <Table.Column className="whitespace-nowrap">展示次数</Table.Column>
+                <Table.Column className="whitespace-nowrap">CPM</Table.Column>
+                <Table.Column className="whitespace-nowrap">点击量</Table.Column>
+                <Table.Column className="whitespace-nowrap">单次点击费用</Table.Column>
+                <Table.Column className="whitespace-nowrap">链接点记率</Table.Column>
               </Table.Header>
               <Table.Body>
                 {(adReportDailyGroupState.list ?? []).map((item, index) => (
@@ -78,10 +83,14 @@ function DailyGroupPanel({ platform }: { platform: number }) {
                     <Table.Cell className="whitespace-nowrap">{item.date}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{RegionName[item.region as Region] || item.region}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">${item.spendSum.toFixed(2)}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">{item.impressionsSum}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">{item.clicksNumSum}</Table.Cell>
-                    <Table.Cell className="whitespace-nowrap">${item.purchasesConversionValueSum.toFixed(2)}</Table.Cell>
                     <Table.Cell className="whitespace-nowrap">{item.purchaseConversionCountSum}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">${(item.spendSum / item.purchaseConversionCountSum).toFixed(2)}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">${item.purchasesConversionValueSum.toFixed(2)}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">${(item.purchasesConversionValueSum / item.spendSum * 100).toFixed(2)}%</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{item.impressionsSum}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">${(item.spendSum / item.impressionsSum * 1000).toFixed(2)}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{item.clicksNumSum}</Table.Cell>
+                    <Table.Cell className="whitespace-nowrap">{(item.clicksNumSum / item.impressionsSum * 100).toFixed(2)}%</Table.Cell>
                   </Table.Row>
                 ))}
               </Table.Body>
