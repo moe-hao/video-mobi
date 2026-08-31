@@ -75,7 +75,7 @@ function DailyGroupPanel({ platform }: { platform: number }) {
                 <Table.Column className="whitespace-nowrap border-x border-gray-200">CPM</Table.Column>
                 <Table.Column className="whitespace-nowrap border-x border-gray-200">点击量</Table.Column>
                 <Table.Column className="whitespace-nowrap border-x border-gray-200">单次点击费用</Table.Column>
-                <Table.Column className="whitespace-nowrap border-x border-gray-200">链接点记率</Table.Column>
+                <Table.Column className="whitespace-nowrap border-x border-gray-200">链接点击率</Table.Column>
               </Table.Header>
               <Table.Body>
                 {(adReportDailyGroupState.list ?? []).map((item, index) => (
