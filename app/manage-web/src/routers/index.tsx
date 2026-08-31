@@ -131,6 +131,12 @@ export const routers: RouterItem[] = [
         isMenu: true,
       },
       {
+        name: '每日汇总',
+        path: '/report/daily_group',
+        element: loadable(() => import('../pages/report/daily-group')),
+        isMenu: true,
+      },
+      {
         name: '续订统计',
         path: '/report/subscription_renewal',
         element: loadable(() => import('../pages/report/subscription-renewal')),
@@ -140,12 +146,6 @@ export const routers: RouterItem[] = [
         name: 'LTV报表',
         path: '/report/ltv',
         element: loadable(() => import('../pages/report/ltv')),
-        isMenu: true,
-      },
-      {
-        name: '日报分组',
-        path: '/report/daily_group',
-        element: loadable(() => import('../pages/report/daily-group')),
         isMenu: true,
       }
     ]
