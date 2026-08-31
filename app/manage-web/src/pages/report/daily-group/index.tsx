@@ -106,7 +106,7 @@ export default function DailyGroup() {
       <div className="flex items-center justify-between mb-5">
         <div className="text-lg font-semibold text-gray-700">日报分组</div>
       </div>
-      <Tabs variant="secondary" defaultSelectedKey="facebook">
+      <Tabs defaultSelectedKey="facebook">
         <Tabs.ListContainer>
           <Tabs.List aria-label="平台">
             <Tabs.Tab id="facebook">Facebook</Tabs.Tab>
