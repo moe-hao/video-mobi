@@ -138,13 +138,20 @@ export class AdReportDailyDao {
     }
 
     private buildGroupConditions(start: string, end: string, country: string, platform: number) {
-        return [
-            between(adReportDailyTable.date, start, end),
-            eq(adReportDailyTable.region, country),
-            eq(adReportDailyTable.platform, platform),
+        const conditions = [
             ne(adReportDailyTable.region, 'None'),
             ne(adReportDailyTable.region, 'unknown'),
         ];
+        if (start && end) {
+            conditions.push(between(adReportDailyTable.date, start, end));
+        }
+        if (platform) {
+            conditions.push(eq(adReportDailyTable.platform, platform));
+        }
+        if (country) {
+            conditions.push(eq(adReportDailyTable.region, country));
+        }
+        return conditions;
     }
 
     async getAdReportDailyGroup(start: string, end: string, country: string, platform: number, page: number, size: number): Promise<{
