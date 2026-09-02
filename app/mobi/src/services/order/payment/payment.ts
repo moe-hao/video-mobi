@@ -6,6 +6,7 @@ import { PaymentChannel, type PaymentType } from "@lib/common/consts/payment";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
 import { PayssionPayment } from "./payssion-payment";
 import { AntomPayment } from "./antom-payment";
+import { UseePayPayment } from "./useepay-payment";
 
 export type PaymentOrder = {
     orderId: number;
@@ -26,6 +27,7 @@ export type PaymentInfo = {
     pixCPF: string;
     firstName: string;
     lastName: string;
+    ipAddress: string;
 }
 
 export interface Payment {
@@ -43,6 +45,8 @@ export class PaymentFactory {
                 return new PayssionPayment();
             case PaymentChannel.Antom:
                 return new AntomPayment();
+            case PaymentChannel.UseePay:
+                return new UseePayPayment();
         }
     }
 }

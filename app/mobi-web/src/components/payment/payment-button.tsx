@@ -90,7 +90,7 @@ export default function PaymentButton({ bizId, paymentChannel, paymentType, load
 
       const result = await fetchUserOrderCreate({
         sku: bizId,
-        paymentChannel: PaymentChannel.Payssion,
+        paymentChannel: paymentChannel,
         paymentType: PaymentType.Pix,
         pixelId: Number(searchParams.get('p')) || 0,
         reback: `${location.pathname}${location.search || ''}`,
@@ -110,7 +110,7 @@ export default function PaymentButton({ bizId, paymentChannel, paymentType, load
   return (
     <>
       {
-        paymentChannel === PaymentChannel.Payssion ? <PixButton onSubmit={handlePixSubmit} /> :
+        paymentType === PaymentType.Pix ? <PixButton onSubmit={handlePixSubmit} /> :
           <button
             className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative flex items-center justify-start border-none cursor-pointer"
             onClick={() => handleClickPayment(paymentChannel, paymentType)}

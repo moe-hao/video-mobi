@@ -50,6 +50,11 @@ const config = {
     AntomClientId: process.env.ANTOM_CLIENT_ID || '',
     AntomNotifyUrl: process.env.ANTOM_NOTIFY_URL || '',
 
+    UseePayBaseURL: process.env.USEEPAY_BASE_URL || '',
+    UseePayMerchantNo: process.env.USEEPAY_MERCHANT_NO || '',
+    UseePayApiKey: process.env.USEEPAY_API_KEY || '',
+    UseePayAppId: process.env.USEEPAY_APP_ID || '',
+
     FbAccessToken: process.env.FB_ACCESS_TOKEN || '',
     FbBusinessAccessToken: process.env.FB_BUSINESS_ACCESS_TOKEN || '',
     TikTokBusinessAccessToken: process.env.TIKTOK_BUSINESS_ACCESS_TOKEN || '',

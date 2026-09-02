@@ -3,6 +3,7 @@ export enum PaymentChannel {
     Paypal = 'paypal',
     Payssion = 'payssion',
     Antom = 'antom',
+    UseePay = 'useepay',
 }
 
 export enum PaymentType {
