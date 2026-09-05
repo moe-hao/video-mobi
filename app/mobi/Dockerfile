@@ -8,7 +8,6 @@ RUN pnpm build:mobi
 
 FROM node:24-alpine AS runner
 WORKDIR /app
-COPY --from=builder /video-mobi/app/dist ./dist
-
+COPY --from=builder /video-mobi/app/mobi/dist ./dist
 EXPOSE 3000
 CMD ["node", "--enable-source-maps", "./dist/index.js"]
