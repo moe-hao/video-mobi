@@ -1,4 +1,4 @@
-# injectWorkspacePackages: true
+injectWorkspacePackages: true
 
 packages:
   - 'app/*'
