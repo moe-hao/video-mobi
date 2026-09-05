@@ -10,6 +10,9 @@ esbuild.build({
     sourcemap: true,
     sourcesContent: false,
     minify: true,
+    banner: {
+        js: `import { createRequire as __mobiRequire } from "module"; const require = __mobiRequire(import.meta.url);`,
+    },
 }).catch(error => {
     console.error(error);
     process.exit(1);
