@@ -21,9 +21,6 @@ importers:
       '@hono/node-server':
         specifier: ^1.19.14
         version: 1.19.14(hono@4.12.23)
-      '@hono/zod-validator':
-        specifier: ^0.8.0
-        version: 0.8.0(hono@4.12.23)(zod@4.4.3)
       '@lib/common':
         specifier: workspace:*
         version: link:../../lib/common
@@ -36,45 +33,12 @@ importers:
       '@lib/repo':
         specifier: workspace:*
         version: file:lib/repo(@types/node@20.19.41)
-      '@paypal/paypal-server-sdk':
-        specifier: 2.0.0
-        version: 2.0.0
-      '@volcengine/openapi':
-        specifier: ^1.36.2
-        version: 1.36.2
-      '@volcengine/tos-sdk':
-        specifier: ^2.9.1
-        version: 2.9.1
-      axios:
-        specifier: ^1.19.0
-        version: 1.19.0
-      bcrypt:
-        specifier: ^6.0.0
-        version: 6.0.0
       date-fns:
         specifier: ^4.3.0
         version: 4.4.0
-      dotenv:
-        specifier: ^17.4.2
-        version: 17.4.2
-      drizzle-orm:
-        specifier: ^0.45.2
-        version: 0.45.2(mysql2@3.22.4(@types/node@20.19.41))
       hono:
         specifier: ^4.12.18
         version: 4.12.23
-      ioredis:
-        specifier: ^5.10.1
-        version: 5.11.0
-      mysql2:
-        specifier: ^3.22.3
-        version: 3.22.4(@types/node@20.19.41)
-      pino:
-        specifier: ^10.3.1
-        version: 10.3.1
-      zod:
-        specifier: ^4.4.3
-        version: 4.4.3
     devDependencies:
       '@types/node':
         specifier: ^20.19.41
@@ -234,9 +198,6 @@ importers:
       '@hono/node-server':
         specifier: ^1.19.14
         version: 1.19.14(hono@4.12.23)
-      '@hono/zod-validator':
-        specifier: ^0.8.0
-        version: 0.8.0(hono@4.12.23)(zod@4.4.3)
       '@lib/common':
         specifier: workspace:*
         version: link:../../lib/common
@@ -252,46 +213,13 @@ importers:
       '@paypal/paypal-server-sdk':
         specifier: 2.0.0
         version: 2.0.0
-      '@volcengine/openapi':
-        specifier: ^1.36.2
-        version: 1.36.2
-      '@volcengine/tos-sdk':
-        specifier: ^2.9.1
-        version: 2.9.1
-      axios:
-        specifier: ^1.19.0
-        version: 1.19.0
-      bcrypt:
-        specifier: ^6.0.0
-        version: 6.0.0
       date-fns:
         specifier: ^4.3.0
         version: 4.4.0
-      dotenv:
-        specifier: ^17.4.2
-        version: 17.4.2
-      drizzle-orm:
-        specifier: ^0.45.2
-        version: 0.45.2(mysql2@3.22.4(@types/node@20.19.41))
       hono:
         specifier: ^4.12.18
         version: 4.12.23
-      ioredis:
-        specifier: ^5.10.1
-        version: 5.11.0
-      mysql2:
-        specifier: ^3.22.3
-        version: 3.22.4(@types/node@20.19.41)
-      pino:
-        specifier: ^10.3.1
-        version: 10.3.1
-      zod:
-        specifier: ^4.4.3
-        version: 4.4.3
     devDependencies:
-      '@types/bcrypt':
-        specifier: ^6.0.0
-        version: 6.0.0
       '@types/node':
         specifier: ^20.19.41
         version: 20.19.41
@@ -398,9 +326,6 @@ importers:
       '@hono/node-server':
         specifier: ^1.19.14
         version: 1.19.14(hono@4.12.23)
-      '@hono/zod-validator':
-        specifier: ^0.8.0
-        version: 0.8.0(hono@4.12.23)(zod@4.4.3)
       '@lib/common':
         specifier: workspace:*
         version: link:../../lib/common
@@ -413,55 +338,13 @@ importers:
       '@lib/repo':
         specifier: workspace:*
         version: file:lib/repo(@types/node@20.19.41)
-      '@paypal/paypal-server-sdk':
-        specifier: 2.0.0
-        version: 2.0.0
-      '@volcengine/openapi':
-        specifier: ^1.36.2
-        version: 1.36.2
-      '@volcengine/tos-sdk':
-        specifier: ^2.9.1
-        version: 2.9.1
-      axios:
-        specifier: ^1.19.0
-        version: 1.19.0
-      bcrypt:
-        specifier: ^6.0.0
-        version: 6.0.0
-      date-fns:
-        specifier: ^4.3.0
-        version: 4.4.0
-      dotenv:
-        specifier: ^17.4.2
-        version: 17.4.2
-      drizzle-orm:
-        specifier: ^0.45.2
-        version: 0.45.2(mysql2@3.22.4(@types/node@20.19.41))
-      facebook-nodejs-business-sdk:
-        specifier: ^24.0.1
-        version: 24.0.1
       hono:
         specifier: ^4.12.18
         version: 4.12.23
-      ioredis:
-        specifier: ^5.10.1
-        version: 5.11.0
-      mysql2:
-        specifier: ^3.22.3
-        version: 3.22.4(@types/node@20.19.41)
-      pino:
-        specifier: ^10.3.1
-        version: 10.3.1
-      zod:
-        specifier: ^4.4.3
-        version: 4.4.3
     devDependencies:
       '@types/bcrypt':
         specifier: ^6.0.0
         version: 6.0.0
-      '@types/facebook-nodejs-business-sdk':
-        specifier: ^24.0.0
-        version: 24.0.0
       '@types/node':
         specifier: ^20.19.41
         version: 20.19.41
@@ -501,46 +384,22 @@ importers:
       '@lib/repo':
         specifier: workspace:*
         version: file:lib/repo(@types/node@20.19.41)
-      '@volcengine/openapi':
-        specifier: ^1.36.2
-        version: 1.36.2
       axios:
         specifier: ^1.19.0
         version: 1.19.0
       date-fns:
         specifier: ^4.4.0
         version: 4.4.0
-      dotenv:
-        specifier: ^17.4.2
-        version: 17.4.2
-      drizzle-orm:
-        specifier: ^0.45.2
-        version: 0.45.2(mysql2@3.22.4(@types/node@20.19.41))
       facebook-nodejs-business-sdk:
         specifier: ^24.0.1
         version: 24.0.1
-      ioredis:
-        specifier: ^5.10.1
-        version: 5.11.0
-      mysql2:
-        specifier: ^3.22.3
-        version: 3.22.4(@types/node@20.19.41)
       nanoid:
         specifier: ^6.0.1
         version: 6.0.1
       node-schedule:
         specifier: ^2.1.1
         version: 2.1.1
-      pino:
-        specifier: ^10.3.1
-        version: 10.3.1
-      zod:
-        specifier: ^4.4.3
-        version: 4.4.3
     devDependencies:
-      '@types/bcrypt':
-        specifier: ^6.0.0
-        version: 6.0.0
       '@types/facebook-nodejs-business-sdk':
         specifier: ^24.0.0
         version: 24.0.0
@@ -568,16 +427,13 @@ importers:
       axios:
         specifier: ^1.19.0
         version: 1.19.0
-      bcrypt:
-        specifier: ^6.0.0
-        version: 6.0.0
+      bcryptjs:
+        specifier: ^3.0.3
+        version: 3.0.3
       zod:
         specifier: ^4.4.3
         version: 4.4.3
     devDependencies:
-      '@types/bcrypt':
-        specifier: ^6.0.0
-        version: 6.0.0
       '@types/node':
         specifier: ^20.19.41
         version: 20.19.41
@@ -636,6 +492,9 @@ importers:
       '@lib/internal':
         specifier: workspace:*
         version: file:lib/internal(@types/node@24.13.3)
+      axios:
+        specifier: ^1.19.0
+        version: 1.19.0
       drizzle-orm:
         specifier: ^0.45.2
         version: 0.45.2(mysql2@3.22.4(@types/node@24.13.3))
@@ -1903,9 +1762,9 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
-  bcrypt@6.0.0:
-    resolution: {integrity: sha512-cU8v/EGSrnH+HnxV2z0J7/blxH8gq7Xh2JFT6Aroax7UohdmiJJlxApMxtKfuI7z68NvvVcmR78k2LbT6efhRg==}
-    engines: {node: '>= 18'}
+  bcryptjs@3.0.3:
+    resolution: {integrity: sha512-GlF5wPWnSa/X5LKM1o0wz0suXIINz1iHRLvTS+sLyi7XPbe5ycmYI3DlZqVGZZtDgl4DmasFg7gOB3JYbphV5g==}
+    hasBin: true
 
   birpc@2.9.0:
     resolution: {integrity: sha512-KrayHS5pBi69Xi9JmvoqrIgYGDkD6mcSe/i6YKi3w5kekCLzrX4+nawcXqrj2tIp50Kw/mT/s3p+GVK0A0sKxw==}
@@ -2003,6 +1862,7 @@ packages:
 
   crypto-js@4.2.0:
     resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
+    deprecated: Active development of CryptoJS has been discontinued. This library is no longer maintained.
 
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
@@ -2051,10 +1911,6 @@ packages:
 
   dom-helpers@5.2.1:
     resolution: {integrity: sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==}
-
-  dotenv@17.4.2:
-    resolution: {integrity: sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw==}
-    engines: {node: '>=12'}
 
   drizzle-orm@0.45.2:
     resolution: {integrity: sha512-kY0BSaTNYWnoDMVoyY8uxmyHjpJW1geOmBMdSSicKo9CIIWkSxMIj2rkeSR51b8KAPB7m+qysjuHme5nKP+E5Q==}
@@ -2816,14 +2672,6 @@ packages:
 
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
-
-  node-addon-api@8.8.0:
-    resolution: {integrity: sha512-c5Ko1fZJIJmzhFIkhRN76WTq+fC6tWnGy9CXA0fA+XygsWZmEwG8vmbkNqxMyoaa0Tin4djul49NzdVcJJcjeA==}
-    engines: {node: ^18 || ^20 || >= 21}
-
-  node-gyp-build@4.8.4:
-    resolution: {integrity: sha512-LA4ZjwlnUblHVgq0oBF3Jl/6h/Nvs5fzBLwdEF4nuxnFdsfajde4WfxtJr3CaiH+F6ewcIB/q4jQ4UzPyid+CQ==}
-    hasBin: true
 
   node-releases@2.0.47:
     resolution: {integrity: sha512-Uzmd6LXpouKo8EUK68IjH4+E01w/hXyV3R3g/geCJo+rXLNfh1xucB+LOzYEOQPSiUK3h/xZf0cQGcSsmyL2Og==}
@@ -4026,7 +3874,7 @@ snapshots:
     dependencies:
       '@lib/internal': file:lib/internal(@types/node@20.19.41)
       axios: 1.19.0
-      bcrypt: 6.0.0
+      bcryptjs: 3.0.3
       zod: 4.4.3
     transitivePeerDependencies:
       - '@aws-sdk/client-rds-data'
@@ -4067,7 +3915,7 @@ snapshots:
     dependencies:
       '@lib/internal': file:lib/internal(@types/node@24.13.3)
       axios: 1.19.0
-      bcrypt: 6.0.0
+      bcryptjs: 3.0.3
       zod: 4.4.3
     transitivePeerDependencies:
       - '@aws-sdk/client-rds-data'
@@ -4238,6 +4086,7 @@ snapshots:
     dependencies:
       '@lib/common': file:lib/common(@types/node@20.19.41)
       '@lib/internal': file:lib/internal(@types/node@20.19.41)
+      axios: 1.19.0
       drizzle-orm: 0.45.2(mysql2@3.22.4(@types/node@20.19.41))
       mysql2: 3.22.4(@types/node@20.19.41)
     transitivePeerDependencies:
@@ -4658,7 +4507,7 @@ snapshots:
 
   '@types/bcrypt@6.0.0':
     dependencies:
-      '@types/node': 20.19.41
+      '@types/node': 24.13.3
 
   '@types/esrecurse@4.3.1': {}
 
@@ -5003,7 +4852,7 @@ snapshots:
   axios@0.27.2(debug@4.4.3):
     dependencies:
       follow-redirects: 1.16.0(debug@4.4.3)
-      form-data: 4.0.5
+      form-data: 4.0.6
     transitivePeerDependencies:
       - debug
 
@@ -5025,10 +4874,7 @@ snapshots:
 
   baseline-browser-mapping@2.10.33: {}
 
-  bcrypt@6.0.0:
-    dependencies:
-      node-addon-api: 8.8.0
-      node-gyp-build: 4.8.4
+  bcryptjs@3.0.3: {}
 
   birpc@2.9.0: {}
 
@@ -5149,8 +4995,6 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.29.7
       csstype: 3.2.3
-
-  dotenv@17.4.2: {}
 
   drizzle-orm@0.45.2(mysql2@3.22.4(@types/node@20.19.41)):
     optionalDependencies:
@@ -5811,10 +5655,6 @@ snapshots:
   nanoid@6.0.1: {}
 
   natural-compare@1.4.0: {}
-
-  node-addon-api@8.8.0: {}
-
-  node-gyp-build@4.8.4: {}
 
   node-releases@2.0.47: {}
 

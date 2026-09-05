@@ -5,12 +5,9 @@ esbuild.build({
     outfile: 'dist/index.js',
     bundle: true,
     platform: 'node',
-    packages: 'external',
+    packages: 'bundle',
     format: 'esm',
     sourcemap: true,
+    sourcesContent: false,
     minify: true,
-    keepNames: true,
-    alias: {
-        '@volcengine/openapi/lib/services/vod': '@volcengine/openapi/lib/services/vod/index.js',
-    },
 }).catch(() => process.exit(1));

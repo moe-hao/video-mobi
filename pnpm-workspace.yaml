@@ -1,4 +1,4 @@
-injectWorkspacePackages: true
+# injectWorkspacePackages: true
 
 packages:
   - 'app/*'
@@ -6,7 +6,6 @@ packages:
 
 allowBuilds:
   esbuild: true
-  bcrypt: true
   protobufjs: true
   tos-crc64-js: true
 

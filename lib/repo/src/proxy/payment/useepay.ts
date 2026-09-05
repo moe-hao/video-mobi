@@ -1,45 +1,75 @@
-import { PeriodType } from "@lib/common/consts/subscription";
-import type { UseePayCreateCustomerRequest, UseePayCreateCustomerResponse, UseePayCreatePaymentIntentRequest, UseePayCreatePaymentIntentResponse, UseePayCreateSubscriptionRequest, UseePayCreateSubscriptionResponse } from "./useepay.interface";
-import { logger } from "@lib/internal/logger";
-import http from "@lib/internal/http";
+import axios from 'axios';
+import https from 'https';
+import http from 'http';
 import config from "@lib/internal/config";
+import { PeriodType } from "@lib/common/consts/subscription";
+import { logger } from "@lib/internal/logger";
+import {
+    createCustomerDataSchema,
+    createCustomerResultSchema,
+    createPaymentIntentDataSchema,
+    createPaymentIntentResultSchema,
+    createSubscriptionDataSchema,
+    createSubscriptionRespSchema,
+    type CreateCustomerDataInner,
+    type CreateCustomerResultInner,
+    type CreateCustomerResultOuter,
+    type CreatePaymentIntentDataInner,
+    type CreatePaymentIntentResultInner,
+    type CreatePaymentIntentResultOuter,
+    type CreateSubscriptionDataInner,
+    type CreateSubscriptionResultInner,
+    type CreateSubscriptionResultOuter,
+} from "./schema/useepay";
+
+const client = axios.create({
+    baseURL: config.UseePayBaseURL,
+    httpsAgent: new https.Agent({ keepAlive: true }),
+    httpAgent: new http.Agent({ keepAlive: true }),
+    timeout: 30000,
+    headers: {
+        "x-merchant-no": config.UseePayMerchantNo,
+        "x-api-key": config.UseePayApiKey,
+        "x-app-id": config.UseePayAppId,
+    },
+});
+
+client.interceptors.request.use(request => {
+    logger.info(`UseePay request: [url] ${request.url} [body] ${JSON.stringify(request.data)}`);
+    return request;
+});
+
+client.interceptors.response.use(response => {
+    logger.info(`UseePay response: [url] ${response.config.url} [status] ${response.status} [result] ${JSON.stringify(response.data)}`);
+    return response;
+});
+
 
 class UseePayProxy {
-    constructor(
-        private readonly request = http,
-        private readonly baseURL = config.UseePayBaseURL,
-        private readonly headers = {
-            "x-merchant-no": config.UseePayMerchantNo,
-            "x-api-key": config.UseePayApiKey,
-            "x-app-id": config.UseePayAppId,
-        }
-    ) { }
+    async createCustomer(data: CreateCustomerDataInner): Promise<CreateCustomerResultInner> {
+        const resp = await client.post<CreateCustomerResultOuter>(
+            "/api/v1/customers/create",
+            createCustomerDataSchema.to(data)
+        );
 
-    async createCustomer(body: UseePayCreateCustomerRequest): Promise<UseePayCreateCustomerResponse> {
-        logger.info(`UseePay createCustomer: ${JSON.stringify(body)}`);
-        const result = await this.request.post<UseePayCreateCustomerResponse>(`${this.baseURL}/api/v1/customers/create`, body, {
-            headers: this.headers,
-        });
-        logger.info(`UseePay createCustomer: ${JSON.stringify(result.status)}`);
-        return result.data;
+        const reuslt = createCustomerResultSchema.from(resp.data);
+        return reuslt;
     }
 
-    async createSubscription(body: UseePayCreateSubscriptionRequest): Promise<UseePayCreateSubscriptionResponse> {
-        logger.info(`UseePay createSubscription: ${JSON.stringify(body)}`);
-        const result = await this.request.post<UseePayCreateSubscriptionResponse>(`${this.baseURL}/api/v1/subscriptions/create`, body, {
-            headers: this.headers,
-        });
-        logger.info(`UseePay createSubscription: ${JSON.stringify(result.status)}`);
-        return result.data;
+    async createSubscription(data: CreateSubscriptionDataInner): Promise<CreateSubscriptionResultInner> {
+        const result = await client.post<CreateSubscriptionResultOuter>(
+            "/api/v1/subscriptions/create",
+            createSubscriptionDataSchema.to(data)
+        );
+        return createSubscriptionRespSchema.from(result.data);
     }
 
-    async createPaymentIntent(body: UseePayCreatePaymentIntentRequest): Promise<UseePayCreatePaymentIntentResponse> {
-        logger.info(`UseePay createPaymentIntent: ${JSON.stringify(body)}`);
-        const result = await this.request.post<UseePayCreatePaymentIntentResponse>(`${this.baseURL}/api/v1/payment_intents/create`, body, {
-            headers: this.headers,
-        });
-        logger.info(`UseePay createPaymentIntent: ${JSON.stringify(result.data)}`);
-        return result.data;
+    async createPaymentIntent(data: CreatePaymentIntentDataInner): Promise<CreatePaymentIntentResultInner> {
+        const result = await client.post<CreatePaymentIntentResultOuter>(
+            "/api/v1/payment_intents/create",
+            createPaymentIntentDataSchema.to(data)
+        );
+        return createPaymentIntentResultSchema.from(result.data);
     }
 }
 

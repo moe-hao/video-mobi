@@ -1,4 +1,4 @@
-import { VodService } from "@volcengine/openapi/lib/services/vod";
+import { VodService } from "@volcengine/openapi/lib/services/vod/index.js";
 import config from "../config";
 
 export const vod = new VodService({
