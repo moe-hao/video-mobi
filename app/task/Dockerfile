@@ -1,4 +1,4 @@
-FROM node:24-alpine AS builder
+FROM node:24.20.0-alpine3.24 AS builder
 WORKDIR /app
 
 RUN corepack enable && corepack prepare pnpm@10.33.1 --activate
@@ -7,7 +7,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm build:task
 RUN pnpm --filter @app/task deploy --prod /deploy
 
-FROM node:24-alpine AS runner
+FROM node:24.20.0-alpine3.24 AS runner
 WORKDIR /app
 
 RUN apk add --no-cache tzdata && \
