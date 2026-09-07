@@ -3,15 +3,18 @@ import { Button } from "@heroui/react";
 import { useRef } from "react";
 import type { CollectionCoverUploadResp } from "@lib/common/dto/collection";
 import { uploadRequest } from "@lib/common/utils/upload-request";
+import { compress } from "@app/manage-web/utils/image";
 
 export default function OperateImage({ cover, setCover }: { cover: string; setCover: (state: string) => void }) {
   const coverInputRef = useRef<HTMLInputElement>(null);
 
   const handleCoverChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const formData = new FormData();
-    formData.append('file', e.target.files?.[0] || '');
-    const data = await uploadRequest<CollectionCoverUploadResp>('/api/collection/upload_cover', formData);
-    setCover(data.url);
+    compress((e.target.files?.[0] as File), async (file) => {
+      formData.append('file', file);
+      const data = await uploadRequest<CollectionCoverUploadResp>('/api/collection/upload_cover', formData);
+      setCover(data.url);
+    });
   };
 
   return (

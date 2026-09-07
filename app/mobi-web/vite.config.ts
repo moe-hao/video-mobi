@@ -15,7 +15,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@app/mobi-web': path.resolve(__dirname, './src'),
+      '@app/mobi-web': path.resolve(import.meta.dirname, './src'),
     }
   },
   build: {

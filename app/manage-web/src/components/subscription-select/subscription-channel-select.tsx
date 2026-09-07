@@ -8,6 +8,7 @@ const ChannelName: Record<PaymentChannel, string> = {
     [PaymentChannel.Payermax]: 'payermax',
     [PaymentChannel.Paypal]: 'paypal',
     [PaymentChannel.Payssion]: 'payssion',
+    [PaymentChannel.UseePay]: 'useepay',
 };
 
 export default function SubscriptionChannelSelect({ className, value, onChange }: { className?: string, value: PaymentChannel | "", onChange: (channel: PaymentChannel | '') => void }) {

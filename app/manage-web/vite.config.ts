@@ -18,7 +18,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@app/manage-web': path.resolve(__dirname, './src'),
+      '@app/manage-web': path.resolve(import.meta.dirname, './src'),
     }
   },
   optimizeDeps: {
