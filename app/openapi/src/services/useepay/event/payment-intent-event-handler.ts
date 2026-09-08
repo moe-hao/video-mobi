@@ -17,8 +17,8 @@ export class PaymentIntentEventHandler implements EventHandler {
     }
 
     async handlePaymentIntentSucceeded(event: UseePayWebhookEvent) {
-        if (event.data.order_id) {
-            const orderInfo = await orderDao.getOrderByBizId(event.data.order_id);
+        if (event.data.merchant_order_id) {
+            const orderInfo = await orderDao.getOrderByBizId(event.data.merchant_order_id);
             await orderDao.updateOrderById(orderInfo.id, { orderStatus: OrderStatus.Paid });
             await MemberDeliveryFactory.create(orderInfo).deliver();
             await orderDao.updateOrderById(orderInfo.id, { orderStatus: OrderStatus.Completed });
