@@ -451,9 +451,9 @@ importers:
       axios:
         specifier: ^1.19.0
         version: 1.20.0
-      caseforge:
-        specifier: ^0.6.0
-        version: 0.6.0
+      change-case:
+        specifier: ^5.4.4
+        version: 5.4.4
       drizzle-orm:
         specifier: ^0.45.2
         version: 0.45.2(mysql2@3.24.3(@types/node@24.13.3))
@@ -1528,8 +1528,8 @@ packages:
   caniuse-lite@1.0.30001810:
     resolution: {integrity: sha512-TITQPUkaz+aVk5GL6NhOdwk1aEaNTSDPsGFWrTuhKGtjTF70jL/Oht2W4c6rXUe5fu7Ie19VIahAXHIIiWWNeg==}
 
-  caseforge@0.6.0:
-    resolution: {integrity: sha512-3NQcqWOA3FqTEeoWT1DBkMhdbJE/t+5PTJveJpZmv+D9QRRNf2h+bZqdEiQH58F6BcUMreCssAO3OtgbwaCRHA==}
+  change-case@5.4.4:
+    resolution: {integrity: sha512-HRQyTk2/YPEkt9TnUPbOpr64Uw3KOicFWPVBb+xiHvd6eBx/qPr9xqfBFDT8P2vWsvvz4jbEkfDe71W3VyNu2w==}
 
   client-only@0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
@@ -3840,7 +3840,7 @@ snapshots:
 
   caniuse-lite@1.0.30001810: {}
 
-  caseforge@0.6.0: {}
+  change-case@5.4.4: {}
 
   client-only@0.0.1: {}
 

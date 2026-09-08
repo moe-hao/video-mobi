@@ -73,3 +73,13 @@ export interface CreatePaymentIntentNextActionResp {
     type: string;
     redirect: { method: string, url: string };
 }
+
+export interface CreateWebhookReq {
+    url: string;
+    events: string[];
+    apiVersion: string;
+}
+
+export interface CreateWebhookResp {
+    id: string;
+}

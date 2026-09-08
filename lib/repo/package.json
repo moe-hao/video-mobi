@@ -6,7 +6,7 @@
     "@lib/common": "workspace:*",
     "@lib/internal": "workspace:*",
     "axios": "^1.19.0",
-    "caseforge": "^0.6.0",
+    "change-case": "^5.4.4",
     "drizzle-orm": "^0.45.2",
     "mysql2": "^3.22.4"
   },

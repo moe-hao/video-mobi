@@ -1,5 +1,5 @@
 import client from "./client";
-import type { CreateCustomerReq, CreateCustomerResp, CreateInvoiceReq, CreateInvoiceResp, CreatePaymentIntentReq, CreatePaymentIntentResp, CreateSubscriptionReq, CreateSubscriptionResp } from "./types";
+import type { CreateCustomerReq, CreateCustomerResp, CreateInvoiceReq, CreateInvoiceResp, CreatePaymentIntentReq, CreatePaymentIntentResp, CreateSubscriptionReq, CreateSubscriptionResp, CreateWebhookReq, CreateWebhookResp } from "./types";
 
 class UseePayProxy {
     async createCustomer(req: CreateCustomerReq): Promise<CreateCustomerResp> {
@@ -18,7 +18,13 @@ class UseePayProxy {
     }
 
     async createPaymentIntent(req: CreatePaymentIntentReq): Promise<CreatePaymentIntentResp> {
+        client.defaults.headers["x-api-version"] = "2026-04"
         const result = await client.post<CreatePaymentIntentResp>("/api/v1/payment_intents/create", req);
+        return result.data;
+    }
+
+    async createWebhook(req: CreateWebhookReq): Promise<CreateWebhookResp> {
+        const result = await client.post<CreateWebhookResp>("/api/v1/webhooks/create", req);
         return result.data;
     }
 }

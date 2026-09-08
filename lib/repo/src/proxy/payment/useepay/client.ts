@@ -3,7 +3,7 @@ import { logger } from "@lib/internal/logger";
 import axios from "axios";
 import https from "https";
 import http from "http";
-import { toCamelCase, toSnakeCase } from "caseforge";
+import { camelCase, snakeCase } from "change-case/keys";
 
 const client = axios.create({
     baseURL: config.UseePayBaseURL,
@@ -18,13 +18,13 @@ const client = axios.create({
 });
 
 client.interceptors.request.use((request) => {
-    request.data = toSnakeCase(request.data);
+    request.data = snakeCase(request.data, Infinity);
     logger.info(`UseePay request: [url] ${request.url} [body] ${JSON.stringify(request.data)}`);
     return request;
 });
 
 client.interceptors.response.use((response) => {
-    response.data = toCamelCase(response.data);
+    response.data = camelCase(response.data, Infinity);
     logger.info(`UseePay response: [url] ${response.config.url} [status] ${response.status} [result] ${JSON.stringify(response.data)}`);
     return response;
 });
