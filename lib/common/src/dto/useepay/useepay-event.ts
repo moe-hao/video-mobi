@@ -12,6 +12,7 @@ export interface UseePayWebhookEventData {
     order_id?: string;
     merchant_order_id?: string;
     recurring?: UseePayWebhookEventDataRecurring;
+    latest_invoice?: UseePayWebhookEventDataLatestInvoice;
 }
 
 export interface UseePayWebhookEventDataRecurring {
@@ -20,5 +21,5 @@ export interface UseePayWebhookEventDataRecurring {
 
 export interface UseePayWebhookEventDataLatestInvoice {
     id: string;
-
+    payment_intent: { merchant_order_id: string; };
 }
