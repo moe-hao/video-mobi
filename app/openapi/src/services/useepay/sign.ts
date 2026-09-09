@@ -13,5 +13,5 @@ export function verifyUseePaySign(sign: string, data: string): boolean {
         padding: crypto.constants.RSA_PKCS1_PADDING,
     }
 
-    return crypto.verify("RSA-SHA256", Buffer.from(data, "utf-8"), publicKey, Buffer.from(sign, "base64"))
+    return crypto.verify("RSA-SHA256", Buffer.from(data, "utf-8"), publicKey, Buffer.from(decodeURIComponent(sign), "base64"))
 }
