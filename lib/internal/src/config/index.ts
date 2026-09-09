@@ -54,6 +54,7 @@ const config = {
     UseePayMerchantNo: process.env.USEEPAY_MERCHANT_NO || '',
     UseePayApiKey: process.env.USEEPAY_API_KEY || '',
     UseePayAppId: process.env.USEEPAY_APP_ID || '',
+    UseePayWebhookKey: process.env.USEEPAY_WEBHOOK_KEY || '',
 
     FbAccessToken: process.env.FB_ACCESS_TOKEN || '',
     FbBusinessAccessToken: process.env.FB_BUSINESS_ACCESS_TOKEN || '',
