@@ -89,9 +89,9 @@ export class UseePayPayment implements Payment {
         //     pix: paymentMethodDataPix,
         // }
 
-        const deviceData = {
-            ipAddress: "127.0.0.1",
-        }
+        // const deviceData = {
+        //     ipAddress: "127.0.0.1",
+        // }
 
         const orderBizId = await orderBizIdGenerator.generate();
         const useePayPaymentInfo = await useePayProxy.createPaymentIntent({
@@ -106,7 +106,7 @@ export class UseePayPayment implements Payment {
             // customerId: customerId,
             returnUrl: `https://${paymentInfo.productInfo.host}${paymentInfo.reback}`,
             // paymentMethodData: paymentMethodData,
-            deviceData: deviceData,
+            // deviceData: deviceData,
         });
 
         const collectionBizId = (() => { try { return JSON.parse(paymentInfo.ad || "{}").collectionId || ""; } catch { return ""; } })();

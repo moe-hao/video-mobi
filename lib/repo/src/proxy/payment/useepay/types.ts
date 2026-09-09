@@ -49,7 +49,7 @@ export interface CreatePaymentIntentReq {
     subscriptionId?: string;
     returnUrl: string;
     paymentMethodData?: CreatePaymentIntentPaymentMethodDataReq;
-    deviceData: { ipAddress: string; };
+    deviceData?: { ipAddress: string; };
 }
 
 export interface CreatePaymentIntentPaymentMethodDataReq {
