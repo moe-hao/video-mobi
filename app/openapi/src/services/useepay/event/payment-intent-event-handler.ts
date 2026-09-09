@@ -14,6 +14,10 @@ export class PaymentIntentEventHandler implements EventHandler {
         if (event.name === UseePayWebhookEventName.PaymentIntentSucceeded && event.data.status === UseePayWebhookEventDataStatus.PaymentIntentSucceeded) {
             await this.handlePaymentIntentSucceeded(event);
         }
+
+        if (event.name === UseePayWebhookEventName.PaymentIntentFailed && event.data.status === UseePayWebhookEventDataStatus.PaymentIntentFailed) {
+            await this.handlePaymentIntentFailed(event);
+        }
     }
 
     async handlePaymentIntentSucceeded(event: UseePayWebhookEvent) {
@@ -32,6 +36,13 @@ export class PaymentIntentEventHandler implements EventHandler {
             if (pixelInfo && pixelInfo.platfrom === PixelPlatform.TikTok) {
                 await subscriptionService.sendTikTokEvent(pixelInfo, subscriptionInfo);
             }
+        }
+    }
+
+    async handlePaymentIntentFailed(event: UseePayWebhookEvent) {
+        if (event.data.merchant_order_id) {
+            const orderInfo = await orderDao.getOrderByBizId(event.data.merchant_order_id);
+            await orderDao.updateOrderById(orderInfo.id, { orderStatus: OrderStatus.Failed });
         }
     }
 }
