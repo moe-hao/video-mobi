@@ -12,7 +12,7 @@ export interface CreateSubscriptionReq {
     customerId?: string;
     recurring: CreateSubscriptionRecurringReq;
     currency: string;
-    currentPeriodStart: string;
+    currentPeriodStart?: string;
 }
 
 export interface CreateSubscriptionRecurringReq {

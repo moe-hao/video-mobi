@@ -7,7 +7,6 @@ import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
 import { uuid } from "@lib/common/utils/uuid";
 import { orderDao } from "@lib/repo/dao/order.dao";
 import { OrderStatus } from "@lib/common/consts/order";
-import { addMinutes, format } from "date-fns";
 import { useePayProxy } from "@lib/repo/proxy/payment/useepay/proxy";
 import { getUseePaySubscriptionInterval } from "@lib/repo/proxy/payment/useepay/internal";
 
@@ -35,7 +34,6 @@ export class UseePayPayment implements Payment {
     async createSubscription(paymentInfo: PaymentInfo): Promise<{ subscriptionId: number, subscriptionNo: string }> {
         const useePaySubscriptionInfo = await useePayProxy.createSubscription({
             currency: paymentInfo.skuInfo.currency,
-            currentPeriodStart: format(addMinutes(new Date(), 1), "yyyy-MM-dd'T'HH:mm:ss+08:00"),
             recurring: {
                 interval: getUseePaySubscriptionInterval(paymentInfo.skuInfo.periodType as PeriodType),
                 unitAmount: paymentInfo.skuInfo.price,
