@@ -27,5 +27,5 @@ export interface UseePayWebhookEventDataLatestInvoice {
 }
 
 export interface UseePayWebhookEventDataPaymentAttempt {
-    payment_method_details: UseePayPaymentMethod;
+    payment_method_details: { type: UseePayPaymentMethod };
 }

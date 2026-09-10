@@ -57,9 +57,9 @@ export class PaymentIntentEventHandler implements EventHandler {
     }
 
     private convertPaymentType(origin: PaymentType, event: UseePayWebhookEvent): PaymentType {
-        logger.info(`convertPaymentType: ${origin}, ${event.data.paymentAttempt?.payment_method_details}`);
+        logger.info(`convertPaymentType: ${origin}, ${event.data.paymentAttempt?.payment_method_details?.type}`);
         if (event.data.paymentAttempt) {
-            return UseePayPaymentMethodToPaymentType[event.data.paymentAttempt.payment_method_details];
+            return UseePayPaymentMethodToPaymentType[event.data.paymentAttempt.payment_method_details.type];
         }
         return origin;
     }
