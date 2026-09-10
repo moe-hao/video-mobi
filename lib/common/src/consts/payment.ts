@@ -39,11 +39,21 @@ export enum PayssionSubscriptionStatus {
 export enum UseePayPaymentMethod {
     Card = "card",
     Pix = "pix",
-    GooglePay = "google_pay"
+    GooglePay = "google_pay",
+    ApplePay = "apple_pay"
 }
 
 export const UseePayPaymentMethodToPaymentType: Record<UseePayPaymentMethod, PaymentType> = {
     [UseePayPaymentMethod.Card]: PaymentType.Card,
     [UseePayPaymentMethod.Pix]: PaymentType.Pix,
-    [UseePayPaymentMethod.GooglePay]: PaymentType.GooglePay
+    [UseePayPaymentMethod.GooglePay]: PaymentType.GooglePay,
+    [UseePayPaymentMethod.ApplePay]: PaymentType.ApplePay
 }
+
+
+export const PaymentTypeToUseePayPaymentMethod = new Map([
+    [PaymentType.Card, UseePayPaymentMethod.Card],
+    [PaymentType.Pix, UseePayPaymentMethod.Pix],
+    [PaymentType.GooglePay, UseePayPaymentMethod.GooglePay],
+    [PaymentType.ApplePay, UseePayPaymentMethod.ApplePay]
+]);

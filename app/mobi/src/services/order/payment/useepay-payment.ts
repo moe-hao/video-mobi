@@ -1,4 +1,4 @@
-import { PaymentChannel } from "@lib/common/consts/payment";
+import { PaymentChannel, PaymentTypeToUseePayPaymentMethod } from "@lib/common/consts/payment";
 import type { Payment, PaymentInfo, PaymentOrder } from "./payment";
 import { SkuType } from "@lib/common/consts/sku";
 import { SubscriptionStatus, type PeriodType } from "@lib/common/consts/subscription";
@@ -63,6 +63,7 @@ export class UseePayPayment implements Payment {
 
     async createPaymentIntent(invoiceId: string, subscriptionId: number, subscriptionNo: string, paymentInfo: PaymentInfo): Promise<PaymentOrder> {
         const orderBizId = await orderBizIdGenerator.generate();
+        const paymentMethodType = PaymentTypeToUseePayPaymentMethod.get(paymentInfo.paymentType);
         const useePayPaymentInfo = await useePayProxy.createPaymentIntent({
             amount: paymentInfo.skuInfo.price,
             currency: paymentInfo.skuInfo.currency,
@@ -72,6 +73,7 @@ export class UseePayPayment implements Payment {
             invoiceId: invoiceId,
             subscriptionId: subscriptionNo,
             returnUrl: `http://${paymentInfo.productInfo.host}${paymentInfo.reback}`,
+            paymentMethodTypes: paymentMethodType ? [paymentMethodType] : undefined,
         });
 
         const collectionBizId = (() => { try { return JSON.parse(paymentInfo.ad || "{}").collectionId || ""; } catch { return ""; } })();

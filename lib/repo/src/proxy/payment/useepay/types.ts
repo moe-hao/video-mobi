@@ -1,3 +1,5 @@
+import type { UseePayPaymentMethod } from "@lib/common/consts/payment";
+
 export interface CreateCustomerReq {
     merchantCustomerId: string;
     name: string;
@@ -49,6 +51,7 @@ export interface CreatePaymentIntentReq {
     subscriptionId?: string;
     returnUrl: string;
     paymentMethodData?: CreatePaymentIntentPaymentMethodDataReq;
+    paymentMethodTypes?: UseePayPaymentMethod[];
     deviceData?: { ipAddress: string; };
 }
 
