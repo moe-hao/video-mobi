@@ -10,7 +10,7 @@ esbuild.build({
     sourcemap: true,
     minify: true,
     banner: {
-        js: `import { createRequire as __mobiRequire } from "module"; const require = __mobiRequire(import.meta.url);`,
+        js: `import { createRequire as __mobiRequire } from "module"; const require = __mobiRequire(import.meta.url); const __dirname = import.meta.dirname; const __filename = import.meta.filename;`,
     },
 }).catch(error => {
     console.error(error);
