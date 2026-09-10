@@ -10,39 +10,30 @@ import { OrderStatus } from "@lib/common/consts/order";
 import { addMinutes, format } from "date-fns";
 import { useePayProxy } from "@lib/repo/proxy/payment/useepay/proxy";
 import { getUseePaySubscriptionInterval } from "@lib/repo/proxy/payment/useepay/internal";
-// import type { CreatePaymentIntentPaymentMethodDataReq } from "@lib/repo/proxy/payment/useepay/types";
 
 export class UseePayPayment implements Payment {
     private readonly orderPaymentChannel = PaymentChannel.UseePay;
 
     async createOrder(paymentInfo: PaymentInfo): Promise<PaymentOrder> {
-        // const customerInfo = await useePayProxy.createCustomer({
-        //     merchantCustomerId: `${paymentInfo.userInfo.id}-${uuid()}`,
-        //     name: paymentInfo.userInfo.bizId,
-        //     email: paymentInfo.userInfo.bizId + "@bluearcshow.com",
-        // });
-
         let { subscriptionId, subscriptionNo, invoiceId } = { subscriptionId: 0, subscriptionNo: "", invoiceId: "" };
         if (paymentInfo.skuInfo.skuType === SkuType.Subscription) {
-            const createSubscriptionResult = await this.createSubscription("customerInfo.id", paymentInfo);
+            const createSubscriptionResult = await this.createSubscription(paymentInfo);
             subscriptionId = createSubscriptionResult.subscriptionId;
             subscriptionNo = createSubscriptionResult.subscriptionNo;
 
             const createInvoiceResult = await useePayProxy.createInvoice({
                 currency: paymentInfo.skuInfo.currency,
                 totalAmount: paymentInfo.skuInfo.price,
-                // customerId: "customerInfo.id",
                 subscriptionId: subscriptionNo,
             });
             invoiceId = createInvoiceResult.id;
         }
 
-        return await this.createPaymentIntent("customerInfo.id", invoiceId, subscriptionId, subscriptionNo, paymentInfo);
+        return await this.createPaymentIntent(invoiceId, subscriptionId, subscriptionNo, paymentInfo);
     }
 
-    async createSubscription(customerId: string, paymentInfo: PaymentInfo): Promise<{ subscriptionId: number, subscriptionNo: string }> {
+    async createSubscription(paymentInfo: PaymentInfo): Promise<{ subscriptionId: number, subscriptionNo: string }> {
         const useePaySubscriptionInfo = await useePayProxy.createSubscription({
-            // customerId: customerId,
             currency: paymentInfo.skuInfo.currency,
             currentPeriodStart: format(addMinutes(new Date(), 1), "yyyy-MM-dd'T'HH:mm:ss+08:00"),
             recurring: {
@@ -72,41 +63,17 @@ export class UseePayPayment implements Payment {
         }
     }
 
-    async createPaymentIntent(customerId: string, invoiceId: string, subscriptionId: number, subscriptionNo: string, paymentInfo: PaymentInfo): Promise<PaymentOrder> {
-        // const paymentMethodDataBilling = {
-        //     address: { country: "BR" }
-        // }
-
-        // const paymentMethodDataPix = {
-        //     identificationNumber: paymentInfo.pixCPF,
-        // }
-
-        // const paymentMethodData: CreatePaymentIntentPaymentMethodDataReq = {
-        //     type: "card",
-        //     firstName: paymentInfo.firstName,
-        //     lastName: paymentInfo.lastName,
-        //     billing: paymentMethodDataBilling,
-        //     pix: paymentMethodDataPix,
-        // }
-
-        // const deviceData = {
-        //     ipAddress: "127.0.0.1",
-        // }
-
+    async createPaymentIntent(invoiceId: string, subscriptionId: number, subscriptionNo: string, paymentInfo: PaymentInfo): Promise<PaymentOrder> {
         const orderBizId = await orderBizIdGenerator.generate();
         const useePayPaymentInfo = await useePayProxy.createPaymentIntent({
             amount: paymentInfo.skuInfo.price,
             currency: paymentInfo.skuInfo.currency,
             merchantOrderId: orderBizId,
-            // confirm: true,
             autoCapture: true,
             mode: paymentInfo.skuInfo.skuType === SkuType.Subscription ? "subscription" : "payment",
             invoiceId: invoiceId,
             subscriptionId: subscriptionNo,
-            // customerId: customerId,
-            returnUrl: `https://${paymentInfo.productInfo.host}${paymentInfo.reback}`,
-            // paymentMethodData: paymentMethodData,
-            // deviceData: deviceData,
+            returnUrl: `http://${paymentInfo.productInfo.host}${paymentInfo.reback}`,
         });
 
         const collectionBizId = (() => { try { return JSON.parse(paymentInfo.ad || "{}").collectionId || ""; } catch { return ""; } })();

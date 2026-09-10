@@ -27,7 +27,6 @@ export type PaymentInfo = {
     pixCPF: string;
     firstName: string;
     lastName: string;
-    ipAddress: string;
 }
 
 export interface Payment {
