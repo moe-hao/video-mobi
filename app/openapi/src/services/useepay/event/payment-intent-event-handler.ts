@@ -9,6 +9,7 @@ import { pixelDao } from "@lib/repo/dao/pixel.dao";
 import { PixelPlatform } from "@lib/common/consts/pixel";
 import { subscriptionService } from "../../payermax/subscription-service";
 import { PaymentType, UseePayPaymentMethodToPaymentType } from "@lib/common/consts/payment";
+import { logger } from "@lib/internal/logger";
 
 export class PaymentIntentEventHandler implements EventHandler {
     async handle(event: UseePayWebhookEvent): Promise<void> {
@@ -56,6 +57,7 @@ export class PaymentIntentEventHandler implements EventHandler {
     }
 
     private convertPaymentType(origin: PaymentType, event: UseePayWebhookEvent): PaymentType {
+        logger.info(`convertPaymentType: ${origin}, ${event.data.paymentAttempt?.payment_method_details}`);
         if (event.data.paymentAttempt) {
             return UseePayPaymentMethodToPaymentType[event.data.paymentAttempt.payment_method_details];
         }
