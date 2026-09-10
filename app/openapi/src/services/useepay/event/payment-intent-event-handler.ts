@@ -8,6 +8,7 @@ import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
 import { pixelDao } from "@lib/repo/dao/pixel.dao";
 import { PixelPlatform } from "@lib/common/consts/pixel";
 import { subscriptionService } from "../../payermax/subscription-service";
+import { PaymentType, UseePayPaymentMethodToPaymentType } from "@lib/common/consts/payment";
 
 export class PaymentIntentEventHandler implements EventHandler {
     async handle(event: UseePayWebhookEvent): Promise<void> {
@@ -20,10 +21,15 @@ export class PaymentIntentEventHandler implements EventHandler {
         }
     }
 
-    async handlePaymentIntentSucceeded(event: UseePayWebhookEvent) {
+    private async handlePaymentIntentSucceeded(event: UseePayWebhookEvent) {
         if (event.data.merchant_order_id) {
             const orderInfo = await orderDao.getOrderByBizId(event.data.merchant_order_id);
-            await orderDao.updateOrderById(orderInfo.id, { orderStatus: OrderStatus.Paid });
+
+            await orderDao.updateOrderById(orderInfo.id, {
+                orderStatus: OrderStatus.Paid,
+                paymentType: this.convertPaymentType(orderInfo.paymentType as PaymentType, event)
+            });
+
             await MemberDeliveryFactory.create(orderInfo).deliver();
             await orderDao.updateOrderById(orderInfo.id, { orderStatus: OrderStatus.Completed });
 
@@ -39,10 +45,21 @@ export class PaymentIntentEventHandler implements EventHandler {
         }
     }
 
-    async handlePaymentIntentFailed(event: UseePayWebhookEvent) {
+    private async handlePaymentIntentFailed(event: UseePayWebhookEvent) {
         if (event.data.merchant_order_id) {
             const orderInfo = await orderDao.getOrderByBizId(event.data.merchant_order_id);
-            await orderDao.updateOrderById(orderInfo.id, { orderStatus: OrderStatus.Failed });
+            await orderDao.updateOrderById(orderInfo.id, {
+                orderStatus: OrderStatus.Failed,
+                paymentType: this.convertPaymentType(orderInfo.paymentType as PaymentType, event)
+            });
         }
     }
+
+    private convertPaymentType(origin: PaymentType, event: UseePayWebhookEvent): PaymentType {
+        if (event.data.paymentAttempt) {
+            return UseePayPaymentMethodToPaymentType[event.data.paymentAttempt.payment_method_details];
+        }
+        return origin;
+    }
+
 }

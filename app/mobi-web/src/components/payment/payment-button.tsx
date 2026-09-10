@@ -2,8 +2,8 @@ import { useUserOrderCreate } from "@app/mobi-web/hooks/user";
 import { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router";
-import PixButton from "./pix-button";
 import { addRetrieveCount } from "./retrieve-count";
+import PayssionPixButton from "./payssion-pix-button";
 
 export default function PaymentButton({ bizId, paymentChannel, paymentType, loading, onLoadingChange }: { bizId: string, paymentChannel: PaymentChannel, paymentType: PaymentType, loading: boolean, onLoadingChange: (v: boolean) => void }) {
   const { t } = useTranslation('', { keyPrefix: 'payment' });
@@ -110,7 +110,7 @@ export default function PaymentButton({ bizId, paymentChannel, paymentType, load
   return (
     <>
       {
-        paymentChannel === PaymentChannel.Payssion ? <PixButton onSubmit={handlePixSubmit} /> :
+        paymentChannel === PaymentChannel.Payssion ? <PayssionPixButton onSubmit={handlePixSubmit} /> :
           <button
             className="w-full h-[52px] bg-[rgba(255,255,255,0.1)] text-[16px] text-white font-bold mb-4 px-4 rounded-[16px] relative flex items-center justify-start border-none cursor-pointer"
             onClick={() => handleClickPayment(paymentChannel, paymentType)}

@@ -4,7 +4,7 @@ interface PixButtonProps {
   onSubmit: (data: { cpf: string; firstName: string; lastName: string }) => Promise<void>;
 }
 
-export default function PixButton({ onSubmit }: PixButtonProps) {
+export default function PayssionPixButton({ onSubmit }: PixButtonProps) {
   const [cpf, setCpf] = useState("");
   const [fullName, setFullName] = useState("");
   const [isPending, setIsPending] = useState(false);
@@ -43,7 +43,7 @@ export default function PixButton({ onSubmit }: PixButtonProps) {
           <div className="relative bg-[#1a1f2e] rounded-[16px] py-4 px-4 w-[90%] max-w-[400px] z-[70]">
             <div className="flex justify-between items-center mb-3">
               <h2 className="text-lg font-bold text-white px-2">
-                CPF
+                CPF / CNPJ
                 {isInvalid && <div className="text-[12px] font-bold text-red-500">Dados incorretos. Por favor, verifique o CPF ou Nome.</div>}
               </h2>
               <button className="bg-transparent border-none cursor-pointer text-white/70 hover:text-white p-2" onClick={() => setIsOpen(false)}>
@@ -54,7 +54,7 @@ export default function PixButton({ onSubmit }: PixButtonProps) {
               <input
                 className="w-full mb-4 px-4 py-3 bg-[rgba(255,255,255,0.1)] text-white rounded-lg border-none outline-none placeholder-white/50"
                 type="text"
-                placeholder="CPF"
+                placeholder="CPF / CNPJ"
                 value={cpf}
                 onChange={(e) => setCpf(e.target.value)}
               />

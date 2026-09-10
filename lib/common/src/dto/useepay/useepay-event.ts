@@ -1,3 +1,4 @@
+import type { UseePayPaymentMethod } from "@lib/common/consts/payment";
 import type { UseePayWebhookEventDataStatus, UseePayWebhookEventName } from "@lib/common/consts/useepay";
 
 export interface UseePayWebhookEvent {
@@ -13,6 +14,7 @@ export interface UseePayWebhookEventData {
     merchant_order_id?: string;
     recurring?: UseePayWebhookEventDataRecurring;
     latest_invoice?: UseePayWebhookEventDataLatestInvoice;
+    paymentAttempt?: UseePayWebhookEventDataPaymentAttempt;
 }
 
 export interface UseePayWebhookEventDataRecurring {
@@ -22,4 +24,8 @@ export interface UseePayWebhookEventDataRecurring {
 export interface UseePayWebhookEventDataLatestInvoice {
     id: string;
     payment_intent: { merchant_order_id: string; };
+}
+
+export interface UseePayWebhookEventDataPaymentAttempt {
+    payment_method_details: UseePayPaymentMethod;
 }

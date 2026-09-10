@@ -35,3 +35,15 @@ export enum PayssionSubscriptionStatus {
     Canceled = 'canceled',
     Completed = 'completed'
 }
+
+export enum UseePayPaymentMethod {
+    Card = "card",
+    Pix = "pix",
+    GooglePay = "google_pay"
+}
+
+export const UseePayPaymentMethodToPaymentType: Record<UseePayPaymentMethod, PaymentType> = {
+    [UseePayPaymentMethod.Card]: PaymentType.Card,
+    [UseePayPaymentMethod.Pix]: PaymentType.Pix,
+    [UseePayPaymentMethod.GooglePay]: PaymentType.GooglePay
+}
