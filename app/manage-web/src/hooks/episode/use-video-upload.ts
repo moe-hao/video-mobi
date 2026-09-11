@@ -16,9 +16,7 @@ function uploadFileWithProgress(
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    const formData = new FormData();
-    formData.append("collectionBizId", collectionBizId);
-    formData.append("file", file);
+    const params = new URLSearchParams({ collectionBizId, fileName: file.name });
 
     xhr.upload.addEventListener("progress", (e) => {
       if (e.lengthComputable) {
@@ -42,9 +40,10 @@ function uploadFileWithProgress(
     xhr.addEventListener("error", () => reject(new Error("网络错误")));
     xhr.addEventListener("abort", () => reject(new Error("已取消")));
 
-    xhr.open("POST", "/api/collection_video/upload");
+    xhr.open("PUT", `/api/collection_video/upload_stream?${params}`);
     xhr.setRequestHeader("Authorization", localStorage.getItem("token") || "");
-    xhr.send(formData);
+    xhr.setRequestHeader("Content-Type", "application/octet-stream");
+    xhr.send(file);
   });
 }
 
