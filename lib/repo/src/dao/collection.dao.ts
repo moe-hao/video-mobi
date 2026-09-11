@@ -1,12 +1,11 @@
 
-import { and, count, desc, eq, gte, inArray, like, or } from "drizzle-orm";
+import { and, count, desc, eq, inArray, like, or } from "drizzle-orm";
 import { collectionTable, type CollectionInsert, type CollectionSelect } from "../models/collection";
 import { database, type DatabaseConn } from "@lib/internal/database";
 import { DeleteStatus } from "@lib/common/consts/common-status";
 import { currentTime } from "@lib/common/utils/time";
 import type { Language } from "@lib/common/consts/region";
 import { CollectionType, PublishStatus } from "@lib/common/consts/collection";
-import type { VideoUploadStatus } from "@lib/common/consts/video";
 
 
 export type SearchCollection = {
@@ -167,18 +166,11 @@ class CollectionDao {
         return collections;
     }
 
-    async getCollectionByUploadStatus(uploadStatus: VideoUploadStatus): Promise<CollectionSelect[]> {
-        const collections = await this.conn.select().from(collectionTable).where(and(
-            eq(collectionTable.uploadStatus, uploadStatus),
-            gte(collectionTable.id, 1570),
-        ));
-        return collections;
-    }
-
-    async addCollection(data: CollectionInsert) {
+    async addCollection(data: CollectionInsert): Promise<number> {
         data.createTime = currentTime();
         data.updateTime = currentTime();
-        await this.conn.insert(collectionTable).values(data);
+        const [result] = await this.conn.insert(collectionTable).values(data);
+        return result.insertId;
     }
 
     async updateCollectionById(id: number, data: CollectionInsert) {

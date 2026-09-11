@@ -1,17 +1,24 @@
-export enum BunnyVideoStatus {
-    Created = 0,
-    Uploaded = 1,
-    Processing = 2,
-    Transcoding = 3,
-    Finished = 4,
-    Error = 5,
-    UploadFailed = 6,
-    JitSegmenting = 7,
-    JitPlaylistsCreated = 8,
-}
+export const VideoStorage = {
+    Vol: "vol",
+    Bunny: "bunny",
+} as const;
 
-export enum VideoUploadStatus {
-    Created = 0,
-    Succeed = 1,
-    Failed = 2,
-}
+export const VideoUploadStatus = {
+    Processing: "processing",
+    Success: "success",
+    Failed: "failed",
+} as const;
+
+export const BunnyVideoStatus = {
+    Queued: 0,
+    Processing: 1,
+    Encoding: 2,
+    Finished: 3,
+    ResolutionFinished: 4,
+    Failed: 5,
+    PresignedUploadStarted: 6,
+    PresignedUploadFinished: 7,
+    PresignedUploadFailed: 8,
+    CaptionsGenerated: 9,
+    TitleOrDescriptionGenerated: 10,
+} as const;

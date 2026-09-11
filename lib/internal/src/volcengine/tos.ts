@@ -1,5 +1,5 @@
-import { TosClient } from "@volcengine/tos-sdk";
 import config from "../config";
+import { TosClient } from '@volcengine/tos-sdk';
 
 export const tos = new TosClient({
     accessKeyId: config.VolAccessKeyId,

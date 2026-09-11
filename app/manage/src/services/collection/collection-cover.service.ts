@@ -1,7 +1,7 @@
 import type { CollectionCoverUploadResp } from "@lib/common/dto/collection";
 import { uuid } from "@lib/common/utils/uuid";
 import config from "@lib/internal/config";
-import { tos } from "@lib/internal/tos";
+import { tos } from "@lib/internal/volcengine/tos";
 
 class CollectionCoverService {
     async uploadCollectionCover(file: File): Promise<CollectionCoverUploadResp> {

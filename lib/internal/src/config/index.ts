@@ -60,6 +60,9 @@ const config = {
     FbBusinessAccessToken: process.env.FB_BUSINESS_ACCESS_TOKEN || '',
     TikTokBusinessAccessToken: process.env.TIKTOK_BUSINESS_ACCESS_TOKEN || '',
 
+    BunnyStreamAccessKey: process.env.BUNNY_STREAM_ACCESS_KEY || '',
+    BunnyStreamLibrary: process.env.BUNNY_STREAM_LIBRARY || '',
+
     BunnyApiAccessKey: process.env.BUNNY_API_ACCESS_KEY || '',
     BunnyVideoLibraryId: process.env.BUNNY_VIDEO_LIBRARY_ID || '',
 

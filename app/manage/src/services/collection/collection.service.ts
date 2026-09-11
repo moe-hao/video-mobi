@@ -10,7 +10,7 @@ import { logger } from "@lib/internal/logger";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { ResultCode } from "@lib/common/consts/result";
 import { videoDao } from "@lib/repo/dao/video.dao";
-import { vod } from "@lib/internal/vod";
+import { vod } from "@lib/internal/volcengine/openapi";
 import { randomNum } from "@lib/common/utils/random";
 
 class CollectionService {

@@ -3,7 +3,7 @@ import { collectionVideoService } from "../services/collection/collection-video.
 import { validated } from "@lib/middleware/validated";
 import { success } from "@lib/common/dto/result";
 import { videoConfigUnlockReqSchema, videoDownloadReqSchema, videoDownloadVodSchema, videoListReqSchema, videoSyncReqSchema } from "@lib/common/dto/video";
-
+import { upload, validateFileUploadParams } from "../services/collection/video/upload";
 
 const collectionVideo = new Hono();
 
@@ -34,6 +34,13 @@ collectionVideo.post('/download', validated('json', videoDownloadVodSchema), asy
 collectionVideo.post('/config_unlock', validated('json', videoConfigUnlockReqSchema), async (c) => {
     const req = c.req.valid('json');
     await collectionVideoService.configUnlock(req);
+    return c.json(success())
+});
+
+collectionVideo.post('/upload', async (c) => {
+    const body = await c.req.parseBody();
+    const { collectionBizId, file } = validateFileUploadParams(body.collectionBizId, body.file);
+    await upload(collectionBizId, file);
     return c.json(success())
 });
 

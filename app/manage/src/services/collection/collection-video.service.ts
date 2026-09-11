@@ -1,15 +1,16 @@
 import { ResultCode } from "@lib/common/consts/result";
 import type { VideoConfigUnlockReq, VideoDownloadReq, VideoDownloadVodReq, VideoDownloadVodResp, VideoListReq, VideoListResp } from "@lib/common/dto/video";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
-import { currentTime, formatUnixTime } from "@lib/common/utils/time";
+import { formatUnixTime } from "@lib/common/utils/time";
 import config from "@lib/internal/config";
-import { vod } from "@lib/internal/vod";
+import { vod } from "@lib/internal/volcengine/openapi";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { videoDao } from "@lib/repo/dao/video.dao";
 import { getVideoAuth, getVideoList } from "./video/video";
 import { logger } from "@lib/internal/logger";
 import { uuid } from "@lib/common/utils/uuid";
-import { tos } from "@lib/internal/tos";
+import { tos } from "@lib/internal/volcengine/tos";
+import { VideoStorage, VideoUploadStatus } from "@lib/common/consts/video";
 
 type UploadMediaUrl = {
     SourceUrl: string;
@@ -87,13 +88,24 @@ class CollectionVideoService {
 
             for (const item of resp.Result?.MediaInfoList || []) {
                 const [collectionBizId] = item.BasicInfo?.Tags || [];
-                if (collectionBizId) {
+                const epNum = Number(item.BasicInfo?.Title);
+                const videoInfo = await videoDao.getVideoByCollectionIdAndEpNum(id, epNum);
+
+                if (videoInfo && collectionBizId) {
+                    await videoDao.updateVideoById(videoInfo.id, {
+                        vid: item.BasicInfo?.Vid || '',
+                        storage: VideoStorage.Vol,
+                        uploadStatus: VideoUploadStatus.Success,
+                    });
+                }
+
+                if (!videoInfo && collectionBizId) {
                     await videoDao.addVideo({
                         collectionId: id,
                         epNum: Number(item.BasicInfo?.Title),
                         vid: item.BasicInfo?.Vid || '',
-                        createTime: currentTime(),
-                        updateTime: currentTime(),
+                        storage: VideoStorage.Vol,
+                        uploadStatus: VideoUploadStatus.Success,
                     });
                 }
             }
