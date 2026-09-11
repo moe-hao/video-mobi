@@ -38,7 +38,7 @@ export default function ConfigUnlockButton({ collectionId }: { collectionId: num
 
   return (
     <Modal>
-      <Button variant="primary">配置解锁金币</Button>
+      <Button variant="primary">配置金币</Button>
       <Modal.Backdrop>
         <Modal.Container>
           <Modal.Dialog className="sm">

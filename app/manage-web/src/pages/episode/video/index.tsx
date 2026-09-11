@@ -10,6 +10,7 @@ import { PublishStatus } from "@lib/common/consts/collection";
 import { useChangePublishState, useDownloadEpisodeState, useEpisodeVideoState, useVideoState } from "@app/manage-web/hooks/episode";
 import { PreviewButton } from "./preview-button";
 import ConfigUnlockButton from "./config-unlock-button";
+import UploadButton from "./upload-button";
 
 export default function EpisodeVideo() {
   const [searchParams] = useSearchParams();
@@ -60,6 +61,7 @@ export default function EpisodeVideo() {
       </div>
       <div className="flex items-center gap-4 mb-4">
         <ConfigUnlockButton collectionId={collectionId} />
+        <UploadButton collectionBizId={videoListPage.collectionBizId || ''} />
         <div className="flex-1"></div>
         {
           videoListPage.publishStatus === PublishStatus.Unpublished ? (
