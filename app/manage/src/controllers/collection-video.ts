@@ -3,8 +3,7 @@ import { collectionVideoService } from "../services/collection/collection-video.
 import { validated } from "@lib/middleware/validated";
 import { success } from "@lib/common/dto/result";
 import { videoConfigUnlockReqSchema, videoDownloadReqSchema, videoDownloadVodSchema, videoListReqSchema, videoSyncReqSchema } from "@lib/common/dto/video";
-import { upload, uploadStream, validateFileUploadParams } from "../services/collection/video/upload";
-import type { IncomingMessage } from "http";
+import { upload, uploadProxy, validateFileUploadParams } from "../services/collection/video/upload";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { ResultCode } from "@lib/common/consts/result";
 
@@ -50,14 +49,13 @@ collectionVideo.post('/upload', async (c) => {
 collectionVideo.put('/upload_stream', async (c) => {
     const collectionBizId = c.req.query('collectionBizId');
     const fileName = c.req.query('fileName');
-    const contentLength = Number(c.req.header('content-length') || '0');
+    const contentLength = c.req.header('content-length');
 
     if (!collectionBizId || !fileName || !contentLength) {
         throw new InternalException(ResultCode.ParameterInvalid);
     }
 
-    const incoming = (c.env as any).incoming as IncomingMessage;
-    await uploadStream(collectionBizId, fileName, incoming, contentLength);
+    await uploadProxy(collectionBizId, fileName, c.req.raw.body, contentLength);
     return c.json(success())
 });
 

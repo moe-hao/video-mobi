@@ -1,4 +1,3 @@
-import type { Readable } from "stream";
 import { ResultCode } from "@lib/common/consts/result";
 import { VideoStorage, VideoUploadStatus } from "@lib/common/consts/video";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
@@ -51,11 +50,11 @@ export async function upload(collectionBizId: string, file: File): Promise<void>
     await saveVideoRecord(collectionBizId, epNum, videoGuid);
 }
 
-export async function uploadStream(collectionBizId: string, fileName: string, stream: Readable, contentLength: number): Promise<void> {
+export async function uploadProxy(collectionBizId: string, fileName: string, body: ReadableStream | null, contentLength: string): Promise<void> {
     const epNum = Number(fileName.split('.')[0]);
     const title = `${collectionBizId}-${epNum}`;
 
     const videoGuid = await bunnyStreamProxy.createVideo(title);
-    await bunnyStreamProxy.uploadVideoStream(videoGuid, stream, contentLength);
+    await bunnyStreamProxy.uploadVideoProxy(videoGuid, body, contentLength);
     await saveVideoRecord(collectionBizId, epNum, videoGuid);
 }
