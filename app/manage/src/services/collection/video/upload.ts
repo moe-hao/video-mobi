@@ -47,4 +47,3 @@ export async function upload(collectionBizId: string, file: File): Promise<void>
         });
     }
 }
-
