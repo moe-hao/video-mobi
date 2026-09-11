@@ -1,9 +1,10 @@
 import { ResultCode } from "@lib/common/consts/result";
 import { VideoStorage, VideoUploadStatus } from "@lib/common/consts/video";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
+import { uuid } from "@lib/common/utils/uuid";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { videoDao } from "@lib/repo/dao/video.dao";
-import { bunnyStreamProxy } from "@lib/repo/proxy/bunny/stream/proxy";
+import { bunnyVideoStorageProxy } from "@lib/repo/proxy/bunny/storage/proxy";
 
 export function validateFileUploadParams(collectionBizId: string | File, file: string | File) {
     if (!collectionBizId || typeof collectionBizId !== "string") {
@@ -41,20 +42,20 @@ async function saveVideoRecord(collectionBizId: string, epNum: number, videoGuid
     }
 }
 
-export async function upload(collectionBizId: string, file: File): Promise<void> {
-    const epNum = Number(file.name.split('.')[0]);
-    const title = `${collectionBizId}-${epNum}`;
+export async function upload(collectionBizId: string, fileName: string, body: ReadableStream | null): Promise<void> {
+    const [name, ext] = fileName.split('.');
+    const epNum = Number(name);
+    if (!body) {
+        throw new InternalException(ResultCode.ParameterInvalid);
+    }
 
-    const videoGuid = await bunnyStreamProxy.createVideo(title);
-    await bunnyStreamProxy.uploadVideo(videoGuid, file);
-    await saveVideoRecord(collectionBizId, epNum, videoGuid);
-}
-
-export async function uploadProxy(collectionBizId: string, fileName: string, body: ReadableStream | null, contentLength: string): Promise<void> {
-    const epNum = Number(fileName.split('.')[0]);
-    const title = `${collectionBizId}-${epNum}`;
-
-    const videoGuid = await bunnyStreamProxy.createVideo(title);
-    await bunnyStreamProxy.uploadVideoProxy(videoGuid, body, contentLength);
-    await saveVideoRecord(collectionBizId, epNum, videoGuid);
+    const vid = uuid();
+    try {
+        // 流式上传：边接收数据边上传到Bunny CDN
+        await bunnyVideoStorageProxy.upload(collectionBizId, `${vid}.${ext}`, body);
+    } catch (error) {
+        // 上传失败时抛出异常
+        throw new InternalException(ResultCode.OperationFailed);
+    }
+    await saveVideoRecord(collectionBizId, epNum, vid);
 }
