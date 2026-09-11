@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from "react";
+import axios from "axios";
 import type { Result } from "@lib/common/dto/result";
 
 export interface UploadFileItem {
@@ -9,42 +10,31 @@ export interface UploadFileItem {
   message?: string;
 }
 
-function uploadFileWithProgress(
+async function uploadFileWithProgress(
   file: File,
   collectionBizId: string,
   onProgress: (percent: number) => void
 ): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    const params = new URLSearchParams({ collectionBizId, fileName: file.name });
+  const params = new URLSearchParams({ collectionBizId, fileName: file.name });
+  const token = localStorage.getItem("token") || "";
 
-    xhr.upload.addEventListener("progress", (e) => {
-      if (e.lengthComputable) {
-        onProgress(Math.round((e.loaded / e.total) * 100));
+  const response = await axios.post(`/api/collection_video/upload?${params}`, file, {
+    headers: {
+      "Authorization": token,
+      "Content-Type": "application/octet-stream",
+    },
+    onUploadProgress: (progressEvent) => {
+      if (progressEvent.total) {
+        const percent = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+        onProgress(percent);
       }
-    });
-
-    xhr.addEventListener("load", () => {
-      try {
-        const result = JSON.parse(xhr.responseText) as Result;
-        if (result.code !== 0) {
-          reject(new Error(result.message));
-        } else {
-          resolve();
-        }
-      } catch {
-        reject(new Error("响应解析失败"));
-      }
-    });
-
-    xhr.addEventListener("error", () => reject(new Error("网络错误")));
-    xhr.addEventListener("abort", () => reject(new Error("已取消")));
-
-    xhr.open("PUT", `/api/collection_video/upload_stream?${params}`);
-    xhr.setRequestHeader("Authorization", localStorage.getItem("token") || "");
-    xhr.setRequestHeader("Content-Type", "application/octet-stream");
-    xhr.send(file);
+    },
   });
+
+  const result = response.data as Result;
+  if (result.code !== 0) {
+    throw new Error(result.message);
+  }
 }
 
 export function useVideoUpload(collectionBizId: string) {
