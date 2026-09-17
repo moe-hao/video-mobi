@@ -43,7 +43,7 @@ collectionVideo.post('/upload', async (c) => {
     const collectionBizId = c.req.query('collectionBizId');
     const fileName = c.req.query('fileName');
 
-    if (!collectionBizId || !fileName) {
+    if (!collectionBizId || !fileName || !c.req.raw.body) {
         throw new InternalException(ResultCode.ParameterInvalid);
     }
 

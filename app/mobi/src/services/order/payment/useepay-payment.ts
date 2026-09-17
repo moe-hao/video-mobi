@@ -20,7 +20,7 @@ export class UseePayPayment implements Payment {
             subscriptionId = createSubscriptionResult.subscriptionId;
             subscriptionNo = createSubscriptionResult.subscriptionNo;
 
-            const createInvoiceResult = await useePayProxy.createInvoice({
+            const createInvoiceResult = await useePayProxy.createInvoice(paymentInfo.productInfo.host, {
                 currency: paymentInfo.skuInfo.currency,
                 totalAmount: paymentInfo.skuInfo.price,
                 subscriptionId: subscriptionNo,
@@ -32,7 +32,7 @@ export class UseePayPayment implements Payment {
     }
 
     async createSubscription(paymentInfo: PaymentInfo): Promise<{ subscriptionId: number, subscriptionNo: string }> {
-        const useePaySubscriptionInfo = await useePayProxy.createSubscription({
+        const useePaySubscriptionInfo = await useePayProxy.createSubscription(paymentInfo.productInfo.host, {
             currency: paymentInfo.skuInfo.currency,
             recurring: {
                 interval: getUseePaySubscriptionInterval(paymentInfo.skuInfo.periodType as PeriodType),
@@ -63,7 +63,7 @@ export class UseePayPayment implements Payment {
 
     async createPaymentIntent(invoiceId: string, subscriptionId: number, subscriptionNo: string, paymentInfo: PaymentInfo): Promise<PaymentOrder> {
         const orderBizId = await orderBizIdGenerator.generate();
-        const useePayPaymentInfo = await useePayProxy.createPaymentIntent({
+        const useePayPaymentInfo = await useePayProxy.createPaymentIntent(paymentInfo.productInfo.host, {
             amount: paymentInfo.skuInfo.price,
             currency: paymentInfo.skuInfo.currency,
             merchantOrderId: orderBizId,

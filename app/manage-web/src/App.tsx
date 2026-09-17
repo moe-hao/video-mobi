@@ -35,7 +35,7 @@ export default function App() {
             <div className="flex-1"></div>
             <div className="flex items-center gap-3 p-2">
               <Avatar>
-                <Avatar.Fallback> {user?.username.toUpperCase().charAt(0)}</Avatar.Fallback>
+                <Avatar.Fallback> {user?.username?.toUpperCase()?.charAt(0)}</Avatar.Fallback>
               </Avatar>
               <div className="text-sm">
                 <div className="font-medium">{user?.username}</div>

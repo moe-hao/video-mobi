@@ -1,5 +1,6 @@
 export const VideoStorage = {
     Vol: "vol",
+    Tos: "tos",
     Bunny: "bunny",
 } as const;
 
