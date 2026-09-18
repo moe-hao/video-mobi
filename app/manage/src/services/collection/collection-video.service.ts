@@ -1,5 +1,5 @@
 import { ResultCode } from "@lib/common/consts/result";
-import type { VideoConfigUnlockReq, VideoDetailReq, VideoDownloadReq, VideoDownloadVodReq, VideoDownloadVodResp, VideoListReq, VideoListResp, VideoListRespItem } from "@lib/common/dto/video";
+import type { VideoConfigUnlockReq, VideoDownloadReq, VideoDownloadVodReq, VideoDownloadVodResp, VideoListReq, VideoListResp, VideoListRespItem } from "@lib/common/dto/video";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { formatUnixTime } from "@lib/common/utils/time";
 import config from "@lib/internal/config";
@@ -41,15 +41,6 @@ class CollectionVideoService {
             publishStatus: collectionInfo.publishStatus,
             list: videoInfoList.map((item) => this.toVideoListItem(item))
         }
-    }
-
-    async getCollectionVideoDetail(req: VideoDetailReq): Promise<VideoListRespItem> {
-        const videoInfo = await videoDao.getVideoByCollectionIdAndEpNum(req.collectionId, req.epNum);
-        if (!videoInfo) {
-            throw new InternalException(ResultCode.ResourceNotFound.code, 'Video Not Found');
-        }
-
-        return this.toVideoListItem(videoInfo);
     }
 
     private toVideoListItem(item: VideoSelect): VideoListRespItem {

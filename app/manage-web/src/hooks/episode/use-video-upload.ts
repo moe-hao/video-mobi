@@ -49,7 +49,7 @@ export function useVideoUpload(collectionBizId: string) {
   }, []);
 
   const upload = useCallback(
-    async (files: File[], onFileDone?: (epNum: number) => Promise<void> | void): Promise<void> => {
+    async (files: File[]): Promise<void> => {
       if (uploadingRef.current || files.length === 0) return;
 
       files.sort((a, b) => Number(a.name.split(".")[0]) - Number(b.name.split(".")[0]));
@@ -67,19 +67,13 @@ export function useVideoUpload(collectionBizId: string) {
         files.map((file, i) =>
           (async () => {
             updateItem(i, { status: "uploading" });
-            let isSuccess = false;
             try {
               await uploadFileWithProgress(file, collectionBizId, (percent) => {
                 updateItem(i, { progress: percent });
               });
               updateItem(i, { status: "done", progress: 100 });
-              isSuccess = true;
             } catch (err: any) {
               updateItem(i, { status: "error", message: err.message || "上传失败" });
-            }
-
-            if (isSuccess) {
-              await onFileDone?.(items[i].epNum);
             }
           })()
         )

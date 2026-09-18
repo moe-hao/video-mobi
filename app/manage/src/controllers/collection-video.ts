@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { collectionVideoService } from "../services/collection/collection-video.service";
 import { validated } from "@lib/middleware/validated";
 import { success } from "@lib/common/dto/result";
-import { videoConfigUnlockReqSchema, videoDetailReqSchema, videoDownloadReqSchema, videoDownloadVodSchema, videoListReqSchema, videoSyncReqSchema, videoUploadConfirmReqSchema, videoUploadPrepareReqSchema } from "@lib/common/dto/video";
+import { videoConfigUnlockReqSchema, videoDownloadReqSchema, videoDownloadVodSchema, videoListReqSchema, videoSyncReqSchema, videoUploadConfirmReqSchema, videoUploadPrepareReqSchema } from "@lib/common/dto/video";
 import { confirmUpload, prepareUpload } from "../services/collection/video/upload";
 
 const collectionVideo = new Hono();
@@ -10,12 +10,6 @@ const collectionVideo = new Hono();
 collectionVideo.get('/list', validated('query', videoListReqSchema), async (c) => {
     const req = c.req.valid('query');
     const resp = await collectionVideoService.getCollectionVideoList(req)
-    return c.json(success(resp))
-});
-
-collectionVideo.get('/detail', validated('query', videoDetailReqSchema), async (c) => {
-    const req = c.req.valid('query');
-    const resp = await collectionVideoService.getCollectionVideoDetail(req)
     return c.json(success(resp))
 });
 

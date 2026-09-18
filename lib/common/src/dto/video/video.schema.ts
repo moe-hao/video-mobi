@@ -10,11 +10,6 @@ export const videoSyncReqSchema = z.object({
     collectionId: z.coerce.number().int().default(0),
 });
 
-export const videoDetailReqSchema = z.object({
-    collectionId: z.coerce.number().int().default(0),
-    epNum: z.coerce.number().int().default(0),
-});
-
 export const videoDownloadReqSchema = z.object({
     collectionId: z.int({ error: "Param Invalid: collectionId" }),
 });
@@ -53,7 +48,6 @@ export const videoUploadConfirmReqSchema = z.object({
 
 export type VideoListReq = z.infer<typeof videoListReqSchema>;
 export type VideoSyncReq = z.infer<typeof videoSyncReqSchema>;
-export type VideoDetailReq = z.infer<typeof videoDetailReqSchema>;
 export type VideoDownloadReq = z.infer<typeof videoDownloadReqSchema>;
 export type VideoLikeReq = z.infer<typeof videoLikeReqSchema>;
 export type VideoDownloadVodReq = z.infer<typeof videoDownloadVodSchema>;

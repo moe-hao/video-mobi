@@ -4,17 +4,16 @@ import { useVideoUpload } from "@app/manage-web/hooks/episode/use-video-upload";
 
 interface UploadButtonProps {
   collectionBizId: string;
-  onFileUploaded?: (epNum: number) => Promise<void> | void;
   onClose?: () => void;
 }
 
-export default function UploadButton({ collectionBizId, onFileUploaded, onClose }: UploadButtonProps) {
+export default function UploadButton({ collectionBizId, onClose }: UploadButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { fileList, upload } = useVideoUpload(collectionBizId);
 
   const handleFileChange = (files: File[]) => {
-    upload(files, onFileUploaded);
+    upload(files);
   };
 
   const handleOpenChange = (open: boolean) => {

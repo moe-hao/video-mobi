@@ -22,7 +22,7 @@ export default function EpisodeVideo() {
     collectionId: collectionId,
   });
 
-  const { videoListPage, fetchVideoList, fetchVideoDetail } = useVideoState();
+  const { videoListPage, fetchVideoList } = useVideoState();
   const { fetchSyncEpisodeVideo } = useEpisodeVideoState();
   const { fetchDownloadEpisodeVideo } = useDownloadEpisodeState();
   const { fetchEpisodeChangePublish } = useChangePublishState();
@@ -47,10 +47,6 @@ export default function EpisodeVideo() {
     await fetchVideoList(videoListReq);
   };
 
-  const handleFileUploaded = async (epNum: number) => {
-    await fetchVideoDetail({ collectionId, epNum });
-  };
-
   const handleChangePublishState = async (req: CollectionPublishReq) => {
     setIsClickChangePublish(true);
     await fetchEpisodeChangePublish(req);
@@ -67,7 +63,6 @@ export default function EpisodeVideo() {
         <ConfigUnlockButton collectionId={collectionId} />
         <UploadButton
           collectionBizId={videoListPage.collectionBizId || ''}
-          onFileUploaded={handleFileUploaded}
           onClose={handleSuccess}
         />
         <div className="flex-1"></div>
