@@ -2,16 +2,20 @@ import { Hono } from "hono";
 import { collectionVideoService } from "../services/collection/collection-video.service";
 import { validated } from "@lib/middleware/validated";
 import { success } from "@lib/common/dto/result";
-import { videoConfigUnlockReqSchema, videoDownloadReqSchema, videoDownloadVodSchema, videoListReqSchema, videoSyncReqSchema } from "@lib/common/dto/video";
-import { upload } from "../services/collection/video/upload";
-import { InternalException } from "@lib/common/exceptions/internal-exception";
-import { ResultCode } from "@lib/common/consts/result";
+import { videoConfigUnlockReqSchema, videoDetailReqSchema, videoDownloadReqSchema, videoDownloadVodSchema, videoListReqSchema, videoSyncReqSchema, videoUploadConfirmReqSchema, videoUploadPrepareReqSchema } from "@lib/common/dto/video";
+import { confirmUpload, prepareUpload } from "../services/collection/video/upload";
 
 const collectionVideo = new Hono();
 
 collectionVideo.get('/list', validated('query', videoListReqSchema), async (c) => {
     const req = c.req.valid('query');
     const resp = await collectionVideoService.getCollectionVideoList(req)
+    return c.json(success(resp))
+});
+
+collectionVideo.get('/detail', validated('query', videoDetailReqSchema), async (c) => {
+    const req = c.req.valid('query');
+    const resp = await collectionVideoService.getCollectionVideoDetail(req)
     return c.json(success(resp))
 });
 
@@ -39,15 +43,15 @@ collectionVideo.post('/config_unlock', validated('json', videoConfigUnlockReqSch
     return c.json(success())
 });
 
-collectionVideo.post('/upload', async (c) => {
-    const collectionBizId = c.req.query('collectionBizId');
-    const fileName = c.req.query('fileName');
+collectionVideo.post('/upload_prepare', validated('json', videoUploadPrepareReqSchema), async (c) => {
+    const req = c.req.valid('json');
+    const resp = await prepareUpload(req.collectionBizId, req.fileName);
+    return c.json(success(resp));
+});
 
-    if (!collectionBizId || !fileName || !c.req.raw.body) {
-        throw new InternalException(ResultCode.ParameterInvalid);
-    }
-
-    await upload(collectionBizId, fileName, c.req.raw.body);
+collectionVideo.post('/upload_confirm', validated('json', videoUploadConfirmReqSchema), async (c) => {
+    const req = c.req.valid('json');
+    await confirmUpload(req.collectionBizId, req.fileName, req.vid);
     return c.json(success())
 });
 

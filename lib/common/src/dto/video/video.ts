@@ -29,6 +29,8 @@ export interface VideoListRespItem {
     id: number;
     vid: string;
     epNum: number;
+    storage: string;
+    uploadStatus: string;
     unlockCoinNum: number;
     createTime: string;
     updateTime: string;
@@ -45,4 +47,10 @@ export interface VideoDownloadVodResp {
 
 export interface VideoUnlockCoinResp {
     status: UnlockStatus;
+}
+
+export interface VideoUploadPrepareResp {
+    vid: string;
+    key: string;
+    uploadUrl: string;
 }

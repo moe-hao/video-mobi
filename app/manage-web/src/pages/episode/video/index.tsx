@@ -22,7 +22,7 @@ export default function EpisodeVideo() {
     collectionId: collectionId,
   });
 
-  const { videoListPage, fetchVideoList } = useVideoState();
+  const { videoListPage, fetchVideoList, fetchVideoDetail } = useVideoState();
   const { fetchSyncEpisodeVideo } = useEpisodeVideoState();
   const { fetchDownloadEpisodeVideo } = useDownloadEpisodeState();
   const { fetchEpisodeChangePublish } = useChangePublishState();
@@ -47,6 +47,10 @@ export default function EpisodeVideo() {
     await fetchVideoList(videoListReq);
   };
 
+  const handleFileUploaded = async (epNum: number) => {
+    await fetchVideoDetail({ collectionId, epNum });
+  };
+
   const handleChangePublishState = async (req: CollectionPublishReq) => {
     setIsClickChangePublish(true);
     await fetchEpisodeChangePublish(req);
@@ -61,7 +65,11 @@ export default function EpisodeVideo() {
       </div>
       <div className="flex items-center gap-4 mb-4">
         <ConfigUnlockButton collectionId={collectionId} />
-        <UploadButton collectionBizId={videoListPage.collectionBizId || ''} />
+        <UploadButton
+          collectionBizId={videoListPage.collectionBizId || ''}
+          onFileUploaded={handleFileUploaded}
+          onClose={handleSuccess}
+        />
         <div className="flex-1"></div>
         {
           videoListPage.publishStatus === PublishStatus.Unpublished ? (
@@ -94,6 +102,8 @@ export default function EpisodeVideo() {
               <Table.Column>VID</Table.Column>
               <Table.Column>付费集</Table.Column>
               <Table.Column>解锁金币</Table.Column>
+              <Table.Column>存储位置</Table.Column>
+              <Table.Column>状态</Table.Column>
               <Table.Column>创建日期</Table.Column>
               <Table.Column>更新日期</Table.Column>
               <Table.Column>操作</Table.Column>
@@ -107,6 +117,8 @@ export default function EpisodeVideo() {
                     <Table.Cell>{item.vid}</Table.Cell>
                     <Table.Cell>{item.epNum > videoListPage.collectionCutPoint || 0 ? '付费' : '免费'}</Table.Cell>
                     <Table.Cell>{item.unlockCoinNum}</Table.Cell>
+                    <Table.Cell>{item.storage}</Table.Cell>
+                    <Table.Cell>{item.uploadStatus}</Table.Cell>
                     <Table.Cell>{item.createTime}</Table.Cell>
                     <Table.Cell>{item.updateTime}</Table.Cell>
                     <Table.Cell>

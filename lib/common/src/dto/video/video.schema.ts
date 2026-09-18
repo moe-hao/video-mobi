@@ -10,6 +10,11 @@ export const videoSyncReqSchema = z.object({
     collectionId: z.coerce.number().int().default(0),
 });
 
+export const videoDetailReqSchema = z.object({
+    collectionId: z.coerce.number().int().default(0),
+    epNum: z.coerce.number().int().default(0),
+});
+
 export const videoDownloadReqSchema = z.object({
     collectionId: z.int({ error: "Param Invalid: collectionId" }),
 });
@@ -35,10 +40,25 @@ export const videoUnlockCoinReqSchema = z.object({
     epNum: z.number().int().default(0),
 });
 
+export const videoUploadPrepareReqSchema = z.object({
+    collectionBizId: z.string().nonempty({ message: "Param Invalid: collectionBizId" }),
+    fileName: z.string().nonempty({ message: "Param Invalid: fileName" }),
+});
+
+export const videoUploadConfirmReqSchema = z.object({
+    collectionBizId: z.string().nonempty({ message: "Param Invalid: collectionBizId" }),
+    fileName: z.string().nonempty({ message: "Param Invalid: fileName" }),
+    vid: z.string().nonempty({ message: "Param Invalid: vid" }),
+});
+
 export type VideoListReq = z.infer<typeof videoListReqSchema>;
 export type VideoSyncReq = z.infer<typeof videoSyncReqSchema>;
+export type VideoDetailReq = z.infer<typeof videoDetailReqSchema>;
 export type VideoDownloadReq = z.infer<typeof videoDownloadReqSchema>;
 export type VideoLikeReq = z.infer<typeof videoLikeReqSchema>;
 export type VideoDownloadVodReq = z.infer<typeof videoDownloadVodSchema>;
 export type VideoConfigUnlockReq = z.infer<typeof videoConfigUnlockReqSchema>;
 export type VideoUnlockCoinReq = z.infer<typeof videoUnlockCoinReqSchema>;
+export type VideoUploadPrepareReq = z.infer<typeof videoUploadPrepareReqSchema>;
+export type VideoUploadConfirmReq = z.infer<typeof videoUploadConfirmReqSchema>;
+

@@ -2,17 +2,30 @@ import { Button, Drawer, ProgressBar, Spinner, Table } from "@heroui/react";
 import { useRef, useState } from "react";
 import { useVideoUpload } from "@app/manage-web/hooks/episode/use-video-upload";
 
-export default function UploadButton({ collectionBizId }: { collectionBizId: string }) {
+interface UploadButtonProps {
+  collectionBizId: string;
+  onFileUploaded?: (epNum: number) => Promise<void> | void;
+  onClose?: () => void;
+}
+
+export default function UploadButton({ collectionBizId, onFileUploaded, onClose }: UploadButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { fileList, upload } = useVideoUpload(collectionBizId);
 
   const handleFileChange = (files: File[]) => {
-    upload(files);
+    upload(files, onFileUploaded);
+  };
+
+  const handleOpenChange = (open: boolean) => {
+    setIsOpen(open);
+    if (!open) {
+      onClose?.();
+    }
   };
 
   return (
-    <Drawer isOpen={isOpen} onOpenChange={(open) => setIsOpen(open)}>
+    <Drawer isOpen={isOpen} onOpenChange={handleOpenChange}>
       <Button variant="secondary" size="sm" onClick={() => setIsOpen(true)}>上传视频</Button>
       <Drawer.Backdrop isDismissable={false}>
         <Drawer.Content placement="right">
@@ -24,7 +37,17 @@ export default function UploadButton({ collectionBizId }: { collectionBizId: str
             <Drawer.Body className="flex flex-col gap-4 p-2">
               <div className="flex justify-end">
                 <Button variant="primary" size="sm" onClick={() => fileInputRef.current?.click()}>选择视频</Button>
-                <input ref={fileInputRef} type="file" className="hidden" accept="video/*" multiple onChange={(e) => handleFileChange(Array.from(e.target.files || []))} />
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  className="hidden"
+                  accept="video/*"
+                  multiple
+                  onChange={(e) => {
+                    handleFileChange(Array.from(e.target.files || []));
+                    e.target.value = '';
+                  }}
+                />
               </div>
               <div>
                 <Table>
@@ -33,7 +56,7 @@ export default function UploadButton({ collectionBizId }: { collectionBizId: str
                       <Table.Header>
                         <Table.Column isRowHeader>文件</Table.Column>
                         <Table.Column>集数</Table.Column>
-                        <Table.Column>进度</Table.Column>
+                        <Table.Column>上传状态</Table.Column>
                       </Table.Header>
                       <Table.Body>
                         {fileList.map((item, index) => (
@@ -42,7 +65,7 @@ export default function UploadButton({ collectionBizId }: { collectionBizId: str
                             <Table.Cell>{item.epNum}</Table.Cell>
                             <Table.Cell>
                               {item.status === "done" ? (
-                                <span>已完成</span>
+                                <span>已成功</span>
                               ) : item.status === "error" ? (
                                 <span className="text-danger">{item.message || "失败"}</span>
                               ) : item.progress >= 100 ? (

@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import axios from "axios";
-import type { Result } from "@lib/common/dto/result";
+import type { VideoUploadPrepareResp } from "@lib/common/dto/video";
+import http from "@lib/common/utils/http/manage";
 
 export interface UploadFileItem {
   name: string;
@@ -15,14 +16,15 @@ async function uploadFileWithProgress(
   collectionBizId: string,
   onProgress: (percent: number) => void
 ): Promise<void> {
-  const params = new URLSearchParams({ collectionBizId, fileName: file.name });
-  const token = localStorage.getItem("token") || "";
+  const prepareResult = await http.post<VideoUploadPrepareResp>('/api/collection_video/upload_prepare', {
+    collectionBizId,
+    fileName: file.name,
+  });
+  const { vid, uploadUrl } = prepareResult.data;
 
-  const response = await axios.post(`/api/collection_video/upload?${params}`, file, {
-    headers: {
-      "Authorization": token,
-      "Content-Type": "application/octet-stream",
-    },
+  // 直传 TOS：进度条即真实上传进度（不走业务服务的 token 与拦截器）
+  await axios.put(uploadUrl, file, {
+    headers: { "Content-Type": file.type || "application/octet-stream" },
     onUploadProgress: (progressEvent) => {
       if (progressEvent.total) {
         const percent = Math.round((progressEvent.loaded / progressEvent.total) * 100);
@@ -31,10 +33,11 @@ async function uploadFileWithProgress(
     },
   });
 
-  const result = response.data as Result;
-  if (result.code !== 0) {
-    throw new Error(result.message);
-  }
+  await http.post('/api/collection_video/upload_confirm', {
+    collectionBizId,
+    fileName: file.name,
+    vid,
+  });
 }
 
 export function useVideoUpload(collectionBizId: string) {
@@ -46,7 +49,7 @@ export function useVideoUpload(collectionBizId: string) {
   }, []);
 
   const upload = useCallback(
-    (files: File[]) => {
+    async (files: File[], onFileDone?: (epNum: number) => Promise<void> | void): Promise<void> => {
       if (uploadingRef.current || files.length === 0) return;
 
       files.sort((a, b) => Number(a.name.split(".")[0]) - Number(b.name.split(".")[0]));
@@ -60,24 +63,28 @@ export function useVideoUpload(collectionBizId: string) {
       setFileList(items);
       uploadingRef.current = true;
 
-      (async () => {
-        await Promise.all(
-          files.map((file, i) =>
-            (async () => {
-              updateItem(i, { status: "uploading" });
-              try {
-                await uploadFileWithProgress(file, collectionBizId, (percent) => {
-                  updateItem(i, { progress: percent });
-                });
-                updateItem(i, { status: "done", progress: 100 });
-              } catch (err: any) {
-                updateItem(i, { status: "error", message: err.message || "上传失败" });
-              }
-            })()
-          )
-        );
-        uploadingRef.current = false;
-      })();
+      await Promise.all(
+        files.map((file, i) =>
+          (async () => {
+            updateItem(i, { status: "uploading" });
+            let isSuccess = false;
+            try {
+              await uploadFileWithProgress(file, collectionBizId, (percent) => {
+                updateItem(i, { progress: percent });
+              });
+              updateItem(i, { status: "done", progress: 100 });
+              isSuccess = true;
+            } catch (err: any) {
+              updateItem(i, { status: "error", message: err.message || "上传失败" });
+            }
+
+            if (isSuccess) {
+              await onFileDone?.(items[i].epNum);
+            }
+          })()
+        )
+      );
+      uploadingRef.current = false;
     },
     [collectionBizId, updateItem]
   );

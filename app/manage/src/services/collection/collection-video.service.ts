@@ -1,11 +1,12 @@
 import { ResultCode } from "@lib/common/consts/result";
-import type { VideoConfigUnlockReq, VideoDownloadReq, VideoDownloadVodReq, VideoDownloadVodResp, VideoListReq, VideoListResp } from "@lib/common/dto/video";
+import type { VideoConfigUnlockReq, VideoDetailReq, VideoDownloadReq, VideoDownloadVodReq, VideoDownloadVodResp, VideoListReq, VideoListResp, VideoListRespItem } from "@lib/common/dto/video";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { formatUnixTime } from "@lib/common/utils/time";
 import config from "@lib/internal/config";
 import { vod } from "@lib/internal/volcengine/openapi";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { videoDao } from "@lib/repo/dao/video.dao";
+import type { VideoSelect } from "@lib/repo/models/video";
 import { getVideoAuth, getVideoList } from "./video/video";
 import { logger } from "@lib/internal/logger";
 import { uuid } from "@lib/common/utils/uuid";
@@ -38,15 +39,30 @@ class CollectionVideoService {
             collectionBizId: collectionInfo.bizId,
             collectionCutPoint: collectionInfo.cutPoint,
             publishStatus: collectionInfo.publishStatus,
-            list: videoInfoList.map((item) => ({
-                id: item.id,
-                vid: item.vid,
-                epNum: item.epNum,
-                unlockCoinNum: item.unlockCoinNum,
-                createTime: formatUnixTime(item.createTime),
-                updateTime: formatUnixTime(item.updateTime),
-            }))
+            list: videoInfoList.map((item) => this.toVideoListItem(item))
         }
+    }
+
+    async getCollectionVideoDetail(req: VideoDetailReq): Promise<VideoListRespItem> {
+        const videoInfo = await videoDao.getVideoByCollectionIdAndEpNum(req.collectionId, req.epNum);
+        if (!videoInfo) {
+            throw new InternalException(ResultCode.ResourceNotFound.code, 'Video Not Found');
+        }
+
+        return this.toVideoListItem(videoInfo);
+    }
+
+    private toVideoListItem(item: VideoSelect): VideoListRespItem {
+        return {
+            id: item.id,
+            vid: item.vid,
+            epNum: item.epNum,
+            storage: item.storage,
+            uploadStatus: item.uploadStatus,
+            unlockCoinNum: item.unlockCoinNum,
+            createTime: formatUnixTime(item.createTime),
+            updateTime: formatUnixTime(item.updateTime),
+        };
     }
 
     async download(req: VideoDownloadVodReq): Promise<VideoDownloadVodResp> {
