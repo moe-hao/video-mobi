@@ -41,7 +41,7 @@ export interface VideoLikeResp {
     likeTotal: number;
 }
 
-export interface VideoDownloadVodResp {
+export interface VideoPreviewResp {
     url: string;
 }
 

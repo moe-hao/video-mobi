@@ -1,5 +1,5 @@
 import { ResultCode } from "@lib/common/consts/result";
-import type { VideoConfigUnlockReq, VideoDownloadReq, VideoDownloadVodReq, VideoDownloadVodResp, VideoListReq, VideoListResp, VideoListRespItem } from "@lib/common/dto/video";
+import type { VideoConfigUnlockReq, VideoDownloadReq, VideoListReq, VideoListResp, VideoListRespItem, VideoPreviewReq, VideoPreviewResp } from "@lib/common/dto/video";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { formatUnixTime } from "@lib/common/utils/time";
 import config from "@lib/internal/config";
@@ -56,20 +56,34 @@ class CollectionVideoService {
         };
     }
 
-    async download(req: VideoDownloadVodReq): Promise<VideoDownloadVodResp> {
+    async preview(req: VideoPreviewReq): Promise<VideoPreviewResp> {
         const videoInfo = await videoDao.getVideoById(req.id);
         if (!videoInfo) {
             throw new InternalException(ResultCode.ResourceNotFound.code, 'Video Not Found');
         }
 
-        const playInfo = await vod.GetPlayInfo({ Vid: videoInfo.vid });
-        const [vodVideoInfo] = playInfo.Result?.PlayInfoList || [];
-        if (!vodVideoInfo) {
-            throw new InternalException(ResultCode.ResourceNotFound.code, 'Video Not Found');
+        if (videoInfo.storage === VideoStorage.Vol) {
+            const playInfo = await vod.GetPlayInfo({ Vid: videoInfo.vid });
+            const [vodVideoInfo] = playInfo.Result?.PlayInfoList || [];
+            if (!vodVideoInfo) {
+                throw new InternalException(ResultCode.ResourceNotFound.code, 'Video Not Found');
+            }
+
+            const url = vodVideoInfo.MainPlayUrl.replace('http://', 'https://');
+            return { url };
         }
 
-        const url = vodVideoInfo.MainPlayUrl.replace('http://', 'https://');
-        return { url };
+        if (videoInfo.storage === VideoStorage.Tos) {
+            const collectionInfo = await collectionDao.getCollectionById(videoInfo.collectionId);
+            if (!collectionInfo) {
+                throw new InternalException(ResultCode.ResourceNotFound);
+            }
+
+            const url = `https://s05.bluearcshow.com/${collectionInfo.bizId}/${videoInfo.vid}`
+            return { url };
+        }
+
+        return { url: '' };
     }
 
     async syncVodToCollection(id: number): Promise<void> {

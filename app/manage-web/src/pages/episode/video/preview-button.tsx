@@ -1,14 +1,14 @@
-import { useVideoDownload } from "@app/manage-web/hooks/episode/use-video-download";
+import { useVideoPreview } from "@app/manage-web/hooks/episode/use-video-preview";
 import { Link, Modal } from "@heroui/react";
-import type { VideoDownloadVodReq } from "@lib/common/dto/video";
+import type { VideoPreviewReq } from "@lib/common/dto/video";
 import { useState } from "react";
 
 export function PreviewButton({ id }: { id: number }) {
-  const { fetchDownload } = useVideoDownload();
+  const { fetchPreview } = useVideoPreview();
   const [src, setSrc] = useState<string | null>(null);
 
-  const handlePreviewVideo = async (req: VideoDownloadVodReq) => {
-    const result = await fetchDownload(req);
+  const handlePreviewVideo = async (req: VideoPreviewReq) => {
+    const result = await fetchPreview(req);
     setSrc(result?.url || null);
   };
 

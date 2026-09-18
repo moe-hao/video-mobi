@@ -18,7 +18,7 @@ export const videoLikeReqSchema = z.object({
     collectionBizId: z.string().default(''),
 });
 
-export const videoDownloadVodSchema = z.object({
+export const videoPreviewReqSchema = z.object({
     id: z.int().default(0),
 });
 
@@ -50,7 +50,7 @@ export type VideoListReq = z.infer<typeof videoListReqSchema>;
 export type VideoSyncReq = z.infer<typeof videoSyncReqSchema>;
 export type VideoDownloadReq = z.infer<typeof videoDownloadReqSchema>;
 export type VideoLikeReq = z.infer<typeof videoLikeReqSchema>;
-export type VideoDownloadVodReq = z.infer<typeof videoDownloadVodSchema>;
+export type VideoPreviewReq = z.infer<typeof videoPreviewReqSchema>;
 export type VideoConfigUnlockReq = z.infer<typeof videoConfigUnlockReqSchema>;
 export type VideoUnlockCoinReq = z.infer<typeof videoUnlockCoinReqSchema>;
 export type VideoUploadPrepareReq = z.infer<typeof videoUploadPrepareReqSchema>;
