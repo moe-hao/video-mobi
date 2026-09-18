@@ -2,7 +2,6 @@ import { DeleteStatus } from "@lib/common/consts/common-status";
 import { ResultCode } from "@lib/common/consts/result";
 import type { VideoPlayInfoResp, VideoPlayInfoListItem, VideoLikeResp, VideoUnlockCoinReq, VideoUnlockCoinResp } from "@lib/common/dto/video";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
-import { vod } from "@lib/internal/volcengine/openapi";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { memberDao } from "@lib/repo/dao/member.dao";
 import { userLikeDao } from "@lib/repo/dao/user-like.dao";
@@ -12,6 +11,9 @@ import type { UserAuthInfo } from "@lib/repo/redis/user";
 import { currentTime } from "@lib/common/utils/time";
 import { userCoinHistoryDao } from "@lib/repo/dao/user-coin-history.dao";
 import { UnlockCommType } from "@lib/common/consts/unlock-coin";
+import { PublishStatus } from "@lib/common/consts/collection";
+import { VideoStorage } from "@lib/common/consts/video";
+import { getTosVideoPlayURL, getVolVideoPlayURL } from "./video-play";
 class VideoService {
     async getVideoPlayInfo(userInfo: UserAuthInfo, collectionBizId: string, epNum: number): Promise<VideoPlayInfoResp> {
         const [memberInfo, collectionInfo] = await Promise.all([
@@ -52,19 +54,19 @@ class VideoService {
 
 
         let playURL = '';
-        if (shouldShowPlayURL) {
+        if (shouldShowPlayURL && collectionInfo.publishStatus === PublishStatus.Published) {
             const video = await videoDao.getVideoByCollectionIdAndEpNum(collectionInfo.id, epNum);
             if (!video.vid) {
                 throw new InternalException(ResultCode.ResourceNotFound.code, 'Video Not Found');
             }
 
-            const playInfo = await vod.GetPlayInfo({ Vid: video.vid });
-            const [videoInfo] = playInfo.Result?.PlayInfoList || [];
-            if (!videoInfo) {
-                throw new InternalException(ResultCode.ResourceNotFound.code, 'Video Not Found');
+            if (video.storage === VideoStorage.Vol) {
+                playURL = await getVolVideoPlayURL(video.vid);
             }
 
-            playURL = videoInfo.MainPlayUrl.replace('http://video.bluearcshow.com', 'https://s02.bluearcshow.com');
+            if (video.storage === VideoStorage.Tos) {
+                playURL = getTosVideoPlayURL(collectionInfo.bizId, video.vid);
+            }
         }
 
         const history = await historyDao.getHistoryByUserIdAndCollection(userInfo.id, collectionInfo.id);

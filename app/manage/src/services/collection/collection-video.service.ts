@@ -79,7 +79,7 @@ class CollectionVideoService {
                 throw new InternalException(ResultCode.ResourceNotFound);
             }
 
-            const url = `https://s05.bluearcshow.com/${collectionInfo.bizId}/${videoInfo.vid}`
+            const url = `https://s05.bluearcshow.com/${collectionInfo.bizId}/${videoInfo.vid}`;
             return { url };
         }
 
