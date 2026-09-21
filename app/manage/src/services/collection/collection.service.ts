@@ -12,6 +12,7 @@ import { ResultCode } from "@lib/common/consts/result";
 import { videoDao } from "@lib/repo/dao/video.dao";
 import { vod } from "@lib/internal/volcengine/openapi";
 import { randomNum } from "@lib/common/utils/random";
+import { VideoStorage } from "@lib/common/consts/video";
 
 class CollectionService {
     async getCollectionList(req: CollectionTableListReq): Promise<CollectionTableListResp> {
@@ -100,9 +101,12 @@ class CollectionService {
         }
 
         const videoList = await videoDao.getVideoByCollectionId(req.id);
-        await concurrencyLimit(videoList, 10, async (item) => {
-            await vod.UpdateMediaPublishStatus({ Vid: item.vid, Status: PublishStatusToVod[req.publishStatus] });
-        });
+        const vodVideoList = videoList.filter((item) => item.storage === VideoStorage.Vol);
+        if (vodVideoList && vodVideoList.length > 0) {
+            await concurrencyLimit(vodVideoList, 10, async (item) => {
+                await vod.UpdateMediaPublishStatus({ Vid: item.vid, Status: PublishStatusToVod[req.publishStatus] });
+            });
+        }
         await collectionDao.updateCollectionById(req.id, { publishStatus: req.publishStatus });
     }
 }
