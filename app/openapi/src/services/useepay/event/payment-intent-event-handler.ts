@@ -9,7 +9,7 @@ import { pixelDao } from "@lib/repo/dao/pixel.dao";
 import { PixelPlatform } from "@lib/common/consts/pixel";
 import { subscriptionService } from "../../payermax/subscription-service";
 import { PaymentType, UseePayPaymentMethodToPaymentType } from "@lib/common/consts/payment";
-import { logger } from "@lib/internal/logger";
+import { logger } from "@lib/internal/base/logger";
 
 export class PaymentIntentEventHandler implements EventHandler {
     async handle(event: UseePayWebhookEvent): Promise<void> {

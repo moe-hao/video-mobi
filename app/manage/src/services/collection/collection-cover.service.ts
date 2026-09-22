@@ -1,6 +1,6 @@
 import type { CollectionCoverUploadResp } from "@lib/common/dto/collection";
 import { uuid } from "@lib/common/utils/uuid";
-import config from "@lib/internal/config";
+import { config } from "@lib/internal/base/config";
 import { tos } from "@lib/internal/volcengine/tos";
 
 class CollectionCoverService {

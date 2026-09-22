@@ -1,4 +1,4 @@
-import config from "@lib/internal/config";
+import { config } from "@lib/internal/base/config";
 import axios from "axios";
 import http from "http";
 import https from "https";

@@ -1,4 +1,4 @@
-import { database, type DatabaseConn } from "@lib/internal/database";
+import { database, type DatabaseConn } from "@lib/internal/base/database";
 import { memberTable, type MemberInsert, type MemberSelect } from "../models/member";
 import { eq, inArray } from "drizzle-orm";
 import { currentTime } from "@lib/common/utils/time";

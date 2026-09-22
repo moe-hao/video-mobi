@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 import crypto from "crypto";
-import config from "@lib/internal/config";
+import { config } from "@lib/internal/base/config";
 
 export function generatePayermaxSign(body: string): string {
     const privateKey = readFileSync(config.PayermaxPrivateKey);

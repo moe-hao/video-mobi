@@ -1,5 +1,5 @@
-import config from "@lib/internal/config";
-import { logger } from "@lib/internal/logger";
+import { config } from "@lib/internal/base/config";
+import { logger } from "@lib/internal/base/logger";
 import axios from "axios";
 import https from "https";
 import http from "http";

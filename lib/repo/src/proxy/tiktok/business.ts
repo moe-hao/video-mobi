@@ -1,7 +1,7 @@
 import { convertURLSearchParams } from "@lib/common/utils/param";
 import type { TikTokBusinessEventReq, TikTokBusinessReportReq, TikTokBusinessReportResp } from "./business.interface";
-import { logger } from "@lib/internal/logger";
-import config from "@lib/internal/config";
+import { logger } from "@lib/internal/base/logger";
+import { config } from "@lib/internal/base/config";
 
 class TikTokBusinessProxy {
     constructor(

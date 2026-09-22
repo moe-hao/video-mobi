@@ -1,6 +1,6 @@
 import { type SubscriptionInsert, type SubscriptionSelect, subscriptionTable } from "../models/subscription";
 import { and, count, desc, eq, gte, lte, or } from "drizzle-orm";
-import { database, type DatabaseConn } from "@lib/internal/database";
+import { database, type DatabaseConn } from "@lib/internal/base/database";
 import { currentTime } from "@lib/common/utils/time";
 import { SubscriptionStatus } from "@lib/common/consts/subscription";
 import type { PaymentChannel } from "@lib/common/consts/payment";
@@ -97,11 +97,11 @@ export class SubscriptionDao {
                 eq(subscriptionTable.subscriptionStatus, status)
             )
         );
-        
+
         if (page !== undefined && size !== undefined) {
             return await query.limit(size).offset((page - 1) * size);
         }
-        
+
         return await query;
     }
 

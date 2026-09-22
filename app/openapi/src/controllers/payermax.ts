@@ -4,7 +4,7 @@ import { verifyPayermaxSign } from "@lib/common/utils/payermax";
 import type { PayermaxNotificationReq, PayermaxPaymentNotificationData, PayermaxSubscriptionNotificationData } from "@lib/common/dto/payermax";
 import { payermaxService } from "../services/payermax/payment-service";
 import { subscriptionService } from "../services/payermax/subscription-service";
-import { logger } from "@lib/internal/logger";
+import { logger } from "@lib/internal/base/logger";
 
 const payermaxVerifySign = createMiddleware(async (c, next) => {
     const body = await c.req.text();

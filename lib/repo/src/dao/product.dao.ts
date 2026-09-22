@@ -1,6 +1,6 @@
 import { and, count, desc, eq, inArray, like, or } from "drizzle-orm";
 import { productTable, type ProductInsert, type ProductSelect } from "../models/product";
-import { database, type DatabaseConn } from "@lib/internal/database";
+import { database, type DatabaseConn } from "@lib/internal/base/database";
 import { currentTime } from "@lib/common/utils/time";
 
 export type ProductListSearch = {

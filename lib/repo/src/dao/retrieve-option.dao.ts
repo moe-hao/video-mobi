@@ -1,6 +1,6 @@
 import { and, count, desc, eq, like, or } from "drizzle-orm";
 import { retrieveOptionTable, type RetrieveOptionInsert, type RetrieveOptionSelect } from "../models/retrieve-option";
-import { database, type DatabaseConn } from "@lib/internal/database";
+import { database, type DatabaseConn } from "@lib/internal/base/database";
 import { currentTime } from "@lib/common/utils/time";
 import { DeleteStatus } from "@lib/common/consts/common-status";
 

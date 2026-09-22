@@ -14,8 +14,8 @@ import type {
     PayermaxSubscriptionCreatePlan,
     PayermaxSubscriptionCreateResult
 } from "./payermax.interface";
-import config from "@lib/internal/config";
-import { logger } from "@lib/internal/logger";
+import { config } from "@lib/internal/base/config";
+import { logger } from "@lib/internal/base/logger";
 import { PayermaxResponseCode } from "@lib/common/consts/payermax";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { ResultCode } from "@lib/common/consts/result";

@@ -1,4 +1,4 @@
-const config = {
+export const config = {
     AppServerPort: Number(process.env.APP_SERVER_PORT || 3000),
     AppEnv: process.env.APP_ENV || 'dev',
 
@@ -71,6 +71,4 @@ const config = {
 
     BunnyVideoStorage: process.env.BUNNY_VIDEO_STORAGE || '',
     BunnyVideoAccessKey: process.env.BUNNY_VIDEO_ACCESS_KEY || '',
-}
-
-export default config;
+};

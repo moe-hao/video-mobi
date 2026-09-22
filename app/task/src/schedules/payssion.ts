@@ -1,4 +1,4 @@
-import { logger } from "@lib/internal/logger";
+import { logger } from "@lib/internal/base/logger";
 import { subscriptionPaymentService } from "../services/payssion/subscription-payment.service";
 
 export async function schedulePayssionSubscriptionStatus() {

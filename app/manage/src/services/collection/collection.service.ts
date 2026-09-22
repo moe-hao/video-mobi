@@ -6,7 +6,7 @@ import { concurrencyLimit } from "@lib/common/utils/concurrency";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { collectionBizId } from "./collection/generate-biz-id";
 import { DeleteStatus } from "@lib/common/consts/common-status";
-import { logger } from "@lib/internal/logger";
+import { logger } from "@lib/internal/base/logger";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { ResultCode } from "@lib/common/consts/result";
 import { videoDao } from "@lib/repo/dao/video.dao";

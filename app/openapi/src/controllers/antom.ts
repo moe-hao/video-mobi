@@ -3,8 +3,8 @@ import type { AntomPaymentNotificationReq } from "@lib/common/dto/antom";
 import { antomPaymentService } from "../services/antom/antom-payment.service";
 import { createMiddleware } from "hono/factory";
 import { verifySignature } from "../services/antom/signature.service";
-import { logger } from "@lib/internal/logger";
-import config from "@lib/internal/config";
+import { logger } from "@lib/internal/base/logger";
+import { config } from "@lib/internal/base/config";
 
 const antomVerifySign = createMiddleware(async (c, next) => {
     const clientId = config.AntomClientId;

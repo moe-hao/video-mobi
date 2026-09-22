@@ -1,6 +1,6 @@
 import { createMiddleware } from "hono/factory";
 import { authInfoService } from "../services/auth/auth-info.service";
-import { logger } from "@lib/internal/logger";
+import { logger } from "@lib/internal/base/logger";
 
 export const userAuthInfoMiddleware = createMiddleware(async (c, next) => {
     if (c.req.path === '/api/mobi/auth/guest_login') {

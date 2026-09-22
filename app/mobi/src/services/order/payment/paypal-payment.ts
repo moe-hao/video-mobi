@@ -2,7 +2,7 @@ import { OrderStatus } from "@lib/common/consts/order";
 import { PaymentChannel } from "@lib/common/consts/payment";
 import type { Payment, PaymentInfo, PaymentOrder } from "./payment";
 import { CheckoutPaymentIntent, Client, Environment, LogLevel, OrdersController, SubscriptionsController } from "@paypal/paypal-server-sdk";
-import config from "@lib/internal/config";
+import { config } from "@lib/internal/base/config";
 import { SkuType } from "@lib/common/consts/sku";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
 import { SubscriptionStatus } from "@lib/common/consts/subscription";

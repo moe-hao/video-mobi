@@ -12,7 +12,7 @@ import { orderBizIdGenerator } from "@app/order/order/order-biz-id-generator";
 import { skuDao } from "@lib/repo/dao/sku.dao";
 import { productDao } from "@lib/repo/dao/product.dao";
 import { currentTime } from "@lib/common/utils/time";
-import { logger } from "@lib/internal/logger";
+import { logger } from "@lib/internal/base/logger";
 
 export class PayssionWebhookService {
     async handle(req: PayssionWebhookReq) {

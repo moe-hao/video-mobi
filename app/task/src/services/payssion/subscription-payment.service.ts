@@ -2,7 +2,7 @@ import { payssionProxy } from "@lib/repo/proxy/payment/payssion";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
 import { PaymentChannel, PayssionMandateStatus, PayssionSubscriptionStatus } from "@lib/common/consts/payment";
 import { SubscriptionStatus } from "@lib/common/consts/subscription";
-import { logger } from "@lib/internal/logger";
+import { logger } from "@lib/internal/base/logger";
 import { orderDao } from "@lib/repo/dao/order.dao";
 import { OrderStatus } from "@lib/common/consts/order";
 import { currentTime } from "@lib/common/utils/time";

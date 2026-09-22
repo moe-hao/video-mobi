@@ -1,6 +1,6 @@
 import { createCipheriv, createDecipheriv, createHash, randomBytes } from "crypto";
 import { InternalException } from "../exceptions/internal-exception";
-import config from "@lib/internal/config";
+import { config } from "@lib/internal/base/config";
 import { ResultCode } from "../consts/result";
 
 export function encrypt(data: string, vector?: string): string {

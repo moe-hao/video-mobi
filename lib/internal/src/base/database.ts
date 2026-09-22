@@ -1,7 +1,7 @@
 import mysql from 'mysql2/promise';
 import { drizzle } from 'drizzle-orm/mysql2';
-import config from '../config';
-import { logger } from '../logger';
+import { logger } from './logger';
+import { config } from './config';
 
 const pool = mysql.createPool({
     host: config.DatabaseHost,
@@ -9,21 +9,16 @@ const pool = mysql.createPool({
     user: config.DatabaseUsername,
     password: config.DatabasePassword,
     database: config.DatabaseName,
-})
+});
+
+pool.on('connection', () => {
+    logger.info("Database connected: Success!");
+});
+
+const connection = await pool.getConnection();
+await connection.ping();
 
 export const database = drizzle({ client: pool });
+
 type TxType = Parameters<Parameters<(typeof database)['transaction']>[0]>[0];
 export type DatabaseConn = typeof database | TxType;
-
-export async function connectDatabase() {
-    const connection = await pool.getConnection();
-    try {
-        await connection.ping();
-        logger.info('Database connected: Success!');
-    } catch (error) {
-        logger.error(`Database connection: Failed - ${error}`);
-        throw error;
-    } finally {
-        connection.release();
-    }
-}

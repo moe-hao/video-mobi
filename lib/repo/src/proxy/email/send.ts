@@ -1,8 +1,8 @@
-import config from "@lib/internal/config";
+import { config } from "@lib/internal/base/config";
 
 
 export function getSubscriptionHTML(amount: string, orderBizId: string, time: string, nextTime: string) {
-    return `
+  return `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -101,36 +101,36 @@ export function getSubscriptionHTML(amount: string, orderBizId: string, time: st
 }
 
 export async function sendEmail(email: string, subject: string, html: string) {
-    const resp = await fetch(config.EmailResendHost, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${config.EmailResendKey}`
-        },
-        body: JSON.stringify({
-            from: `Blue Arc <${config.EmailResendFrom}>`,
-            to: email,
-            subject: subject,
-            html: html,
-        })
-    });
+  const resp = await fetch(config.EmailResendHost, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${config.EmailResendKey}`
+    },
+    body: JSON.stringify({
+      from: `Blue Arc <${config.EmailResendFrom}>`,
+      to: email,
+      subject: subject,
+      html: html,
+    })
+  });
 
-    const data = await resp.json();
-    console.log(data);
+  const data = await resp.json();
+  console.log(data);
 }
 
 export async function sendEmailVerify(email: string, code: string) {
-    const resp = await fetch(config.EmailResendHost, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${config.EmailResendKey}`
-        },
-        body: JSON.stringify({
-            from: `Blue Arc <${config.EmailResendFrom}>`,
-            to: email,
-            subject: 'Blue Arc - Verify Email',
-            html: `
+  const resp = await fetch(config.EmailResendHost, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${config.EmailResendKey}`
+    },
+    body: JSON.stringify({
+      from: `Blue Arc <${config.EmailResendFrom}>`,
+      to: email,
+      subject: 'Blue Arc - Verify Email',
+      html: `
             <!DOCTYPE html>
             <html lang="en">
             <head>
@@ -157,9 +157,9 @@ export async function sendEmailVerify(email: string, code: string) {
             </body>
             </html>
             `
-        })
-    });
+    })
+  });
 
-    const data = await resp.json();
-    console.log(data);
+  const data = await resp.json();
+  console.log(data);
 }

@@ -1,7 +1,7 @@
 import { ResultCode } from "@lib/common/consts/result";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { decrypt } from "@lib/common/utils/aes-encrypt";
-import config from "@lib/internal/config";
+import { config } from "@lib/internal/base/config";
 import { userDao } from "@lib/repo/dao/user.dao";
 import { userAuthRedis, type UserAuthInfo } from "@lib/repo/redis/user";
 import { verify } from "hono/jwt";

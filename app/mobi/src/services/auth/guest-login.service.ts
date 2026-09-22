@@ -5,7 +5,7 @@ import type { UserAuthLoginResp } from "@lib/common/dto/user";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { decrypt, encrypt } from "@lib/common/utils/aes-encrypt";
 import { uuid } from "@lib/common/utils/uuid";
-import config from "@lib/internal/config";
+import { config } from "@lib/internal/base/config";
 import { productDao } from "@lib/repo/dao/product.dao";
 import { userDao } from "@lib/repo/dao/user.dao";
 import { userAuthRedis } from "@lib/repo/redis/user";

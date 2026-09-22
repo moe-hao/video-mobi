@@ -1,4 +1,4 @@
-import config from "@lib/internal/config";
+import { config } from "@lib/internal/base/config";
 import crypto from "crypto";
 import { readFileSync } from "fs";
 

@@ -7,7 +7,7 @@ import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { encrypt } from "@lib/common/utils/aes-encrypt";
 import { currentTime } from "@lib/common/utils/time";
 import { uuid } from "@lib/common/utils/uuid";
-import config from "@lib/internal/config";
+import { config } from "@lib/internal/base/config";
 import { memberDao } from "@lib/repo/dao/member.dao";
 import { userDao } from "@lib/repo/dao/user.dao";
 import type { UserSelect } from "@lib/repo/models/user";

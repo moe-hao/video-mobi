@@ -1,6 +1,6 @@
 import { UserRedisKeyPrefix } from "@lib/common/consts/redis";
 import { UserType } from "@lib/common/consts/user";
-import { redis, type RedisConn } from "@lib/internal/redis";
+import { redis, type RedisConn } from "@lib/internal/base/redis";
 
 export interface UserAuthInfo {
     id: number;

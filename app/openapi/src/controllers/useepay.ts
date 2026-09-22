@@ -1,7 +1,7 @@
 import type { UseePayWebhookEvent } from "@lib/common/dto/useepay/useepay-event";
 import { Hono } from "hono";
 import { handleWebhookEvent } from "../services/useepay/webhook.service";
-import { logger } from "@lib/internal/logger";
+import { logger } from "@lib/internal/base/logger";
 import { verifyUseePaySign } from "../services/useepay/sign";
 import { createMiddleware } from "hono/factory";
 

@@ -12,7 +12,7 @@ import { PaymentOptionDao, paymentOptionDao } from "@lib/repo/dao/payment-option
 import { formatUnixTime } from "@lib/common/utils/time";
 import { PaymentOptionItemDao, paymentOptionItemDao } from "@lib/repo/dao/payment-option-item.dao";
 import { DeleteStatus } from "@lib/common/consts/common-status";
-import { database } from "@lib/internal/database";
+import { database } from "@lib/internal/base/database";
 import { skuDao } from "@lib/repo/dao/sku.dao";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { ResultCode } from "@lib/common/consts/result";

@@ -1,5 +1,5 @@
 import http from "@lib/internal/http";
-import { logger } from "@lib/internal/logger";
+import { logger } from "@lib/internal/base/logger";
 import { exchangeRedis } from "@lib/repo/redis/exchange";
 
 class ExchangeProxy {

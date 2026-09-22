@@ -3,7 +3,7 @@ import { guestLoginReqSchema } from "@lib/common/dto/guest";
 import { validated } from "@lib/middleware/validated";
 import { success } from "@lib/common/dto/result";
 import { sendEmailCodeReqSchema, verifyEmailCodeReqSchema } from "@lib/common/dto/email";
-import config from "@lib/internal/config";
+import { config } from "@lib/internal/base/config";
 import { guestLoginService } from "../services/auth/guest-login.service";
 import { authEmailLoginService } from "../services/auth/email-login.service";
 import { encrypt } from "@lib/common/utils/aes-encrypt";

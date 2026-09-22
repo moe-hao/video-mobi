@@ -1,4 +1,4 @@
-import { database, type DatabaseConn } from "@lib/internal/database";
+import { database, type DatabaseConn } from "@lib/internal/base/database";
 import { subscriptionRenewalReportTable, type SubscriptionRenewalReportTableInsert, type SubscriptionRenewalReportTableSelect } from "../models/subscription-renewal-report";
 import type { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
 import { and, asc, eq, inArray, sum } from "drizzle-orm";

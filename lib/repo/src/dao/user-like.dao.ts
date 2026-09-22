@@ -1,4 +1,4 @@
-import { database, type DatabaseConn } from "@lib/internal/database";
+import { database, type DatabaseConn } from "@lib/internal/base/database";
 import { userLikeTable, type UserLikeInsert, type UserLikeSelect } from "../models/user-like";
 import { currentTime } from "@lib/common/utils/time";
 import { and, count, eq } from "drizzle-orm";

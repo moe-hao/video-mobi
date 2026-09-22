@@ -1,4 +1,4 @@
-import config from '../config';
+import { config } from '../base/config';
 import openapi from '@volcengine/openapi';
 
 export const vod = new openapi.vodOpenapi.VodService({

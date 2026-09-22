@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { adminTable, type AdminSelect } from "../models/admin";
-import { database, type DatabaseConn } from "@lib/internal/database";
+import { database, type DatabaseConn } from "@lib/internal/base/database";
 import { currentTime } from "@lib/common/utils/time";
 
 class AdminDao {

@@ -1,6 +1,6 @@
 import type { UseePayWebhookEvent } from "@lib/common/dto/useepay/useepay-event";
 import { createEventHandler } from "./event/event-handler";
-import { logger } from "@lib/internal/logger";
+import { logger } from "@lib/internal/base/logger";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { ResultCode } from "@lib/common/consts/result";
 

@@ -1,7 +1,7 @@
 import type { PaypalEventReourceSubscription, PaypalEventReq } from "@lib/common/dto/paypal";
 import type { EventHandler } from "./event-handler";
 import { PaypalEventType } from "@lib/common/consts/paypal";
-import { logger } from "@lib/internal/logger";
+import { logger } from "@lib/internal/base/logger";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { ResultCode } from "@lib/common/consts/result";

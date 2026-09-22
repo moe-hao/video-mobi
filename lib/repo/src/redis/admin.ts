@@ -1,4 +1,4 @@
-import { redis, type RedisConn } from "@lib/internal/redis";
+import { redis, type RedisConn } from "@lib/internal/base/redis";
 import { AdminRedisKeyPrefix } from "@lib/common/consts/redis";
 
 export interface AdminAuthInfo {

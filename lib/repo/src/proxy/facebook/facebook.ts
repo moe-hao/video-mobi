@@ -1,4 +1,4 @@
-import { logger } from "@lib/internal/logger";
+import { logger } from "@lib/internal/base/logger";
 import type { FacebookEventReq } from "./facebook.interface";
 
 class FacebookProxy {

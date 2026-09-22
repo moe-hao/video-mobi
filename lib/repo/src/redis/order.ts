@@ -1,5 +1,5 @@
 import { CommonRedisKeyPrefix } from "@lib/common/consts/redis";
-import { redis, type RedisConn } from "@lib/internal/redis";
+import { redis, type RedisConn } from "@lib/internal/base/redis";
 
 
 class OrderRedis {

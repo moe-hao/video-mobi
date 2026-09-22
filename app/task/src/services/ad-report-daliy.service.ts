@@ -1,8 +1,8 @@
-import config from "@lib/internal/config";
+import { config } from "@lib/internal/base/config";
 import { AdAccount, AdsInsights, FacebookAdsApi } from "facebook-nodejs-business-sdk";
 import { adReportDailyDao } from "@lib/repo/dao/ad-report-daily.dao";
 import type { AdReportDailyInsert } from "@lib/repo/models/ad-report-daily";
-import { logger } from "@lib/internal/logger";
+import { logger } from "@lib/internal/base/logger";
 import { tikTokBusinessProxy } from "@lib/repo/proxy/tiktok/business";
 import { TikTokBusinessReportDataLevel, TikTokBusinessReportType } from "@lib/common/consts/tiktok";
 import { PixelPlatform } from "@lib/common/consts/pixel";

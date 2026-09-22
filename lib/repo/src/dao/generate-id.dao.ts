@@ -1,4 +1,4 @@
-import { database, type DatabaseConn } from "@lib/internal/database";
+import { database, type DatabaseConn } from "@lib/internal/base/database";
 import { generateIdTable } from "../models/generate-id";
 import { eq, and } from "drizzle-orm";
 

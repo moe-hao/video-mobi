@@ -2,7 +2,7 @@ import { AntomSubscriptionNotificationType } from "@lib/common/consts/antom";
 import type { AntomPaymentNotificationReq } from "@lib/common/dto/antom";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
 import { SubscriptionStatus } from "@lib/common/consts/subscription";
-import { logger } from "@lib/internal/logger";
+import { logger } from "@lib/internal/base/logger";
 import { NotifyTypeOperationFactory } from "./notify-type-operation/notify-type-operation";
 
 class AntomPaymentService {

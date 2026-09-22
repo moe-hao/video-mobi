@@ -7,8 +7,8 @@ import { hashPassword, verifyPassword } from "@lib/common/utils/password";
 import { uuid } from "@lib/common/utils/uuid";
 import { adminAuthRedis, type AdminAuthInfo } from "@lib/repo/redis/admin";
 import { decrypt, encrypt } from "@lib/common/utils/aes-encrypt";
-import config from "@lib/internal/config";
-import { logger } from "@lib/internal/logger";
+import { config } from "@lib/internal/base/config";
+import { logger } from "@lib/internal/base/logger";
 
 class AuthService {
     async login(req: AdminLoginReq): Promise<AdminLoginResp> {

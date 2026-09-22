@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { productService } from "../services/product.service";
-import { logger } from "@lib/internal/logger";
+import { logger } from "@lib/internal/base/logger";
 import { success } from "@lib/common/dto/result";
 
 const product = new Hono();

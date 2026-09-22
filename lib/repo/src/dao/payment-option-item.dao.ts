@@ -1,4 +1,4 @@
-import { database, type DatabaseConn } from "@lib/internal/database";
+import { database, type DatabaseConn } from "@lib/internal/base/database";
 import { paymentOptionItemTable, type PaymentOptionItemInsert } from "../models/payment-option-item";
 import { and, eq, inArray } from "drizzle-orm";
 import { DeleteStatus } from "@lib/common/consts/common-status";

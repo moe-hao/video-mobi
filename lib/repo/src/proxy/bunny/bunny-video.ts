@@ -1,4 +1,4 @@
-import config from "@lib/internal/config";
+import { config } from "@lib/internal/base/config";
 import type { FetchVideoResult, GetVideoInfoResult } from "./bunny.dto";
 
 export class BunnyVideoProxy {

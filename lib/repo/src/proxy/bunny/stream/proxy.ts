@@ -1,5 +1,5 @@
 import { client } from "./client";
-import config from "@lib/internal/config";
+import { config } from "@lib/internal/base/config";
 
 export class BunnyStreamProxy {
     async createVideo(title: string): Promise<string> {

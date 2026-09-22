@@ -1,4 +1,4 @@
-import { database, type DatabaseConn } from "@lib/internal/database";
+import { database, type DatabaseConn } from "@lib/internal/base/database";
 import { ltvReportTable, type LtvReportInsert, type LtvReportSelect } from "../models/ltv-report";
 import { and, between, eq, inArray } from "drizzle-orm";
 import { currentTime } from "@lib/common/utils/time";

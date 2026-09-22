@@ -1,6 +1,6 @@
-import { logger } from "@lib/internal/logger";
+import { logger } from "@lib/internal/base/logger";
 import type { PayssionCreateCustomerMandateReq, PayssionCreateCustomerMandateResp, PayssionCreateCustomerReq, PayssionCreateCustomerResp, PayssionCreateSubscriptionPaymentReq, PayssionCreateSubscriptionPaymentResp, PayssionCreateSubscriptionReq, PayssionCreateSubscriptionResp, PayssionMandateDetailResp, PayssionSubscriptionInfoResp } from "./payssion.interface";
-import config from "@lib/internal/config";
+import { config } from "@lib/internal/base/config";
 
 class PayssionProxy {
     constructor(

@@ -1,4 +1,4 @@
-import { logger } from "@lib/internal/logger";
+import { logger } from "@lib/internal/base/logger";
 import { statRenewalReport } from "../services/subscription/renewal-report.service";
 import { format, addDays } from "date-fns";
 import { adReportDailyService } from "../services/ad-report-daliy.service";

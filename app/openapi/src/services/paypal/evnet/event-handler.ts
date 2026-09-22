@@ -1,6 +1,6 @@
 import { SubscriptionEventHandler } from "./subscription-event-handler";
 import { SaleEventHandler } from "./sale-event-handler";
-import { logger } from "@lib/internal/logger";
+import { logger } from "@lib/internal/base/logger";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import type { PaypalEventReq } from "@lib/common/dto/paypal";
 import { PaypalResourceType } from "@lib/common/consts/paypal";

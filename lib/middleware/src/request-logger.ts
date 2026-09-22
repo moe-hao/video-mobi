@@ -1,4 +1,4 @@
-import { logger } from "@lib/internal/logger";
+import { logger } from "@lib/internal/base/logger";
 import { createMiddleware } from "hono/factory";
 
 export const requestLogger = createMiddleware(async (c, next) => {

@@ -3,7 +3,7 @@ import type { PayssionWebhookReq, PayssionWebhookPaymentData } from "@lib/common
 import { payssionWebhookService } from "../services/payssion/webhook.service";
 import { createMiddleware } from "hono/factory";
 import { createHmac } from "crypto";
-import config from "@lib/internal/config";
+import { config } from "@lib/internal/base/config";
 
 const payssionVerifySign = createMiddleware(async (c, next) => {
     const body = await c.req.text();

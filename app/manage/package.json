@@ -16,9 +16,11 @@
     "@lib/middleware": "workspace:*",
     "@lib/repo": "workspace:*",
     "date-fns": "^4.3.0",
-    "hono": "^4.12.18"
+    "hono": "^4.12.18",
+    "m3u8-parser": "^7.2.0"
   },
   "devDependencies": {
+    "@types/m3u8-parser": "^7.2.6",
     "@types/node": "^20.19.41",
     "esbuild": "^0.28.0",
     "tsx": "^4.7.1",

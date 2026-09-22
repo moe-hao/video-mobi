@@ -1,4 +1,4 @@
-import { database, type DatabaseConn } from "@lib/internal/database";
+import { database, type DatabaseConn } from "@lib/internal/base/database";
 import { skuTable, type SkuInsert, type SkuSelect } from "../models/sku";
 import { and, count, desc, eq, inArray, or } from "drizzle-orm";
 import { currentTime } from "@lib/common/utils/time";

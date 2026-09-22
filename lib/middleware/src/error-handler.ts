@@ -1,5 +1,5 @@
 import { failed } from "@lib/common/dto/result";
-import { logger } from "@lib/internal/logger";
+import { logger } from "@lib/internal/base/logger";
 import type { ErrorHandler } from "hono";
 
 export const errorHandler: ErrorHandler = async (error, c) => {
