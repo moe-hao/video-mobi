@@ -1,7 +1,7 @@
 import { Autocomplete, Description, EmptyState, Label, ListBox, SearchField } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { useEpisodeState } from "@app/manage-web/hooks/episode";
-import type { CollectionTableListRespItem } from "@lib/common/dto/collection";
+import type { CollectionTableListRespItem } from "@lib/common/dto/collection.schema";
 import type { Language } from "@lib/common/consts/region";
 
 type SearchEpisode = {

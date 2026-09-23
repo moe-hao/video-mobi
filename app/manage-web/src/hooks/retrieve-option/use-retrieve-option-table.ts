@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import type { RetrieveOptionAddReq, RetrieveOptionEditReq, RetrieveOptionListReq, RetrieveOptionListResp } from "@lib/common/dto/retrieve-option";
+import type { RetrieveOptionAddReq, RetrieveOptionEditReq, RetrieveOptionListReq, RetrieveOptionListResp } from "@lib/common/dto/retrieve-option.schema";
 import { convertURLSearchParams } from "@lib/common/utils/param";
 import http from "@lib/common/utils/http/manage";
 

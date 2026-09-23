@@ -1,6 +1,6 @@
 import { Button, Drawer, Input, Label, Link, Spinner } from "@heroui/react";
 import { useEffect, useState } from "react";
-import type { RetrieveOptionEditReq, RetrieveOptionListRespItem } from "@lib/common/dto/retrieve-option";
+import type { RetrieveOptionEditReq, RetrieveOptionListRespItem } from "@lib/common/dto/retrieve-option.schema";
 import { useEditRetrieveOption } from "@app/manage-web/hooks/retrieve-option";
 import { useToast } from "@app/manage-web/contexts/toast-context";
 import RelationSelect from "@app/manage-web/components/relation-select/relation-select";

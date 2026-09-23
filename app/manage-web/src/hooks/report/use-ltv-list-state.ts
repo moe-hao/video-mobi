@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import type { LtvReportListReq, LtvReportListResp } from "@lib/common/dto/ltv-report";
+import type { LtvReportListReq, LtvReportListResp } from "@lib/common/dto/ltv-report.schema";
 import { convertURLSearchParams } from "@lib/common/utils/param";
 import http from "@lib/common/utils/http/manage";
 

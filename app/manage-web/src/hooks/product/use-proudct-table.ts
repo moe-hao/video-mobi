@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import type { ProductAddReq, ProductEditReq, ProductListReq, ProductListResp } from "@lib/common/dto/product";
+import type { ProductAddReq, ProductEditReq, ProductListReq, ProductListResp } from "@lib/common/dto/product.schema";
 import { convertURLSearchParams } from "@lib/common/utils/param";
 import http from "@lib/common/utils/http/manage";
 

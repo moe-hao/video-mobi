@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import type { AdReportDailyListReq, AdReportDailyListResp } from "@lib/common/dto/ad-report-daily";
+import type { AdReportDailyListReq, AdReportDailyListResp } from "@lib/common/dto/ad-report-daily.schema";
 import { convertURLSearchParams } from "@lib/common/utils/param";
 import http from "@lib/common/utils/http/manage";
 

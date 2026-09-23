@@ -1,7 +1,7 @@
 import { Plus } from "@gravity-ui/icons";
 import { Button } from "@heroui/react";
 import { useRef } from "react";
-import type { CollectionCoverUploadResp } from "@lib/common/dto/collection";
+import type { CollectionCoverUploadResp } from "@lib/common/dto/collection.schema";
 import { uploadRequest } from "@lib/common/utils/upload-request";
 import { compress } from "@app/manage-web/utils/image";
 

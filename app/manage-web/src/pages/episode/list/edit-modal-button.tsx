@@ -1,7 +1,7 @@
 import { Button, Input, Label, Link, Modal, Spinner, TextArea } from "@heroui/react";
 import { useEffect, useState } from "react";
 import OperateImage from "./operate-image";
-import type { CollectionEditReq, CollectionTableListRespItem } from "@lib/common/dto/collection";
+import type { CollectionEditReq, CollectionTableListRespItem } from "@lib/common/dto/collection.schema";
 import type { Language } from "@lib/common/consts/region";
 import { useEditEpisodeState } from "@app/manage-web/hooks/episode";
 import LocalTypeSelect from "@app/manage-web/components/local-type-select";

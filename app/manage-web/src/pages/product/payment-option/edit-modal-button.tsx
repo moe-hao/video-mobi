@@ -1,7 +1,7 @@
 import { Button, Input, Label, Link, Modal, Spinner } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { Reorder } from "framer-motion";
-import type { PaymentOptionEditReq, PaymentOptionContentItem, PaymentOptionListRespItem } from "@lib/common/dto/payment-option";
+import type { PaymentOptionEditReq, PaymentOptionContentItem, PaymentOptionListRespItem } from "@lib/common/dto/payment-option.schema";
 import { useEditPaymentOption, usePaymentOptionItems } from "@app/manage-web/hooks/product";
 import { useToast } from "@app/manage-web/contexts/toast-context";
 import PaymentOptionItem, { type ReorderItem, toReorderItem, toContentItem } from "./payment-option-item";

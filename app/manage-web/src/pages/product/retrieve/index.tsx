@@ -5,7 +5,7 @@ import EditModalButton from "./edit-modal-button";
 import DeleteButton from "@app/manage-web/components/delete-button";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
 import CreateModalButton from "./create-modal-button";
-import type { RetrieveOptionListReq } from "@lib/common/dto/retrieve-option";
+import type { RetrieveOptionListReq } from "@lib/common/dto/retrieve-option.schema";
 import { useSearchParams } from "react-router";
 
 export default function RetrieveOptionList() {

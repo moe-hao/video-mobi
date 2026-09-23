@@ -1,4 +1,4 @@
-import type { ProductListRespItem } from "@lib/common/dto/product";
+import type { ProductListRespItem } from "@lib/common/dto/product.schema";
 import http from "@lib/common/utils/http/manage";
 import { useCallback, useState } from "react";
 

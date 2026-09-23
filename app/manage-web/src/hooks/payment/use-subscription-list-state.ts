@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { convertURLSearchParams } from "@lib/common/utils/param";
-import type { SubscriptionListReq, SubscriptionListResp } from "@lib/common/dto/subscription";
+import type { SubscriptionListReq, SubscriptionListResp } from "@lib/common/dto/subscription.schema";
 import http from "@lib/common/utils/http/manage";
 
 export function useSubscriptionListState(): {

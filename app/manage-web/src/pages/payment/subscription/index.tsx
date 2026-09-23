@@ -4,7 +4,7 @@ import SubscriptionStatusPoint from "./subscription-status";
 import UnsubscribeButton from "./unsubscribe-button";
 import { useSubscriptionCancel, useSubscriptionListState } from "@app/manage-web/hooks/payment";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
-import type { SubscriptionListReq } from "@lib/common/dto/subscription";
+import type { SubscriptionListReq } from "@lib/common/dto/subscription.schema";
 import { useSearchParams } from "react-router";
 import SubscriptionStatusSelect from "@app/manage-web/components/subscription-select/subscription-status-select";
 import SubscriptionChannelSelect from "@app/manage-web/components/subscription-select/subscription-channel-select";

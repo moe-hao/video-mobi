@@ -1,7 +1,7 @@
 import { Button, Label, ListBox, Select } from "@heroui/react";
 import { Grip, Minus } from "@gravity-ui/icons";
 import { Reorder } from "framer-motion";
-import type { PaymentOptionContentItem } from "@lib/common/dto/payment-option";
+import type { PaymentOptionContentItem } from "@lib/common/dto/payment-option.schema";
 import { PaymentChannel, PaymentTypeName } from "@lib/common/consts/payment";
 
 export interface ReorderItem extends PaymentOptionContentItem {

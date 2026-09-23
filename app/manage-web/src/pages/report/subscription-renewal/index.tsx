@@ -2,7 +2,7 @@ import { Button, Spinner, Table } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { useSubscriptionRenewalListState } from "@app/manage-web/hooks/report/use-subscription-renewal-list-state";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
-import type { SubscriptionRenewalReportListReq } from "@lib/common/dto/subscription-renewal-report";
+import type { SubscriptionRenewalReportListReq } from "@lib/common/dto/subscription-renewal-report.schema";
 import type { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
 import type { SkuPeriodType } from "@lib/common/consts/sku";
 import { CalendarDate, type DateValue } from "@internationalized/date";

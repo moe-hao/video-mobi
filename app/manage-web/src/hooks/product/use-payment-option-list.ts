@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import type { PaymentOptionAddReq, PaymentOptionContentItem, PaymentOptionDeleteReq, PaymentOptionEditReq, PaymentOptionListReq, PaymentOptionListResp, PaymentOptionListRespItem } from "@lib/common/dto/payment-option";
+import type { PaymentOptionAddReq, PaymentOptionContentItem, PaymentOptionDeleteReq, PaymentOptionEditReq, PaymentOptionListReq, PaymentOptionListResp, PaymentOptionListRespItem } from "@lib/common/dto/payment-option.schema";
 import { convertURLSearchParams } from "@lib/common/utils/param";
 import http from "@lib/common/utils/http/manage";
 

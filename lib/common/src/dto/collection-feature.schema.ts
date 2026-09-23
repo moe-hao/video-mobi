@@ -18,23 +18,26 @@ export const CollectionFeatureListReqSchema = z.object({
 
 export type CollectionFeatureListReq = z.infer<typeof CollectionFeatureListReqSchema>;
 
+export const CollectionFeatureListRespItemSchema = z.object({
+    id: z.number(),
+    collectionId: z.number(),
+    weight: z.number(),
+    collectionBizId: z.string(),
+    name: z.string(),
+    sourceName: z.string(),
+    cover: z.string(),
+    languageCode: z.string(),
+    language: z.string(),
+    createTime: z.string(),
+    updateTime: z.string(),
+});
+export type CollectionFeatureListRespItem = z.infer<typeof CollectionFeatureListRespItemSchema>;
+
 export const CollectionFeatureListRespSchema = z.object({
     page: z.number(),
     size: z.number(),
     total: z.number(),
-    list: z.array(z.object({
-        id: z.number(),
-        collectionId: z.number(),
-        weight: z.number(),
-        collectionBizId: z.string(),
-        name: z.string(),
-        sourceName: z.string(),
-        cover: z.string(),
-        languageCode: z.string(),
-        language: z.string(),
-        createTime: z.string(),
-        updateTime: z.string(),
-    })),
+    list: z.array(CollectionFeatureListRespItemSchema),
 });
 
 export type CollectionFeatureListResp = z.infer<typeof CollectionFeatureListRespSchema>;

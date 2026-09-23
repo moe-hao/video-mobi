@@ -2,7 +2,7 @@ import { Button, Spinner, Table, Tabs } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { useAdReportDailyGroupState } from "@app/manage-web/hooks/report/use-ad-report-daily-group-state";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
-import type { AdReportDailyGroupReq } from "@lib/common/dto/ad-report-daily";
+import type { AdReportDailyGroupReq } from "@lib/common/dto/ad-report-daily.schema";
 import DateRange, { type DateRangeValue } from "@app/manage-web/components/date-range";
 import RegionSelect from "@app/manage-web/components/region-select";
 import { Region, RegionName } from "@lib/common/consts/region";

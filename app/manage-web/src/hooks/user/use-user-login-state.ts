@@ -1,4 +1,4 @@
-import type { AdminLoginResp } from "@lib/common/dto/admin";
+import type { AdminLoginResp } from "@lib/common/dto/admin.schema";
 import http from "@lib/common/utils/http/manage";
 import { useCallback } from "react";
 

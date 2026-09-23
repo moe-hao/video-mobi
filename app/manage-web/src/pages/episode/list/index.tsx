@@ -4,7 +4,7 @@ import { Xmark } from "@gravity-ui/icons";
 import EditModalButton from "./edit-modal-button";
 import CreateModalButton from "./create-modal-button";
 import { useNavigate, useSearchParams } from "react-router";
-import type { CollectionPublishReq, CollectionTableListReq } from "@lib/common/dto/collection";
+import type { CollectionPublishReq, CollectionTableListReq } from "@lib/common/dto/collection.schema";
 import type { Language } from "@lib/common/consts/region";
 import { CollectionType, PublishStatus } from "@lib/common/consts/collection";
 import LanguageSelect from "@app/manage-web/components/language-select";

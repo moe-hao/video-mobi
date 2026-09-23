@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import type { UserListResp } from "@lib/common/dto/user";
+import type { UserListResp } from "@lib/common/dto/user.schema";
 import http from "@lib/common/utils/http/manage";
 
 export function useUserListState(): {

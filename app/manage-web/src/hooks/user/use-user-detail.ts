@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import type { ManageUserDetailResp, ManageUserWatchHistoryResp, ManageUserCoinHistoryResp, ManageUserHistoryReq } from "@lib/common/dto/user";
+import type { ManageUserDetailResp, ManageUserWatchHistoryResp, ManageUserCoinHistoryResp, ManageUserHistoryReq } from "@lib/common/dto/user.schema";
 import { convertURLSearchParams } from "@lib/common/utils/param";
 import http from "@lib/common/utils/http/manage";
 

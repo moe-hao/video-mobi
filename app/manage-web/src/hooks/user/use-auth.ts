@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router";
 import { useEffect, useState, createContext, useContext } from "react";
-import type { AdminInfoResp } from "@lib/common/dto/admin";
+import type { AdminInfoResp } from "@lib/common/dto/admin.schema";
 import http from "@lib/common/utils/http/manage";
 
 interface AuthContextType {

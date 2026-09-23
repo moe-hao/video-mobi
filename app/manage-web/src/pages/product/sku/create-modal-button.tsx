@@ -1,7 +1,7 @@
 import { Button, Drawer, Input, Label, Spinner, Switch } from "@heroui/react";
 import { useEffect, useState } from "react";
 import ProductSelect from "@app/manage-web/components/product-select";
-import type { SkuAddReq } from "@lib/common/dto/sku";
+import type { SkuAddReq } from "@lib/common/dto/sku.schema";
 import { SkuImportant, SkuPeriodType, SkuType } from "@lib/common/consts/sku";
 import { useAddSku } from "@app/manage-web/hooks/sku";
 import { useToast } from "@app/manage-web/contexts/toast-context";

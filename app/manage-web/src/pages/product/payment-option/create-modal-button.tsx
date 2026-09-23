@@ -1,7 +1,7 @@
 import { Button, Input, Label, Modal, Spinner } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { Reorder } from "framer-motion";
-import type { PaymentOptionContentItem } from "@lib/common/dto/payment-option";
+import type { PaymentOptionContentItem } from "@lib/common/dto/payment-option.schema";
 import { useAddPaymentOption } from "@app/manage-web/hooks/product";
 import PaymentOptionItem, { type ReorderItem, toReorderItem, toContentItem } from "./payment-option-item";
 

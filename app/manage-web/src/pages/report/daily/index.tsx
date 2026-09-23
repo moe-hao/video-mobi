@@ -2,7 +2,7 @@ import { Button, Input, Link, ListBox, Popover, Spinner, Table, Tooltip } from "
 import { useEffect, useState } from "react";
 import { useAdReportDailyListState } from "@app/manage-web/hooks/report/use-ad-report-daily-list-state";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
-import type { AdReportDailyListReq } from "@lib/common/dto/ad-report-daily";
+import type { AdReportDailyListReq } from "@lib/common/dto/ad-report-daily.schema";
 import { useSearchParams } from "react-router";
 import { CalendarDate, type DateValue } from "@internationalized/date";
 import SingleDatePicker from "@app/manage-web/components/date-picker";

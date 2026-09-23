@@ -1,4 +1,4 @@
-import type { VideoPreviewReq, VideoPreviewResp } from "@lib/common/dto/video";
+import type { VideoPreviewReq, VideoPreviewResp } from "@lib/common/dto/video.schema";
 import http from "@lib/common/utils/http/manage";
 import { useCallback } from "react";
 

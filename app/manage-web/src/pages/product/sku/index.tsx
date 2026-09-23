@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 import CreateModalButton from "./create-modal-button";
 import DeleteButton from "@app/manage-web/components/delete-button";
-import type { SkuManageListReq } from "@lib/common/dto/sku";
+import type { SkuManageListReq } from "@lib/common/dto/sku.schema";
 import ProductSelect from "@app/manage-web/components/product-select";
 import RegionSelect from "@app/manage-web/components/region-select";
 import EditModalButton from "./edit-modal-button";

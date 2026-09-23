@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { convertURLSearchParams } from "@lib/common/utils/param";
-import type { CollectionFeatureAddReq, CollectionFeatureEditReq, CollectionFeatureListReq, CollectionFeatureListResp } from "@lib/common/dto/collection";
+import type { CollectionFeatureAddReq, CollectionFeatureEditReq, CollectionFeatureListReq, CollectionFeatureListResp } from "@lib/common/dto/collection-feature.schema";
 import http from "@lib/common/utils/http/manage";
 
 export function useFeatureState(): {

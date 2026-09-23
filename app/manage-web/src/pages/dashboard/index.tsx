@@ -4,7 +4,7 @@ import { Spinner } from "@heroui/react";
 import { type DateValue, today } from "@internationalized/date";
 import SingleDatePicker from "@app/manage-web/components/date-picker";
 import SummaryCard from "./summary-card";
-import type { AdReportDailySummaryResp } from "@lib/common/dto/ad-report-daily";
+import type { AdReportDailySummaryResp } from "@lib/common/dto/ad-report-daily.schema";
 
 const emptySummary: AdReportDailySummaryResp = { spend: '', purchasesConversionValue: '', purchaseRoas: '', purchaseConversionCount: 0 };
 

@@ -1,4 +1,4 @@
-import type { VideoConfigUnlockReq, VideoListReq, VideoListResp } from "@lib/common/dto/video";
+import type { VideoConfigUnlockReq, VideoListReq, VideoListResp } from "@lib/common/dto/video.schema";
 import http from "@lib/common/utils/http/manage";
 import { convertURLSearchParams } from "@lib/common/utils/param";
 import { useCallback, useState } from "react";

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useOrderListState } from "@app/manage-web/hooks/payment/use-order-list-state";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
 import OrderStatusPoint from "./order-status";
-import type { OrderListReq } from "@lib/common/dto/order";
+import type { OrderListReq } from "@lib/common/dto/order.schema";
 import OrderStatusSelect from "@app/manage-web/components/order-select";
 import type { OrderStatus } from "@lib/common/consts/order";
 import { useSearchParams } from "react-router";

@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 import axios from "axios";
-import type { VideoUploadPrepareResp } from "@lib/common/dto/video";
+import type { VideoUploadPrepareResp } from "@lib/common/dto/video.schema";
 import http from "@lib/common/utils/http/manage";
 
 export interface UploadFileItem {

@@ -2,7 +2,7 @@ import { Button, Spinner, Table } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { useLtvListState } from "@app/manage-web/hooks/report/use-ltv-list-state";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
-import type { LtvReportListReq } from "@lib/common/dto/ltv-report";
+import type { LtvReportListReq } from "@lib/common/dto/ltv-report.schema";
 import type { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
 import DateRange, { type DateRangeValue } from "@app/manage-web/components/date-range";
 import ProductMultipleSelect from "@app/manage-web/components/product-select/product-multiple-select";

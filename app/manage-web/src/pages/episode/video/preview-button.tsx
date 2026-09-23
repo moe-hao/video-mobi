@@ -1,6 +1,6 @@
 import { useVideoPreview } from "@app/manage-web/hooks/episode/use-video-preview";
 import { Link, Modal } from "@heroui/react";
-import type { VideoPreviewReq } from "@lib/common/dto/video";
+import type { VideoPreviewReq } from "@lib/common/dto/video.schema";
 import { useState } from "react";
 
 export function PreviewButton({ id }: { id: number }) {

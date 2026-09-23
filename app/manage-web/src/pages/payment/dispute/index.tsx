@@ -1,10 +1,10 @@
 import { Button, Input, Spinner } from "@heroui/react";
 import { useState } from "react";
 import { useDisputeOrderState } from "@app/manage-web/hooks/payment/use-dispute-order-state";
-import type { DisputeOrderReq } from "@lib/common/dto/order";
+import type { DisputeOrderReq } from "@lib/common/dto/order.schema";
 import { SkuType } from "@lib/common/consts/sku";
 import { useUserDetail, useUserWatchHistory, useUserCoinHistory } from "@app/manage-web/hooks/user/use-user-detail";
-import type { ManageUserHistoryReq } from "@lib/common/dto/user";
+import type { ManageUserHistoryReq } from "@lib/common/dto/user.schema";
 import { SectionTitle, InfoField, TabButton, DataTable } from "./components";
 import { COIN_COMM_LABEL, ORDER_STATUS_LABEL, PAYMENT_TYPE_LABEL } from "./constants";
 

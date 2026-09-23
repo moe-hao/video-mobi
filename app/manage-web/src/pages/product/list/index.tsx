@@ -5,7 +5,7 @@ import EditModalButton from "./edit-modal-button";
 // import DeleteButton from "@app/manage-web/components/delete-button";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
 import RegionSelect from "@app/manage-web/components/region-select";
-import type { ProductListReq } from "@lib/common/dto/product";
+import type { ProductListReq } from "@lib/common/dto/product.schema";
 import type { Region } from "@lib/common/consts/region";
 import CreateModalButton from "./create-modal-button";
 import { useSearchParams } from "react-router";

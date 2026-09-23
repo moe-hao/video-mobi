@@ -1,6 +1,6 @@
 import { Button, Drawer, Input, Label, Link, Spinner, Switch } from "@heroui/react";
 import { useEffect, useState } from "react";
-import type { SkuEditReq, SkuManageListItem } from "@lib/common/dto/sku";
+import type { SkuEditReq, SkuManageListItem } from "@lib/common/dto/sku.schema";
 import { SkuImportant, SkuPeriodType, SkuType } from "@lib/common/consts/sku";
 import ProductSelect from "@app/manage-web/components/product-select";
 import { useEditSku } from "@app/manage-web/hooks/sku";

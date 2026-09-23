@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import LanguageSelect from "@app/manage-web/components/language-select";
 import { EpisodeSearchSelect } from "./episode-search-select";
 import { useAddFeatureState } from "@app/manage-web/hooks/episode/use-feature-state";
-import type { CollectionFeatureAddReq, CollectionTableListRespItem } from "@lib/common/dto/collection";
+import type { CollectionTableListRespItem } from "@lib/common/dto/collection.schema";
+import type { CollectionFeatureAddReq } from "@lib/common/dto/collection-feature.schema";
 import type { Language } from "@lib/common/consts/region";
 
 type SearchEpisode = {

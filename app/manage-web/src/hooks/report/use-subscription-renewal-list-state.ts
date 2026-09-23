@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import type { SubscriptionRenewalReportListReq, SubscriptionRenewalReportListResp } from "@lib/common/dto/subscription-renewal-report";
+import type { SubscriptionRenewalReportListReq, SubscriptionRenewalReportListResp } from "@lib/common/dto/subscription-renewal-report.schema";
 import { convertURLSearchParams } from "@lib/common/utils/param";
 import http from "@lib/common/utils/http/manage";
 

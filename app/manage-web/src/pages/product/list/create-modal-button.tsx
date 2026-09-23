@@ -1,7 +1,7 @@
 import { Button, Input, Label, Modal, Switch } from "@heroui/react";
 import { useEffect, useState } from "react";
 import LanguageSelect from "@app/manage-web/components/language-select";
-import type { ProductAddReq } from "@lib/common/dto/product";
+import type { ProductAddReq } from "@lib/common/dto/product.schema";
 import type { Language, Region } from "@lib/common/consts/region";
 import RegionSelect from "@app/manage-web/components/region-select";
 import { useAddProduct } from "@app/manage-web/hooks/product";

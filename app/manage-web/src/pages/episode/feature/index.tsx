@@ -7,7 +7,7 @@ import EditModalButton from "./edit-modal-button";
 import LanguageSelect from "@app/manage-web/components/language-select";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
 import CreateModalButton from "./create-modal-button";
-import type { CollectionFeatureListReq } from "@lib/common/dto/collection";
+import type { CollectionFeatureListReq } from "@lib/common/dto/collection-feature.schema";
 import { CollectionFeatureSortStatus } from "@lib/common/consts/collection-feature";
 import type { Language } from "@lib/common/consts/region";
 import { useSearchParams } from "react-router";

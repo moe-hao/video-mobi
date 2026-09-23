@@ -3,7 +3,7 @@ import { useDeletePaymentOption, usePaymentOptionList } from "@app/manage-web/ho
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 import TablePagination from "@app/manage-web/components/pagination/pagination";
-import type { PaymentOptionListReq } from "@lib/common/dto/payment-option";
+import type { PaymentOptionListReq } from "@lib/common/dto/payment-option.schema";
 import CreateModalButton from "./create-modal-button";
 import EditModalButton from "./edit-modal-button";
 import DeleteButton from "@app/manage-web/components/delete-button";

@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import type { CollectionAddReq, CollectionEditReq, CollectionPublishReq, CollectionTableListReq, CollectionTableListResp } from "@lib/common/dto/collection";
+import type { CollectionAddReq, CollectionEditReq, CollectionPublishReq, CollectionTableListReq, CollectionTableListResp } from "@lib/common/dto/collection.schema";
 import { convertURLSearchParams } from "@lib/common/utils/param";
 import http from "@lib/common/utils/http/manage";
 

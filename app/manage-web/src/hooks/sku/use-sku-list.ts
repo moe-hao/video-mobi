@@ -1,4 +1,4 @@
-import type { SkuAddReq, SkuManageListResp, SkuDeleteReq, SkuManageListReq, SkuEditReq } from "@lib/common/dto/sku";
+import type { SkuAddReq, SkuManageListResp, SkuDeleteReq, SkuManageListReq, SkuEditReq } from "@lib/common/dto/sku.schema";
 import http from "@lib/common/utils/http/manage";
 import { convertURLSearchParams } from "@lib/common/utils/param";
 import { useCallback, useState } from "react";

@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import type { OrderListReq, OrderListResp } from "@lib/common/dto/order";
+import type { OrderListReq, OrderListResp } from "@lib/common/dto/order.schema";
 import { convertURLSearchParams } from "@lib/common/utils/param";
 import http from "@lib/common/utils/http/manage";
 

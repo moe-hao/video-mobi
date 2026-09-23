@@ -6,7 +6,7 @@ on:
 
 jobs:
   changes:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     outputs:
       openapi: ${{ steps.filter.outputs.openapi }}
       mobi: ${{ steps.filter.outputs.mobi }}
@@ -47,7 +47,7 @@ jobs:
   build-openapi:
     needs: changes
     if: ${{ needs.changes.outputs.openapi == 'true' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -85,7 +85,7 @@ jobs:
   build-mobi:
     needs: changes
     if: ${{ needs.changes.outputs.mobi == 'true' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -123,7 +123,7 @@ jobs:
   build-mobi-web:
     needs: changes
     if: ${{ needs.changes.outputs.mobi-web == 'true' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -156,7 +156,7 @@ jobs:
   build-manage:
     needs: changes
     if: ${{ needs.changes.outputs.manage == 'true' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -194,7 +194,7 @@ jobs:
   build-manage-web:
     needs: changes
     if: ${{ needs.changes.outputs.manage-web == 'true' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
@@ -227,7 +227,7 @@ jobs:
   build-task:
     needs: changes
     if: ${{ needs.changes.outputs.task == 'true' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       packages: write
