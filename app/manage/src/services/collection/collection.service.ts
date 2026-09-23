@@ -1,6 +1,6 @@
 import { CollectionLocal, CollectionLocalName, CollectionType, CollectionTypeName, PublishStatusToVod } from "@lib/common/consts/collection";
 import { LanguageName, type Language } from "@lib/common/consts/region";
-import type { CollectionAddReq, CollectionEditReq, CollectionPublishReq, CollectionTableListReq, CollectionTableListResp } from "@lib/common/dto/collection";
+import type { CollectionAddReq, CollectionEditReq, CollectionPublishReq, CollectionTableListReq, CollectionTableListResp } from "@lib/common/dto/collection.schema";
 import { formatUnixTime } from "@lib/common/utils/time";
 import { concurrencyLimit } from "@lib/common/utils/concurrency";
 import { collectionDao } from "@lib/repo/dao/collection.dao";

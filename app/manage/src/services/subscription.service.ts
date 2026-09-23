@@ -1,6 +1,6 @@
 import { ResultCode } from "@lib/common/consts/result";
 import { SubscriptionStatus, SubscriptionStatusName } from "@lib/common/consts/subscription";
-import type { SubscriptionCancelReq, SubscriptionListReq, SubscriptionListResp } from "@lib/common/dto/subscription";
+import type { SubscriptionCancelReq, SubscriptionListReq, SubscriptionListResp } from "@lib/common/dto/subscription.schema";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { formatUnixTime } from "@lib/common/utils/time";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";

@@ -1,5 +1,5 @@
 import { ResultCode } from "@lib/common/consts/result";
-import type { AdminChangePasswordReq, AdminLoginReq, AdminLoginResp } from "@lib/common/dto/admin";
+import type { AdminChangePasswordReq, AdminLoginReq, AdminLoginResp } from "@lib/common/dto/admin.schema";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { adminDao } from "@lib/repo/dao/admin.dao";
 import { sign, verify } from "hono/jwt";

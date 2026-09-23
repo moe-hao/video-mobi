@@ -1,4 +1,4 @@
-import type { CollectionCoverUploadResp } from "@lib/common/dto/collection";
+import type { CollectionCoverUploadResp } from "@lib/common/dto/collection.schema";
 import { uuid } from "@lib/common/utils/uuid";
 import { config } from "@lib/internal/base/config";
 import { tos } from "@lib/internal/volcengine/tos";

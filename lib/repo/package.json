@@ -2,6 +2,16 @@
   "name": "@lib/repo",
   "version": "1.0.0",
   "type": "module",
+  "files": ["dist"],
+  "exports": {
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    }
+  },
+  "scripts": {
+    "build": "tsdown"
+  },
   "dependencies": {
     "@lib/common": "workspace:*",
     "@lib/internal": "workspace:*",
@@ -9,8 +19,5 @@
     "change-case": "^5.4.4",
     "drizzle-orm": "^0.45.2",
     "mysql2": "^3.22.4"
-  },
-  "exports": {
-    "./*": "./src/*"
   }
 }

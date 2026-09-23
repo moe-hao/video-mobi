@@ -1,5 +1,5 @@
 import { PaymentType, PaymentTypeName } from "@lib/common/consts/payment";
-import type { DisputeOrderReq, DisputeOrderResp, OrderListReq, OrderListResp } from "@lib/common/dto/order";
+import type { DisputeOrderReq, DisputeOrderResp, OrderListReq, OrderListResp } from "@lib/common/dto/order.schema";
 import { orderDao } from "@lib/repo/dao/order.dao";
 import { userDao } from "@lib/repo/dao/user.dao";
 import { OrderStatus, OrderStatusName } from "@lib/common/consts/order";

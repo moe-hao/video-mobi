@@ -1,6 +1,6 @@
 import type { CollectionType } from "@lib/common/consts/collection";
 import { Language, LanguageName, RegionName, type Region } from "@lib/common/consts/region";
-import type { ProductAddReq, ProductEditReq, ProductListReq, ProductListResp, ProductListRespItem } from "@lib/common/dto/product";
+import type { ProductAddReq, ProductEditReq, ProductListReq, ProductListResp, ProductListRespItem } from "@lib/common/dto/product.schema";
 import { formatUnixTime } from "@lib/common/utils/time";
 import { productDao } from "@lib/repo/dao/product.dao";
 

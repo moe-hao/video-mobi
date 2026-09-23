@@ -1,4 +1,4 @@
-import type { RetrieveOptionAddReq, RetrieveOptionEditReq, RetrieveOptionListReq, RetrieveOptionListResp } from "@lib/common/dto/retrieve-option";
+import type { RetrieveOptionAddReq, RetrieveOptionEditReq, RetrieveOptionListReq, RetrieveOptionListResp } from "@lib/common/dto/retrieve-option.schema";
 import { formatUnixTime } from "@lib/common/utils/time";
 import { retrieveOptionDao } from "@lib/repo/dao/retrieve-option.dao";
 import { RelationTypeName, type RelationType } from "@lib/common/consts/relation";

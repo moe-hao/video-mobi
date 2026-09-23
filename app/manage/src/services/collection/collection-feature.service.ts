@@ -1,7 +1,7 @@
 import { DeleteStatus } from "@lib/common/consts/common-status";
 import { LanguageName } from "@lib/common/consts/region";
 import { ResultCode } from "@lib/common/consts/result";
-import type { CollectionFeatureAddReq, CollectionFeatureDeleteReq, CollectionFeatureEditReq, CollectionFeatureListReq, CollectionFeatureListResp } from "@lib/common/dto/collection";
+import type { CollectionFeatureAddReq, CollectionFeatureDeleteReq, CollectionFeatureEditReq, CollectionFeatureListReq, CollectionFeatureListResp } from "@lib/common/dto/collection-feature.schema";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { currentTime, formatUnixTime } from "@lib/common/utils/time";
 import { collectionFeatureDao } from "@lib/repo/dao/collection-feature.dao";

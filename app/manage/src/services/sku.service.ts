@@ -1,5 +1,5 @@
 import { skuDao } from "@lib/repo/dao/sku.dao";
-import type { SkuAddReq, SkuEditReq, SkuManageListReq, SkuManageListResp } from "@lib/common/dto/sku";
+import type { SkuAddReq, SkuEditReq, SkuManageListReq, SkuManageListResp } from "@lib/common/dto/sku.schema";
 import { formatUnixTime } from "@lib/common/utils/time";
 import { productDao } from "@lib/repo/dao/product.dao";
 import type { ProductSelect } from "@lib/repo/models/product";

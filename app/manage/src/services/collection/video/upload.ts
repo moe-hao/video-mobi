@@ -1,6 +1,6 @@
 import { ResultCode } from "@lib/common/consts/result";
 import { VideoStorage, VideoUploadStatus } from "@lib/common/consts/video";
-import type { VideoUploadPrepareResp } from "@lib/common/dto/video";
+import type { VideoUploadPrepareResp } from "@lib/common/dto/video.schema";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { concurrencyLimit } from "@lib/common/utils/concurrency";
 import { uuid } from "@lib/common/utils/uuid";

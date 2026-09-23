@@ -1,4 +1,4 @@
-import type { SubscriptionRenewalReportListReq, SubscriptionRenewalReportListResp } from "@lib/common/dto/subscription-renewal-report";
+import type { SubscriptionRenewalReportListReq, SubscriptionRenewalReportListResp } from "@lib/common/dto/subscription-renewal-report.schema";
 import { subscriptionRenewalReportDao } from "@lib/repo/dao/subscription-renewal-report.dao";
 
 export async function getSubscriptionRenewalReportList(req: SubscriptionRenewalReportListReq): Promise<SubscriptionRenewalReportListResp> {

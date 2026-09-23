@@ -2,14 +2,21 @@
   "name": "@lib/middleware",
   "version": "1.0.0",
   "type": "module",
+  "files": ["dist"],
+  "exports": {
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    }
+  },
+  "scripts": {
+    "build": "tsdown"
+  },
   "dependencies": {
     "@hono/zod-validator": "^0.8.0",
     "@lib/common": "workspace:*",
     "@lib/internal": "workspace:*",
     "hono": "^4.12.23",
     "zod": "^4.4.3"
-  },
-  "exports": {
-    "./*": "./src/*"
   }
 }

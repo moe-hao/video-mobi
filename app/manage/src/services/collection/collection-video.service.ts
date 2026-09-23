@@ -1,5 +1,5 @@
 import { ResultCode } from "@lib/common/consts/result";
-import type { VideoConfigUnlockReq, VideoDownloadReq, VideoListReq, VideoListResp, VideoListRespItem, VideoPreviewReq, VideoPreviewResp } from "@lib/common/dto/video";
+import type { VideoConfigUnlockReq, VideoDownloadReq, VideoListReq, VideoListResp, VideoListRespItem, VideoPreviewReq, VideoPreviewResp } from "@lib/common/dto/video.schema";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { formatUnixTime } from "@lib/common/utils/time";
 import { config } from "@lib/internal/base/config";

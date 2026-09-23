@@ -1,4 +1,4 @@
-import type { ManageUserCoinHistoryResp, ManageUserDetailResp, ManageUserDetailReq, ManageUserHistoryReq, ManageUserWatchHistoryResp, UserListReq, UserListResp } from "@lib/common/dto/user";
+import type { ManageUserCoinHistoryResp, ManageUserDetailResp, ManageUserDetailReq, ManageUserHistoryReq, ManageUserWatchHistoryResp, UserListReq, UserListResp } from "@lib/common/dto/user.schema";
 import { formatUnixTime } from "@lib/common/utils/time";
 import { memberDao } from "@lib/repo/dao/member.dao";
 import { productDao } from "@lib/repo/dao/product.dao";

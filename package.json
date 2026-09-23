@@ -13,7 +13,7 @@
     "dev:task": "pnpm --filter @app/task dev",
     "build:mobi": "pnpm --filter @app/mobi build",
     "build:mobi-web": "pnpm --filter @app/mobi-web build",
-    "build:manage": "pnpm --filter @app/manage build",
+    "build:manage": "pnpm --filter @app/manage... build",
     "build:manage-web": "pnpm --filter @app/manage-web build",
     "build:openapi": "pnpm --filter @app/openapi build",
     "build:task": "pnpm --filter @app/task build",
@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "esbuild": "^0.28.0",
+    "tsdown": "^0.23.0",
     "typescript": "~6.0.2"
   }
 }

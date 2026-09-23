@@ -1,4 +1,4 @@
-import type { AdReportDailyListReq, AdReportDailyListResp, AdReportDailySummaryResp, AdReportDailyGroupResp } from "@lib/common/dto/ad-report-daily";
+import type { AdReportDailyListReq, AdReportDailyListResp, AdReportDailySummaryResp, AdReportDailyGroupResp } from "@lib/common/dto/ad-report-daily.schema";
 import { adReportDailyDao } from "@lib/repo/dao/ad-report-daily.dao";
 import { formatUnixTime } from "@lib/common/utils/time";
 import { Region, RegionName } from "@lib/common/consts/region";

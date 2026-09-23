@@ -7,7 +7,7 @@ import type {
     PaymentOptionListReq,
     PaymentOptionListResp,
     PaymentOptionListRespItem,
-} from "@lib/common/dto/payment-option";
+} from "@lib/common/dto/payment-option.schema";
 import { PaymentOptionDao, paymentOptionDao } from "@lib/repo/dao/payment-option.dao";
 import { formatUnixTime } from "@lib/common/utils/time";
 import { PaymentOptionItemDao, paymentOptionItemDao } from "@lib/repo/dao/payment-option-item.dao";

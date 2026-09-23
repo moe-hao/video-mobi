@@ -3,23 +3,23 @@ import { collectionService } from "../services/collection/collection.service";
 import { collectionCoverService } from "../services/collection/collection-cover.service";
 import { validated } from "@lib/middleware/validated";
 import { success } from "@lib/common/dto/result";
-import { collectionAddReqSchema, collectionDeleteReqSchema, collectionEditReqSchema, collectionPublishReqSchema, collectionTableListReqSchema } from "@lib/common/dto/collection";
+import { CollectionAddReqSchema, CollectionDeleteReqSchema, CollectionEditReqSchema, CollectionPublishReqSchema, CollectionTableListReqSchema } from "@lib/common/dto/collection.schema";
 
 const collection = new Hono();
 
-collection.get('/list', validated('query', collectionTableListReqSchema), async (c) => {
+collection.get('/list', validated('query', CollectionTableListReqSchema), async (c) => {
     const req = c.req.valid('query');
     const resp = await collectionService.getCollectionList(req);
     return c.json(success(resp));
 });
 
-collection.post('/add', validated('json', collectionAddReqSchema), async (c) => {
+collection.post('/add', validated('json', CollectionAddReqSchema), async (c) => {
     const req = c.req.valid('json')
     await collectionService.addCollection(req);
     return c.json(success());
 });
 
-collection.post('/edit', validated('json', collectionEditReqSchema), async (c) => {
+collection.post('/edit', validated('json', CollectionEditReqSchema), async (c) => {
     const req = c.req.valid('json')
     await collectionService.editCollection(req);
     return c.json(success());
@@ -32,13 +32,13 @@ collection.post('/upload_cover', async (c) => {
     return c.json(success(resp));
 });
 
-collection.post('/delete', validated('json', collectionDeleteReqSchema), async (c) => {
+collection.post('/delete', validated('json', CollectionDeleteReqSchema), async (c) => {
     const req = c.req.valid('json')
     await collectionService.deleteCollection(req.id);
     return c.json(success());
 });
 
-collection.post('/update_publish_status', validated('json', collectionPublishReqSchema), async (c) => {
+collection.post('/update_publish_status', validated('json', CollectionPublishReqSchema), async (c) => {
     const req = c.req.valid('json')
     await collectionService.updatePublishStatus(req);
     return c.json(success());

@@ -1,4 +1,4 @@
-import type { LtvReportListReq, LtvReportListResp, LtvReportListItem } from "@lib/common/dto/ltv-report";
+import type { LtvReportListReq, LtvReportListResp, LtvReportListItem } from "@lib/common/dto/ltv-report.schema";
 import { ltvReportDao, type LtvReportListSearch } from "@lib/repo/dao/ltv-report.dao";
 import type { LtvReportSelect } from "@lib/repo/models/ltv-report";
 import { adReportDailyDao } from "@lib/repo/dao/ad-report-daily.dao";

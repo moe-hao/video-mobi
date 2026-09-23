@@ -2,12 +2,12 @@ import { Hono } from "hono";
 import { authService } from "../services/auth.service";
 import { validated } from "@lib/middleware/validated";
 import { success } from "@lib/common/dto/result";
-import { adminChangePasswordReqSchema, adminLoginReqSchema, type AdminInfoResp } from "@lib/common/dto/admin";
+import { AdminChangePasswordReqSchema, AdminLoginReqSchema, type AdminInfoResp } from "@lib/common/dto/admin.schema";
 import type { AdminAuthInfo } from "@lib/repo/redis/admin";
 
 const auth = new Hono();
 
-auth.post('/login', validated('json', adminLoginReqSchema), async (c) => {
+auth.post('/login', validated('json', AdminLoginReqSchema), async (c) => {
     const req = c.req.valid('json');
     const resp = await authService.login(req);
     return c.json(success(resp));
@@ -27,7 +27,7 @@ auth.get('/info', (c) => {
     return c.json(success(resp));
 });
 
-auth.post('/change_password', validated('json', adminChangePasswordReqSchema), async (c) => {
+auth.post('/change_password', validated('json', AdminChangePasswordReqSchema), async (c) => {
     const user = c.get('user' as never) as AdminAuthInfo;
     const req = c.req.valid('json');
     await authService.changeAuthPassword(user, req);
