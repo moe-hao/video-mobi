@@ -13,10 +13,14 @@ export const AdReportDailyListReqSchema = z.object({
     sortDir: z.enum(['asc', 'desc']).default('desc'),
 });
 
+export type AdReportDailyListReq = z.infer<typeof AdReportDailyListReqSchema>;
+
 export const AdReportDailySummaryReqSchema = z.object({
     date: z.string().default(''),
     platform: z.string().default(''),
 });
+
+export type AdReportDailySummaryReq = z.infer<typeof AdReportDailySummaryReqSchema>;
 
 export const AdReportDailyGroupReqSchema = z.object({
     start: z.string(),
@@ -27,74 +31,84 @@ export const AdReportDailyGroupReqSchema = z.object({
     size: z.coerce.number().int().min(1).default(20),
 });
 
-export type AdReportDailyListReq = z.infer<typeof AdReportDailyListReqSchema>;
-export type AdReportDailySummaryReq = z.infer<typeof AdReportDailySummaryReqSchema>;
 export type AdReportDailyGroupReq = z.infer<typeof AdReportDailyGroupReqSchema>;
 
-export interface AdReportDailyListResp {
-    page: number;
-    size: number;
-    total: number;
-    sumSpend: number;
-    sumPurchasesConversionValue: number;
-    sumPurchaseConversionCount: number;
-    list: AdReportDailyListRespItem[];
-}
+export const AdReportDailyListRespItemSchema = z.object({
+    id: z.number().int(),
+    date: z.string(),
+    platform: z.number().int(),
+    adAccountId: z.string(),
+    adAccountName: z.string(),
+    campaignId: z.string(),
+    campaignName: z.string(),
+    adsetId: z.string(),
+    adsetName: z.string(),
+    adId: z.string(),
+    adName: z.string(),
+    region: z.string(),
+    spend: z.string(),
+    impressions: z.number().int(),
+    cpm: z.string(),
+    clicksNum: z.number().int(),
+    cpc: z.string(),
+    ctr: z.string(),
+    purchasesConversionValue: z.string(),
+    purchaseConversionCount: z.number().int(),
+    purchaseRoas: z.string(),
+    videoP25: z.number().int(),
+    videoP50: z.number().int(),
+    videoP100: z.number().int(),
+    createTime: z.string(),
+    updateTime: z.string(),
+});
 
-export interface AdReportDailyListRespItem {
-    id: number;
-    date: string;
-    platform: number;
-    adAccountId: string;
-    adAccountName: string;
-    campaignId: string;
-    campaignName: string;
-    adsetId: string;
-    adsetName: string;
-    adId: string;
-    adName: string;
-    region: string;
-    spend: string;
-    impressions: number;
-    cpm: string;
-    clicksNum: number;
-    cpc: string;
-    ctr: string;
-    purchasesConversionValue: string;
-    purchaseConversionCount: number;
-    purchaseRoas: string;
-    videoP25: number;
-    videoP50: number;
-    videoP100: number;
-    createTime: string;
-    updateTime: string;
-}
+export type AdReportDailyListRespItem = z.infer<typeof AdReportDailyListRespItemSchema>;
 
-export interface AdReportDailySummaryResp {
-    spend: string;
-    purchasesConversionValue: string;
-    purchaseRoas: string;
-    purchaseConversionCount: number;
-}
+export const AdReportDailyListRespSchema = z.object({
+    page: z.number().int(),
+    size: z.number().int(),
+    total: z.number().int(),
+    sumSpend: z.number(),
+    sumPurchasesConversionValue: z.number(),
+    sumPurchaseConversionCount: z.number().int(),
+    list: z.array(AdReportDailyListRespItemSchema),
+});
 
-export interface AdReportDailyGroupResp {
-    page: number;
-    size: number;
-    total: number;
-    summary: {
-        spendSum: number;
-        purchaseConversionCountSum: number;
-        purchasesConversionValueSum: number;
-        impressionsSum: number;
-        clicksNumSum: number;
-    };
-    list: {
-        date: string;
-        region: string;
-        spendSum: number;
-        purchaseConversionCountSum: number;
-        purchasesConversionValueSum: number;
-        impressionsSum: number;
-        clicksNumSum: number;
-    }[];
-}
+export type AdReportDailyListResp = z.infer<typeof AdReportDailyListRespSchema>;
+
+export const AdReportDailySummaryRespSchema = z.object({
+    spend: z.string(),
+    purchasesConversionValue: z.string(),
+    purchaseRoas: z.string(),
+    purchaseConversionCount: z.number().int(),
+});
+
+export type AdReportDailySummaryResp = z.infer<typeof AdReportDailySummaryRespSchema>;
+
+export const AdReportDailyGroupSummarySchema = z.object({
+    spendSum: z.number(),
+    purchaseConversionCountSum: z.number().int(),
+    purchasesConversionValueSum: z.number(),
+    impressionsSum: z.number().int(),
+    clicksNumSum: z.number().int(),
+});
+
+export const AdReportDailyGroupItemSchema = z.object({
+    date: z.string(),
+    region: z.string(),
+    spendSum: z.number(),
+    purchaseConversionCountSum: z.number().int(),
+    purchasesConversionValueSum: z.number(),
+    impressionsSum: z.number().int(),
+    clicksNumSum: z.number().int(),
+});
+
+export const AdReportDailyGroupRespSchema = z.object({
+    page: z.number().int(),
+    size: z.number().int(),
+    total: z.number().int(),
+    summary: AdReportDailyGroupSummarySchema,
+    list: z.array(AdReportDailyGroupItemSchema),
+});
+
+export type AdReportDailyGroupResp = z.infer<typeof AdReportDailyGroupRespSchema>;

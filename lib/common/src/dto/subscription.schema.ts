@@ -11,27 +11,32 @@ export const SubscriptionListReqSchema = z.object({
     endDate: z.string().default(''),
 });
 
+export type SubscriptionListReq = z.infer<typeof SubscriptionListReqSchema>;
+
 export const SubscriptionCancelReqSchema = z.object({
     subscriptionId: z.number().int(),
 });
 
-export type SubscriptionListReq = z.infer<typeof SubscriptionListReqSchema>;
 export type SubscriptionCancelReq = z.infer<typeof SubscriptionCancelReqSchema>;
 
-export interface SubscriptionListResp {
-    page: number;
-    size: number;
-    total: number;
-    list: SubscriptionListRespItem[];
-}
+export const SubscriptionListRespItemSchema = z.object({
+    id: z.number().int(),
+    userId: z.number().int(),
+    subscriptionChannel: z.string(),
+    subscriptionNo: z.string(),
+    subscriptionStatus: z.number().int(),
+    subscriptionStatusName: z.string(),
+    createTime: z.string(),
+    updateTime: z.string(),
+});
 
-export interface SubscriptionListRespItem {
-    id: number;
-    userId: number;
-    subscriptionChannel: string;
-    subscriptionNo: string;
-    subscriptionStatus: number;
-    subscriptionStatusName: string;
-    createTime: string;
-    updateTime: string;
-}
+export type SubscriptionListRespItem = z.infer<typeof SubscriptionListRespItemSchema>;
+
+export const SubscriptionListRespSchema = z.object({
+    page: z.number().int(),
+    size: z.number().int(),
+    total: z.number().int(),
+    list: z.array(SubscriptionListRespItemSchema),
+});
+
+export type SubscriptionListResp = z.infer<typeof SubscriptionListRespSchema>;

@@ -1,6 +1,6 @@
-import type { OrderStatus } from "@lib/common/consts/order";
+import { OrderStatus } from "@lib/common/consts/order";
 import { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
-import type { SkuType } from "@lib/common/consts/sku";
+import { SkuType } from "@lib/common/consts/sku";
 import z from "zod";
 
 export const OrderCreateReqSchema = z.object({
@@ -14,6 +14,8 @@ export const OrderCreateReqSchema = z.object({
     firstName: z.string().default(''),
     lastName: z.string().default(''),
 });
+
+export type OrderCreateReq = z.infer<typeof OrderCreateReqSchema>;
 
 export const OrderListReqSchema = z.object({
     page: z.coerce.number().int().min(1).default(1),
@@ -31,68 +33,73 @@ export const OrderListReqSchema = z.object({
     subscriptionPeriod: z.string().default(''),
 });
 
+export type OrderListReq = z.infer<typeof OrderListReqSchema>;
+
 export const DisputeOrderReqSchema = z.object({
     search: z.string().default(''),
 }).refine((data) => data.search, {
     message: "Search condition is required",
 });
 
-export type OrderCreateReq = z.infer<typeof OrderCreateReqSchema>;
-export type OrderListReq = z.infer<typeof OrderListReqSchema>;
 export type DisputeOrderReq = z.infer<typeof DisputeOrderReqSchema>;
 
-export interface OrderListResp {
-    page: number;
-    size: number;
-    total: number;
-    list: OrderListRespItem[];
-}
+export const OrderListRespItemSchema = z.object({
+    id: z.number().int(),
+    bizId: z.string(),
+    paymentId: z.string(),
+    host: z.string(),
+    platfrom: z.string(),
+    userId: z.number().int(),
+    username: z.string(),
+    email: z.string(),
+    collectionBizId: z.string(),
+    collectionName: z.string(),
+    collectionSourceName: z.string(),
+    amount: z.string(),
+    currency: z.string(),
+    dollar: z.string(),
+    orderType: z.enum(SkuType),
+    subscriptionId: z.number().int(),
+    subscriptionCount: z.number().int(),
+    subscriptionPeriod: z.string(),
+    paymentChennel: z.string(),
+    paymentType: z.enum(PaymentType),
+    paymentTypeName: z.string(),
+    orderStatus: z.enum(OrderStatus),
+    orderStatusName: z.string(),
+    createTime: z.string(),
+    updateTime: z.string(),
+});
+export type OrderListRespItem = z.infer<typeof OrderListRespItemSchema>;
 
-export interface OrderListRespItem {
-    id: number;
-    bizId: string;
-    paymentId: string;
-    host: string;
-    platfrom: string;
-    userId: number;
-    username: string;
-    email: string;
-    collectionBizId: string;
-    collectionName: string;
-    collectionSourceName: string;
-    amount: string;
-    currency: string;
-    dollar: string;
-    orderType: SkuType;
-    subscriptionId: number;
-    subscriptionCount: number;
-    subscriptionPeriod: string;
-    paymentChennel: string;
-    paymentType: PaymentType;
-    paymentTypeName: string;
-    orderStatus: OrderStatus;
-    orderStatusName: string;
-    createTime: string;
-    updateTime: string;
-}
+export const OrderListRespSchema = z.object({
+    page: z.number().int(),
+    size: z.number().int(),
+    total: z.number().int(),
+    list: z.array(OrderListRespItemSchema),
+});
 
-export interface DisputeOrderResp {
-    id: number;
-    bizId: string;
-    paymentId: string;
-    userId: number;
-    userNo: string;
-    amount: string;
-    currency: string;
-    orderType: SkuType;
-    subscriptionId: number;
-    subscriptionCount: number;
-    subscriptionPeriod: string;
-    paymentChennel: string;
-    paymentType: PaymentType;
-    paymentTypeName: string;
-    orderStatus: OrderStatus;
-    orderStatusName: string;
-    createTime: string;
-    updateTime: string;
-}
+export type OrderListResp = z.infer<typeof OrderListRespSchema>;
+
+export const DisputeOrderRespSchema = z.object({
+    id: z.number().int(),
+    bizId: z.string(),
+    paymentId: z.string(),
+    userId: z.number().int(),
+    userNo: z.string(),
+    amount: z.string(),
+    currency: z.string(),
+    orderType: z.enum(SkuType),
+    subscriptionId: z.number().int(),
+    subscriptionCount: z.number().int(),
+    subscriptionPeriod: z.string(),
+    paymentChennel: z.string(),
+    paymentType: z.enum(PaymentType),
+    paymentTypeName: z.string(),
+    orderStatus: z.enum(OrderStatus),
+    orderStatusName: z.string(),
+    createTime: z.string(),
+    updateTime: z.string(),
+});
+
+export type DisputeOrderResp = z.infer<typeof DisputeOrderRespSchema>;

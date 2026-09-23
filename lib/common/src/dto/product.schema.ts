@@ -1,4 +1,4 @@
-import type { CollectionType } from "@lib/common/consts/collection";
+import { CollectionType } from "@lib/common/consts/collection";
 import { Language, Region } from "@lib/common/consts/region";
 import z from "zod";
 
@@ -8,6 +8,8 @@ export const ProductListReqSchema = z.object({
     search: z.string().default(''),
     region: z.enum(Region).or(z.literal('')).default(''),
 });
+
+export type ProductListReq = z.infer<typeof ProductListReqSchema>;
 
 export const ProductEditReqSchema = z.object({
     id: z.coerce.number().nonoptional(),
@@ -21,6 +23,8 @@ export const ProductEditReqSchema = z.object({
     collectionTypeList: z.array(z.number()).default([]),
 });
 
+export type ProductEditReq = z.infer<typeof ProductEditReqSchema>;
+
 export const ProductAddReqSchema = z.object({
     host: z.string().min(1),
     region: z.enum(Region).or(z.literal('')).default(''),
@@ -32,37 +36,40 @@ export const ProductAddReqSchema = z.object({
     collectionTypeList: z.array(z.number()).default([]),
 });
 
-export type ProductListReq = z.infer<typeof ProductListReqSchema>;
-export type ProductEditReq = z.infer<typeof ProductEditReqSchema>;
 export type ProductAddReq = z.infer<typeof ProductAddReqSchema>;
 
-export interface ProductInfoResp {
-    region: Region;
-    language: Language;
-    currency: string;
-    currencySign: string;
-    coinUnlock: number;
-}
+export const ProductInfoRespSchema = z.object({
+    region: z.enum(Region),
+    language: z.enum(Language),
+    currency: z.string(),
+    currencySign: z.string(),
+    coinUnlock: z.number().int(),
+});
+export type ProductInfoResp = z.infer<typeof ProductInfoRespSchema>;
 
-export interface ProductListResp {
-    page: number;
-    size: number;
-    total: number;
-    list: ProductListRespItem[];
-}
+export const ProductListRespItemSchema = z.object({
+    id: z.number().int(),
+    host: z.string(),
+    region: z.enum(Region),
+    regionName: z.string(),
+    language: z.enum(Language),
+    languageName: z.string(),
+    currency: z.string(),
+    currencySign: z.string(),
+    coinUnlock: z.number().int(),
+    desc: z.string(),
+    collectionTypeList: z.array(z.nativeEnum(CollectionType)),
+    createTime: z.string(),
+    updateTime: z.string(),
+});
 
-export interface ProductListRespItem {
-    id: number;
-    host: string;
-    region: Region;
-    regionName: string;
-    language: Language;
-    languageName: string;
-    currency: string;
-    currencySign: string;
-    coinUnlock: number;
-    desc: string;
-    collectionTypeList: CollectionType[];
-    createTime: string;
-    updateTime: string;
-}
+export type ProductListRespItem = z.infer<typeof ProductListRespItemSchema>;
+
+export const ProductListRespSchema = z.object({
+    page: z.number().int(),
+    size: z.number().int(),
+    total: z.number().int(),
+    list: z.array(ProductListRespItemSchema),
+});
+
+export type ProductListResp = z.infer<typeof ProductListRespSchema>;

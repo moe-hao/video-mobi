@@ -12,15 +12,19 @@ export const SubscriptionRenewalReportListReqSchema = z.object({
 
 export type SubscriptionRenewalReportListReq = z.infer<typeof SubscriptionRenewalReportListReqSchema>;
 
-export interface SubscriptionRenewalReportListResp {
-    page: number;
-    size: number;
-    total: number;
-    list: SubscriptionRenewalReportListRespItem[];
-}
+export const SubscriptionRenewalReportListRespItemSchema = z.object({
+    periodNum: z.number().int(),
+    subscriptionNum: z.number().int(),
+    renewalRate: z.string(),
+});
 
-export interface SubscriptionRenewalReportListRespItem {
-    periodNum: number;
-    subscriptionNum: number;
-    renewalRate: string;
-}
+export type SubscriptionRenewalReportListRespItem = z.infer<typeof SubscriptionRenewalReportListRespItemSchema>;
+
+export const SubscriptionRenewalReportListRespSchema = z.object({
+    page: z.number().int(),
+    size: z.number().int(),
+    total: z.number().int(),
+    list: z.array(SubscriptionRenewalReportListRespItemSchema),
+});
+
+export type SubscriptionRenewalReportListResp = z.infer<typeof SubscriptionRenewalReportListRespSchema>;

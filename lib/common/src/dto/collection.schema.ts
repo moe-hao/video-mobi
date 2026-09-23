@@ -61,48 +61,53 @@ export const CollectionPublishReqSchema = z.object({
 
 export type CollectionPublishReq = z.infer<typeof CollectionPublishReqSchema>;
 
-export interface CollectionListResp {
-    page: number;
-    size: number;
-    total: number;
-    list: CollectionItemResp[];
-}
+export const CollectionItemRespSchema = z.object({
+    bizId: z.string(),
+    name: z.string(),
+    episodes: z.number().int(),
+    cover: z.string(),
+});
+export type CollectionItemResp = z.infer<typeof CollectionItemRespSchema>;
 
-export interface CollectionItemResp {
-    bizId: string;
-    name: string;
-    episodes: number;
-    cover: string;
-}
+export const CollectionListRespSchema = z.object({
+    page: z.number().int(),
+    size: z.number().int(),
+    total: z.number().int(),
+    list: z.array(CollectionItemRespSchema),
+});
+export type CollectionListResp = z.infer<typeof CollectionListRespSchema>;
 
-export interface CollectionTableListResp {
-    page: number;
-    size: number;
-    total: number;
-    list: CollectionTableListRespItem[];
-}
+export const CollectionTableListRespItemSchema = z.object({
+    id: z.number().int(),
+    bizId: z.string(),
+    name: z.string(),
+    sourceName: z.string(),
+    episodes: z.number().int(),
+    cutPoint: z.number().int(),
+    publishStatus: z.nativeEnum(PublishStatus),
+    cover: z.string(),
+    collectionType: z.nativeEnum(CollectionType),
+    collectionTypeName: z.string(),
+    local: z.nativeEnum(CollectionLocal),
+    localName: z.string(),
+    languageCode: z.nativeEnum(Language),
+    language: z.string(),
+    videoId: z.number().int(),
+    desc: z.string(),
+    createTime: z.string(),
+    updateTime: z.string(),
+});
+export type CollectionTableListRespItem = z.infer<typeof CollectionTableListRespItemSchema>;
 
-export interface CollectionTableListRespItem {
-    id: number;
-    bizId: string;
-    name: string;
-    sourceName: string;
-    episodes: number;
-    cutPoint: number;
-    publishStatus: PublishStatus;
-    cover: string;
-    collectionType: CollectionType;
-    collectionTypeName: string;
-    local: CollectionLocal;
-    localName: string;
-    languageCode: Language;
-    language: string;
-    videoId: number;
-    desc: string;
-    createTime: string;
-    updateTime: string;
-}
+export const CollectionTableListRespSchema = z.object({
+    page: z.number().int(),
+    size: z.number().int(),
+    total: z.number().int(),
+    list: z.array(CollectionTableListRespItemSchema),
+});
+export type CollectionTableListResp = z.infer<typeof CollectionTableListRespSchema>;
 
-export interface CollectionCoverUploadResp {
-    url: string;
-}
+export const CollectionCoverUploadRespSchema = z.object({
+    url: z.string(),
+});
+export type CollectionCoverUploadResp = z.infer<typeof CollectionCoverUploadRespSchema>;

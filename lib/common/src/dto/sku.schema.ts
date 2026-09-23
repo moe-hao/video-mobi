@@ -10,6 +10,8 @@ export const SkuManageListReqSchema = z.object({
     region: z.string().default(''),
 });
 
+export type SkuManageListReq = z.infer<typeof SkuManageListReqSchema>;
+
 export const SkuAddReqSchema = z.object({
     productId: z.number().int().min(1).default(0),
     firstPeriodPrice: z.string().default(''),
@@ -30,6 +32,8 @@ export const SkuAddReqSchema = z.object({
     isRetrieve: z.number().int().default(0),
     retrieveOptionId: z.number().int().default(0),
 });
+
+export type SkuAddReq = z.infer<typeof SkuAddReqSchema>;
 
 export const SkuEditReqSchema = z.object({
     id: z.number().int().min(1).default(0),
@@ -53,80 +57,86 @@ export const SkuEditReqSchema = z.object({
     retrieveOptionId: z.number().int().default(0),
 });
 
+export type SkuEditReq = z.infer<typeof SkuEditReqSchema>;
+
 export const SkuDeleteReqSchema = z.object({
     id: z.number().int().nonoptional(),
 });
 
-export type SkuManageListReq = z.infer<typeof SkuManageListReqSchema>;
-export type SkuAddReq = z.infer<typeof SkuAddReqSchema>;
-export type SkuEditReq = z.infer<typeof SkuEditReqSchema>;
 export type SkuDeleteReq = z.infer<typeof SkuDeleteReqSchema>;
 
-export interface SkuListResp {
-    skuList: SkuListItem[];
-}
+export const SkuPaymentListItemSchema = z.object({
+    paymentChannel: z.string(),
+    paymentType: z.string(),
+});
+export type SkuPaymentListItem = z.infer<typeof SkuPaymentListItemSchema>;
 
-export interface SkuListItem {
-    bizId: string;
-    firstPeriodPrice: string;
-    price: string;
-    currency: string;
-    currencySign: string;
-    skuType: string;
-    periodType: string;
-    paypalPlanId: string;
-    coinNum: number;
-    coinBonus: number;
-    isRetrieve: number;
-    desc: string;
-    important: SkuImportant;
-    paymentList: SkuPaymentListItem[];
-}
+export const SkuListItemSchema = z.object({
+    bizId: z.string(),
+    firstPeriodPrice: z.string(),
+    price: z.string(),
+    currency: z.string(),
+    currencySign: z.string(),
+    skuType: z.string(),
+    periodType: z.string(),
+    paypalPlanId: z.string(),
+    coinNum: z.number().int(),
+    coinBonus: z.number().int(),
+    isRetrieve: z.number().int(),
+    desc: z.string(),
+    important: z.enum(SkuImportant),
+    paymentList: z.array(SkuPaymentListItemSchema),
+});
+export type SkuListItem = z.infer<typeof SkuListItemSchema>;
 
-export interface SkuPaymentListItem {
-    paymentChannel: string;
-    paymentType: string;
-}
+export const SkuListRespSchema = z.object({
+    skuList: z.array(SkuListItemSchema),
+});
+export type SkuListResp = z.infer<typeof SkuListRespSchema>;
 
-export interface SkuManageListResp {
-    page: number;
-    size: number;
-    total: number;
-    list: SkuManageListItem[];
-}
+export const SkuManageListItemSchema = z.object({
+    id: z.number().int(),
+    bizId: z.string(),
+    productId: z.number().int(),
+    firstPeriodPrice: z.string(),
+    productHost: z.string(),
+    price: z.string(),
+    currency: z.string(),
+    currencySign: z.string(),
+    skuType: z.string(),
+    skuTypeName: z.string(),
+    periodType: z.string(),
+    periodTypeName: z.string(),
+    periodTotal: z.number().int(),
+    weight: z.number().int(),
+    coinNum: z.number().int(),
+    coinBonus: z.number().int(),
+    paypalPlanId: z.string(),
+    paymentOptionId: z.number().int(),
+    paymentOptionName: z.string(),
+    desc: z.string(),
+    important: z.enum(SkuImportant),
+    region: z.string(),
+    isRetrieve: z.number().int(),
+    retrieveOptionId: z.number().int(),
+    createTime: z.string(),
+    updateTime: z.string(),
+});
+export type SkuManageListItem = z.infer<typeof SkuManageListItemSchema>;
 
-export interface SkuManageListItem {
-    id: number;
-    bizId: string;
-    productId: number;
-    firstPeriodPrice: string;
-    productHost: string;
-    price: string;
-    currency: string;
-    currencySign: string;
-    skuType: string;
-    skuTypeName: string;
-    periodType: string;
-    periodTypeName: string;
-    periodTotal: number;
-    weight: number;
-    coinNum: number;
-    coinBonus: number;
-    paypalPlanId: string;
-    paymentOptionId: number;
-    paymentOptionName: string;
-    desc: string;
-    important: SkuImportant;
-    region: string;
-    isRetrieve: number;
-    retrieveOptionId: number;
-    createTime: string;
-    updateTime: string;
-}
+export const SkuManageListRespSchema = z.object({
+    page: z.number().int(),
+    size: z.number().int(),
+    total: z.number().int(),
+    list: z.array(SkuManageListItemSchema),
+});
+export type SkuManageListResp = z.infer<typeof SkuManageListRespSchema>;
 
-export interface SkuRetrieveInfo {
-    exist: boolean;
-    orderNum: number;
-    openPaymentNum: number;
-    relation: RelationType;
-}
+export const SkuRetrieveInfoSchema = z.object({
+    exist: z.boolean(),
+    orderNum: z.number().int(),
+    openPaymentNum: z.number().int(),
+    relation: z.string() as z.ZodType<RelationType>,
+});
+
+export type SkuRetrieveInfo = z.infer<typeof SkuRetrieveInfoSchema>;

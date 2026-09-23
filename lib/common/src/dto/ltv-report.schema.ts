@@ -12,23 +12,27 @@ export const LtvReportListReqSchema = z.object({
 
 export type LtvReportListReq = z.infer<typeof LtvReportListReqSchema>;
 
-export interface LtvReportListResp {
-    page: number;
-    size: number;
-    total: number;
-    list: LtvReportListItem[];
-}
+export const LtvReportListItemSchema = z.object({
+    startDate: z.string(),
+    spend: z.string(),
+    d0Income: z.string(),
+    d7Income: z.string(),
+    d14Income: z.string(),
+    d21Income: z.string(),
+    d28Income: z.string(),
+    d35Income: z.string(),
+    d42Income: z.string(),
+    d49Income: z.string(),
+    d56Income: z.string(),
+});
 
-export interface LtvReportListItem {
-    startDate: string;
-    spend: string;
-    d0Income: string;
-    d7Income: string;
-    d14Income: string;
-    d21Income: string;
-    d28Income: string;
-    d35Income: string;
-    d42Income: string;
-    d49Income: string;
-    d56Income: string;
-}
+export type LtvReportListItem = z.infer<typeof LtvReportListItemSchema>;
+
+export const LtvReportListRespSchema = z.object({
+    page: z.number().int(),
+    size: z.number().int(),
+    total: z.number().int(),
+    list: z.array(LtvReportListItemSchema),
+});
+
+export type LtvReportListResp = z.infer<typeof LtvReportListRespSchema>;

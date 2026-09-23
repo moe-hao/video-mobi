@@ -6,6 +6,8 @@ export const RetrieveOptionListReqSchema = z.object({
     search: z.string().default(''),
 });
 
+export type RetrieveOptionListReq = z.infer<typeof RetrieveOptionListReqSchema>;
+
 export const RetrieveOptionEditReqSchema = z.object({
     id: z.coerce.number().nonoptional(),
     name: z.string().min(1),
@@ -14,6 +16,8 @@ export const RetrieveOptionEditReqSchema = z.object({
     relation: z.string().default(''),
 });
 
+export type RetrieveOptionEditReq = z.infer<typeof RetrieveOptionEditReqSchema>;
+
 export const RetrieveOptionAddReqSchema = z.object({
     name: z.string().min(1),
     orderNum: z.coerce.number().min(0).default(0),
@@ -21,29 +25,30 @@ export const RetrieveOptionAddReqSchema = z.object({
     relation: z.string().default(''),
 });
 
+export type RetrieveOptionAddReq = z.infer<typeof RetrieveOptionAddReqSchema>;
+
 export const RetrieveOptionDeleteReqSchema = z.object({
     id: z.coerce.number().nonoptional(),
 });
 
-export type RetrieveOptionListReq = z.infer<typeof RetrieveOptionListReqSchema>;
-export type RetrieveOptionEditReq = z.infer<typeof RetrieveOptionEditReqSchema>;
-export type RetrieveOptionAddReq = z.infer<typeof RetrieveOptionAddReqSchema>;
 export type RetrieveOptionDeleteReq = z.infer<typeof RetrieveOptionDeleteReqSchema>;
 
-export interface RetrieveOptionListResp {
-    page: number;
-    size: number;
-    total: number;
-    list: RetrieveOptionListRespItem[];
-}
+export const RetrieveOptionListRespItemSchema = z.object({
+    id: z.number().int(),
+    name: z.string(),
+    orderNum: z.number().int(),
+    openPaymentNum: z.number().int(),
+    relation: z.string(),
+    relationName: z.string(),
+    createTime: z.string(),
+    updateTime: z.string(),
+});
+export type RetrieveOptionListRespItem = z.infer<typeof RetrieveOptionListRespItemSchema>;
 
-export interface RetrieveOptionListRespItem {
-    id: number;
-    name: string;
-    orderNum: number;
-    openPaymentNum: number;
-    relation: string;
-    relationName: string;
-    createTime: string;
-    updateTime: string;
-}
+export const RetrieveOptionListRespSchema = z.object({
+    page: z.number().int(),
+    size: z.number().int(),
+    total: z.number().int(),
+    list: z.array(RetrieveOptionListRespItemSchema),
+});
+export type RetrieveOptionListResp = z.infer<typeof RetrieveOptionListRespSchema>;

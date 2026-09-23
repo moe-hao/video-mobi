@@ -1,5 +1,5 @@
-import type { UnlockCommType } from "@lib/common/consts/unlock-coin";
-import type { UserType } from "@lib/common/consts/user";
+import { UnlockCommType } from "@lib/common/consts/unlock-coin";
+import { UserType } from "@lib/common/consts/user";
 import z from "zod";
 
 export const UserListReqSchema = z.object({
@@ -8,14 +8,20 @@ export const UserListReqSchema = z.object({
     search: z.string().default(''),
 });
 
+export type UserListReq = z.infer<typeof UserListReqSchema>;
+
 export const UserCoinHistoryReqSchema = z.object({
     page: z.coerce.number().int().min(1).default(1),
     size: z.coerce.number().int().min(1).default(10),
 });
 
+export type UserCoinHistoryReq = z.infer<typeof UserCoinHistoryReqSchema>;
+
 export const ManageUserDetailReqSchema = z.object({
     userId: z.coerce.number().int().min(1),
 });
+
+export type ManageUserDetailReq = z.infer<typeof ManageUserDetailReqSchema>;
 
 export const ManageUserHistoryReqSchema = z.object({
     userId: z.coerce.number().int().min(1),
@@ -23,96 +29,104 @@ export const ManageUserHistoryReqSchema = z.object({
     size: z.coerce.number().int().min(1).default(10),
 });
 
-export type UserListReq = z.infer<typeof UserListReqSchema>;
-export type UserCoinHistoryReq = z.infer<typeof UserCoinHistoryReqSchema>;
-export type ManageUserDetailReq = z.infer<typeof ManageUserDetailReqSchema>;
 export type ManageUserHistoryReq = z.infer<typeof ManageUserHistoryReqSchema>;
 
-export interface UserAuthLoginResp {
-    authToken: string;
-    code: string;
-}
+export const UserAuthLoginRespSchema = z.object({
+    authToken: z.string(),
+    code: z.string(),
+});
+export type UserAuthLoginResp = z.infer<typeof UserAuthLoginRespSchema>;
 
-export interface UserAuthInfoResp {
-    bizId: string;
-    username: string;
-    email: string;
-    isLogin: boolean;
-    guestCode: string;
-    userType: UserType;
-}
+export const UserAuthInfoRespSchema = z.object({
+    bizId: z.string(),
+    username: z.string(),
+    email: z.string(),
+    isLogin: z.boolean(),
+    guestCode: z.string(),
+    userType: z.nativeEnum(UserType),
+});
+export type UserAuthInfoResp = z.infer<typeof UserAuthInfoRespSchema>;
 
-export interface UserListResp {
-    page: number;
-    size: number;
-    total: number;
-    list: UserListRespItem[];
-}
+export const UserListRespItemSchema = z.object({
+    id: z.number().int(),
+    bizId: z.string(),
+    username: z.string(),
+    email: z.string(),
+    memberStatus: z.string(),
+    expireTime: z.string(),
+    coinNum: z.number().int(),
+    productHost: z.string(),
+    createTime: z.string(),
+    updateTime: z.string(),
+});
+export type UserListRespItem = z.infer<typeof UserListRespItemSchema>;
 
-export interface UserListRespItem {
-    id: number;
-    bizId: string;
-    username: string;
-    email: string;
-    memberStatus: string;
-    expireTime: string;
-    coinNum: number;
-    productHost: string;
-    createTime: string;
-    updateTime: string;
-}
+export const UserListRespSchema = z.object({
+    page: z.number().int(),
+    size: z.number().int(),
+    total: z.number().int(),
+    list: z.array(UserListRespItemSchema),
+});
+export type UserListResp = z.infer<typeof UserListRespSchema>;
 
-export interface UserCoinHistoryResp {
-    page: number;
-    size: number;
-    total: number;
-    list: UserCoinHistoryItem[];
-}
+export const UserCoinHistoryItemSchema = z.object({
+    coinNum: z.number().int(),
+    commType: z.enum(UnlockCommType),
+    createTime: z.string(),
+});
+export type UserCoinHistoryItem = z.infer<typeof UserCoinHistoryItemSchema>;
 
-export interface UserCoinHistoryItem {
-    coinNum: number;
-    commType: UnlockCommType;
-    createTime: string;
-}
+export const UserCoinHistoryRespSchema = z.object({
+    page: z.number().int(),
+    size: z.number().int(),
+    total: z.number().int(),
+    list: z.array(UserCoinHistoryItemSchema),
+});
+export type UserCoinHistoryResp = z.infer<typeof UserCoinHistoryRespSchema>;
 
-export interface ManageUserDetailResp {
-    id: number;
-    bizId: string;
-    username: string;
-    email: string;
-    memberStatus: string;
-    expireTime: string;
-    coinNum: number;
-}
+export const ManageUserDetailRespSchema = z.object({
+    id: z.number().int(),
+    bizId: z.string(),
+    username: z.string(),
+    email: z.string(),
+    memberStatus: z.string(),
+    expireTime: z.string(),
+    coinNum: z.number().int(),
+});
+export type ManageUserDetailResp = z.infer<typeof ManageUserDetailRespSchema>;
 
-export interface ManageUserWatchHistoryResp {
-    page: number;
-    size: number;
-    total: number;
-    list: ManageUserWatchHistoryItem[];
-}
+export const ManageUserWatchHistoryItemSchema = z.object({
+    collectionName: z.string(),
+    epNum: z.number().int(),
+    collectionEpisodes: z.number().int(),
+    cutPoint: z.number().int(),
+    isDeleted: z.number().int(),
+    createTime: z.string(),
+    updateTime: z.string(),
+});
+export type ManageUserWatchHistoryItem = z.infer<typeof ManageUserWatchHistoryItemSchema>;
 
-export interface ManageUserWatchHistoryItem {
-    collectionName: string;
-    epNum: number;
-    collectionEpisodes: number;
-    cutPoint: number;
-    isDeleted: number;
-    createTime: string;
-    updateTime: string;
-}
+export const ManageUserWatchHistoryRespSchema = z.object({
+    page: z.number().int(),
+    size: z.number().int(),
+    total: z.number().int(),
+    list: z.array(ManageUserWatchHistoryItemSchema),
+});
+export type ManageUserWatchHistoryResp = z.infer<typeof ManageUserWatchHistoryRespSchema>;
 
-export interface ManageUserCoinHistoryResp {
-    page: number;
-    size: number;
-    total: number;
-    list: ManageUserCoinHistoryItem[];
-}
+export const ManageUserCoinHistoryItemSchema = z.object({
+    coinNum: z.number().int(),
+    commType: z.nativeEnum(UnlockCommType),
+    collectionName: z.string(),
+    epNum: z.number().int(),
+    createTime: z.string(),
+});
+export type ManageUserCoinHistoryItem = z.infer<typeof ManageUserCoinHistoryItemSchema>;
 
-export interface ManageUserCoinHistoryItem {
-    coinNum: number;
-    commType: UnlockCommType;
-    collectionName: string;
-    epNum: number;
-    createTime: string;
-}
+export const ManageUserCoinHistoryRespSchema = z.object({
+    page: z.number().int(),
+    size: z.number().int(),
+    total: z.number().int(),
+    list: z.array(ManageUserCoinHistoryItemSchema),
+});
+export type ManageUserCoinHistoryResp = z.infer<typeof ManageUserCoinHistoryRespSchema>;
