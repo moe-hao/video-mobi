@@ -2,11 +2,10 @@
   "name": "@app/mobi",
   "version": "1.0.0",
   "type": "module",
+  "files": ["dist"],
   "scripts": {
-    "clean": "rm -rf dist",
-    "check": "tsc --noEmit",
     "dev": "tsx watch --env-file ../../.env src/index.ts",
-    "build": "node esbuild.config.ts",
+    "build": "tsdown",
     "start": "node --env-file ../../.env --enable-source-maps dist/index.js"
   },
   "dependencies": {

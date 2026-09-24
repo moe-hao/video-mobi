@@ -3,6 +3,7 @@ lockfileVersion: '9.0'
 settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
+  injectWorkspacePackages: true
 
 importers:
 
@@ -31,10 +32,10 @@ importers:
         version: link:../../lib/internal
       '@lib/middleware':
         specifier: workspace:*
-        version: link:../../lib/middleware
+        version: file:lib/middleware(@types/node@20.19.43)
       '@lib/repo':
         specifier: workspace:*
-        version: link:../../lib/repo
+        version: file:lib/repo(@types/node@20.19.43)
       date-fns:
         specifier: ^4.3.0
         version: 4.4.0
@@ -171,10 +172,10 @@ importers:
         version: link:../../lib/internal
       '@lib/middleware':
         specifier: workspace:*
-        version: link:../../lib/middleware
+        version: file:lib/middleware(@types/node@20.19.43)
       '@lib/repo':
         specifier: workspace:*
-        version: link:../../lib/repo
+        version: file:lib/repo(@types/node@20.19.43)
       '@paypal/paypal-server-sdk':
         specifier: 2.0.0
         version: 2.0.0
@@ -296,10 +297,10 @@ importers:
         version: link:../../lib/internal
       '@lib/middleware':
         specifier: workspace:*
-        version: link:../../lib/middleware
+        version: file:lib/middleware(@types/node@20.19.43)
       '@lib/repo':
         specifier: workspace:*
-        version: link:../../lib/repo
+        version: file:lib/repo(@types/node@20.19.43)
       hono:
         specifier: ^4.12.18
         version: 4.13.7
@@ -327,10 +328,14 @@ importers:
         version: link:../../lib/common
       '@lib/repo':
         specifier: workspace:*
-        version: link:../../lib/repo
+        version: file:lib/repo(@types/node@20.19.43)
       date-fns:
         specifier: ^4.4.0
         version: 4.4.0
+    devDependencies:
+      '@types/node':
+        specifier: ^20.19.41
+        version: 20.19.43
 
   app/task:
     dependencies:
@@ -342,10 +347,10 @@ importers:
         version: link:../../lib/internal
       '@lib/middleware':
         specifier: workspace:*
-        version: link:../../lib/middleware
+        version: file:lib/middleware(@types/node@20.19.43)
       '@lib/repo':
         specifier: workspace:*
-        version: link:../../lib/repo
+        version: file:lib/repo(@types/node@20.19.43)
       axios:
         specifier: ^1.19.0
         version: 1.20.0
@@ -438,10 +443,10 @@ importers:
         version: 0.8.0(hono@4.13.7)(zod@4.5.4)
       '@lib/common':
         specifier: workspace:*
-        version: link:../common
+        version: file:lib/common(@types/node@24.13.3)
       '@lib/internal':
         specifier: workspace:*
-        version: link:../internal
+        version: file:lib/internal(@types/node@24.13.3)
       hono:
         specifier: ^4.12.23
         version: 4.13.7
@@ -453,10 +458,10 @@ importers:
     dependencies:
       '@lib/common':
         specifier: workspace:*
-        version: link:../common
+        version: file:lib/common(@types/node@24.13.3)
       '@lib/internal':
         specifier: workspace:*
-        version: link:../internal
+        version: file:lib/internal(@types/node@24.13.3)
       axios:
         specifier: ^1.19.0
         version: 1.20.0
@@ -920,6 +925,18 @@ packages:
 
   '@keyv/serialize@1.1.1':
     resolution: {integrity: sha512-dXn3FZhPv0US+7dtJsIi2R+c7qWYiReoEh5zUntWCf4oSpMNib8FDhSoed6m3QyZdx5hK7iLFkYk3rNxwt8vTA==}
+
+  '@lib/common@file:lib/common':
+    resolution: {directory: lib/common, type: directory}
+
+  '@lib/internal@file:lib/internal':
+    resolution: {directory: lib/internal, type: directory}
+
+  '@lib/middleware@file:lib/middleware':
+    resolution: {directory: lib/middleware, type: directory}
+
+  '@lib/repo@file:lib/repo':
+    resolution: {directory: lib/repo, type: directory}
 
   '@loadable/component@5.16.7':
     resolution: {integrity: sha512-XvkFixLUOTEaj8lI7uwc4nf8Wmq3IulYG7SZHCWcPm/Li5gjJDFfIkgWOLPnD7jqPJVtAG9bEz4SCek+SpHYYg==}
@@ -3540,6 +3557,263 @@ snapshots:
       keyv: 5.6.0
 
   '@keyv/serialize@1.1.1': {}
+
+  '@lib/common@file:lib/common(@types/node@20.19.43)':
+    dependencies:
+      '@lib/internal': file:lib/internal(@types/node@20.19.43)
+      axios: 1.20.0
+      bcryptjs: 3.0.3
+      zod: 4.5.4
+    transitivePeerDependencies:
+      - '@aws-sdk/client-rds-data'
+      - '@cloudflare/workers-types'
+      - '@electric-sql/pglite'
+      - '@libsql/client'
+      - '@libsql/client-wasm'
+      - '@neondatabase/serverless'
+      - '@op-engineering/op-sqlite'
+      - '@opentelemetry/api'
+      - '@planetscale/database'
+      - '@prisma/client'
+      - '@tidbcloud/serverless'
+      - '@types/better-sqlite3'
+      - '@types/express'
+      - '@types/node'
+      - '@types/pg'
+      - '@types/sql.js'
+      - '@upstash/redis'
+      - '@vercel/postgres'
+      - '@xata.io/client'
+      - better-sqlite3
+      - buffer
+      - bun-types
+      - debug
+      - expo-sqlite
+      - gel
+      - knex
+      - kysely
+      - pg
+      - postgres
+      - prisma
+      - sql.js
+      - sqlite3
+      - supports-color
+
+  '@lib/common@file:lib/common(@types/node@24.13.3)':
+    dependencies:
+      '@lib/internal': file:lib/internal(@types/node@24.13.3)
+      axios: 1.20.0
+      bcryptjs: 3.0.3
+      zod: 4.5.4
+    transitivePeerDependencies:
+      - '@aws-sdk/client-rds-data'
+      - '@cloudflare/workers-types'
+      - '@electric-sql/pglite'
+      - '@libsql/client'
+      - '@libsql/client-wasm'
+      - '@neondatabase/serverless'
+      - '@op-engineering/op-sqlite'
+      - '@opentelemetry/api'
+      - '@planetscale/database'
+      - '@prisma/client'
+      - '@tidbcloud/serverless'
+      - '@types/better-sqlite3'
+      - '@types/express'
+      - '@types/node'
+      - '@types/pg'
+      - '@types/sql.js'
+      - '@upstash/redis'
+      - '@vercel/postgres'
+      - '@xata.io/client'
+      - better-sqlite3
+      - buffer
+      - bun-types
+      - debug
+      - expo-sqlite
+      - gel
+      - knex
+      - kysely
+      - pg
+      - postgres
+      - prisma
+      - sql.js
+      - sqlite3
+      - supports-color
+
+  '@lib/internal@file:lib/internal(@types/node@20.19.43)':
+    dependencies:
+      '@volcengine/openapi': 1.36.2
+      '@volcengine/tos-sdk': 2.9.1
+      axios: 1.20.0
+      date-fns: 4.4.0
+      drizzle-orm: 0.45.2(mysql2@3.24.3(@types/node@20.19.43))
+      ioredis: 5.11.1
+      mysql2: 3.24.3(@types/node@20.19.43)
+      pino: 10.3.1
+    transitivePeerDependencies:
+      - '@aws-sdk/client-rds-data'
+      - '@cloudflare/workers-types'
+      - '@electric-sql/pglite'
+      - '@libsql/client'
+      - '@libsql/client-wasm'
+      - '@neondatabase/serverless'
+      - '@op-engineering/op-sqlite'
+      - '@opentelemetry/api'
+      - '@planetscale/database'
+      - '@prisma/client'
+      - '@tidbcloud/serverless'
+      - '@types/better-sqlite3'
+      - '@types/express'
+      - '@types/node'
+      - '@types/pg'
+      - '@types/sql.js'
+      - '@upstash/redis'
+      - '@vercel/postgres'
+      - '@xata.io/client'
+      - better-sqlite3
+      - buffer
+      - bun-types
+      - debug
+      - expo-sqlite
+      - gel
+      - knex
+      - kysely
+      - pg
+      - postgres
+      - prisma
+      - sql.js
+      - sqlite3
+      - supports-color
+
+  '@lib/internal@file:lib/internal(@types/node@24.13.3)':
+    dependencies:
+      '@volcengine/openapi': 1.36.2
+      '@volcengine/tos-sdk': 2.9.1
+      axios: 1.20.0
+      date-fns: 4.4.0
+      drizzle-orm: 0.45.2(mysql2@3.24.3(@types/node@24.13.3))
+      ioredis: 5.11.1
+      mysql2: 3.24.3(@types/node@24.13.3)
+      pino: 10.3.1
+    transitivePeerDependencies:
+      - '@aws-sdk/client-rds-data'
+      - '@cloudflare/workers-types'
+      - '@electric-sql/pglite'
+      - '@libsql/client'
+      - '@libsql/client-wasm'
+      - '@neondatabase/serverless'
+      - '@op-engineering/op-sqlite'
+      - '@opentelemetry/api'
+      - '@planetscale/database'
+      - '@prisma/client'
+      - '@tidbcloud/serverless'
+      - '@types/better-sqlite3'
+      - '@types/express'
+      - '@types/node'
+      - '@types/pg'
+      - '@types/sql.js'
+      - '@upstash/redis'
+      - '@vercel/postgres'
+      - '@xata.io/client'
+      - better-sqlite3
+      - buffer
+      - bun-types
+      - debug
+      - expo-sqlite
+      - gel
+      - knex
+      - kysely
+      - pg
+      - postgres
+      - prisma
+      - sql.js
+      - sqlite3
+      - supports-color
+
+  '@lib/middleware@file:lib/middleware(@types/node@20.19.43)':
+    dependencies:
+      '@hono/zod-validator': 0.8.0(hono@4.13.7)(zod@4.5.4)
+      '@lib/common': file:lib/common(@types/node@20.19.43)
+      '@lib/internal': file:lib/internal(@types/node@20.19.43)
+      hono: 4.13.7
+      zod: 4.5.4
+    transitivePeerDependencies:
+      - '@aws-sdk/client-rds-data'
+      - '@cloudflare/workers-types'
+      - '@electric-sql/pglite'
+      - '@libsql/client'
+      - '@libsql/client-wasm'
+      - '@neondatabase/serverless'
+      - '@op-engineering/op-sqlite'
+      - '@opentelemetry/api'
+      - '@planetscale/database'
+      - '@prisma/client'
+      - '@tidbcloud/serverless'
+      - '@types/better-sqlite3'
+      - '@types/express'
+      - '@types/node'
+      - '@types/pg'
+      - '@types/sql.js'
+      - '@upstash/redis'
+      - '@vercel/postgres'
+      - '@xata.io/client'
+      - better-sqlite3
+      - buffer
+      - bun-types
+      - debug
+      - expo-sqlite
+      - gel
+      - knex
+      - kysely
+      - pg
+      - postgres
+      - prisma
+      - sql.js
+      - sqlite3
+      - supports-color
+
+  '@lib/repo@file:lib/repo(@types/node@20.19.43)':
+    dependencies:
+      '@lib/common': file:lib/common(@types/node@20.19.43)
+      '@lib/internal': file:lib/internal(@types/node@20.19.43)
+      axios: 1.20.0
+      change-case: 5.4.4
+      drizzle-orm: 0.45.2(mysql2@3.24.3(@types/node@20.19.43))
+      mysql2: 3.24.3(@types/node@20.19.43)
+    transitivePeerDependencies:
+      - '@aws-sdk/client-rds-data'
+      - '@cloudflare/workers-types'
+      - '@electric-sql/pglite'
+      - '@libsql/client'
+      - '@libsql/client-wasm'
+      - '@neondatabase/serverless'
+      - '@op-engineering/op-sqlite'
+      - '@opentelemetry/api'
+      - '@planetscale/database'
+      - '@prisma/client'
+      - '@tidbcloud/serverless'
+      - '@types/better-sqlite3'
+      - '@types/express'
+      - '@types/node'
+      - '@types/pg'
+      - '@types/sql.js'
+      - '@upstash/redis'
+      - '@vercel/postgres'
+      - '@xata.io/client'
+      - better-sqlite3
+      - buffer
+      - bun-types
+      - debug
+      - expo-sqlite
+      - gel
+      - knex
+      - kysely
+      - pg
+      - postgres
+      - prisma
+      - sql.js
+      - sqlite3
+      - supports-color
 
   '@loadable/component@5.16.7(react@19.2.8)':
     dependencies:

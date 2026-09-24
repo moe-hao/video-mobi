@@ -1,4 +1,4 @@
-import type { CollectionHistoryReq, CollectionHistoryResp } from "@lib/common/dto/history";
+import type { CollectionHistoryReq, CollectionHistoryResp } from "@lib/common/dto/history.schema";
 import { convertURLSearchParams } from "@lib/common/utils/param";
 import { request } from "@lib/common/utils/request-mobi";
 import { useState } from "react";

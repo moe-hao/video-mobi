@@ -3,7 +3,7 @@ import { Outlet, useLocation, useNavigate, useSearchParams } from "react-router"
 import Loading from "../loading";
 import { changeLanguage } from "i18next";
 import { useAuthCode } from "@app/mobi-web/hooks/user";
-import type { UserAuthInfoResp } from "@lib/common/dto/user";
+import type { UserAuthInfoResp } from "@lib/common/dto/user.schema";
 import { useProductInfo } from "@app/mobi-web/hooks/product";
 import { VideoMobiContext } from "@app/mobi-web/contexts/video-mobi-context";
 import { ClockArrowRotateLeft, House, Person } from "@gravity-ui/icons";

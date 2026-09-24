@@ -1,12 +1,12 @@
 import { Hono } from "hono";
 import { getCollectionPage, getFeaturedCollections } from "../services/collection.service";
 import { validated } from "@lib/middleware/validated";
-import { collectionListReqSchema } from "@lib/common/dto/collection";
+import { CollectionListReqSchema } from "@lib/common/dto/collection.schema";
 import { success } from "@lib/common/dto/result";
 
 const collection = new Hono();
 
-collection.get('/list', validated('query', collectionListReqSchema), async (c) => {
+collection.get('/list', validated('query', CollectionListReqSchema), async (c) => {
     const host = c.req.header('host') as string;
 
     const { page, size } = c.req.valid('query');

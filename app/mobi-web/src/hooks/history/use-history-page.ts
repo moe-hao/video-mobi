@@ -1,7 +1,7 @@
 import { request } from "@lib/common/utils/request-mobi";
-import type { UserHistoryListResp } from "@lib/common/dto/history/history";
+import type { UserHistoryListResp } from "@lib/common/dto/history.schema";
 import { useCallback, useRef, useState } from "react";
-import type { HistoryDeleteReq, UserHistoryListReq } from "@lib/common/dto/history";
+import type { HistoryDeleteReq, UserHistoryListReq } from "@lib/common/dto/history.schema";
 import { convertURLSearchParams } from "@lib/common/utils/param";
 
 export function useHistoryPage(): {

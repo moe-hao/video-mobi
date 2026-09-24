@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { videoService } from "../services/video/video.service";
 import { success } from "@lib/common/dto/result";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
-import { videoLikeReqSchema, videoUnlockCoinReqSchema } from "@lib/common/dto/video";
+import { VideoLikeReqSchema, VideoUnlockCoinReqSchema } from "@lib/common/dto/video.schema";
 import { validated } from "@lib/middleware/validated";
 
 const video = new Hono();
@@ -15,7 +15,7 @@ video.get('/play_info', async (c) => {
     return c.json(success(playUrl));
 });
 
-video.get('/like', validated('query', videoLikeReqSchema), async (c) => {
+video.get('/like', validated('query', VideoLikeReqSchema), async (c) => {
     const user = await c.get('user' as never) as UserAuthInfo;
     const req = c.req.valid('query');
 
@@ -23,7 +23,7 @@ video.get('/like', validated('query', videoLikeReqSchema), async (c) => {
     return c.json(success({}));
 });
 
-video.get('/like_status', validated('query', videoLikeReqSchema), async (c) => {
+video.get('/like_status', validated('query', VideoLikeReqSchema), async (c) => {
     const user = await c.get('user' as never) as UserAuthInfo;
     const req = c.req.valid('query');
 
@@ -31,7 +31,7 @@ video.get('/like_status', validated('query', videoLikeReqSchema), async (c) => {
     return c.json(success(resp));
 });
 
-video.post('/unlock_coin', validated('json', videoUnlockCoinReqSchema), async (c) => {
+video.post('/unlock_coin', validated('json', VideoUnlockCoinReqSchema), async (c) => {
     const user = await c.get('user' as never) as UserAuthInfo;
     const req = c.req.valid('json');
 

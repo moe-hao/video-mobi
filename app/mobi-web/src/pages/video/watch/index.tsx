@@ -7,7 +7,7 @@ import Payment from '@app/mobi-web/components/payment';
 import PaymentModal from '@app/mobi-web/components/payment/payment-modal';
 import RetrieveModal, { isRetrieveThresholdMet } from '@app/mobi-web/components/payment/retrieve-count';
 import { useSkuListState } from '@app/mobi-web/hooks/sku';
-import type { SkuListItem } from '@lib/common/dto/sku';
+import type { SkuListItem } from '@lib/common/dto/sku.schema';
 import { useCollectionVideo, useLike, useLikeStatus, useUnlockCoin } from '@app/mobi-web/hooks/video';
 import { useToast } from '@app/mobi-web/contexts/toast-context';
 

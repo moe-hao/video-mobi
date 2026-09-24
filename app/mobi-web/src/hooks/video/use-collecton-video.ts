@@ -1,4 +1,4 @@
-import type { VideoLikeReq, VideoLikeResp, VideoPlayInfoResp, VideoUnlockCoinReq, VideoUnlockCoinResp } from "@lib/common/dto/video";
+import type { VideoLikeReq, VideoLikeResp, VideoPlayInfoResp, VideoUnlockCoinReq, VideoUnlockCoinResp } from "@lib/common/dto/video.schema";
 import { convertURLSearchParams } from "@lib/common/utils/param";
 import { request } from "@lib/common/utils/request-mobi";
 import { useCallback, useState } from "react";

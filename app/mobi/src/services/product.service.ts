@@ -1,5 +1,5 @@
 import type { Language, Region } from "@lib/common/consts/region";
-import type { ProductInfoResp } from "@lib/common/dto/product";
+import type { ProductInfoResp } from "@lib/common/dto/product.schema";
 import { productDao } from "@lib/repo/dao/product.dao";
 
 class ProductService {

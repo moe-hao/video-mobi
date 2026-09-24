@@ -2,7 +2,7 @@ import { Xmark } from "@gravity-ui/icons";
 import { useEffect, useState } from "react";
 import PaymentPolicyTips from "./policy";
 import { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
-import type { SkuListItem } from "@lib/common/dto/sku";
+import type { SkuListItem } from "@lib/common/dto/sku.schema";
 import { useVideoMobiContext } from "@app/mobi-web/contexts/video-mobi-context";
 import { Region } from "@lib/common/consts/region";
 import PaymentButton from "./payment-button";

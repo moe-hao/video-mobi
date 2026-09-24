@@ -1,6 +1,6 @@
 import { ResultCode } from "../consts/result";
 import type { Result } from "../dto/result";
-import type { UserAuthLoginResp } from "../dto/user";
+import type { UserAuthLoginResp } from "../dto/user.schema";
 import { InternalException } from "../exceptions/internal-exception";
 
 

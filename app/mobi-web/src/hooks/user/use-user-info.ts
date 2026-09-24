@@ -1,7 +1,7 @@
 import { UserType } from "@lib/common/consts/user";
-import type { MemberInfoResp } from "@lib/common/dto/member";
-import type { SubscriptionDetailResp } from "@lib/common/dto/subscription";
-import type { UserAuthInfoResp, UserCoinHistoryReq, UserCoinHistoryResp } from "@lib/common/dto/user";
+import type { MemberInfoResp } from "@lib/common/dto/member.schema";
+import type { SubscriptionDetailResp } from "@lib/common/dto/subscription.schema";
+import type { UserAuthInfoResp, UserCoinHistoryReq, UserCoinHistoryResp } from "@lib/common/dto/user.schema";
 import { convertURLSearchParams } from "@lib/common/utils/param";
 import { request } from "@lib/common/utils/request-mobi";
 import { useState, useCallback } from "react";

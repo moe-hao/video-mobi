@@ -1,8 +1,8 @@
 import { DeleteStatus } from "@lib/common/consts/common-status";
 import { ResultCode } from "@lib/common/consts/result";
 import { UserType } from "@lib/common/consts/user";
-import type { SendEmailCodeReq, VerifyEmailCodeReq } from "@lib/common/dto/email/email.schema";
-import type { UserAuthLoginResp } from "@lib/common/dto/user";
+import type { SendEmailCodeReq, VerifyEmailCodeReq } from "@lib/common/dto/email.schema";
+import type { UserAuthLoginResp } from "@lib/common/dto/user.schema";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { encrypt } from "@lib/common/utils/aes-encrypt";
 import { currentTime } from "@lib/common/utils/time";

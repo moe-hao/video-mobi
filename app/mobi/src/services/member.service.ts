@@ -1,8 +1,8 @@
 import { memberDao } from "@lib/repo/dao/member.dao";
-import type { MemberInfoResp } from "@lib/common/dto/member";
+import type { MemberInfoResp } from "@lib/common/dto/member.schema";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
 import { userCoinHistoryDao } from "@lib/repo/dao/user-coin-history.dao";
-import type { UserCoinHistoryReq, UserCoinHistoryResp } from "@lib/common/dto/user";
+import type { UserCoinHistoryReq, UserCoinHistoryResp } from "@lib/common/dto/user.schema";
 import type { UnlockCommType } from "@lib/common/consts/unlock-coin";
 import { formatUnixTime } from "@lib/common/utils/time";
 

@@ -1,4 +1,4 @@
-import type { FeedbackAddReq } from "@lib/common/dto/feedback";
+import type { FeedbackAddReq } from "@lib/common/dto/feedback.schema";
 import { request } from "@lib/common/utils/request-mobi";
 import { useCallback } from "react";
 

@@ -2,7 +2,7 @@ import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { historyDao } from "@lib/repo/dao/history.dao";
 import type { CollectionSelect } from "@lib/repo/models/collection";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
-import type { CollectionHistoryReq, CollectionHistoryResp, HistoryDeleteReq, UserHistoryListReq, UserHistoryListResp } from "@lib/common/dto/history";
+import type { CollectionHistoryReq, CollectionHistoryResp, HistoryDeleteReq, UserHistoryListReq, UserHistoryListResp } from "@lib/common/dto/history.schema";
 import { DeleteStatus } from "@lib/common/consts/common-status";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { ResultCode } from "@lib/common/consts/result";

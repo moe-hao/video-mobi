@@ -1,4 +1,4 @@
-import type { SubscriptionDetailResp } from "@lib/common/dto/subscription";
+import type { SubscriptionDetailResp } from "@lib/common/dto/subscription.schema";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
 import { SubscriptionStatus } from "@lib/common/consts/subscription";
 import { SubscriptionOperationFactory } from "./operation/operation";

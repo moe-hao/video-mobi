@@ -1,4 +1,4 @@
-import type { FeedbackAddReq } from "@lib/common/dto/feedback";
+import type { FeedbackAddReq } from "@lib/common/dto/feedback.schema";
 import { useTranslation } from "react-i18next";
 
 export default function BugTab({ feedbackAddReq, onChange }: { feedbackAddReq: FeedbackAddReq; onChange: (req: FeedbackAddReq) => void }) {

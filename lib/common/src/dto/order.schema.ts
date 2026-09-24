@@ -17,6 +17,14 @@ export const OrderCreateReqSchema = z.object({
 
 export type OrderCreateReq = z.infer<typeof OrderCreateReqSchema>;
 
+export const OrderCreateRespSchema = z.object({
+    paymentId: z.string(),
+    redirectUrl: z.string(),
+    subscriptionNo: z.string(),
+});
+
+export type OrderCreateResp = z.infer<typeof OrderCreateRespSchema>;
+
 export const OrderListReqSchema = z.object({
     page: z.coerce.number().int().min(1).default(1),
     size: z.coerce.number().int().min(1).default(10),

@@ -2,6 +2,13 @@ import z from "zod";
 import { CollectionLocal, CollectionType, PublishStatus } from "@lib/common/consts/collection";
 import { Language } from "@lib/common/consts/region";
 
+export const CollectionListReqSchema = z.object({
+    page: z.coerce.number().default(1),
+    size: z.coerce.number().default(12),
+});
+
+export type CollectionListReq = z.infer<typeof CollectionListReqSchema>;
+
 export const CollectionTableListReqSchema = z.object({
     page: z.coerce.number().int().min(1).default(1),
     size: z.coerce.number().int().min(1).default(10),
@@ -67,6 +74,7 @@ export const CollectionItemRespSchema = z.object({
     episodes: z.number().int(),
     cover: z.string(),
 });
+
 export type CollectionItemResp = z.infer<typeof CollectionItemRespSchema>;
 
 export const CollectionListRespSchema = z.object({
@@ -75,6 +83,7 @@ export const CollectionListRespSchema = z.object({
     total: z.number().int(),
     list: z.array(CollectionItemRespSchema),
 });
+
 export type CollectionListResp = z.infer<typeof CollectionListRespSchema>;
 
 export const CollectionTableListRespItemSchema = z.object({
@@ -84,13 +93,13 @@ export const CollectionTableListRespItemSchema = z.object({
     sourceName: z.string(),
     episodes: z.number().int(),
     cutPoint: z.number().int(),
-    publishStatus: z.nativeEnum(PublishStatus),
+    publishStatus: z.enum(PublishStatus),
     cover: z.string(),
-    collectionType: z.nativeEnum(CollectionType),
+    collectionType: z.enum(CollectionType),
     collectionTypeName: z.string(),
-    local: z.nativeEnum(CollectionLocal),
+    local: z.enum(CollectionLocal),
     localName: z.string(),
-    languageCode: z.nativeEnum(Language),
+    languageCode: z.enum(Language),
     language: z.string(),
     videoId: z.number().int(),
     desc: z.string(),

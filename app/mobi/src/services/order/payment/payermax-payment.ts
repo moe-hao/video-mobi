@@ -2,7 +2,7 @@ import { OrderStatus } from "@lib/common/consts/order";
 import { PaymentChannel } from "@lib/common/consts/payment";
 import type { Payment, PaymentInfo, PaymentOrder } from "./payment";
 import { uuid } from "@lib/common/utils/uuid";
-import { payermaxProxy } from "@lib/repo/proxy/payment";
+import { payermaxProxy } from "@lib/repo/proxy/payment/payermax";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
 import { PayermaxToSubscriptionStatus } from "@lib/common/consts/subscription";
 import { orderDao } from "@lib/repo/dao/order.dao";

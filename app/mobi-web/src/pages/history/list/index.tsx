@@ -1,6 +1,6 @@
 import { useDeleteHistoryItem, useHistoryPage } from "@app/mobi-web/hooks/history/use-history-page";
 import { CirclePlay, TrashBin } from "@gravity-ui/icons";
-import type { UserHistoryListReq } from "@lib/common/dto/history";
+import type { UserHistoryListReq } from "@lib/common/dto/history.schema";
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";

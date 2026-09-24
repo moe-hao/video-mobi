@@ -1,4 +1,4 @@
-import { orderCreateReqSchema } from "@lib/common/dto/order";
+import { OrderCreateReqSchema } from "@lib/common/dto/order.schema";
 import { validated } from "@lib/middleware/validated";
 import { Hono } from "hono";
 import { success } from "@lib/common/dto/result";
@@ -7,7 +7,7 @@ import { createOrderPayment } from "../services/order/order-placement.service";
 
 const order = new Hono();
 
-order.post('/create', validated('json', orderCreateReqSchema), async (c) => {
+order.post('/create', validated('json', OrderCreateReqSchema), async (c) => {
     const user = await c.get('user' as never) as UserAuthInfo;
     const host = c.req.header('host') as string;
     const ipAddress = c.req.header('x-forwarded-for')?.split(',')[0]?.trim() || '';

@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import CancelSubscription from "./cancel-subscription";
 import { useToast } from "@app/mobi-web/contexts/toast-context";
-import type { FeedbackAddReq } from "@lib/common/dto/feedback";
+import type { FeedbackAddReq } from "@lib/common/dto/feedback.schema";
 import { useFeedbackAdd } from "@app/mobi-web/hooks/feedback";
 import { FeedbackType } from "@lib/common/consts/feedback";
 import { useTranslation } from "react-i18next";

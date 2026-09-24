@@ -1,4 +1,4 @@
-import type { UserAuthInfoResp, UserAuthLoginResp } from "@lib/common/dto/user";
+import type { UserAuthInfoResp, UserAuthLoginResp } from "@lib/common/dto/user.schema";
 import { request } from "@lib/common/utils/request-mobi";
 import { useCallback, useState } from "react"
 

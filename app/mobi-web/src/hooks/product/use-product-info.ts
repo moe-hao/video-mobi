@@ -1,4 +1,4 @@
-import type { ProductInfoResp } from "@lib/common/dto/product";
+import type { ProductInfoResp } from "@lib/common/dto/product.schema";
 import { request } from "@lib/common/utils/request-mobi";
 import { useCallback, useState } from "react";
 

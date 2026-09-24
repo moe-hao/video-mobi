@@ -9,6 +9,32 @@ export const VideoListReqSchema = z.object({
 
 export type VideoListReq = z.infer<typeof VideoListReqSchema>;
 
+export const VideoListRespItemSchema = z.object({
+    id: z.number().int(),
+    vid: z.string(),
+    epNum: z.number().int(),
+    storage: z.string(),
+    uploadStatus: z.string(),
+    unlockCoinNum: z.number().int(),
+    createTime: z.string(),
+    updateTime: z.string(),
+});
+
+export type VideoListRespItem = z.infer<typeof VideoListRespItemSchema>;
+
+export const VideoListRespSchema = z.object({
+    page: z.number().int(),
+    size: z.number().int(),
+    total: z.number().int(),
+    collectionName: z.string(),
+    collectionBizId: z.string(),
+    collectionCutPoint: z.number().int(),
+    publishStatus: z.enum(PublishStatus),
+    list: z.array(VideoListRespItemSchema),
+});
+
+export type VideoListResp = z.infer<typeof VideoListRespSchema>;
+
 export const VideoSyncReqSchema = z.object({
     collectionId: z.coerce.number().int().default(0),
 });
@@ -80,30 +106,6 @@ export const VideoPlayInfoRespSchema = z.object({
 });
 export type VideoPlayInfoResp = z.infer<typeof VideoPlayInfoRespSchema>;
 
-export const VideoListRespItemSchema = z.object({
-    id: z.number().int(),
-    vid: z.string(),
-    epNum: z.number().int(),
-    storage: z.string(),
-    uploadStatus: z.string(),
-    unlockCoinNum: z.number().int(),
-    createTime: z.string(),
-    updateTime: z.string(),
-});
-export type VideoListRespItem = z.infer<typeof VideoListRespItemSchema>;
-
-export const VideoListRespSchema = z.object({
-    page: z.number().int(),
-    size: z.number().int(),
-    total: z.number().int(),
-    collectionName: z.string(),
-    collectionBizId: z.string(),
-    collectionCutPoint: z.number().int(),
-    publishStatus: z.enum(PublishStatus),
-    list: z.array(VideoListRespItemSchema),
-});
-export type VideoListResp = z.infer<typeof VideoListRespSchema>;
-
 export const VideoLikeRespSchema = z.object({
     isLike: z.boolean(),
     likeTotal: z.number().int(),
@@ -113,11 +115,13 @@ export type VideoLikeResp = z.infer<typeof VideoLikeRespSchema>;
 export const VideoPreviewRespSchema = z.object({
     url: z.string(),
 });
+
 export type VideoPreviewResp = z.infer<typeof VideoPreviewRespSchema>;
 
 export const VideoUnlockCoinRespSchema = z.object({
     status: z.enum(['success', 'should_payment', 'invalid_unlock']),
 });
+
 export type VideoUnlockCoinResp = z.infer<typeof VideoUnlockCoinRespSchema>;
 
 export const VideoUploadPrepareRespSchema = z.object({
@@ -125,4 +129,5 @@ export const VideoUploadPrepareRespSchema = z.object({
     key: z.string(),
     uploadUrl: z.string(),
 });
+
 export type VideoUploadPrepareResp = z.infer<typeof VideoUploadPrepareRespSchema>;

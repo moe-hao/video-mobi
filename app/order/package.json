@@ -2,15 +2,22 @@
   "name": "@app/order",
   "version": "1.0.0",
   "type": "module",
+  "files": ["dist"],
   "exports": {
-    "./*": "./src/*"
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    }
   },
   "scripts": {
-    "build": "tsc --noEmit && node esbuild.config.js"
+    "build": "tsdown"
   },
   "dependencies": {
     "@lib/common": "workspace:*",
     "@lib/repo": "workspace:*",
     "date-fns": "^4.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.41"
   }
 }

@@ -1,4 +1,4 @@
-import { payssionProxy } from "@lib/repo/proxy/payment";
+import { payssionProxy } from "@lib/repo/proxy/payment/payssion";
 import type { Payment, PaymentInfo, PaymentOrder } from "./payment";
 import { SkuPeriodType, SkuPeriodTypeToPayssionPeriodType } from "@lib/common/consts/sku";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";

@@ -1,4 +1,4 @@
-import type { CollectionItemResp } from "@lib/common/dto/collection";
+import type { CollectionItemResp } from "@lib/common/dto/collection.schema";
 import { request } from "@lib/common/utils/request-mobi";
 import { useCallback, useState } from "react";
 

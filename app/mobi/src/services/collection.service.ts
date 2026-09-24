@@ -1,6 +1,6 @@
 import type { CollectionType } from "@lib/common/consts/collection";
 import { Language } from "@lib/common/consts/region";
-import type { CollectionItemResp, CollectionListResp } from "@lib/common/dto/collection";
+import type { CollectionItemResp, CollectionListResp } from "@lib/common/dto/collection.schema";
 import { collectionFeatureDao } from "@lib/repo/dao/collection-feature.dao";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { productDao } from "@lib/repo/dao/product.dao";

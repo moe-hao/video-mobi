@@ -11,6 +11,5 @@ FROM node:24.20.0-alpine3.24 AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 COPY --from=builder /video-mobi/prod ./
-# COPY --from=builder /video-mobi/app/manage/dist ./dist
-# EXPOSE 3000
+EXPOSE 3000
 CMD ["node", "dist/index.js"]

@@ -5,9 +5,11 @@ RUN corepack enable && corepack prepare pnpm@10.33.1 --activate
 COPY . .
 RUN pnpm install --frozen-lockfile
 RUN pnpm build:mobi
+RUN pnpm deploy --filter @app/mobi --prod --legacy /video-mobi/prod
 
 FROM node:24.20.0-alpine3.24 AS runner
 WORKDIR /app
-COPY --from=builder /video-mobi/app/mobi/dist ./dist
+ENV NODE_ENV=production
+COPY --from=builder /video-mobi/prod ./
 EXPOSE 3000
-CMD ["node", "--enable-source-maps", "./dist/index.js"]
+CMD ["node", "dist/index.js"]

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import type { CollectionItemResp } from "@lib/common/dto/collection";
+import type { CollectionItemResp } from "@lib/common/dto/collection.schema";
 
 interface CarouselProps {
   items: CollectionItemResp[];

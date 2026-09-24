@@ -1,4 +1,4 @@
-import type { OrderCreateReq, OrderCreateResp } from "@lib/common/dto/order";
+import type { OrderCreateReq, OrderCreateResp } from "@lib/common/dto/order.schema";
 import { request } from "@lib/common/utils/request-mobi";
 import { useState } from "react";
 

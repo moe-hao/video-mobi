@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { PeriodType, PeriodTypeToName } from '@lib/common/consts/subscription';
 import { SkuImportant, SkuType } from '@lib/common/consts/sku';
-import type { SkuListItem } from '@lib/common/dto/sku';
+import type { SkuListItem } from '@lib/common/dto/sku.schema';
 
 interface SubscriptionCardsProps {
   skuListRespState: {
@@ -18,8 +18,8 @@ export default function SubscriptionCards({ skuListRespState, handleClickStoreCa
       {skuListRespState.skuList?.map((item) => (item.skuType === SkuType.Subscription && item.isRetrieve === 0) && (
         <div
           className={
-            item.important === SkuImportant.Yes 
-              ? "w-full bg-gradient-to-r from-[#3D4AE0] to-[#84A1FF] min-h-[70px] px-4 rounded-[16px] relative flex flex-col justify-center py-2" 
+            item.important === SkuImportant.Yes
+              ? "w-full bg-gradient-to-r from-[#3D4AE0] to-[#84A1FF] min-h-[70px] px-4 rounded-[16px] relative flex flex-col justify-center py-2"
               : "w-full bg-white/10 backdrop-blur-sm border-white/20 min-h-[70px] px-4 rounded-[16px] relative flex flex-col justify-center py-2"
           }
           key={item.bizId}

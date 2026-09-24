@@ -4,7 +4,7 @@ import { productDao } from "@lib/repo/dao/product.dao";
 import { skuDao } from "@lib/repo/dao/sku.dao";
 import { paymentOptionItemDao } from "@lib/repo/dao/payment-option-item.dao";
 import { retrieveOptionDao } from "@lib/repo/dao/retrieve-option.dao";
-import type { SkuListItem, SkuListResp, SkuRetrieveInfo } from "@lib/common/dto/sku";
+import type { SkuListItem, SkuListResp, SkuRetrieveInfo } from "@lib/common/dto/sku.schema";
 import type { RelationType } from "@lib/common/consts/relation";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
 import { memberDao } from "@lib/repo/dao/member.dao";

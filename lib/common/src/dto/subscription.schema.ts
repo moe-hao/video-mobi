@@ -40,3 +40,9 @@ export const SubscriptionListRespSchema = z.object({
 });
 
 export type SubscriptionListResp = z.infer<typeof SubscriptionListRespSchema>;
+
+export const SubscriptionDetailRespSchema = z.object({
+    isCanceled: z.boolean(),
+});
+
+export type SubscriptionDetailResp = z.infer<typeof SubscriptionDetailRespSchema>;

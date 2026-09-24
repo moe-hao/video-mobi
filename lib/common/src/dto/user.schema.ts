@@ -35,6 +35,7 @@ export const UserAuthLoginRespSchema = z.object({
     authToken: z.string(),
     code: z.string(),
 });
+
 export type UserAuthLoginResp = z.infer<typeof UserAuthLoginRespSchema>;
 
 export const UserAuthInfoRespSchema = z.object({
@@ -43,8 +44,9 @@ export const UserAuthInfoRespSchema = z.object({
     email: z.string(),
     isLogin: z.boolean(),
     guestCode: z.string(),
-    userType: z.nativeEnum(UserType),
+    userType: z.enum(UserType),
 });
+
 export type UserAuthInfoResp = z.infer<typeof UserAuthInfoRespSchema>;
 
 export const UserListRespItemSchema = z.object({
@@ -59,6 +61,7 @@ export const UserListRespItemSchema = z.object({
     createTime: z.string(),
     updateTime: z.string(),
 });
+
 export type UserListRespItem = z.infer<typeof UserListRespItemSchema>;
 
 export const UserListRespSchema = z.object({
@@ -67,6 +70,7 @@ export const UserListRespSchema = z.object({
     total: z.number().int(),
     list: z.array(UserListRespItemSchema),
 });
+
 export type UserListResp = z.infer<typeof UserListRespSchema>;
 
 export const UserCoinHistoryItemSchema = z.object({
@@ -74,6 +78,7 @@ export const UserCoinHistoryItemSchema = z.object({
     commType: z.enum(UnlockCommType),
     createTime: z.string(),
 });
+
 export type UserCoinHistoryItem = z.infer<typeof UserCoinHistoryItemSchema>;
 
 export const UserCoinHistoryRespSchema = z.object({
@@ -82,6 +87,7 @@ export const UserCoinHistoryRespSchema = z.object({
     total: z.number().int(),
     list: z.array(UserCoinHistoryItemSchema),
 });
+
 export type UserCoinHistoryResp = z.infer<typeof UserCoinHistoryRespSchema>;
 
 export const ManageUserDetailRespSchema = z.object({
@@ -93,6 +99,7 @@ export const ManageUserDetailRespSchema = z.object({
     expireTime: z.string(),
     coinNum: z.number().int(),
 });
+
 export type ManageUserDetailResp = z.infer<typeof ManageUserDetailRespSchema>;
 
 export const ManageUserWatchHistoryItemSchema = z.object({
@@ -104,6 +111,7 @@ export const ManageUserWatchHistoryItemSchema = z.object({
     createTime: z.string(),
     updateTime: z.string(),
 });
+
 export type ManageUserWatchHistoryItem = z.infer<typeof ManageUserWatchHistoryItemSchema>;
 
 export const ManageUserWatchHistoryRespSchema = z.object({
@@ -112,15 +120,17 @@ export const ManageUserWatchHistoryRespSchema = z.object({
     total: z.number().int(),
     list: z.array(ManageUserWatchHistoryItemSchema),
 });
+
 export type ManageUserWatchHistoryResp = z.infer<typeof ManageUserWatchHistoryRespSchema>;
 
 export const ManageUserCoinHistoryItemSchema = z.object({
     coinNum: z.number().int(),
-    commType: z.nativeEnum(UnlockCommType),
+    commType: z.enum(UnlockCommType),
     collectionName: z.string(),
     epNum: z.number().int(),
     createTime: z.string(),
 });
+
 export type ManageUserCoinHistoryItem = z.infer<typeof ManageUserCoinHistoryItemSchema>;
 
 export const ManageUserCoinHistoryRespSchema = z.object({
@@ -129,4 +139,5 @@ export const ManageUserCoinHistoryRespSchema = z.object({
     total: z.number().int(),
     list: z.array(ManageUserCoinHistoryItemSchema),
 });
+
 export type ManageUserCoinHistoryResp = z.infer<typeof ManageUserCoinHistoryRespSchema>;

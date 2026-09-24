@@ -11,7 +11,7 @@
     "dev:manage-web": "pnpm --filter @app/manage-web dev",
     "dev:openapi": "pnpm --filter @app/openapi dev",
     "dev:task": "pnpm --filter @app/task dev",
-    "build:mobi": "pnpm --filter @app/mobi build",
+    "build:mobi": "pnpm --filter @app/mobi... build",
     "build:mobi-web": "pnpm --filter @app/mobi-web build",
     "build:manage": "pnpm --filter @app/manage... build",
     "build:manage-web": "pnpm --filter @app/manage-web build",

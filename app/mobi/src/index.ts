@@ -4,8 +4,8 @@ import { Hono } from 'hono';
 import router from './router';
 import { config } from '@lib/internal/base/config';
 import { serve } from '@hono/node-server';
-import { errorHandler } from '@lib/middleware/error-handler.js';
-import { requestLogger } from '@lib/middleware/request-logger.js';
+import { errorHandler } from '@lib/middleware/error-handler';
+import { requestLogger } from '@lib/middleware/request-logger';
 
 const app = new Hono()
 app.onError(errorHandler);

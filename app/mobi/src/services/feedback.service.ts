@@ -1,4 +1,4 @@
-import type { FeedbackAddReq } from "@lib/common/dto/feedback";
+import type { FeedbackAddReq } from "@lib/common/dto/feedback.schema";
 import { currentTime } from "@lib/common/utils/time";
 import { feedbackDao } from "@lib/repo/dao/feedback.dao";
 import type { UserAuthInfo } from "@lib/repo/redis/user";

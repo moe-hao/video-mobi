@@ -58,7 +58,7 @@ export const ProductListRespItemSchema = z.object({
     currencySign: z.string(),
     coinUnlock: z.number().int(),
     desc: z.string(),
-    collectionTypeList: z.array(z.nativeEnum(CollectionType)),
+    collectionTypeList: z.array(z.enum(CollectionType)),
     createTime: z.string(),
     updateTime: z.string(),
 });

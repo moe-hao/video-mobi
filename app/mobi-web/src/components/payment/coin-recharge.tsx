@@ -1,5 +1,5 @@
 import { SkuImportant, SkuType } from '@lib/common/consts/sku';
-import type { SkuListItem } from '@lib/common/dto/sku';
+import type { SkuListItem } from '@lib/common/dto/sku.schema';
 
 interface CoinRechargeProps {
   skuListRespState: {

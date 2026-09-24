@@ -1,4 +1,4 @@
-import type { SkuListResp } from "@lib/common/dto/sku";
+import type { SkuListResp } from "@lib/common/dto/sku.schema";
 import { request } from "@lib/common/utils/request-mobi";
 import { useCallback, useState } from "react";
 

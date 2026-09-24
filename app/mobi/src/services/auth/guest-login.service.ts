@@ -1,7 +1,7 @@
 import { ResultCode } from "@lib/common/consts/result";
 import { UserType } from "@lib/common/consts/user";
-import type { GuestLoginReq } from "@lib/common/dto/guest";
-import type { UserAuthLoginResp } from "@lib/common/dto/user";
+import type { GuestLoginReq } from "@lib/common/dto/guest.schema";
+import type { UserAuthLoginResp } from "@lib/common/dto/user.schema";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { decrypt, encrypt } from "@lib/common/utils/aes-encrypt";
 import { uuid } from "@lib/common/utils/uuid";

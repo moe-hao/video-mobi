@@ -1,6 +1,6 @@
 import { RelationType } from "@lib/common/consts/relation";
 import { PeriodType, PeriodTypeToName } from "@lib/common/consts/subscription";
-import type { SkuListItem, SkuRetrieveInfo } from "@lib/common/dto/sku";
+import type { SkuListItem, SkuRetrieveInfo } from "@lib/common/dto/sku.schema";
 import { request } from "@lib/common/utils/request-mobi";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";

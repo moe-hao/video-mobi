@@ -1,6 +1,6 @@
 import { DeleteStatus } from "@lib/common/consts/common-status";
 import { ResultCode } from "@lib/common/consts/result";
-import type { VideoPlayInfoResp, VideoPlayInfoListItem, VideoLikeResp, VideoUnlockCoinReq, VideoUnlockCoinResp } from "@lib/common/dto/video";
+import type { VideoPlayInfoResp, VideoPlayInfoListItem, VideoLikeResp, VideoUnlockCoinReq, VideoUnlockCoinResp } from "@lib/common/dto/video.schema";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { memberDao } from "@lib/repo/dao/member.dao";

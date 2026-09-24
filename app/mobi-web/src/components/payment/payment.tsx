@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSkuListState } from "@app/mobi-web/hooks/sku";
-import type { SkuListItem } from "@lib/common/dto/sku";
+import type { SkuListItem } from "@lib/common/dto/sku.schema";
 import SubscriptionCards from "./subscription-cards";
 import CoinRecharge from "./coin-recharge";
 import RetrieveModal, { addRetrieveCount, isRetrieveThresholdMet } from "./retrieve-count";
