@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { request } from "@lib/common/utils/request-mobi";
-import type { SendEmailCodeResp, VerifyEmailCodeReq } from "@lib/common/dto/email";
+import type { SendEmailCodeResp, VerifyEmailCodeReq } from "@lib/common/dto/email.schema";
 import type { UserAuthLoginResp } from "@lib/common/dto/user.schema";
 
 type UserLoginEmailState = {
