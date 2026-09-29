@@ -18,5 +18,8 @@
     "@lib/internal": "workspace:*",
     "hono": "^4.12.23",
     "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.41"
   }
 }
