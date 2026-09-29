@@ -3,7 +3,7 @@ import { validated } from "@lib/middleware/validated";
 import { Hono } from "hono";
 import { success } from "@lib/common/dto/result";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
-import { createOrderPayment } from "../services/order/order-placement.service";
+import { createOrderPayment } from "../services/order/order-placement.service.ts";
 
 const order = new Hono();
 

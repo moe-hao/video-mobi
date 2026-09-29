@@ -1,9 +1,9 @@
 import { PaymentChannel } from "@lib/common/consts/payment";
 import type { SubscriptionSelect } from "@lib/repo/models/subscription";
-import { PayermaxOperation } from "./payermax-operation";
+import { PayermaxOperation } from "./payermax-operation.ts";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { ResultCode } from "@lib/common/consts/result";
-import { AntomOperation } from "./antom-operation";
+import { AntomOperation } from "./antom-operation.ts";
 
 export interface Operation {
     cancel: (subscriptionInfo: SubscriptionSelect) => Promise<void>;

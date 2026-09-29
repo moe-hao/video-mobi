@@ -1,4 +1,4 @@
-import { PaymentFactory } from "./payment/payment";
+import { PaymentFactory } from "./payment/payment.ts";
 import type { OrderCreateReq, OrderCreateResp } from "@lib/common/dto/order.schema";
 import { skuDao } from "@lib/repo/dao/sku.dao";
 import { InternalException } from "@lib/common/exceptions/internal-exception";

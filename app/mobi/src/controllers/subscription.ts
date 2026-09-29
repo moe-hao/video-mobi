@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { subscriptionService } from "../services/subscription/subscription.service";
+import { subscriptionService } from "../services/subscription/subscription.service.ts";
 import { success } from "@lib/common/dto/result";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
 

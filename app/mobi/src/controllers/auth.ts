@@ -4,8 +4,8 @@ import { validated } from "@lib/middleware/validated";
 import { success } from "@lib/common/dto/result";
 import { SendEmailCodeReqSchema, VerifyEmailCodeReqSchema } from "@lib/common/dto/email.schema";
 import { config } from "@lib/internal/base/config";
-import { guestLoginService } from "../services/auth/guest-login.service";
-import { authEmailLoginService } from "../services/auth/email-login.service";
+import { guestLoginService } from "../services/auth/guest-login.service.ts";
+import { authEmailLoginService } from "../services/auth/email-login.service.ts";
 import { encrypt } from "@lib/common/utils/aes-encrypt";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
 

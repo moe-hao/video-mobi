@@ -1,12 +1,12 @@
-import { PayermaxPayment } from "./payermax-payment";
-import { PaypalPayment } from "./paypal-payment";
+import { PayermaxPayment } from "./payermax-payment.ts";
+import { PaypalPayment } from "./paypal-payment.ts";
 import type { SkuSelect } from "@lib/repo/models/sku";
 import type { ProductSelect } from "@lib/repo/models/product";
 import { PaymentChannel, type PaymentType } from "@lib/common/consts/payment";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
-import { PayssionPayment } from "./payssion-payment";
-import { AntomPayment } from "./antom-payment";
-import { UseePayPayment } from "./useepay-payment";
+import { PayssionPayment } from "./payssion-payment.ts";
+import { AntomPayment } from "./antom-payment.ts";
+import { UseePayPayment } from "./useepay-payment.ts";
 
 export type PaymentOrder = {
     orderId: number;

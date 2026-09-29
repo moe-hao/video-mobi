@@ -1,5 +1,5 @@
 import type { SubscriptionSelect } from "@lib/repo/models/subscription";
-import type { Operation } from "./operation";
+import type { Operation } from "./operation.ts";
 import { antomProxy } from "@lib/repo/proxy/payment/antom";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
 import { SubscriptionStatus } from "@lib/common/consts/subscription";

@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { videoService } from "../services/video/video.service";
+import { videoService } from "../services/video/video.service.ts";
 import { success } from "@lib/common/dto/result";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
 import { VideoLikeReqSchema, VideoUnlockCoinReqSchema } from "@lib/common/dto/video.schema";

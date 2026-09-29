@@ -1,6 +1,6 @@
 import type { UserAuthInfo } from "@lib/repo/redis/user";
 import { Hono } from "hono";
-import { historyService } from "../services/history.service";
+import { historyService } from "../services/history.service.ts";
 import { success } from "@lib/common/dto/result";
 import { validated } from "@lib/middleware/validated";
 import { CollectionHistoryReqSchema, HistoryDeleteReqSchema, UserHistoryListReqSchema } from "@lib/common/dto/history.schema";

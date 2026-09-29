@@ -1,6 +1,6 @@
 import { OrderStatus } from "@lib/common/consts/order";
 import { PaymentChannel } from "@lib/common/consts/payment";
-import type { Payment, PaymentInfo, PaymentOrder } from "./payment";
+import type { Payment, PaymentInfo, PaymentOrder } from "./payment.ts";
 import { CheckoutPaymentIntent, Client, Environment, LogLevel, OrdersController, SubscriptionsController } from "@paypal/paypal-server-sdk";
 import { config } from "@lib/internal/base/config";
 import { SkuType } from "@lib/common/consts/sku";

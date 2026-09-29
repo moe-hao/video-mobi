@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { feedbackService } from "../services/feedback.service";
+import { feedbackService } from "../services/feedback.service.ts";
 import { FeedbackAddReqSchema } from "@lib/common/dto/feedback.schema";
 import { validated } from "@lib/middleware/validated";
 import { success } from "@lib/common/dto/result";

@@ -13,7 +13,7 @@ import { userCoinHistoryDao } from "@lib/repo/dao/user-coin-history.dao";
 import { UnlockCommType } from "@lib/common/consts/unlock-coin";
 import { PublishStatus } from "@lib/common/consts/collection";
 import { VideoStorage } from "@lib/common/consts/video";
-import { getTosVideoPlayURL, getVolVideoPlayURL } from "./video-play";
+import { getTosVideoPlayURL, getVolVideoPlayURL } from "./video-play.ts";
 class VideoService {
     async getVideoPlayInfo(userInfo: UserAuthInfo, collectionBizId: string, epNum: number): Promise<VideoPlayInfoResp> {
         const [memberInfo, collectionInfo] = await Promise.all([

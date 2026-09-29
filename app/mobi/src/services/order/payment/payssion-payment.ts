@@ -1,5 +1,5 @@
 import { payssionProxy } from "@lib/repo/proxy/payment/payssion";
-import type { Payment, PaymentInfo, PaymentOrder } from "./payment";
+import type { Payment, PaymentInfo, PaymentOrder } from "./payment.ts";
 import { SkuPeriodType, SkuPeriodTypeToPayssionPeriodType } from "@lib/common/consts/sku";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
 import { uuid } from "@lib/common/utils/uuid";

@@ -1,4 +1,4 @@
-import type { Payment, PaymentInfo, PaymentOrder } from "./payment";
+import type { Payment, PaymentInfo, PaymentOrder } from "./payment.ts";
 import { antomProxy } from "@lib/repo/proxy/payment/antom";
 import { orderDao } from "@lib/repo/dao/order.dao";
 import { orderBizIdGenerator } from "@app/order/order/order-biz-id-generator";

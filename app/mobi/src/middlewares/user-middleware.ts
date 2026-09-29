@@ -1,5 +1,5 @@
 import { createMiddleware } from "hono/factory";
-import { authInfoService } from "../services/auth/auth-info.service";
+import { authInfoService } from "../services/auth/auth-info.service.ts";
 import { logger } from "@lib/internal/base/logger";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { ResultCode } from "@lib/common/consts/result";

@@ -1,7 +1,7 @@
 import '@lib/internal/base/boot';
 import { logger } from '@lib/internal/base/logger';
 import { Hono } from 'hono';
-import router from './router';
+import router from './router.ts';
 import { config } from '@lib/internal/base/config';
 import { serve } from '@hono/node-server';
 import { errorHandler } from '@lib/middleware/error-handler';

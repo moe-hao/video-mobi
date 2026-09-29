@@ -1,15 +1,15 @@
 import { Hono } from "hono";
-import auth from "./controllers/auth";
-import video from "./controllers/video";
-import collection from "./controllers/collection";
-import sku from "./controllers/sku";
-import order from "./controllers/order";
-import member from "./controllers/member";
-import product from "./controllers/product";
-import feedback from "./controllers/feedback";
-import subscription from "./controllers/subscription";
-import { userAuthInfoMiddleware } from "./middlewares/user-middleware";
-import history from "./controllers/history";
+import auth from "./controllers/auth.ts";
+import video from "./controllers/video.ts";
+import collection from "./controllers/collection.ts";
+import sku from "./controllers/sku.ts";
+import order from "./controllers/order.ts";
+import member from "./controllers/member.ts";
+import product from "./controllers/product.ts";
+import feedback from "./controllers/feedback.ts";
+import subscription from "./controllers/subscription.ts";
+import { userAuthInfoMiddleware } from "./middlewares/user-middleware.ts";
+import history from "./controllers/history.ts";
 
 const router = new Hono();
 router.use(userAuthInfoMiddleware);

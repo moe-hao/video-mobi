@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { productService } from "../services/product.service";
+import { productService } from "../services/product.service.ts";
 import { logger } from "@lib/internal/base/logger";
 import { success } from "@lib/common/dto/result";
 

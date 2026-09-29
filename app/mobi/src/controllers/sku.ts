@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { getProductSkuList, getProductSkuRetrieveInfo } from "../services/sku.service";
+import { getProductSkuList, getProductSkuRetrieveInfo } from "../services/sku.service.ts";
 import { success } from "@lib/common/dto/result";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
 

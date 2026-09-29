@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { getCollectionPage, getFeaturedCollections } from "../services/collection.service";
+import { getCollectionPage, getFeaturedCollections } from "../services/collection.service.ts";
 import { validated } from "@lib/middleware/validated";
 import { CollectionListReqSchema } from "@lib/common/dto/collection.schema";
 import { success } from "@lib/common/dto/result";

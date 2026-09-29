@@ -1,7 +1,7 @@
 import type { SubscriptionDetailResp } from "@lib/common/dto/subscription.schema";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
 import { SubscriptionStatus } from "@lib/common/consts/subscription";
-import { SubscriptionOperationFactory } from "./operation/operation";
+import { SubscriptionOperationFactory } from "./operation/operation.ts";
 import type { PaymentChannel } from "@lib/common/consts/payment";
 import type { UserAuthInfo } from "@lib/repo/redis/user";
 

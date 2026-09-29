@@ -1,5 +1,5 @@
 import { PaymentChannel, PaymentType, PaymentTypeToUseePayPaymentMethod, UseePayPaymentMethod } from "@lib/common/consts/payment";
-import type { Payment, PaymentInfo, PaymentOrder } from "./payment";
+import type { Payment, PaymentInfo, PaymentOrder } from "./payment.ts";
 import { SkuType } from "@lib/common/consts/sku";
 import { SubscriptionStatus, type PeriodType } from "@lib/common/consts/subscription";
 import { orderBizIdGenerator } from "@app/order/order/order-biz-id-generator";
