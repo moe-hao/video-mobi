@@ -8,6 +8,5 @@ export default defineConfig({
     format: "esm",
     outDir: "dist",
     clean: true,
-    fixedExtension: false,
-    minify: true,
+    fixedExtension: false
 });
