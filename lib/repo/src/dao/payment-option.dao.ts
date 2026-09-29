@@ -1,6 +1,6 @@
 import { and, count, desc, eq, inArray, like, or } from "drizzle-orm";
 import { database, type DatabaseConn } from "@lib/internal/base/database";
-import { paymentOptionTable, type PaymentOptionInsert, type PaymentOptionSelect } from "../models/payment-option";
+import { paymentOptionTable, type PaymentOptionInsert, type PaymentOptionSelect } from "../models/payment-option.ts";
 import { DeleteStatus } from "@lib/common/consts/common-status";
 import { currentTime } from "@lib/common/utils/time";
 

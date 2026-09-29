@@ -1,5 +1,5 @@
 import { database, type DatabaseConn } from "@lib/internal/base/database";
-import { subscriptionRenewalReportTable, type SubscriptionRenewalReportTableInsert, type SubscriptionRenewalReportTableSelect } from "../models/subscription-renewal-report";
+import { subscriptionRenewalReportTable, type SubscriptionRenewalReportTableInsert, type SubscriptionRenewalReportTableSelect } from "../models/subscription-renewal-report.ts";
 import type { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
 import { and, asc, eq, inArray, sum } from "drizzle-orm";
 import { currentTime } from "@lib/common/utils/time";

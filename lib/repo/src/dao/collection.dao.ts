@@ -1,6 +1,6 @@
 
 import { and, count, desc, eq, inArray, like, or } from "drizzle-orm";
-import { collectionTable, type CollectionInsert, type CollectionSelect } from "../models/collection";
+import { collectionTable, type CollectionInsert, type CollectionSelect } from "../models/collection.ts";
 import { database, type DatabaseConn } from "@lib/internal/base/database";
 import { DeleteStatus } from "@lib/common/consts/common-status";
 import { currentTime } from "@lib/common/utils/time";

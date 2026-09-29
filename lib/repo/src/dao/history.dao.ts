@@ -1,5 +1,5 @@
 import { database, type DatabaseConn } from "@lib/internal/base/database";
-import { historyTable, type HistoryInsert, type HistorySelect } from "../models/history";
+import { historyTable, type HistoryInsert, type HistorySelect } from "../models/history.ts";
 import { and, count, desc, eq } from "drizzle-orm";
 import { currentTime } from "@lib/common/utils/time";
 import { DeleteStatus } from "@lib/common/consts/common-status";

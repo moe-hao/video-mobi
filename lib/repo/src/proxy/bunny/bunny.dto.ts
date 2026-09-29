@@ -1,4 +1,4 @@
-import { BunnyVideoStatus } from '@lib/common/consts/video';
+import type { BunnyVideoStatus } from '@lib/common/consts/video';
 
 export type FetchVideoResult = {
     id: string;

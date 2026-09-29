@@ -1,5 +1,5 @@
 import { database, type DatabaseConn } from "@lib/internal/base/database";
-import { userTable, type UserInsert, type UserSelect } from "../models/user";
+import { userTable, type UserInsert, type UserSelect } from "../models/user.ts";
 import { and, count, desc, eq, inArray, or } from "drizzle-orm";
 import { DeleteStatus } from "@lib/common/consts/common-status";
 import { currentTime } from "@lib/common/utils/time";

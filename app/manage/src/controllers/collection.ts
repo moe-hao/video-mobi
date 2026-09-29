@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import { collectionService } from "../services/collection/collection.service";
-import { collectionCoverService } from "../services/collection/collection-cover.service";
+import { collectionService } from "../services/collection/collection.service.ts";
+import { collectionCoverService } from "../services/collection/collection-cover.service.ts";
 import { validated } from "@lib/middleware/validated";
 import { success } from "@lib/common/dto/result";
 import { CollectionAddReqSchema, CollectionDeleteReqSchema, CollectionEditReqSchema, CollectionPublishReqSchema, CollectionTableListReqSchema } from "@lib/common/dto/collection.schema";

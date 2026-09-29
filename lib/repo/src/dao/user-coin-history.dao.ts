@@ -1,5 +1,5 @@
 import { database, type DatabaseConn } from "@lib/internal/base/database";
-import { userCoinHistoryTable, type UserCoinHistoryInsert, type UserCoinHistorySelect } from "../models/user-coin-history";
+import { userCoinHistoryTable, type UserCoinHistoryInsert, type UserCoinHistorySelect } from "../models/user-coin-history.ts";
 import { currentTime } from "@lib/common/utils/time";
 import { and, count, desc, eq } from "drizzle-orm";
 

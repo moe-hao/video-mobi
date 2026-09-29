@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "strictFunctionTypes": true,
+    "noUnusedLocals": true,
+    "allowSyntheticDefaultImports": true,
+    "rewriteRelativeImportExtensions": true,
+    "allowImportingTsExtensions": true,
+    // "isolatedDeclarations": true,
+    "types": ["node"],
+    "paths": {
+      "@app/manage/*": ["./app/manage/src/*"],
+      "@app/manage-web/*": ["./app/manage-web/src/*"],
+      "@app/mobi/*": ["./app/mobi/src/*"],
+      "@app/mobi-web/*": ["./app/mobi-web/src/*"],
+      "@app/openapi/*": ["./app/openapi/src/*"],
+      "@app/order/*": ["./app/order/src/*"],
+      "@app/task/*": ["./app/task/src/*"],
+      "@lib/common/*": ["./lib/common/src/*"],
+      "@lib/internal/*": ["./lib/internal/src/*"],
+      "@lib/middleware/*": ["./lib/middleware/src/*"],
+      "@lib/repo/*": ["./lib/repo/src/*"],
+    }
+  },
+  "exclude": ["dist", "node_modules", "**/dist", "**/node_modules"]
+}

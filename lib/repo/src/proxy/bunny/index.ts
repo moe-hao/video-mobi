@@ -1,2 +1,2 @@
-export * from "./bunny-video";
+export * from "./bunny-video.ts";
 

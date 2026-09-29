@@ -1,5 +1,5 @@
 import { logger } from "@lib/internal/base/logger";
-import type { FacebookEventReq } from "./facebook.interface";
+import type { FacebookEventReq } from "./facebook.interface.ts";
 
 class FacebookProxy {
     async sendEvent(pixelId: string, req: FacebookEventReq) {

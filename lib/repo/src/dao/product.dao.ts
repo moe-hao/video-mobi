@@ -1,5 +1,5 @@
 import { and, count, desc, eq, inArray, like, or } from "drizzle-orm";
-import { productTable, type ProductInsert, type ProductSelect } from "../models/product";
+import { productTable, type ProductInsert, type ProductSelect } from "../models/product.ts";
 import { database, type DatabaseConn } from "@lib/internal/base/database";
 import { currentTime } from "@lib/common/utils/time";
 

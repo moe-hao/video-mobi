@@ -1,6 +1,6 @@
-import Redis from "ioredis";
-import { config } from "./config";
-import { logger } from "./logger";
+import { Redis } from "ioredis";
+import { config } from "./config.ts";
+import { logger } from "./logger.ts";
 
 export const redis = new Redis({
     host: config.RedisHost,
@@ -10,5 +10,6 @@ export const redis = new Redis({
 redis.on('connect', () => {
     logger.info('Redis connected: Success!');
 });
+
 
 export type RedisConn = typeof redis;

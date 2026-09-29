@@ -1,1 +1,1 @@
-export * from './payssion';
+export * from './payssion.ts';

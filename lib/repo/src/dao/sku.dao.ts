@@ -1,5 +1,5 @@
 import { database, type DatabaseConn } from "@lib/internal/base/database";
-import { skuTable, type SkuInsert, type SkuSelect } from "../models/sku";
+import { skuTable, type SkuInsert, type SkuSelect } from "../models/sku.ts";
 import { and, count, desc, eq, inArray, or } from "drizzle-orm";
 import { currentTime } from "@lib/common/utils/time";
 import { DeleteStatus } from "@lib/common/consts/common-status";

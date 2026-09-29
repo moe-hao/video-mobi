@@ -1,4 +1,4 @@
-import { type SubscriptionInsert, type SubscriptionSelect, subscriptionTable } from "../models/subscription";
+import { type SubscriptionInsert, type SubscriptionSelect, subscriptionTable } from "../models/subscription.ts";
 import { and, count, desc, eq, gte, lte, or } from "drizzle-orm";
 import { database, type DatabaseConn } from "@lib/internal/base/database";
 import { currentTime } from "@lib/common/utils/time";

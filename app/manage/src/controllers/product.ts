@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { productService } from "../services/product.service";
+import { productService } from "../services/product.service.ts";
 import { success } from "@lib/common/dto/result";
 import { validated } from "@lib/middleware/validated";
 import { ProductAddReqSchema, ProductEditReqSchema, ProductListReqSchema } from "@lib/common/dto/product.schema";

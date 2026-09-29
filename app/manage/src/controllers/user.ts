@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { userService } from "../services/user.service";
+import { userService } from "../services/user.service.ts";
 import { validated } from "@lib/middleware/validated";
 import { success } from "@lib/common/dto/result";
 import { UserListReqSchema, ManageUserDetailReqSchema, ManageUserHistoryReqSchema } from "@lib/common/dto/user.schema";

@@ -1,5 +1,5 @@
 import { database, type DatabaseConn } from "@lib/internal/base/database";
-import { adReportDailyTable, type AdReportDailyInsert, type AdReportDailySelect } from "../models/ad-report-daily";
+import { adReportDailyTable, type AdReportDailyInsert, type AdReportDailySelect } from "../models/ad-report-daily.ts";
 import { and, asc, count, desc, eq, inArray, like, sum, ne, type AnyColumn } from "drizzle-orm";
 import { currentTime } from "@lib/common/utils/time";
 import { between } from "drizzle-orm/sql";

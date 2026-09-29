@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import { config } from "@lib/internal/base/config";
 import { readFileSync } from "fs";
-import type { CancelSubscriptionResp, CreateSubscriptionResp, GetExchangeRateResp } from "./antom.interface";
+import type { CancelSubscriptionResp, CreateSubscriptionResp, GetExchangeRateResp } from "./antom.interface.ts";
 import { logger } from "@lib/internal/base/logger";
 import type { SkuSelect } from "@lib/repo/models/sku";
 import { SkuPeriodType, SkuPeriodTypeToAntomPeriodType, SkuType } from "@lib/common/consts/sku";

@@ -1,6 +1,6 @@
 
 import { and, asc, count, desc, eq, inArray } from "drizzle-orm";
-import { collectionFeatureTable, type CollectionFeatureInsert, type CollectionFeatureSelect } from "../models/collection-feature";
+import { collectionFeatureTable, type CollectionFeatureInsert, type CollectionFeatureSelect } from "../models/collection-feature.ts";
 import { database, type DatabaseConn } from "@lib/internal/base/database";
 import { DeleteStatus } from "@lib/common/consts/common-status";
 import { CollectionFeatureSortStatus } from "@lib/common/consts/collection-feature";

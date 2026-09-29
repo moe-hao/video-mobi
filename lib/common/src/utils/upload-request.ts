@@ -1,5 +1,5 @@
-import type { Result } from "../dto/result";
-import { InternalException } from "../exceptions/internal-exception";
+import type { Result } from "../dto/result.ts";
+import { InternalException } from "../exceptions/internal-exception.ts";
 
 export async function uploadRequest<ResponseType = undefined>(path: string, formData: FormData): Promise<ResponseType> {
     const resp = await fetch(path, {

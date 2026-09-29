@@ -9,5 +9,4 @@ export default defineConfig({
     outDir: "dist",
     clean: true,
     fixedExtension: false,
-    minify: true
 });

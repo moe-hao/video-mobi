@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { retrieveOptionService } from "../services/retrieve-option.service";
+import { retrieveOptionService } from "../services/retrieve-option.service.ts";
 import { success } from "@lib/common/dto/result";
 import { validated } from "@lib/middleware/validated";
 import { RetrieveOptionAddReqSchema, RetrieveOptionDeleteReqSchema, RetrieveOptionEditReqSchema, RetrieveOptionListReqSchema } from "@lib/common/dto/retrieve-option.schema";

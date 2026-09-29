@@ -10,7 +10,7 @@
     }
   },
   "scripts": {
-    "build": "tsdown"
+    "build": "tsc --noEmit && tsdown"
   },
   "dependencies": {
     "@hono/zod-validator": "^0.8.0",

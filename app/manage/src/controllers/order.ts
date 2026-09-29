@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { getDisputeOrderInfo, getOrderList } from "../services/order.service";
+import { getDisputeOrderInfo, getOrderList } from "../services/order.service.ts";
 import { validated } from "@lib/middleware/validated";
 import { success } from "@lib/common/dto/result";
 import { OrderListReqSchema, DisputeOrderReqSchema } from "@lib/common/dto/order.schema";

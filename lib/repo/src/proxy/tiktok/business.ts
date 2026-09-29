@@ -1,5 +1,5 @@
 import { convertURLSearchParams } from "@lib/common/utils/param";
-import type { TikTokBusinessEventReq, TikTokBusinessReportReq, TikTokBusinessReportResp } from "./business.interface";
+import type { TikTokBusinessEventReq, TikTokBusinessReportReq, TikTokBusinessReportResp } from "./business.interface.ts";
 import { logger } from "@lib/internal/base/logger";
 import { config } from "@lib/internal/base/config";
 

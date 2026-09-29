@@ -10,7 +10,7 @@
     }
   },
   "scripts": {
-    "build": "tsdown"
+    "build": "tsc --noEmit && tsdown"
   },
   "dependencies": {
     "@volcengine/openapi": "^1.36.2",

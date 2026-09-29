@@ -1,5 +1,5 @@
 import { database, type DatabaseConn } from "@lib/internal/base/database";
-import { userLikeTable, type UserLikeInsert, type UserLikeSelect } from "../models/user-like";
+import { userLikeTable, type UserLikeInsert, type UserLikeSelect } from "../models/user-like.ts";
 import { currentTime } from "@lib/common/utils/time";
 import { and, count, eq } from "drizzle-orm";
 import { DeleteStatus } from "@lib/common/consts/common-status";

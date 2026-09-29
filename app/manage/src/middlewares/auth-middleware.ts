@@ -1,7 +1,7 @@
 import { ResultCode } from "@lib/common/consts/result";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { createMiddleware } from "hono/factory";
-import { authService } from "../services/auth.service";
+import { authService } from "../services/auth.service.ts";
 
 
 export const authMiddleware = createMiddleware(async (c, next) => {

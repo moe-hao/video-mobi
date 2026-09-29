@@ -1,1 +1,1 @@
-export * from './payermax';
+export * from './payermax.ts';

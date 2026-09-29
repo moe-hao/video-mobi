@@ -1,5 +1,5 @@
 import { database, type DatabaseConn } from "@lib/internal/base/database";
-import { generateIdTable } from "../models/generate-id";
+import { generateIdTable } from "../models/generate-id.ts";
 import { eq, and } from "drizzle-orm";
 
 class GenerateIdDao {

@@ -1,5 +1,5 @@
-import client from "./client";
-import type { CreateCustomerReq, CreateCustomerResp, CreateInvoiceReq, CreateInvoiceResp, CreatePaymentIntentReq, CreatePaymentIntentResp, CreateSubscriptionReq, CreateSubscriptionResp, CreateWebhookReq, CreateWebhookResp } from "./types";
+import client from "./client.ts";
+import type { CreateCustomerReq, CreateCustomerResp, CreateInvoiceReq, CreateInvoiceResp, CreatePaymentIntentReq, CreatePaymentIntentResp, CreateSubscriptionReq, CreateSubscriptionResp, CreateWebhookReq, CreateWebhookResp } from "./types.ts";
 
 class UseePayProxy {
     async createCustomer(appId: string, req: CreateCustomerReq): Promise<CreateCustomerResp> {

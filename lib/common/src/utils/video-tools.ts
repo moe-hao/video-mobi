@@ -60,7 +60,6 @@ export class BunnyVideoStorage {
     }
 }
 
-
 export const bunnyVideoStorage = new BunnyVideoStorage();
 
 

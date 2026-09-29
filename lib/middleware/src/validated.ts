@@ -5,7 +5,7 @@ import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { ResultCode } from "@lib/common/consts/result";
 
 
-export const validated = <T extends z.ZodSchema, Target extends keyof ValidationTargets>(
+export const validated = <T extends z.ZodType, Target extends keyof ValidationTargets>(
     target: Target,
     schema: T
 ) => zValidator(target, schema, (result, c) => {

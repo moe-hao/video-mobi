@@ -1,4 +1,4 @@
-import { config } from "../base/config";
+import { config } from "../base/config.ts";
 import { TosClient } from '@volcengine/tos-sdk';
 
 export const tos = new TosClient({

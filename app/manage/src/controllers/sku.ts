@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { success } from "@lib/common/dto/result";
-import { skuService } from "../services/sku.service";
+import { skuService } from "../services/sku.service.ts";
 import { SkuAddReqSchema, SkuDeleteReqSchema, SkuEditReqSchema, SkuManageListReqSchema } from "@lib/common/dto/sku.schema";
 import { validated } from "@lib/middleware/validated";
 import { DeleteStatus } from "@lib/common/consts/common-status";

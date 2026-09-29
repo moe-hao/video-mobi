@@ -1,5 +1,5 @@
 import { Readable } from "node:stream";
-import { client } from "./client";
+import { client } from "./client.ts";
 
 class BunnyVideoStorageProxy {
     async upload(path: string, name: string, data: ReadableStream) {

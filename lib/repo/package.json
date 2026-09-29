@@ -10,7 +10,7 @@
     }
   },
   "scripts": {
-    "build": "tsdown"
+    "build": "tsc --noEmit && tsdown"
   },
   "dependencies": {
     "@lib/common": "workspace:*",

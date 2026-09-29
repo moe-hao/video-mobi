@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { authService } from "../services/auth.service";
+import { authService } from "../services/auth.service.ts";
 import { validated } from "@lib/middleware/validated";
 import { success } from "@lib/common/dto/result";
 import { AdminChangePasswordReqSchema, AdminLoginReqSchema, type AdminInfoResp } from "@lib/common/dto/admin.schema";
@@ -19,7 +19,7 @@ auth.post('/logout', async (c) => {
     return c.json(success());
 });
 
-auth.get('/info', (c) => {
+auth.get('/info', async (c) => {
     const user = c.get('user' as never) as AdminAuthInfo;
     const resp: AdminInfoResp = {
         username: user.username,

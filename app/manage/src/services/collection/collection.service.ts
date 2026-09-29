@@ -4,7 +4,7 @@ import type { CollectionAddReq, CollectionEditReq, CollectionPublishReq, Collect
 import { formatUnixTime } from "@lib/common/utils/time";
 import { concurrencyLimit } from "@lib/common/utils/concurrency";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
-import { collectionBizId } from "./collection/generate-biz-id";
+import { collectionBizId } from "./collection/generate-biz-id.ts";
 import { DeleteStatus } from "@lib/common/consts/common-status";
 import { logger } from "@lib/internal/base/logger";
 import { InternalException } from "@lib/common/exceptions/internal-exception";

@@ -1,5 +1,5 @@
 import { database, type DatabaseConn } from "@lib/internal/base/database";
-import { feedbackTable, type FeedbackInsert } from "../models/feedback";
+import { feedbackTable, type FeedbackInsert } from "../models/feedback.ts";
 
 class FeedbackDao {
     constructor(private readonly conn: DatabaseConn = database) { }

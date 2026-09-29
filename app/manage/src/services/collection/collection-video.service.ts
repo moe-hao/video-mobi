@@ -7,7 +7,7 @@ import { vod } from "@lib/internal/volcengine/openapi";
 import { collectionDao } from "@lib/repo/dao/collection.dao";
 import { videoDao } from "@lib/repo/dao/video.dao";
 import type { VideoSelect } from "@lib/repo/models/video";
-import { getVideoAuth, getVideoList } from "./video/video";
+import { getVideoAuth, getVideoList } from "./video/video.ts";
 import { logger } from "@lib/internal/base/logger";
 import { uuid } from "@lib/common/utils/uuid";
 import { tos } from "@lib/internal/volcengine/tos";

@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { collectionFeatureService } from "../services/collection/collection-feature.service";
+import { collectionFeatureService } from "../services/collection/collection-feature.service.ts";
 import { validated } from "@lib/middleware/validated";
 import { success } from "@lib/common/dto/result";
 import { CollectionFeatureAddReqSchema, CollectionFeatureDeleteReqSchema, CollectionFeatureEditReqSchema, CollectionFeatureListReqSchema } from "@lib/common/dto/collection-feature.schema";

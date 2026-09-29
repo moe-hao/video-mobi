@@ -1,7 +1,7 @@
-import { ResultCode } from "../consts/result";
-import type { Result } from "../dto/result";
-import type { UserAuthLoginResp } from "../dto/user.schema";
-import { InternalException } from "../exceptions/internal-exception";
+import { ResultCode } from "../consts/result.ts";
+import type { Result } from "../dto/result.ts";
+import type { UserAuthLoginResp } from "../dto/user.schema.ts";
+import { InternalException } from "../exceptions/internal-exception.ts";
 
 
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'TRACE' | 'CONNECT';

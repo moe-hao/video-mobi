@@ -1,5 +1,5 @@
 import { config } from "@lib/internal/base/config";
-import type { FetchVideoResult, GetVideoInfoResult } from "./bunny.dto";
+import type { FetchVideoResult, GetVideoInfoResult } from "./bunny.dto.ts";
 
 export class BunnyVideoProxy {
     constructor(

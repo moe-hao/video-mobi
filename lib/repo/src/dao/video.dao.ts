@@ -1,5 +1,5 @@
 import { database, type DatabaseConn } from "@lib/internal/base/database";
-import { videoTable, type VideoInsert, type VideoSelect } from "../models/video";
+import { videoTable, type VideoInsert, type VideoSelect } from "../models/video.ts";
 import { and, asc, count, eq } from "drizzle-orm";
 import { currentTime } from "@lib/common/utils/time";
 

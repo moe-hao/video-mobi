@@ -1,7 +1,7 @@
 import mysql from 'mysql2/promise';
 import { drizzle } from 'drizzle-orm/mysql2';
-import { logger } from './logger';
-import { config } from './config';
+import { logger } from './logger.ts';
+import { config } from './config.ts';
 
 const pool = mysql.createPool({
     host: config.DatabaseHost,
@@ -14,9 +14,6 @@ const pool = mysql.createPool({
 pool.on('connection', () => {
     logger.info("Database connected: Success!");
 });
-
-const connection = await pool.getConnection();
-await connection.ping();
 
 export const database = drizzle({ client: pool });
 

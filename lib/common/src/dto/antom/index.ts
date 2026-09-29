@@ -1,1 +1,1 @@
-export * from './antom';
+export * from './antom.ts';

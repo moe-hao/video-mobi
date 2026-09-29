@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { paymentOptionService } from "../services/payment-option.service";
+import { paymentOptionService } from "../services/payment-option.service.ts";
 import { validated } from "@lib/middleware/validated";
 import { PaymentOptionListReqSchema, PaymentOptionAddReqSchema, PaymentOptionEditReqSchema, PaymentOptionDeleteReqSchema, PaymentOptionItemsReqSchema } from "@lib/common/dto/payment-option.schema";
 import { success } from "@lib/common/dto/result";
