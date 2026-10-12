@@ -113,7 +113,7 @@ export default function UserInfo() {
                 <div className="flex flex-col flex-1 text-left text-sm">{t('privacy')}</div>
                 <ChevronRight className="size-4 shrink-0 text-white/50" />
               </button>
-              {
+              {/* {
                 [
                   "en01.bluearcshow.com",
                   "uc01.bluearcshow.com",
@@ -136,7 +136,7 @@ export default function UserInfo() {
                       <ChevronRight className="size-4 shrink-0 text-white/50" />
                     </button>
                   </>
-                )}
+                )} */}
             </div>
           </div>
         </>
