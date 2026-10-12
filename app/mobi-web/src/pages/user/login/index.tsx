@@ -1,3 +1,4 @@
+import { useTitle } from "@app/mobi-web/hooks/title/use-title";
 import { ChevronLeft, Envelope } from "@gravity-ui/icons";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
@@ -5,6 +6,7 @@ import { useNavigate } from "react-router";
 export default function UserLogin() {
   const navigate = useNavigate();
   const { t } = useTranslation('', {keyPrefix: 'user-login'});
+  const {title} = useTitle();
 
   const handleEmailLogin = () => {
     navigate('/user/login/email');
@@ -69,8 +71,10 @@ export default function UserLogin() {
         </button>
       </div>
       <div className="px-4 pb-12 text-center">
-        <img src="https://s03.bluearcshow.com/images/logo-big.png" alt="logo" className="w-[128px] mx-auto" />
-        <p className="text-3xl mb-2 font-[anton] text-[30px]">Blue Arc</p>
+        {window.location.hostname.endsWith("bluearcshow.com") && <img src="https://s03.bluearcshow.com/images/logo-big.png" alt="logo" className="w-[128px] mx-auto" />}
+        {window.location.hostname.endsWith("vividarcshow.com") && <img src="https://s03.bluearcshow.com/images/20260826-171700.png" alt="logo" className="w-[128px] mx-auto" />}
+        {window.location.hostname.endsWith("spinarcshow.com") && <img src="https://s03.bluearcshow.com/images/spinarc-logo.png" alt="logo" className="w-[128px] mx-auto" />}
+        <p className="text-3xl mb-2 font-[anton] text-[30px]">{title}</p>
       </div>
       <div className="px-4 flex flex-col gap-4">
         <button

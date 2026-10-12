@@ -6,10 +6,12 @@ import type { SkuListItem } from "@lib/common/dto/sku.schema";
 import { useVideoMobiContext } from "@app/mobi-web/contexts/video-mobi-context";
 import { Region } from "@lib/common/consts/region";
 import PaymentButton from "./payment-button";
+import { useTitle } from "@app/mobi-web/hooks/title/use-title";
 
 export default function PaymentModal({ skuInfo, onClose }: { skuInfo: SkuListItem; onClose: () => void }) {
   const { productInfo } = useVideoMobiContext();
   const [loading, setLoading] = useState<boolean>(false);
+  const {title} = useTitle();
 
   useEffect(() => {
     const handlePageShow = (e: PageTransitionEvent) => {
@@ -60,7 +62,7 @@ export default function PaymentModal({ skuInfo, onClose }: { skuInfo: SkuListIte
         </div>
         <div className="flex items-end justify-center gap-1">
           <span className="text-[12px] pb-6">
-            Blue Arc Premium
+            {title} Premium
           </span>
         </div>
 

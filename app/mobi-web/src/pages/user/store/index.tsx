@@ -1,4 +1,5 @@
 import Payment from "@app/mobi-web/components/payment";
+import { useTitle } from "@app/mobi-web/hooks/title/use-title";
 import { ChevronLeft } from "@gravity-ui/icons";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
@@ -6,6 +7,7 @@ import { useNavigate } from "react-router";
 export default function UserStore() {
   const { t } = useTranslation('', { keyPrefix: 'user-store' });
   const navigate = useNavigate();
+  const { title } = useTitle();
 
   return (
     <div className="flex-1 min-h-full bg-[radial-gradient(circle_at_15%_25%,rgba(255,255,255,0.3)_1px,transparent_1px),radial-gradient(circle_at_85%_10%,rgba(255,255,255,0.2)_1px,transparent_1px),radial-gradient(circle_at_30%_55%,rgba(255,255,255,0.15)_1.5px,transparent_1.5px),radial-gradient(circle_at_75%_40%,rgba(255,255,255,0.2)_1px,transparent_1px),radial-gradient(circle_at_50%_80%,rgba(255,255,255,0.25)_1px,transparent_1px),radial-gradient(circle_at_10%_70%,rgba(255,255,255,0.2)_1px,transparent_1px),radial-gradient(circle_at_90%_65%,rgba(255,255,255,0.3)_1px,transparent_1px),radial-gradient(circle_at_55%_15%,rgba(255,255,255,0.15)_1.5px,transparent_1.5px),radial-gradient(circle_at_20%_90%,rgba(255,255,255,0.2)_1px,transparent_1px),radial-gradient(circle_at_70%_85%,rgba(255,255,255,0.3)_1px,transparent_1px),radial-gradient(circle_at_40%_35%,rgba(255,255,255,0.2)_1.5px,transparent_1.5px),radial-gradient(circle_at_95%_30%,rgba(255,255,255,0.15)_1px,transparent_1px),radial-gradient(circle_at_5%_45%,rgba(255,255,255,0.25)_1px,transparent_1px),radial-gradient(circle_at_60%_5%,rgba(255,255,255,0.2)_1px,transparent_1px),radial-gradient(circle_at_80%_95%,rgba(255,255,255,0.15)_1.5px,transparent_1.5px),radial-gradient(circle_at_25%_75%,rgba(255,255,255,0.3)_1px,transparent_1px),linear-gradient(to_bottom_right,black_0%,#0a0a2e_40%,black_70%)]">
@@ -19,7 +21,7 @@ export default function UserStore() {
       <div className="pt-10 p-4">
         <div className="w-full bg-[linear-gradient(to_bottom_left,transparent_0%,transparent_40%,#5365ff33_100%),linear-gradient(to_bottom_right,transparent_0%,transparent_40%,rgba(255,255,255,0.2)_100%)] border-white/20 h-full my-4 mb-8 px-4 py-4 rounded-[1.5rem] flex flex-col items-center justify-center">
           <div><img src="https://s03.bluearcshow.com/images/vip.png" alt="premium" className="size-20" /></div>
-          <div> <h2 className="text-lg italic text-white truncate font-[Anton] tracking-wider px-2">Blue Arc {t('premium')}</h2></div>
+          <div> <h2 className="text-lg italic text-white truncate font-[Anton] tracking-wider px-2">{title} {t('premium')}</h2></div>
           <div className="flex items-center gap-12 my-3">
             <div className="flex flex-col items-center gap-2">
               <img src="https://s03.bluearcshow.com/images/hd.png" alt="hd" className="size-10" />

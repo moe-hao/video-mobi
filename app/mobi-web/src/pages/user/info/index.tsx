@@ -6,6 +6,7 @@ import { UserType } from "@lib/common/consts/user";
 import { currentTime } from "@lib/common/utils/time";
 import { useVideoMobiContext } from "@app/mobi-web/contexts/video-mobi-context";
 import { useUserMemberInfo, useUserSubscriptionInfo } from "@app/mobi-web/hooks/user";
+import { useTitle } from "@app/mobi-web/hooks/title/use-title";
 
 export default function UserInfo() {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ export default function UserInfo() {
   const { userInfo, productInfo } = useVideoMobiContext();
   const { userMemberInfoState, fetchUserMemberInfo } = useUserMemberInfo();
   const { fetchUserSubscriptionInfo } = useUserSubscriptionInfo();
+  const { title } = useTitle();
 
   useEffect(() => {
     fetchUserMemberInfo();
@@ -51,7 +53,7 @@ export default function UserInfo() {
                 <div className="flex flex-row items-center justify-between gap-4 px-4 py-3">
                   <div className="flex flex-1 items-center gap-4 min-w-0">
                     <div className="flex flex-1 flex-col gap-1 min-w-0">
-                      <h2 className="text-lg font-bold italic text-white truncate font-[Anton] tracking-wider">Blue Arc {t('premium')}</h2>
+                      <h2 className="text-lg font-bold italic text-white truncate font-[Anton] tracking-wider">{title} {t('premium')}</h2>
                       {
                         userMemberInfoState.expireTime > currentTime() ? (
                           <span className="text-[12px] text-white truncate">
@@ -112,29 +114,29 @@ export default function UserInfo() {
                 <ChevronRight className="size-4 shrink-0 text-white/50" />
               </button>
               {
-              [
-                "en01.bluearcshow.com",
-                "uc01.bluearcshow.com",
-                "br01.bluearcshow.com",
-                "br02.bluearcshow.com"
-              ].includes(window.location.hostname) && (
-                <>
-                  <button className="w-full flex items-center gap-3 px-0 py-3 bg-transparent border-none cursor-pointer text-white" onClick={() => { window.location.href = '/terms/about-us.html'; }}>
-                    <div className="flex items-start justify-center pt-px">
-                      <img src="https://s03.bluearcshow.com/images/terms.png" alt="about-us" className="size-6" />
-                    </div>
-                    <div className="flex flex-col flex-1 text-left text-sm">About Us</div>
-                    <ChevronRight className="size-4 shrink-0 text-white/50" />
-                  </button>
-                  <button className="w-full flex items-center gap-3 px-0 py-3 bg-transparent border-none cursor-pointer text-white" onClick={() => { window.location.href = '/terms/contact-us.html'; }}>
-                    <div className="flex items-start justify-center pt-px">
-                      <img src="https://s03.bluearcshow.com/images/terms.png" alt="contact-us" className="size-6" />
-                    </div>
-                    <div className="flex flex-col flex-1 text-left text-sm">Contact Us</div>
-                    <ChevronRight className="size-4 shrink-0 text-white/50" />
-                  </button>
-                </>
-              )}
+                [
+                  "en01.bluearcshow.com",
+                  "uc01.bluearcshow.com",
+                  "br01.bluearcshow.com",
+                  "br02.bluearcshow.com"
+                ].includes(window.location.hostname) && (
+                  <>
+                    <button className="w-full flex items-center gap-3 px-0 py-3 bg-transparent border-none cursor-pointer text-white" onClick={() => { window.location.href = '/terms/about-us.html'; }}>
+                      <div className="flex items-start justify-center pt-px">
+                        <img src="https://s03.bluearcshow.com/images/terms.png" alt="about-us" className="size-6" />
+                      </div>
+                      <div className="flex flex-col flex-1 text-left text-sm">About Us</div>
+                      <ChevronRight className="size-4 shrink-0 text-white/50" />
+                    </button>
+                    <button className="w-full flex items-center gap-3 px-0 py-3 bg-transparent border-none cursor-pointer text-white" onClick={() => { window.location.href = '/terms/contact-us.html'; }}>
+                      <div className="flex items-start justify-center pt-px">
+                        <img src="https://s03.bluearcshow.com/images/terms.png" alt="contact-us" className="size-6" />
+                      </div>
+                      <div className="flex flex-col flex-1 text-left text-sm">Contact Us</div>
+                      <ChevronRight className="size-4 shrink-0 text-white/50" />
+                    </button>
+                  </>
+                )}
             </div>
           </div>
         </>

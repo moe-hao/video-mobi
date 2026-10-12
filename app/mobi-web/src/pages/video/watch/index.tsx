@@ -10,6 +10,7 @@ import { useSkuListState } from '@app/mobi-web/hooks/sku';
 import type { SkuListItem } from '@lib/common/dto/sku.schema';
 import { useCollectionVideo, useLike, useLikeStatus, useUnlockCoin } from '@app/mobi-web/hooks/video';
 import { useToast } from '@app/mobi-web/contexts/toast-context';
+import { useTitle } from '@app/mobi-web/hooks/title/use-title';
 
 export default function VideoWatch() {
   const [searchParams] = useSearchParams();
@@ -51,6 +52,7 @@ export default function VideoWatch() {
   const collectionVideoEpisodes = videoPlayInfoResp.videoList?.map((item) => item.epNum) || [];
   const maxEpisode = Math.max(...collectionVideoEpisodes, 0);
   const minEpisode = Math.min(...collectionVideoEpisodes, 1);
+  const { title } = useTitle();
 
   const changeEpisode = (newEpisode: number) => {
     if (newEpisode >= minEpisode && newEpisode <= maxEpisode) {
@@ -585,7 +587,7 @@ export default function VideoWatch() {
             }}
           >
             <div className="flex justify-center items-center">
-              <span className="text-[32px] font-[Anton] bg-gradient-to-r from-[#3A4DFF] to-[#55A7FF] bg-clip-text text-transparent">Blue Arc</span>&nbsp;<span className="text-[32px] font-[Anton]">Preminum</span>
+              <span className="text-[32px] font-[Anton] bg-gradient-to-r from-[#3A4DFF] to-[#55A7FF] bg-clip-text text-transparent">{title}</span>&nbsp;<span className="text-[32px] font-[Anton]">Preminum</span>
             </div>
             <div className="flex justify-center items-center mb-4">
               <span className="text-[12px]">Activate to enjoy more benefits</span>

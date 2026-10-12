@@ -1,7 +1,9 @@
+import { useTitle } from "@app/mobi-web/hooks/title/use-title";
 import { useState } from "react";
 
 export default function PaymentPolicyTips() {
   const [isOpen, setIsOpen] = useState(false);
+  const {title} = useTitle();
 
   return (
     <div>
@@ -29,13 +31,13 @@ export default function PaymentPolicyTips() {
           <div className="fixed inset-0 bg-black/60" onClick={() => setIsOpen(false)} />
           <div className="relative bg-[#1a1f2e] rounded-[16px] p-6 w-[90%] max-w-[400px] z-[70]">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-bold text-white">Blue Arc Payment Service Terms</h2>
+              <h2 className="text-lg font-bold text-white">{title} Payment Service Terms</h2>
               <button className="bg-transparent border-none cursor-pointer text-white/70 hover:text-white p-2" onClick={() => setIsOpen(false)}>
                 ✕
               </button>
             </div>
             <div className="text-white/80 text-sm space-y-3">
-              <p>Content Types: Blue Arc includes both free and paid content.</p>
+              <p>Content Types: {title} includes both free and paid content.</p>
               <p>Access Method: Paid content is exclusively accessible via an active subscription.</p>
               <p>Unlimited Access: During your subscription period, all content can be viewed without limits.</p>
               <p>Auto-Renewal: Subscriptions will automatically renew within 24 hours before the current period ends.</p>
