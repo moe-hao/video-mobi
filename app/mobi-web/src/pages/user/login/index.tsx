@@ -72,7 +72,7 @@ export default function UserLogin() {
       </div>
       <div className="px-4 pb-12 text-center">
         {window.location.hostname.endsWith("bluearcshow.com") && <img src="https://s03.bluearcshow.com/images/logo-big.png" alt="logo" className="w-[128px] mx-auto" />}
-        {window.location.hostname.endsWith("vividarcshow.com") && <img src="https://s03.bluearcshow.com/images/20260826-171700.png" alt="logo" className="w-[128px] mx-auto" />}
+        {window.location.hostname.endsWith("vividarcshow.com") && <img src="https://s03.bluearcshow.com/video_cover/20260826-171700.png" alt="logo" className="w-[128px] mx-auto" />}
         {window.location.hostname.endsWith("spinarcshow.com") && <img src="https://s03.bluearcshow.com/images/spinarc-logo.png" alt="logo" className="w-[128px] mx-auto" />}
         <p className="text-3xl mb-2 font-[anton] text-[30px]">{title}</p>
       </div>
