@@ -4,18 +4,25 @@
 <head>
   <meta charset="UTF-8" />
   <link id="favicon" rel="icon" type="image/x-icon" href="https://s03.bluearcshow.com/images/favicon.ico?v=2" />
-  <script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blue Arc</title>
+  <link href="https://s03.bluearcshow.com/css/anton.css" rel="stylesheet">
+
+   <script>
     (function () {
-      if (!window.location.hostname.endsWith('bluearcshow.com')) {
+      if (window.location.hostname.endsWith('vividarc.com')) {
         document.getElementById('favicon').href = 'https://s03.bluearcshow.com/video_cover/20260826-171700.png?=v3';
         document.getElementById('favicon').type = 'image/png';
         document.title = 'Vivid Arc';
       }
+
+      if (window.location.hostname.endsWith('spinarcshow.com')) {
+        document.getElementById('favicon').href = 'https://s03.bluearcshow.com/images/spinarc-logo.png?v=2';
+        document.getElementById('favicon').type = 'image/png';
+        document.title = 'Spin Arc';
+      }
     })();
   </script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blue Arc</title>
-  <link href="https://s03.bluearcshow.com/css/anton.css" rel="stylesheet">
 
   <!-- Meta Pixel Code - only load when coming from Facebook -->
   <script>

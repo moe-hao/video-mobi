@@ -18,7 +18,6 @@
     "allowSyntheticDefaultImports": true,
     "rewriteRelativeImportExtensions": true,
     "allowImportingTsExtensions": true,
-    // "isolatedDeclarations": true,
     "types": ["node"],
     "paths": {
       "@app/manage/*": ["./app/manage/src/*"],

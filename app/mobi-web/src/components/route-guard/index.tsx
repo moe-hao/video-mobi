@@ -62,6 +62,9 @@ export default function RouteGuard() {
     if (window.location.hostname.endsWith('bluearcshow.com')) {
       return 'https://s03.bluearcshow.com/video_cover/logo-title-01.webp';
     }
+    if (window.location.hostname.endsWith('spinarcshow.com')) {
+      return 'https://s03.bluearcshow.com/images/spinarc-title.png';
+    }
     return 'https://s03.bluearcshow.com/images/vividarc-title-logo.webp';
   }
 
