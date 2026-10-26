@@ -113,12 +113,10 @@ export default function UserInfo() {
                 <div className="flex flex-col flex-1 text-left text-sm">{t('privacy')}</div>
                 <ChevronRight className="size-4 shrink-0 text-white/50" />
               </button>
-              {/* {
+              {
                 [
-                  "en01.bluearcshow.com",
-                  "uc01.bluearcshow.com",
-                  "br01.bluearcshow.com",
-                  "br02.bluearcshow.com"
+                  "www.spinarcshow.com",
+                  "tw1.bluearcshow.com",
                 ].includes(window.location.hostname) && (
                   <>
                     <button className="w-full flex items-center gap-3 px-0 py-3 bg-transparent border-none cursor-pointer text-white" onClick={() => { window.location.href = '/terms/about-us.html'; }}>
@@ -136,7 +134,7 @@ export default function UserInfo() {
                       <ChevronRight className="size-4 shrink-0 text-white/50" />
                     </button>
                   </>
-                )} */}
+                )}
             </div>
           </div>
         </>
