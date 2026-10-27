@@ -19,7 +19,7 @@ class UseePayProxy {
             "content-type": "application/json",
             "x-merchant-no": config.UseePayMerchantNo,
             "x-api-key": config.UseePayApiKey,
-            "x-app-id": "www.bluearcshow.com" //requestConfig.appId || config.UseePayAppId,
+            "x-app-id": requestConfig.appId || config.UseePayAppId,
         };
 
         if (requestConfig.apiVersion) {
