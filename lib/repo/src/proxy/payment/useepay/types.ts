@@ -15,6 +15,13 @@ export interface CreateSubscriptionReq {
     recurring: CreateSubscriptionRecurringReq;
     currency: string;
     currentPeriodStart?: string;
+    collectionMethod: "auto_charge";
+    discountPeriodConfig?: CreateSubscriptionDiscountPeriodConfigReq;
+}
+
+export interface CreateSubscriptionDiscountPeriodConfigReq {
+    discountPeriodCount: number;
+    discountPeriodAmount: string;
 }
 
 export interface CreateSubscriptionRecurringReq {

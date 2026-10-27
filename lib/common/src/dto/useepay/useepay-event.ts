@@ -15,6 +15,9 @@ export interface UseePayWebhookEventData {
     recurring?: UseePayWebhookEventDataRecurring;
     latest_invoice?: UseePayWebhookEventDataLatestInvoice;
     paymentAttempt?: UseePayWebhookEventDataPaymentAttempt;
+    subscriptionId?: string;
+    amount?: number;
+    currency?: string;
 }
 
 export interface UseePayWebhookEventDataRecurring {

@@ -9,9 +9,17 @@ import { orderDao } from "@lib/repo/dao/order.dao";
 import { OrderStatus } from "@lib/common/consts/order";
 import { useePayProxy } from "@lib/repo/proxy/payment/useepay/proxy";
 import { getUseePaySubscriptionInterval } from "@lib/repo/proxy/payment/useepay/internal";
+import type { CreateSubscriptionReq } from "@lib/repo/proxy/payment/useepay/types";
 
 export class UseePayPayment implements Payment {
     private readonly orderPaymentChannel = PaymentChannel.UseePay;
+
+    private getTotalAmount(paymentInfo: PaymentInfo): string {
+        if (paymentInfo.skuInfo.firstPeriodPrice !== '0.00') {
+            return paymentInfo.skuInfo.firstPeriodPrice;
+        }
+        return paymentInfo.skuInfo.price;
+    }
 
     async createOrder(paymentInfo: PaymentInfo): Promise<PaymentOrder> {
         let { subscriptionId, subscriptionNo, invoiceId } = { subscriptionId: 0, subscriptionNo: "", invoiceId: "" };
@@ -22,7 +30,7 @@ export class UseePayPayment implements Payment {
 
             const createInvoiceResult = await useePayProxy.createInvoice(paymentInfo.productInfo.host, {
                 currency: paymentInfo.skuInfo.currency,
-                totalAmount: paymentInfo.skuInfo.price,
+                totalAmount: this.getTotalAmount(paymentInfo),
                 subscriptionId: subscriptionNo,
             });
             invoiceId = createInvoiceResult.id;
@@ -32,15 +40,26 @@ export class UseePayPayment implements Payment {
     }
 
     async createSubscription(paymentInfo: PaymentInfo): Promise<{ subscriptionId: number, subscriptionNo: string }> {
-        const useePaySubscriptionInfo = await useePayProxy.createSubscription(paymentInfo.productInfo.host, {
+        const useePaySubscriptionConfig: CreateSubscriptionReq = {
             currency: paymentInfo.skuInfo.currency,
+            collectionMethod: "auto_charge",
+            currentPeriodStart: new Date(Date.now() + 60 * 60 * 1000).toISOString().slice(0, 19) + "Z",
             recurring: {
                 interval: getUseePaySubscriptionInterval(paymentInfo.skuInfo.periodType as PeriodType),
                 unitAmount: paymentInfo.skuInfo.price,
                 intervalCount: 1,
                 totalBillingCycles: paymentInfo.skuInfo.periodTotal,
             }
-        });
+        };
+
+        if (paymentInfo.skuInfo.firstPeriodPrice !== '0.00') {
+            useePaySubscriptionConfig.discountPeriodConfig = {
+                discountPeriodCount: 1,
+                discountPeriodAmount: paymentInfo.skuInfo.firstPeriodPrice,
+            }
+        }
+
+        const useePaySubscriptionInfo = await useePayProxy.createSubscription(paymentInfo.productInfo.host, useePaySubscriptionConfig);
 
         const subscriptionNo = useePaySubscriptionInfo.id;
         const subscriptionId = await subscriptionDao.addSubscription({
@@ -62,9 +81,11 @@ export class UseePayPayment implements Payment {
     }
 
     async createPaymentIntent(invoiceId: string, subscriptionId: number, subscriptionNo: string, paymentInfo: PaymentInfo): Promise<PaymentOrder> {
+        const totalAmount = this.getTotalAmount(paymentInfo);
+
         const orderBizId = await orderBizIdGenerator.generate();
         const useePayPaymentInfo = await useePayProxy.createPaymentIntent(paymentInfo.productInfo.host, {
-            amount: paymentInfo.skuInfo.price,
+            amount: totalAmount,
             currency: paymentInfo.skuInfo.currency,
             merchantOrderId: orderBizId,
             autoCapture: true,
@@ -79,7 +100,7 @@ export class UseePayPayment implements Payment {
         const orderId = await orderDao.addOrder({
             bizId: orderBizId,
             userId: paymentInfo.userInfo.id,
-            amount: paymentInfo.skuInfo.price,
+            amount: totalAmount,
             currency: paymentInfo.skuInfo.currency,
             skuId: paymentInfo.skuInfo.id,
             productId: paymentInfo.productInfo.id,
