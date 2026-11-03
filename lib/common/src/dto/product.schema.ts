@@ -16,8 +16,6 @@ export const ProductEditReqSchema = z.object({
     host: z.string().min(1),
     region: z.enum(Region).or(z.literal('')).default(''),
     language: z.enum(Language).or(z.literal('')).default(''),
-    currency: z.string().min(1),
-    currencySign: z.string().min(1),
     coinUnlock: z.coerce.number().min(0).default(0),
     desc: z.string().default(''),
     collectionTypeList: z.array(z.number()).default([]),
@@ -29,8 +27,6 @@ export const ProductAddReqSchema = z.object({
     host: z.string().min(1),
     region: z.enum(Region).or(z.literal('')).default(''),
     language: z.enum(Language).or(z.literal('')).default(''),
-    currency: z.string().min(1),
-    currencySign: z.string().min(1),
     coinUnlock: z.coerce.number().min(0).default(0),
     desc: z.string().default(''),
     collectionTypeList: z.array(z.number()).default([]),
@@ -41,8 +37,6 @@ export type ProductAddReq = z.infer<typeof ProductAddReqSchema>;
 export const ProductInfoRespSchema = z.object({
     region: z.enum(Region),
     language: z.enum(Language),
-    currency: z.string(),
-    currencySign: z.string(),
     coinUnlock: z.number().int(),
 });
 export type ProductInfoResp = z.infer<typeof ProductInfoRespSchema>;
@@ -54,8 +48,6 @@ export const ProductListRespItemSchema = z.object({
     regionName: z.string(),
     language: z.enum(Language),
     languageName: z.string(),
-    currency: z.string(),
-    currencySign: z.string(),
     coinUnlock: z.number().int(),
     desc: z.string(),
     collectionTypeList: z.array(z.enum(CollectionType)),

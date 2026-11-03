@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vivid Arc Show · Subscription emails</title>
+<style>
+  body {
+    margin: 0;
+    padding: 40px 16px 64px;
+    background: #f2f4f8;
+    color: #1f2937;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; }
+  .page-title { margin: 0 0 32px; font-size: 20px; color: #64748b; font-weight: 500; }
+  .item { margin-bottom: 40px; }
+  .item-label { margin: 0 0 10px; font-size: 12px; font-weight: 600; letter-spacing: 1px; color: #94a3b8; text-transform: uppercase; }
+  .mail { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 28px; }
+  .mail-head { padding-bottom: 14px; margin-bottom: 22px; border-bottom: 1px solid #eef2f7; font-size: 12px; color: #64748b; }
+  .mail-head strong { color: #334155; }
+  .mail-head div + div { margin-top: 4px; }
+  h2 { margin: 0 0 12px; font-size: 20px; color: #0f172a; }
+  p { margin: 0 0 12px; color: #475569; }
+  .box { margin: 18px 0; border: 1px solid #e8edf5; border-radius: 8px; padding: 4px 14px; background: #fafbfd; }
+  .row { display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid #eef2f7; }
+  .row:last-child { border-bottom: none; }
+  .k { color: #64748b; }
+  .v { color: #0f172a; font-weight: 600; text-align: right; }
+  .amount { font-size: 28px; font-weight: 700; color: #0f172a; margin: 4px 0; }
+  .tag { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 4px; background: #e8f5ec; color: #157347; font-size: 12px; font-weight: 600; vertical-align: middle; }
+  .btn { display: inline-block; margin-top: 8px; padding: 10px 22px; border-radius: 6px; background: #3d77ff; color: #fff; font-weight: 600; text-decoration: none; }
+  .note { margin: 16px 0 0; padding: 12px 14px; background: #f6f8fc; border-left: 3px solid #3d77ff; border-radius: 4px; font-size: 13px; color: #475569; }
+  .note b { color: #1f2937; }
+  .foot { margin-top: 22px; padding-top: 14px; border-top: 1px solid #eef2f7; font-size: 12px; color: #94a3b8; }
+  .foot a { color: #3d77ff; text-decoration: none; }
+  ol { margin: 8px 0 0; padding-left: 20px; color: #475569; }
+  li { margin-bottom: 6px; }
+  .dialog { width: 280px; margin: 20px auto 0; padding: 18px; border-radius: 12px; background: #1a1f2e; color: #fff; }
+  .dialog-head { display: flex; justify-content: space-between; margin-bottom: 14px; font-size: 14px; font-weight: 600; }
+  .dialog-head span:last-child { color: rgba(255, 255, 255, 0.6); font-weight: 400; }
+  .dialog-btn { padding: 9px 0; border-radius: 6px; background: #3d77ff; text-align: center; font-size: 13px; font-weight: 600; }
+  .caption { margin-top: 10px; text-align: center; font-size: 12px; color: #94a3b8; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 class="page-title">Vivid Arc Show · Subscription emails</h1>
+
+  <!-- 1. 订阅开通成功 -->
+  <section class="item">
+    <p class="item-label">1 · Subscription confirmed</p>
+    <div class="mail">
+      <div class="mail-head">
+        <div><strong>From:</strong> Vivid Arc Show &lt;support@vividarcshow.com&gt;</div>
+        <div><strong>To:</strong> maria.silva@example.com</div>
+        <div><strong>Subject:</strong> Your Vivid Arc Show subscription is confirmed</div>
+        <div><strong>Sent:</strong> Sep 30, 2026, 10:12 AM</div>
+      </div>
+      <h2>Subscription confirmed</h2>
+      <p>Hi Maria, thank you for subscribing to Vivid Arc Show Premium. Your payment was successful and your subscription is now active.</p>
+      <div class="box">
+        <div class="row"><span class="k">Plan</span><span class="v">Monthly Premium</span></div>
+        <div class="row"><span class="k">Amount paid</span><span class="v">$29.99</span></div>
+        <div class="row"><span class="k">Payment method</span><span class="v">Mastercard •••• 5372</span></div>
+        <div class="row"><span class="k">Next billing date</span><span class="v">Oct 30, 2026</span></div>
+        <div class="row"><span class="k">Subscription ID</span><span class="v">SUB-20260930-9F3C2A71</span></div>
+      </div>
+      <div class="note"><b>Renews automatically.</b> $29.99 will be charged on Oct 30, 2026 unless you cancel before that date.</div>
+      <div class="foot">Questions? <a href="mailto:support@vividarcshow.com">support@vividarcshow.com</a></div>
+    </div>
+  </section>
+
+  <!-- 2. 取消订阅流程 -->
+  <section class="item">
+    <p class="item-label">2 · How to cancel (in app)</p>
+    <div class="mail">
+      <h2>Cancel your subscription</h2>
+      <p>Subscriptions can be cancelled at any time in the Vivid Arc Show app.</p>
+      <ol>
+        <li>Open the app and tap <b>Profile</b> at the bottom.</li>
+        <li>Tap <b>Feedback</b>, then the <b>Payment</b> tab.</li>
+        <li>Tap <b>Cancel Subscription</b>.</li>
+        <li>Tap <b>Submit</b> to confirm.</li>
+      </ol>
+      <div class="dialog">
+        <div class="dialog-head"><span>Cancel Subscription</span><span>✕</span></div>
+        <div class="dialog-btn">Submit</div>
+      </div>
+      <p class="caption">Confirmation dialog shown in the app</p>
+      <div class="note">You will see <b>“Cancel Subscription Success!”</b>. Vivid Arc Show Premium access continues until the end of the current billing period (Nov 30, 2026).</div>
+    </div>
+  </section>
+
+  <!-- 3. 取消订阅成功 -->
+  <section class="item">
+    <p class="item-label">3 · Subscription cancelled</p>
+    <div class="mail">
+      <div class="mail-head">
+        <div><strong>From:</strong> Vivid Arc Show &lt;support@vividarcshow.com&gt;</div>
+        <div><strong>To:</strong> maria.silva@example.com</div>
+        <div><strong>Subject:</strong> Your Vivid Arc Show subscription has been cancelled</div>
+        <div><strong>Sent:</strong> Oct 30, 2026, 2:47 PM</div>
+      </div>
+      <h2>Subscription cancelled</h2>
+      <p>Hi Maria, your Monthly Premium subscription has been cancelled. You will not be charged again.</p>
+      <div class="box">
+        <div class="row"><span class="k">Plan</span><span class="v">Monthly Premium</span></div>
+        <div class="row"><span class="k">Cancelled on</span><span class="v">Oct 30, 2026</span></div>
+        <div class="row"><span class="k">Access until</span><span class="v">Nov 30, 2026</span></div>
+        <div class="row"><span class="k">Next charge</span><span class="v">None</span></div>
+        <div class="row"><span class="k">Subscription ID</span><span class="v">SUB-20260930-9F3C2A71</span></div>
+      </div>
+      <div class="note">After <b>Nov 30, 2026</b> your account will switch to the free plan. You can reactivate Vivid Arc Show Premium at any time.</div>
+      <div class="foot">Questions? <a href="mailto:support@vividarcshow.com">support@vividarcshow.com</a></div>
+    </div>
+  </section>
+
+  <!-- 4. 每期扣款账单 -->
+  <section class="item">
+    <p class="item-label">4 · Payment receipt</p>
+    <div class="mail">
+      <div class="mail-head">
+        <div><strong>From:</strong> Vivid Arc Show &lt;support@vividarcshow.com&gt;</div>
+        <div><strong>To:</strong> maria.silva@example.com</div>
+        <div><strong>Subject:</strong> Your Vivid Arc Show receipt · $29.99</div>
+        <div><strong>Sent:</strong> Oct 30, 2026, 3:05 AM</div>
+      </div>
+      <h2>Payment successful</h2>
+      <p>Hi Maria, your Monthly Premium subscription renewed automatically. Here is your receipt.</p>
+      <div class="box">
+        <div class="row"><span class="k">Amount charged</span><span class="v">$29.99 <span class="tag">Paid</span></span></div>
+        <div class="row"><span class="k">Billing period</span><span class="v">Oct 30 – Nov 30, 2026</span></div>
+        <div class="row"><span class="k">Payment date</span><span class="v">Oct 30, 2026, 2:30 AM</span></div>
+        <div class="row"><span class="k">Payment method</span><span class="v">Mastercard •••• 5372</span></div>
+        <div class="row"><span class="k">Order number</span><span class="v">261030030412000000938</span></div>
+        <div class="row"><span class="k">Subscription ID</span><span class="v">SUB-20260930-9F3C2A71</span></div>
+        <div class="row"><span class="k">Next billing date</span><span class="v">Nov 30, 2026</span></div>
+      </div>
+      <div class="note">The next charge of <b>$29.99</b> is scheduled for <b>Nov 30, 2026</b>. Cancel before that date to avoid it.</div>
+      <div class="foot">This is a transactional receipt. <a href="mailto:support@vividarcshow.com">support@vividarcshow.com</a></div>
+    </div>
+  </section>
+
+  <!-- 5. 提前 2 天扣款提醒 -->
+  <section class="item">
+    <p class="item-label">5 · Renewal reminder (2 days before)</p>
+    <div class="mail">
+      <div class="mail-head">
+        <div><strong>From:</strong> Vivid Arc Show &lt;support@vividarcshow.com&gt;</div>
+        <div><strong>To:</strong> maria.silva@example.com</div>
+        <div><strong>Subject:</strong> Reminder: your subscription renews in 2 days</div>
+        <div><strong>Sent:</strong> Oct 28, 2026, 9:00 AM</div>
+      </div>
+      <h2>Your subscription renews in 2 days</h2>
+      <p>Hi Maria, your Vivid Arc Show Premium subscription will automatically renew on Oct 30, 2026.</p>
+      <div class="box">
+        <div class="row"><span class="k">Plan</span><span class="v">Monthly Premium</span></div>
+        <div class="row"><span class="k">Charge date</span><span class="v">Oct 30, 2026</span></div>
+        <div class="row"><span class="k">Amount</span><span class="v">$29.99</span></div>
+        <div class="row"><span class="k">Payment method</span><span class="v">Mastercard •••• 5372</span></div>
+        <div class="row"><span class="k">Subscription ID</span><span class="v">SUB-20260930-9F3C2A71</span></div>
+      </div>
+      <p><b>No action needed.</b> Your subscription will renew automatically and Premium access will continue.</p>
+      <p>If you do not want to renew, cancel before Oct 30, 2026: Profile → Feedback → Payment → Cancel Subscription → Submit.</p>
+      <div class="foot">Questions? <a href="mailto:support@vividarcshow.com">support@vividarcshow.com</a></div>
+    </div>
+  </section>
+</div>
+</body>
+</html>

@@ -19,8 +19,6 @@ export default function EditModalButton({ product, onSuccess }: { product: Produ
       host: product.host,
       region: product.region,
       language: product.language,
-      currency: product.currency,
-      currencySign: product.currencySign,
       collectionTypeList: product.collectionTypeList,
       coinUnlock: product.coinUnlock,
       desc: product.desc,
@@ -64,14 +62,6 @@ export default function EditModalButton({ product, onSuccess }: { product: Produ
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-14 shrink-0">剧集类型</Label>
                 <CollectionMultipleTypeSelect className="flex-1" collectionTypeList={productEditReq.collectionTypeList} onChange={(e) => setProductEditReq({ ...productEditReq, collectionTypeList: e as CollectionType[] })} />
-              </div>
-              <div className="flex flex-row items-center gap-4">
-                <Label className="w-14 shrink-0">币种</Label>
-                <Input variant="secondary" className="flex-1" value={productEditReq.currency} onChange={(e) => setProductEditReq({ ...productEditReq, currency: e.target.value })} />
-              </div>
-              <div className="flex flex-row items-center gap-4">
-                <Label className="w-14 shrink-0">货币符号</Label>
-                <Input variant="secondary" className="flex-1" value={productEditReq.currencySign} onChange={(e) => setProductEditReq({ ...productEditReq, currencySign: e.target.value })} />
               </div>
               <div className="flex flex-row items-center gap-4">
                 <Label className="w-14 shrink-0">开启金币</Label>

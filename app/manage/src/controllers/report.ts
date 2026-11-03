@@ -1,12 +1,12 @@
 import { Hono } from "hono";
-import { adReportDailyService } from "../services/ad-report-daily.service.ts";
+import { adReportDailyService } from "../services/ad-report-daily.service";
 import { validated } from "@lib/middleware/validated";
 import { success } from "@lib/common/dto/result";
 import { AdReportDailyListReqSchema, AdReportDailySummaryReqSchema, AdReportDailyGroupReqSchema } from "@lib/common/dto/ad-report-daily.schema";
 import { SubscriptionRenewalReportListReqSchema } from "@lib/common/dto/subscription-renewal-report.schema";
-import { getSubscriptionRenewalReportList } from "../services/subscription-renewal-report.service.ts";
+import { getSubscriptionRenewalReportList } from "../services/subscription-renewal-report.service";
 import { LtvReportListReqSchema } from "@lib/common/dto/ltv-report.schema";
-import { getLtvReportList } from "../services/ltv.service.ts";
+import { getLtvReportList } from "../services/ltv.service";
 
 const report = new Hono();
 

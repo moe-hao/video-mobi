@@ -4,7 +4,7 @@ WORKDIR /video-mobi
 RUN corepack enable && corepack prepare pnpm@10.33.1 --activate
 COPY . .
 RUN pnpm install --frozen-lockfile
-RUN pnpm build:manage --tsconfig tsconfig.build.json
+RUN pnpm build:manage
 RUN pnpm deploy --filter @app/manage --prod --legacy /video-mobi/prod
 RUN apk add --no-cache tzdata
 
@@ -15,4 +15,4 @@ COPY --from=builder /video-mobi/prod ./
 COPY --from=builder /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 RUN echo "Asia/Shanghai" > /etc/timezone
 EXPOSE 3000
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/server.js"]

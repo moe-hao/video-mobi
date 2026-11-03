@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { subscriptionService } from "../services/subscription.service.ts";
+import { subscriptionService } from "../services/subscription.service";
 import { validated } from "@lib/middleware/validated";
 import { success } from "@lib/common/dto/result";
 import { SubscriptionCancelReqSchema, SubscriptionListReqSchema } from "@lib/common/dto/subscription.schema";

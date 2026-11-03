@@ -73,8 +73,6 @@ export default function ProductList() {
               <Table.Column className="whitespace-nowrap" isRowHeader>域名</Table.Column>
               <Table.Column className="whitespace-nowrap">地区</Table.Column>
               <Table.Column className="whitespace-nowrap">语言</Table.Column>
-              <Table.Column className="whitespace-nowrap">币种</Table.Column>
-              <Table.Column className="whitespace-nowrap">货币符号</Table.Column>
               <Table.Column className="whitespace-nowrap">开启金币</Table.Column>
               <Table.Column className="whitespace-nowrap">备注</Table.Column>
               <Table.Column className="whitespace-nowrap">创建时间</Table.Column>
@@ -88,8 +86,6 @@ export default function ProductList() {
                   <Table.Cell className="whitespace-nowrap">{item.host}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.regionName}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.languageName}</Table.Cell>
-                  <Table.Cell className="whitespace-nowrap">{item.currency}</Table.Cell>
-                  <Table.Cell className="whitespace-nowrap">{item.currencySign}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.coinUnlock === 1 ? "是" : "否"}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.desc}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap">{item.createTime} </Table.Cell>

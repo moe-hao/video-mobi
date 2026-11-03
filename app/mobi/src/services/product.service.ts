@@ -11,8 +11,6 @@ class ProductService {
         return {
             region: productInfo.region as Region,
             language: productInfo.language as Language,
-            currency: productInfo.currency,
-            currencySign: productInfo.currencySign,
             coinUnlock: productInfo.coinUnlock,
         };
     }

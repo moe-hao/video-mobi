@@ -1,13 +1,11 @@
 import { defineConfig } from "tsdown";
 
 export default defineConfig({
-    entry: "src/**/*.ts",
+    entry: "src/server.ts",
     platform: "node",
     unbundle: true,
-    dts: true,
     format: "esm",
     outDir: "dist",
     clean: true,
-    fixedExtension: false,
-    minify: true,
+    fixedExtension: false
 });

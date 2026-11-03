@@ -1,5 +1,5 @@
 import type { SubscriptionSelect } from "@lib/repo/models/subscription";
-import type { Operation } from "./operation.ts";
+import type { Operation } from "./operation";
 import { payermaxProxy } from "@lib/repo/proxy/payment/payermax";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
 import { SubscriptionStatus } from "@lib/common/consts/subscription";

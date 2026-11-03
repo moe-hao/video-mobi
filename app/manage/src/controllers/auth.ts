@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { authService } from "../services/auth.service.ts";
+import { authService } from "../services/auth.service";
 import { validated } from "@lib/middleware/validated";
 import { success } from "@lib/common/dto/result";
 import { AdminChangePasswordReqSchema, AdminLoginReqSchema, type AdminInfoResp } from "@lib/common/dto/admin.schema";

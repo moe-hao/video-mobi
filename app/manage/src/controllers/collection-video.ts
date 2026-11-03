@@ -1,9 +1,9 @@
 import { Hono } from "hono";
-import { collectionVideoService } from "../services/collection/collection-video.service.ts";
+import { collectionVideoService } from "../services/collection/collection-video.service";
 import { validated } from "@lib/middleware/validated";
 import { success } from "@lib/common/dto/result";
 import { VideoConfigUnlockReqSchema, VideoDownloadReqSchema, VideoListReqSchema, VideoPreviewReqSchema, VideoSyncReqSchema, VideoUploadConfirmReqSchema, VideoUploadPrepareReqSchema } from "@lib/common/dto/video.schema";
-import { confirmUpload, prepareUpload } from "../services/collection/video/upload.ts";
+import { confirmUpload, prepareUpload } from "../services/collection/video/upload";
 
 const collectionVideo = new Hono();
 

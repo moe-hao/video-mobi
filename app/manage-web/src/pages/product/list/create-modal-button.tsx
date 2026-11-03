@@ -55,14 +55,6 @@ export default function CreateModalButton({ onSuccess }: { onSuccess?: () => voi
                 <CollectionMultipleTypeSelect className="flex-1" collectionTypeList={productAddReq.collectionTypeList} onChange={(e) => setProductAddReq({ ...productAddReq, collectionTypeList: e as CollectionType[] })} />
               </div>
               <div className="flex flex-row items-center gap-4">
-                <Label className="w-14 shrink-0">币种</Label>
-                <Input variant="secondary" className="flex-1" onChange={(e) => setProductAddReq({ ...productAddReq, currency: e.target.value })} />
-              </div>
-              <div className="flex flex-row items-center gap-4">
-                <Label className="w-14 shrink-0">货币符号</Label>
-                <Input variant="secondary" className="flex-1" onChange={(e) => setProductAddReq({ ...productAddReq, currencySign: e.target.value })} />
-              </div>
-              <div className="flex flex-row items-center gap-4">
                 <Label className="w-14 shrink-0">开启金币</Label>
                 <Switch
                   isSelected={productAddReq.coinUnlock === 1}

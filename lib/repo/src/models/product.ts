@@ -5,8 +5,6 @@ export const productTable = mysqlTable("product", {
     host: varchar("host", { length: 256 }).notNull().default(""),
     region: varchar("region", { length: 10 }).notNull().default(""),
     language: varchar("language", { length: 10 }).notNull().default(""),
-    currency: varchar("currency", { length: 10 }).notNull().default(""),
-    currencySign: varchar("currency_sign", { length: 5 }).notNull().default(""),
     collectionTypeList: varchar("collection_type_list", { length: 128 }).notNull().default(""),
     coinUnlock: int("coin_unlock").notNull().default(0),
     desc: varchar("desc", { length: 256 }).notNull().default(""),
