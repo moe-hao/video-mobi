@@ -10,7 +10,7 @@ import type { SubscriptionSelect } from "@lib/repo/models/subscription";
 import { antomValueRatio } from "@lib/repo/proxy/payment/antom";
 import { SkuType } from "@lib/common/consts/sku";
 import { OrderStatus } from "@lib/common/consts/order";
-import { MemberDeliveryFactory } from "@app/order/member";
+import { MemberDeliveryFactory } from "@app/order/member/member-delivery";
 
 export class PaymentResultOperation implements INotifyTypeOperation {
     constructor(private readonly content: AntomPaymentNotificationReq) { }

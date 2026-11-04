@@ -2,7 +2,7 @@ import type { AntomPaymentNotificationReq } from "@lib/common/dto/antom";
 import { AntomResultStatus, type INotifyTypeOperation } from "./notify-type-operation";
 import { orderDao } from "@lib/repo/dao/order.dao";
 import { OrderStatus } from "@lib/common/consts/order";
-import { MemberDeliveryFactory } from "@app/order/member";
+import { MemberDeliveryFactory } from "@app/order/member/member-delivery";
 import { pixelDao } from "@lib/repo/dao/pixel.dao";
 import { PixelPlatform } from "@lib/common/consts/pixel";
 import { subscriptionService } from "../../payermax/subscription-service";

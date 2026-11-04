@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "clean": "rm -rf dist",
-    "check": "tsc --noEmit",
-    "dev": "tsx watch --env-file ../../.env src/index.ts",
-    "build": "node esbuild.config.ts",
-    "start": "node --env-file ../../.env --enable-source-maps dist/index.js"
+    "dev": "tsx watch --env-file ../../.env src/server.ts",
+    "build": "tsc --noEmit && tsdown",
+    "start": "node --env-file ../../.env --enable-source-maps dist/server.js"
   },
   "dependencies": {
     "@app/order": "workspace:*",

@@ -6,7 +6,7 @@ import { orderBizIdGenerator } from "@app/order/order/order-biz-id-generator";
 import { orderDao } from "@lib/repo/dao/order.dao";
 import { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
 import { OrderStatus } from "@lib/common/consts/order";
-import { MemberDeliveryFactory } from "@app/order/member";
+import { MemberDeliveryFactory } from "@app/order/member/member-delivery";
 import { subscriptionService } from "../../payermax/subscription-service";
 import { pixelDao } from "@lib/repo/dao/pixel.dao";
 import { SkuType } from "@lib/common/consts/sku";

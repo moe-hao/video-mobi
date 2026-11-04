@@ -4,6 +4,26 @@
   "type": "module",
   "files": ["dist"],
   "exports": {
+    "./dto/antom": {
+      "development": "./src/dto/antom/index.ts",
+      "types": "./dist/dto/antom/index.d.ts",
+      "default": "./dist/dto/antom/index.js"
+    },
+    "./dto/payermax": {
+      "development": "./src/dto/payermax/index.ts",
+      "types": "./dist/dto/payermax/index.d.ts",
+      "default": "./dist/dto/payermax/index.js"
+    },
+    "./dto/paypal": {
+      "development": "./src/dto/paypal/index.ts",
+      "types": "./dist/dto/paypal/index.d.ts",
+      "default": "./dist/dto/paypal/index.js"
+    },
+    "./dto/payssion": {
+      "development": "./src/dto/payssion/index.ts",
+      "types": "./dist/dto/payssion/index.d.ts",
+      "default": "./dist/dto/payssion/index.js"
+    },
     "./*": {
       "development": "./src/*.ts",
       "default": "./dist/*.js",

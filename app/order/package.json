@@ -5,6 +5,7 @@
   "files": ["dist"],
   "exports": {
     "./*": {
+      "development": "./src/*.ts",
       "types": "./dist/*.d.ts",
       "default": "./dist/*.js"
     }

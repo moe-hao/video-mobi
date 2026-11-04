@@ -3,7 +3,7 @@ import type { OrderSelect } from "@lib/repo/models/order";
 import { orderDao } from "@lib/repo/dao/order.dao";
 import { subscriptionService } from "../subscription-service";
 import { pixelDao } from "@lib/repo/dao/pixel.dao";
-import { MemberDeliveryFactory } from "@app/order/member";
+import { MemberDeliveryFactory } from "@app/order/member/member-delivery";
 import { SkuType } from "@lib/common/consts/sku";
 import { PixelPlatform } from "@lib/common/consts/pixel";
 

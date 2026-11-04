@@ -1,4 +1,4 @@
-import { MemberDeliveryFactory } from "@app/order/member";
+import { MemberDeliveryFactory } from "@app/order/member/member-delivery";
 import { OrderFinalState, OrderStatus } from "@lib/common/consts/order";
 import { SubscriptionStatus } from "@lib/common/consts/subscription";
 import type { PayssionWebhookPaymentData, PayssionWebhookReq, PayssionWebhookSubscriptionData } from "@lib/common/dto/payssion";
