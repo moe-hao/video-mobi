@@ -1,9 +1,11 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../tsconfig.build.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "dist"
+    "outDir": "dist",
+    "declarationMap": false,
+    "sourceMap": false,
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist"] 
 }

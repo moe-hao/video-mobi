@@ -1,4 +1,4 @@
-import type { Result } from "../consts/result.ts";
+import type { Result } from "../consts/result";
 
 export class InternalException extends Error {
     code: number;

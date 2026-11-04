@@ -1,6 +1,6 @@
-import { OrderStatus } from "@lib/common/consts/order";
-import { PaymentChannel, PaymentType } from "@lib/common/consts/payment";
-import { SkuType } from "@lib/common/consts/sku";
+import { OrderStatus } from "../consts/order";
+import { PaymentChannel, PaymentType } from "../consts/payment";
+import { SkuType } from "../consts/sku";
 import z from "zod";
 
 export const OrderCreateReqSchema = z.object({

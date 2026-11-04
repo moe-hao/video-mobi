@@ -1,6 +1,6 @@
-import { ResultCode } from "@lib/common/consts/result";
-import type { Result } from "@lib/common/dto/result";
-import { InternalException } from "@lib/common/exceptions/internal-exception";
+import { ResultCode } from "../../consts/result";
+import type { Result } from "../../dto/result";
+import { InternalException } from "../../exceptions/internal-exception";
 import axios from "axios";
 
 const http = axios.create({

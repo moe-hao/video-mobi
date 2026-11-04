@@ -1,4 +1,4 @@
-import { PayermaxSubscriptionStatus } from "./payermax.ts";
+import { PayermaxSubscriptionStatus } from "./payermax";
 
 export enum SubscriptionStatus {
     InActive = 0, // 未激活

@@ -1,5 +1,5 @@
 import { config } from "@lib/internal/base/config";
-import type { CreateCustomerReq, CreateCustomerResp, CreateInvoiceReq, CreateInvoiceResp, CreatePaymentIntentReq, CreatePaymentIntentResp, CreateSubscriptionReq, CreateSubscriptionResp, CreateWebhookReq, CreateWebhookResp } from "./types.ts";
+import type { CreateCustomerReq, CreateCustomerResp, CreateInvoiceReq, CreateInvoiceResp, CreatePaymentIntentReq, CreatePaymentIntentResp, CreateSubscriptionReq, CreateSubscriptionResp, CreateWebhookReq, CreateWebhookResp } from "./types";
 import { camelCase, snakeCase } from "change-case/keys";
 import { logger } from "@lib/internal/base/logger";
 

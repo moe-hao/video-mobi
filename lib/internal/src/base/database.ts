@@ -1,7 +1,7 @@
 import mysql from 'mysql2/promise';
 import { drizzle } from 'drizzle-orm/mysql2';
-import { logger } from './logger.ts';
-import { config } from './config.ts';
+import { logger } from './logger';
+import { config } from './config';
 
 const pool = mysql.createPool({
     host: config.DatabaseHost,

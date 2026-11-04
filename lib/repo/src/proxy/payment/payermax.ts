@@ -13,7 +13,7 @@ import type {
     PayermaxSubscriptionCreatePeriodRule,
     PayermaxSubscriptionCreatePlan,
     PayermaxSubscriptionCreateResult
-} from "./payermax.interface.ts";
+} from "./payermax.interface";
 import { config } from "@lib/internal/base/config";
 import { logger } from "@lib/internal/base/logger";
 import { PayermaxResponseCode } from "@lib/common/consts/payermax";

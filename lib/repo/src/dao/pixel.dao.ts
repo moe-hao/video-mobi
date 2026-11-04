@@ -1,5 +1,5 @@
 import { database, type DatabaseConn } from "@lib/internal/base/database";
-import { pixelTable, type PixelSelect } from "../models/pixel.ts";
+import { pixelTable, type PixelSelect } from "../models/pixel";
 import { eq } from "drizzle-orm";
 
 class PixelDao {

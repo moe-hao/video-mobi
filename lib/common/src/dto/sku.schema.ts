@@ -1,5 +1,5 @@
-import type { RelationType } from "@lib/common/consts/relation";
-import { SkuImportant, SkuPeriodType, SkuType } from "@lib/common/consts/sku";
+import type { RelationType } from "../consts/relation";
+import { SkuImportant, SkuPeriodType, SkuType } from "../consts/sku";
 import z from "zod";
 
 export const SkuManageListReqSchema = z.object({

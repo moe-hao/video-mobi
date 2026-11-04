@@ -2,12 +2,12 @@
   "name": "@lib/internal",
   "version": "1.0.0",
   "type": "module",
-  "files": ["dist"],
+  "private": true,
   "exports": {
     "./*": {
+      "development": "./src/*.ts",
       "types": "./dist/*.d.ts",
-      "default": "./dist/*.js",
-      "development": "./src/*.ts"
+      "default": "./dist/*.js"
     }
   },
   "scripts": {

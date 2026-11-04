@@ -1,4 +1,4 @@
-import { FeedbackType } from "@lib/common/consts/feedback";
+import { FeedbackType } from "../consts/feedback";
 import z from "zod";
 
 export const FeedbackAddReqSchema = z.object({

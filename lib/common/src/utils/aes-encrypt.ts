@@ -1,7 +1,7 @@
 import { createCipheriv, createDecipheriv, createHash, randomBytes } from "crypto";
-import { InternalException } from "../exceptions/internal-exception.ts";
+import { InternalException } from "../exceptions/internal-exception";
 import { config } from "@lib/internal/base/config";
-import { ResultCode } from "../consts/result.ts";
+import { ResultCode } from "../consts/result";
 
 export function encrypt(data: string, vector?: string): string {
     const key = createHash('sha256').update(config.EncryptSecret).digest().subarray(0, 16);

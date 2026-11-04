@@ -5,9 +5,9 @@
   "files": ["dist"],
   "exports": {
     "./*": {
+      "development": "./src/*.ts",
       "default": "./dist/*.js",
-      "types": "./dist/*.d.ts",
-      "development": "./src/*.ts"
+      "types": "./dist/*.d.ts"
     }
   },
   "scripts": {

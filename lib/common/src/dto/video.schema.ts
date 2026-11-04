@@ -1,4 +1,4 @@
-import { PublishStatus } from "@lib/common/consts/collection";
+import { PublishStatus } from "../consts/collection";
 import z from "zod";
 
 export const VideoListReqSchema = z.object({

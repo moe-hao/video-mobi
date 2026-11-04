@@ -1,5 +1,5 @@
-import { UnlockCommType } from "@lib/common/consts/unlock-coin";
-import { UserType } from "@lib/common/consts/user";
+import { UnlockCommType } from "../consts/unlock-coin";
+import { UserType } from "../consts/user";
 import z from "zod";
 
 export const UserListReqSchema = z.object({

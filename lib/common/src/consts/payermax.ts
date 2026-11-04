@@ -1,4 +1,4 @@
-import { OrderStatus } from "./order.ts";
+import { OrderStatus } from "./order";
 
 export enum PayermaxResponseCode {
     Success = 'SUCCESS',

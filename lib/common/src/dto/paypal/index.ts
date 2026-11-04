@@ -1,1 +1,1 @@
-export * from './paypal.ts';
+export * from './paypal';

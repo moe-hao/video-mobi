@@ -1,4 +1,4 @@
-import { client } from "./client.ts";
+import { client } from "./client";
 import { config } from "@lib/internal/base/config";
 
 export class BunnyStreamProxy {

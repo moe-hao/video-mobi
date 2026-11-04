@@ -1,6 +1,6 @@
-import { logger } from "./logger.ts";
-import { config } from "./config.ts";
-import { database } from "./database.ts";
+import { logger } from "./logger";
+import { config } from "./config";
+import { database } from "./database";
 
 export default async function bootstrap() {
     logger.info("Bootscript app running: Success!");

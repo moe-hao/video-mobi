@@ -1,6 +1,6 @@
 import { Redis } from "ioredis";
-import { config } from "./config.ts";
-import { logger } from "./logger.ts";
+import { config } from "./config";
+import { logger } from "./logger";
 
 export const redis = new Redis({
     host: config.RedisHost,

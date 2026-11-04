@@ -1,6 +1,6 @@
 import http from "@lib/internal/http";
 import { logger } from "@lib/internal/base/logger";
-import { exchangeRedis } from "@lib/repo/redis/exchange";
+import { exchangeRedis } from "../../redis/exchange";
 
 class ExchangeProxy {
     async getExchangeRate(base: string, target: string): Promise<number> {

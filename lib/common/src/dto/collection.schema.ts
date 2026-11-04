@@ -1,6 +1,6 @@
 import z from "zod";
-import { CollectionLocal, CollectionType, PublishStatus } from "@lib/common/consts/collection";
-import { Language } from "@lib/common/consts/region";
+import { CollectionLocal, CollectionType, PublishStatus } from "../consts/collection";
+import { Language } from "../consts/region";
 
 export const CollectionListReqSchema = z.object({
     page: z.coerce.number().default(1),
