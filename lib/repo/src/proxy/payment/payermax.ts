@@ -21,6 +21,7 @@ import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { ResultCode } from "@lib/common/consts/result";
 import type { ProductSelect } from "@lib/repo/models/product";
 import type { SkuSelect } from "@lib/repo/models/sku";
+import { getPayermaxConfig } from "@lib/internal/config/payment";
 
 
 const path = {
@@ -42,13 +43,15 @@ interface PaymentInfo {
     reback: string;
 }
 
-function generatePayermaxRequestBody<T>(data: T): PayermaxRequestBody<T> {
+async function generatePayermaxRequestBody<T>(host: string, data: T): Promise<PayermaxRequestBody<T>> {
+    const payermaxConfig = await getPayermaxConfig(host);
+
     return {
         version: '1.5',
         keyVersion: '1',
         requestTime: new Date().toISOString(),
-        appId: config.PayermaxAppId,
-        merchantNo: config.PayermaxMerchantNo,
+        appId: payermaxConfig.appId,
+        merchantNo: payermaxConfig.merchantNo,
         data: data,
     }
 }
@@ -80,14 +83,14 @@ class PayermaxProxy {
         const data: PayermaxOrderAndPayData = {
             outTradeNo: paymentInfo.orderBizId,
             integrate: 'Hosted_Checkout',
-            subject: 'Video Mobi Subscription',
+            subject: 'Payment',
             totalAmount: paymentInfo.amount,
             currency: paymentInfo.currency,
             country: productInfo.region,
             userId: paymentInfo.userBizId,
             language: productInfo.language,
             frontCallbackUrl: `http://${productInfo.host}${paymentInfo.reback}`,
-            notifyUrl: config.PayermaxPaymentNotifyUrl,
+            notifyUrl: `${config.PayermaxPaymentNotifyUrl}?host=${productInfo.host}`,
             mitManagementUrl: `http://${productInfo.host}`,
         }
 
@@ -104,7 +107,7 @@ class PayermaxProxy {
         }
 
         logger.info(`PayOrder request data: ${JSON.stringify(data)}`);
-        const body = generatePayermaxRequestBody(data);
+        const body = await generatePayermaxRequestBody(productInfo.host, data);
         const resp = await this.request(path.OrderAndPay, body);
         const result = await resp.json() as PayermaxResponse<PayermaxOrderAndPayResult>;
         logger.info(`PayOrder result: ${JSON.stringify(result)}`);
@@ -123,7 +126,7 @@ class PayermaxProxy {
         }
 
         const subscriptionPlan: PayermaxSubscriptionCreatePlan = {
-            subject: 'Video Mobi Subscription',
+            subject: 'Payment',
             totalPeriods: skuInfo.periodTotal,
             periodRule: periodRule,
             periodAmount: periodAmount,
@@ -146,7 +149,7 @@ class PayermaxProxy {
             subscriptionPlan: subscriptionPlan,
         }
 
-        const body = generatePayermaxRequestBody(data);
+        const body = await generatePayermaxRequestBody(productInfo.host, data);
 
         const resp = await this.request(path.SubscriptionCreate, body);
         const result = await resp.json();
@@ -158,9 +161,10 @@ class PayermaxProxy {
         }
     }
 
+    // TODO 取消订阅对应host
     async cancelSubscription(subscriptionNo: string): Promise<void> {
         const subscriptionCancelData: PayermaxSubscriptionCancelData = { subscriptionNo: subscriptionNo };
-        const body = generatePayermaxRequestBody(subscriptionCancelData);
+        const body = await generatePayermaxRequestBody("host", subscriptionCancelData);
         const resp = await this.request(path.SubscriptionCancel, body);
         const result = await resp.json();
         logger.info(`CancelSubscription result: ${result.data}`);

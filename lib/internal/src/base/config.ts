@@ -29,6 +29,8 @@ export const config = {
     VolTosEndpoint: process.env.VOL_TOS_ENDPOINT || '',
     VolTosUrl: process.env.VOL_TOS_URL || '',
 
+    PaymentConfigPath: process.env.PAYMENT_CONFIG_PATH || '',
+
     PayermaxHost: process.env.PAYERMAX_HOST || '',
     PayermaxPrivateKey: process.env.PAYERMAX_PRIVATE_KEY || '',
     PayermaxPublicKey: process.env.PAYERMAX_PUBLIC_KEY || '',
