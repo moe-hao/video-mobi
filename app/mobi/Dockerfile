@@ -15,4 +15,4 @@ COPY --from=builder /video-mobi/prod ./
 COPY --from=builder /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 RUN echo "Asia/Shanghai" > /etc/timezone
 EXPOSE 3000
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/server.js"]
