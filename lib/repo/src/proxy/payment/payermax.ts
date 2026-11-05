@@ -145,7 +145,7 @@ class PayermaxProxy {
         const data: PayermaxSubscriptionCreateData = {
             subscriptionRequestId: subscriptionBizId,
             userId: userBizId,
-            callbackUrl: config.PayermaxSubscriptionNotifyUrl,
+            callbackUrl: `${config.PayermaxSubscriptionNotifyUrl}?host=${productInfo.host}`,
             subscriptionPlan: subscriptionPlan,
         }
 
@@ -161,10 +161,9 @@ class PayermaxProxy {
         }
     }
 
-    // TODO 取消订阅对应host
-    async cancelSubscription(subscriptionNo: string): Promise<void> {
+    async cancelSubscription(host: string, subscriptionNo: string): Promise<void> {
         const subscriptionCancelData: PayermaxSubscriptionCancelData = { subscriptionNo: subscriptionNo };
-        const body = await generatePayermaxRequestBody("host", subscriptionCancelData);
+        const body = await generatePayermaxRequestBody(host, subscriptionCancelData);
         const resp = await this.request(path.SubscriptionCancel, body);
         const result = await resp.json();
         logger.info(`CancelSubscription result: ${result.data}`);

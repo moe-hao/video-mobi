@@ -33,10 +33,6 @@ export const config = {
 
     PayermaxHost: process.env.PAYERMAX_HOST || '',
     PayermaxPrivateKey: process.env.PAYERMAX_PRIVATE_KEY || '',
-    PayermaxPublicKey: process.env.PAYERMAX_PUBLIC_KEY || '',
-    PayermaxAppId: process.env.PAYERMAX_APP_ID || '',
-    PayermaxMerchantNo: process.env.PAYERMAX_MERCHANT_NO || '',
-    PayermaxFrontCallbackPath: process.env.PAYERMAX_FRONT_CALLBACK_PATH || '',
     PayermaxPaymentNotifyUrl: process.env.PAYERMAX_PAYMENT_NOTIFY_URL || '',
     PayermaxSubscriptionNotifyUrl: process.env.PAYERMAX_SUBSCRIPTION_NOTIFY_URL || '',
 
