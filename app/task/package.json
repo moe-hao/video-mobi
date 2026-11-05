@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "clean": "rm -rf dist",
-    "check": "tsc --noEmit",
-    "dev": "tsx watch --env-file ../../.env src/index.ts",
-    "build": "node esbuild.config.ts",
-    "start": "node --env-file ../../.env --enable-source-maps dist/index.js"
+    "dev": "tsx watch --conditions=development --env-file ../../.env src/server.ts",
+    "build": "tsc --noEmit && tsdown",
+    "start": "node --env-file ../../.env --enable-source-maps dist/server.js"
   },
   "dependencies": {
     "@lib/common": "workspace:*",
@@ -24,7 +22,6 @@
     "@types/facebook-nodejs-business-sdk": "^24.0.0",
     "@types/node": "^20.19.41",
     "@types/node-schedule": "^2.1.8",
-    "esbuild": "^0.28.0",
     "tsx": "^4.7.1",
     "typescript": "~6.0.2"
   }

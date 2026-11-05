@@ -8,9 +8,10 @@ import { logger } from "@lib/internal/base/logger";
 
 const payermaxVerifySign = createMiddleware(async (c, next) => {
     const body = await c.req.text();
+    const host = c.req.query('host') as string;
     const sign = c.req.header('sign') as string;
 
-    if (verifyPayermaxSign(body, sign)) {
+    if (await verifyPayermaxSign(host, body, sign)) {
         logger.info('payermax sign verify success');
         return await next();
     } else {

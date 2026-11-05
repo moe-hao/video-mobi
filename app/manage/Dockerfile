@@ -1,4 +1,4 @@
-FROM node:24.20.0-alpine3.24 AS builder
+FROM node:24.22-alpine3.24 AS builder
 WORKDIR /video-mobi
 
 RUN corepack enable && corepack prepare pnpm@10.33.1 --activate
@@ -8,7 +8,7 @@ RUN pnpm build:manage
 RUN pnpm deploy --filter @app/manage --prod --legacy /video-mobi/prod
 RUN apk add --no-cache tzdata
 
-FROM node:24.20.0-alpine3.24 AS runner
+FROM node:24.22-alpine3.24 AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 COPY --from=builder /video-mobi/prod ./
