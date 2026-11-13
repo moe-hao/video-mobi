@@ -3,6 +3,7 @@ import { SubscriptionStatus, SubscriptionStatusName } from "@lib/common/consts/s
 import type { SubscriptionCancelReq, SubscriptionListReq, SubscriptionListResp } from "@lib/common/dto/subscription.schema";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { formatUnixTime } from "@lib/common/utils/time";
+import { productDao } from "@lib/repo/dao/product.dao";
 import { subscriptionDao } from "@lib/repo/dao/subscription.dao";
 import { userDao } from "@lib/repo/dao/user.dao";
 import { antomProxy } from "@lib/repo/proxy/payment/antom";
@@ -50,7 +51,9 @@ class SubscriptionService {
             throw new InternalException(ResultCode.ResourceNotFound);
         }
 
-        await antomProxy.cancelSubscription(subscriptionInfo.subscriptionNo);
+        const [productInfo] = await productDao.getProductListInIds([subscriptionInfo.productId]);
+
+        await antomProxy.cancelSubscription(productInfo.host, subscriptionInfo.subscriptionNo);
         await subscriptionDao.updateSubscriptionById(req.subscriptionId, {
             subscriptionStatus: SubscriptionStatus.Cancel
         });

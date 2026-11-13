@@ -8,22 +8,41 @@ export interface PayermaxConfig {
     merchantNo: string;
 };
 
+export interface AntomConfig {
+    clientId: string;
+    antomPublicKey: string;
+    merchantPrivateKey: string;
+}
+
 export interface PaymentChennelConfig {
     payermax: PayermaxConfig;
+    antom: AntomConfig;
 }
 
 export type PaymentConfig = Record<string, PaymentChennelConfig>;
 
-export async function getPayermaxConfig(host: string): Promise<PayermaxConfig> {
+async function loadPaymentConfig(): Promise<PaymentConfig> {
     const fileContent = await readFile(config.PaymentConfigPath, "utf-8");
-    const paymentConfig = JSON.parse(fileContent) as PaymentConfig;
+    return JSON.parse(fileContent) as PaymentConfig;
+}
 
+function resolveConfigKey(paymentConfig: PaymentConfig, host: string): string {
     if (!host) {
         logger.info("host is empty, use default config");
-        return paymentConfig["default"].payermax;
+        return "default";
     }
 
-    const [configKey] = Object.keys(paymentConfig).filter(key => host.endsWith(key));
+    const configKey = Object.keys(paymentConfig).find(key => host.endsWith(key)) ?? "default";
     logger.info(`host is ${host}, use config ${configKey}`);
-    return paymentConfig[configKey].payermax;
+    return configKey;
+}
+
+export async function getPayermaxConfig(host: string): Promise<PayermaxConfig> {
+    const paymentConfig = await loadPaymentConfig();
+    return paymentConfig[resolveConfigKey(paymentConfig, host)].payermax;
+}
+
+export async function getAntomConfig(host: string): Promise<AntomConfig> {
+    const paymentConfig = await loadPaymentConfig();
+    return paymentConfig[resolveConfigKey(paymentConfig, host)].antom;
 }

@@ -43,9 +43,9 @@ export const config = {
     PayssionApiKey: process.env.PAYSSION_API_KEY || '',
     PayssionWebhookSecret: process.env.PAYSSION_WEBHOOK_SECRET || '',
 
-    AntomPrivateKey: process.env.ANTOM_PRIVATE_KEY || '',
-    AntomPublicKey: process.env.ANTOM_PUBLIC_KEY || '',
-    AntomClientId: process.env.ANTOM_CLIENT_ID || '',
+    // AntomPrivateKey: process.env.ANTOM_PRIVATE_KEY || '',
+    // AntomPublicKey: process.env.ANTOM_PUBLIC_KEY || '',
+    // AntomClientId: process.env.ANTOM_CLIENT_ID || '',
     AntomNotifyUrl: process.env.ANTOM_NOTIFY_URL || '',
 
     UseePayBaseURL: process.env.USEEPAY_BASE_URL || '',

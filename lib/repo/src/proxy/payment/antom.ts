@@ -1,7 +1,6 @@
-import crypto from "crypto";
+import crypto, { createPrivateKey } from "crypto";
 import { config } from "@lib/internal/base/config";
-import { readFileSync } from "fs";
-import type { CancelSubscriptionResp, CreateSubscriptionResp, GetExchangeRateResp } from "./antom.interface";
+import type { CancelSubscriptionResp, CreateSubscriptionResp } from "./antom.interface";
 import { logger } from "@lib/internal/base/logger";
 import type { SkuSelect } from "@lib/repo/models/sku";
 import { SkuPeriodType, SkuPeriodTypeToAntomPeriodType, SkuType } from "@lib/common/consts/sku";
@@ -10,6 +9,7 @@ import type { ProductSelect } from "@lib/repo/models/product";
 import { InternalException } from "@lib/common/exceptions/internal-exception";
 import { ResultCode } from "@lib/common/consts/result";
 import http from "@lib/internal/http";
+import { getAntomConfig } from "@lib/internal/config/payment";
 
 export const antomValueRatio: Map<string, number> = new Map([
     ['CLP', 1],
@@ -32,29 +32,36 @@ function formatISO8601(date: Date): string {
 class AntomProxy {
     constructor(
         private readonly baseURL: string = 'https://open-sea.alipay.com/ams',
-        private readonly clientId: string = config.AntomClientId,
     ) { }
 
-    private signature(path: string, time: string, body: string) {
-        const privateKey = readFileSync(config.AntomPrivateKey);
-        const content = `POST /ams${path}\n${this.clientId}.${time}.${body}`;
+    private async signature(host: string, path: string, time: string, body: string): Promise<string> {
+        const antomConfig = await getAntomConfig(host);
+        const privateKey = createPrivateKey({
+            key: Buffer.from(antomConfig.merchantPrivateKey, 'base64'),
+            format: 'der',
+            type: 'pkcs1',
+        });
+
+        const clientId = antomConfig.clientId;
+        const content = `POST /ams${path}\n${clientId}.${time}.${body}`;
         const sign = crypto.createSign('RSA-SHA256').update(content).end().sign(privateKey, 'base64');
         return encodeURIComponent(sign);
     }
 
-    private async request<ResponseType>(path: string, body: string): Promise<ResponseType> {
+    private async request<ResponseType>(host: string, path: string, body: string): Promise<ResponseType> {
         if (config.AppEnv !== 'prod') {
             path = `/sandbox${path}`
         }
 
         logger.info(`request antom ${path}: ${body}`);
         const requestTime = Date.now().toString();
-        const signature = this.signature(path, requestTime, body);
+        const signature = await this.signature(host, path, requestTime, body);
 
+        const antomConfig = await getAntomConfig(host);
         const resp = await http.post<ResponseType>(`${this.baseURL}${path}`, body, {
             headers: {
                 'signature': `algorithm=RSA256, keyVersion=1, signature=${signature}`,
-                'client-id': this.clientId,
+                'client-id': antomConfig.clientId,
                 'request-time': requestTime,
                 'content-type': 'application/json; charset=UTF-8',
             }
@@ -74,7 +81,7 @@ class AntomProxy {
             order: {
                 orderAmount: { currency: skuInfo.currency, value: antomAmount(skuInfo.currency, skuInfo.price).toString() },
                 referenceOrderId: orderInfo.bizId,
-                orderDescription: "Blue Arc Payment",
+                orderDescription: "Payment",
                 buyer: { referenceBuyerId: orderInfo.userId.toString() },
             },
             paymentRequestId: orderInfo.bizId,
@@ -82,7 +89,7 @@ class AntomProxy {
             settlementStrategy: { settlementCurrency: settlementCurrency },
             productCode: 'CASHIER_PAYMENT',
             paymentRedirectUrl: `https://${productInfo.host}${reback}`,
-            paymentNotifyUrl: config.AntomNotifyUrl,
+            paymentNotifyUrl: `${config.AntomNotifyUrl}?host=${productInfo.host}`,
             productScene: 'CHECKOUT_PAYMENT',
             paymentMethod: {
                 paymentMethodType: paymentType,
@@ -109,9 +116,9 @@ class AntomProxy {
             const subscriptionPaymentSessionInfo = {
                 ...paymentSessionInfo,
                 subscriptionInfo: {
-                    subscriptionDescription: "Blue Arc Subscription",
+                    subscriptionDescription: "Payment",
                     subscriptionStartTime: formatISO8601(new Date()),
-                    subscriptionNotifyUrl: config.AntomNotifyUrl,
+                    subscriptionNotifyUrl: `${config.AntomNotifyUrl}?host=${productInfo.host}`,
                     periodRule: {
                         periodType: SkuPeriodTypeToAntomPeriodType[skuInfo.periodType as SkuPeriodType],
                         periodCount: "1",
@@ -119,36 +126,24 @@ class AntomProxy {
                     trials: trials,
                 }
             };
-            const result = await this.request<CreateSubscriptionResp>('/api/v1/payments/createPaymentSession', JSON.stringify(subscriptionPaymentSessionInfo));
+            const result = await this.request<CreateSubscriptionResp>(productInfo.host, '/api/v1/payments/createPaymentSession', JSON.stringify(subscriptionPaymentSessionInfo));
             return result.normalUrl;
         } else {
-            const result = await this.request<CreateSubscriptionResp>('/api/v1/payments/createPaymentSession', JSON.stringify(paymentSessionInfo));
+            const result = await this.request<CreateSubscriptionResp>(productInfo.host, '/api/v1/payments/createPaymentSession', JSON.stringify(paymentSessionInfo));
             return result.normalUrl;
         }
     }
 
-    async cancelSubscription(subscriptionNo: string): Promise<void> {
+    async cancelSubscription(host: string, subscriptionNo: string): Promise<void> {
         const cancelData = {
             subscriptionId: subscriptionNo,
             cancellationType: 'CANCEL',
         }
 
-        const result = await this.request<CancelSubscriptionResp>('/api/v1/subscriptions/cancel', JSON.stringify(cancelData));
+        const result = await this.request<CancelSubscriptionResp>(host, '/api/v1/subscriptions/cancel', JSON.stringify(cancelData));
         if (result.result.resultStatus !== 'S') {
             throw new InternalException(ResultCode.OperationFailed.code, result.result.resultMessage);
         }
-    }
-
-    async getExchangeRate(base: string, target: string): Promise<number> {
-        const data = {
-            buyCurrency: target,
-            sellCurrency: base,
-            rateType: 'REFERENCE_TRADE',
-            productCode: 'CASHIER_PAYMENT'
-        }
-        const result = await this.request<GetExchangeRateResp>('/v1/payments/inquireExchangeRate', JSON.stringify(data));
-        const [rateInfo] = result.paymentQuotes;
-        return rateInfo.exchangeRate;
     }
 }
 
