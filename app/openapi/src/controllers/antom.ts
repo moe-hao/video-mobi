@@ -4,18 +4,23 @@ import { antomPaymentService } from "../services/antom/antom-payment.service";
 import { createMiddleware } from "hono/factory";
 import { verifySignature } from "../services/antom/signature.service";
 import { logger } from "@lib/internal/base/logger";
-import { config } from "@lib/internal/base/config";
+import { getAntomConfig } from "@lib/internal/config/payment";
 
 const antomVerifySign = createMiddleware(async (c, next) => {
-    const clientId = config.AntomClientId;
     const body = await c.req.text();
     const signatureHeader = c.req.header('signature') as string;
     const signature = signatureHeader.match(/signature=([^,]+)/)?.[1] ?? '';
     const requestTime = c.req.header('request-time') as string;
+
+    const host = c.req.query('host') as string;
+    const antomConfig = await getAntomConfig(host);
+    const clientId = antomConfig.clientId;
+
     const content = `POST /api/antom/notification\n${clientId}.${requestTime}.${body}`;
     logger.info(`content: ${content}; signature: ${signature}`);
 
-    if (verifySignature(content, signature)) {
+
+    if (await verifySignature(host, content, signature)) {
         logger.info('antom sign verify success');
         return await next();
     } else {

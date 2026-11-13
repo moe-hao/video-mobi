@@ -1,8 +1,13 @@
-import { config } from "@lib/internal/base/config";
-import crypto from "crypto";
-import { readFileSync } from "fs";
+import { getAntomConfig } from "@lib/internal/config/payment";
+import crypto, { createPublicKey } from "crypto";
 
-export function verifySignature(content: string, signature: string) {
-    const publicKey = readFileSync(config.AntomPublicKey);
+export async function verifySignature(host: string, content: string, signature: string): Promise<boolean> {
+    const antomConfig = await getAntomConfig(host);
+
+    const publicKey = createPublicKey({
+        key: Buffer.from(antomConfig.antomPublicKey, 'base64'),
+        format: 'der',
+        type: 'spki',
+    });
     return crypto.verify('RSA-SHA256', Buffer.from(content, 'utf-8'), publicKey, Buffer.from(decodeURIComponent(signature), 'base64'));
 }
